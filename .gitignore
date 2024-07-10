@@ -38,3 +38,4 @@ lerna-debug.log*
 OpenCover/
 coverage/
 reports/
+test-report.xml

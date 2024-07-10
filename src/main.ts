@@ -10,7 +10,6 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { SentryLogger } from './common/providers/logger.service';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 
 async function bootstrap() {
     if (process.env.ENABLE_OTEL) {
@@ -26,6 +25,12 @@ async function bootstrap() {
     app.useStaticAssets({
         root: join(__dirname, '..', 'public'),
     });
+    app.setViewEngine({
+        engine: {
+            handlebars: require('hbs'),
+        },
+        templates: join(__dirname, '..', 'views'),
+    });
 
     await app.init();
     const config = new DocumentBuilder()
@@ -38,11 +43,6 @@ async function bootstrap() {
 
     if (process.env.NODE_ENV !== 'PROD') {
         const document = SwaggerModule.createDocument(app, config);
-        const apiDirectoryPath = './api-client';
-        if (!existsSync(apiDirectoryPath)) {
-            mkdirSync(apiDirectoryPath);
-        }
-        writeFileSync(`${apiDirectoryPath}/api-spec.json`, JSON.stringify(document));
         SwaggerModule.setup('api', app, document);
     }
 
