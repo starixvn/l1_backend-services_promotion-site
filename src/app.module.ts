@@ -13,6 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CronService } from './cron-jobs/cron-service';
 import { PromotionConfigModule } from './promotion-configs/promotion-config.module';
 import { PromotionBetModule } from './promotion-bets/promotion-bet.module';
+import { PromotionRunModule } from './promotion-runs/promotion-run.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { PromotionBetModule } from './promotion-bets/promotion-bet.module';
         LeaderBoardModule,
         PromotionConfigModule,
         PromotionBetModule,
+        PromotionRunModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],
