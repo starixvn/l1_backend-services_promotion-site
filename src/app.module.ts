@@ -11,6 +11,7 @@ import { LeaderBoardModule } from './leader-boards/leader-board.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronService } from './cron-jobs/cron-service';
+import { PromotionConfigModule } from './promotion-configs/promotion-config.module';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { CronService } from './cron-jobs/cron-service';
         JwtModule.register({}),
         CommonModule,
         LeaderBoardModule,
+        PromotionConfigModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],

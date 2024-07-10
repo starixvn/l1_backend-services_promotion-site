@@ -28,9 +28,7 @@ describe('Promotion', () => {
         // Act
         const token = ''; //await getBearerToken();
         console.log('token', token);
-        const result = await request(app.getHttpServer())
-            .get('/leader-board?promotionId=668ca45229c4a627515ed81a')
-            .set('Authorization', token);
+        const result = await request(app.getHttpServer()).get('/leader-board?promotionId=1').set('Authorization', token);
 
         // Assert
         const model = JSON.parse(result.text) as Result<PromotionLeaderBoards[]>;

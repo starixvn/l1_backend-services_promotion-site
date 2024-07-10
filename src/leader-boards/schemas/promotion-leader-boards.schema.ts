@@ -7,10 +7,10 @@ export type PromotionLeaderBoardsDocument = PromotionLeaderBoards & mongoose.Doc
 
 @Schema()
 export class PromotionLeaderBoards {
-    @IsString()
+    @IsNumber()
     @ApiProperty()
     @Prop({ required: true })
-    promotionId: string;
+    promotionId: number;
 
     @IsString()
     @ApiProperty()
