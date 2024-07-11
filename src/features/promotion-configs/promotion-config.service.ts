@@ -31,7 +31,7 @@ export class PromotionConfigService {
         currencyGroupId: string,
     ): Promise<Result<PromotionConfigs[]>> {
         const promotions = (await this.getByCurrencyGroupId(currencyGroupId)).data;
-        if (promotions.length > 0) {
+        if (promotions?.length > 0) {
             const data = promotions.filter((promotion) =>
                 promotion.operators.some(
                     (operator) => operator.operatorId === operatorId && !operator.excludedSiteNames?.split(',').includes(siteName),

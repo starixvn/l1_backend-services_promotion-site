@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Result } from '../../_shared/common/models/result';
+import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { UserSessionsService } from '../users/services/user-session.service';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
 
@@ -19,11 +19,14 @@ export class NotificationController {
     @ApiOkResponse({ type: Result<boolean> })
     async existPromotionTournament(@Query('ss') sessionId: string): Promise<Result<boolean>> {
         const userSession = await this.userSessionService.getUserSession(sessionId);
-        const promotionsResult = await this.promotionConfigService.getByCurrencyGroupIdAndSiteName(
-            userSession.operatorId,
-            userSession.siteName,
-            userSession.currencyGroupId,
-        );
-        return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion.promotionId));
+        if (userSession) {
+            const promotionsResult = await this.promotionConfigService.getByCurrencyGroupIdAndSiteName(
+                userSession.operatorId,
+                userSession.siteName,
+                userSession.currencyGroupId,
+            );
+            return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion.promotionId));
+        }
+        return new Result(ErrorCodes.Failed, '', false);
     }
 }

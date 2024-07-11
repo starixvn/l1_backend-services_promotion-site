@@ -13,6 +13,7 @@ import { LeaderBoardModule } from './features/promotion-leader-boards/leader-boa
 import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
 import { PromotionBetModule } from './features/promotion-bets/promotion-bet.module';
 import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
+import { NotificationModule } from './features/notifications/notification.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { PromotionRunModule } from './features/promotion-runs/promotion-run.modu
         PromotionConfigModule,
         PromotionBetModule,
         PromotionRunModule,
+        NotificationModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],

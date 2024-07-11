@@ -17,7 +17,7 @@ export class Messages {
 @Schema()
 export class Notifications {
     @ApiProperty()
-    @Prop()
+    @Prop({ type: Number })
     promotionId: string | number;
 
     @ApiProperty({ type: Messages })
