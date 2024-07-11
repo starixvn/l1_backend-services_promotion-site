@@ -40,6 +40,15 @@ export class UserSession {
 
     @Prop()
     operatorToken: string;
+
+    @Prop()
+    username: string;
+
+    @Prop()
+    browserUserAgent: string;
+
+    @Prop({ required: true })
+    recheckInTime: Date;
 }
 
 export const UserSessionSchema = SchemaFactory.createForClass(UserSession);

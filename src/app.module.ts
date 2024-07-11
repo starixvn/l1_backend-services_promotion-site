@@ -4,16 +4,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CommonModule } from './_shared/common/common.module';
 import configuration from './_shared/config/configuration';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { CronService } from './features/cron-jobs/cron-service';
-import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
-import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
-import { PromotionBetModule } from './features/promotion-bets/promotion-bet.module';
-import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
 import { NotificationModule } from './features/notifications/notification.module';
+import { PromotionBetModule } from './features/promotion-bets/promotion-bet.module';
+import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
+import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
+import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
+import { UserSessionModule } from './features/users/user-session.module';
 
 @Module({
     imports: [
@@ -35,6 +36,7 @@ import { NotificationModule } from './features/notifications/notification.module
         PromotionBetModule,
         PromotionRunModule,
         NotificationModule,
+        UserSessionModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],

@@ -34,11 +34,18 @@ describe('Promotion', () => {
         expect(model.data[0].name).toEqual('Weekly Promotion');
     });
 
-    it('/promotion-config/getPromotionsBySession (GET)', async () => {
+    it('/promotion-config/getPromotionsByUserSession (POST)', async () => {
         // Act
         const token = ''; //await getBearerToken();
+        const payload = {
+            session: 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518',
+            username: 'testUser',
+            browserUserAgent: 'chrome',
+        };
+
         const result = await request(app.getHttpServer())
-            .get('/promotion-config/getPromotionsBySession/61765beed2b6510001f18bd6')
+            .post('/promotion-config/getPromotionsByUserSession')
+            .send(payload)
             .set('Authorization', token);
 
         // Assert

@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { Model, Types, Decimal128 } from 'mongoose';
-import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
+import { TestingModule } from '@nestjs/testing';
+import { Model } from 'mongoose';
+import { PromotionBets, PromotionBetsDocument } from '../../../src/features/promotion-bets/schemas';
 import {
     CurrencyGroup,
     Operator,
@@ -9,12 +9,14 @@ import {
     PromotionConfigsDocument,
     WinningPrize,
 } from '../../../src/features/promotion-configs/schemas';
-import { PromotionBets, PromotionBetsDocument } from '../../../src/features/promotion-bets/schemas';
+import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
+import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initLeaderBoard(moduleFixture);
     await initPromotionConfig(moduleFixture);
     await initPromotionBet(moduleFixture);
+    await initUserSession(moduleFixture);
 };
 
 const initLeaderBoard = async (moduleFixture: TestingModule) => {
@@ -90,5 +92,24 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
     item.endGameLogId = '66821f6484a90b840624fd6b';
     item.endGameLogTimeStamp = new Date();
     item.updatedTime = new Date();
+    await model.insertMany([item]);
+};
+
+const initUserSession = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('UserSession')) as Model<UserSessionDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new UserSession();
+    item.username = 'testUser';
+    item.sessionId = 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518';
+    item.browserUserAgent = 'chrome';
+    item.operatorId = 'ONEworks1';
+    item.siteName = 'lumi';
+    item.currencyGroupId = '61765beed2b6510001f18bd6';
+    item.recheckInTime = new Date();
+
     await model.insertMany([item]);
 };

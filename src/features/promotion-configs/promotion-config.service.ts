@@ -2,15 +2,16 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
-import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
+import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
+import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
 
 @Injectable()
 export class PromotionConfigService {
     constructor(
         @InjectModel(PromotionConfigs.name) private readonly model: Model<PromotionConfigsDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
+
         private readonly logger: SentryLogger,
     ) {}
 
@@ -22,8 +23,11 @@ export class PromotionConfigService {
     async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs[]>> {
         const filter = { 'operators.currencyGroups.currencyGroupId': currencyGroupId, 'operators.currencyGroups.enabled': true };
         const execution = this.model.find(filter).lean().exec();
-        return this.dataHandler.getData(execution);
+        
+        return await this.dataHandler.getData(execution);
     }
+
+
 
     async getByCurrencyGroupIdAndSiteName(
         operatorId: string,

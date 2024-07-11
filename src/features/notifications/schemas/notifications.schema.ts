@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsDate, IsBoolean } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber } from 'class-validator';
+import * as mongoose from 'mongoose';
 
 export type NotificationsDocument = Notifications & mongoose.Document;
 
