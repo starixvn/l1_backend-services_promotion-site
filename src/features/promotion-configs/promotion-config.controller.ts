@@ -21,9 +21,9 @@ export class PromotionConfigController {
     @Get('/getPromotionsBySession/:session')
     @ApiOperation({ operationId: 'getPromotionsBySession' })
     @ApiOkResponse({ type: PromotionConfigResponse })
-    async getPromotionsBySession(@Param('session') session: string): Promise<Result<PromotionConfigs>> {
+    async getPromotionsBySession(@Param('session') session: string): Promise<Result<PromotionConfigs[]>> {
         console.log(session);
         const currencyGroupId = '61765beed2b6510001f18bd6';
-        return await this.service.getByCurrencyGroupId(currencyGroupId);
+        return this.service.getByCurrencyGroupId(currencyGroupId);
     }
 }

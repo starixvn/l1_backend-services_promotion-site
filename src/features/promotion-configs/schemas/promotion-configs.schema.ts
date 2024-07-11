@@ -9,7 +9,7 @@ export class CurrencyGroup {
     currencyGroupId: string;
     slotGameMinBet: number;
     otherGameMinBet: number;
-    status: string;
+    enabled: boolean;
 }
 
 export class Operator {

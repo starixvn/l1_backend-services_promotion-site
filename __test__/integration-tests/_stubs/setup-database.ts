@@ -55,7 +55,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     currencyGroup1.currencyGroupId = '61765beed2b6510001f18bd6';
     currencyGroup1.slotGameMinBet = 0.2;
     currencyGroup1.otherGameMinBet = 2;
-    currencyGroup1.status = 'enabled';
+    currencyGroup1.enabled = true;
     operator1.currencyGroups = [currencyGroup1];
     item.operators = [operator1];
     item.startDateTime = new Date();
