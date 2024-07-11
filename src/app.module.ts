@@ -9,10 +9,10 @@ import { AppService } from './app.service';
 import { CommonModule } from './_shared/common/common.module';
 import configuration from './_shared/config/configuration';
 import { CronService } from './features/cron-jobs/cron-service';
-import { LeaderBoardModule } from './features/leader-boards/leader-board.module';
-import { PromotionConfigModule } from './features/promotions/promotion-configs/promotion-config.module';
-import { PromotionBetModule } from './features/promotions/promotion-bets/promotion-bet.module';
-import { PromotionRunModule } from './features/promotions/promotion-runs/promotion-run.module';
+import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
+import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
+import { PromotionBetModule } from './features/promotion-bets/promotion-bet.module';
+import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
 
 @Module({
     imports: [

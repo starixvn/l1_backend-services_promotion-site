@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Result } from 'src/_shared/common/models/result';
-import { PromotionConfigs } from 'src/features/promotions/promotion-configs/schemas';
+import { PromotionConfigs } from 'src/features/promotion-configs/schemas';
 import * as request from 'supertest';
 import { AppModule } from '../../../src/app.module';
 import { setupDatabase } from '../_stubs/setup-database';

@@ -6,7 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { getBearerToken } from '../_stubs/helper';
 import { Result } from 'src/_shared/common/models/result';
-import { PromotionBets } from 'src/features/promotions/promotion-bets/schemas';
+import { PromotionBets } from 'src/features/promotion-bets/schemas';
 
 jest.setTimeout(10000);
 describe('Promotion', () => {

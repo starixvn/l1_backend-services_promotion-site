@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { PromotionRuns, PromotionRunsDocument } from './schemas';
-import { SentryLogger } from '../../../_shared/common/providers';
-import { ErrorCodes, ErrorMessages, Result } from '../../../_shared/common/models/result';
+import { SentryLogger } from '../../_shared/common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
 
 @Injectable()
 export class PromotionRunService {

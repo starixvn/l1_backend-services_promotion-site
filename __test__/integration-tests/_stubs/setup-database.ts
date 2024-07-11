@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model, Types, Decimal128 } from 'mongoose';
-import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/leader-boards/schemas';
+import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
 import {
     CurrencyGroup,
     Operator,
     PromotionConfigs,
     PromotionConfigsDocument,
     WinningPrize,
-} from '../../../src/features/promotions/promotion-configs/schemas';
-import { PromotionBets, PromotionBetsDocument } from '../../../src/features/promotions/promotion-bets/schemas';
+} from '../../../src/features/promotion-configs/schemas';
+import { PromotionBets, PromotionBetsDocument } from '../../../src/features/promotion-bets/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initLeaderBoard(moduleFixture);
