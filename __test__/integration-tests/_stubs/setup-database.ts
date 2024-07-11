@@ -33,7 +33,7 @@ const initLeaderBoard = async (moduleFixture: TestingModule) => {
     item.nickName = 'Onion3417';
     item.point = 100;
     item.latestPromotionBetId = '668cb02429c4a627515ed81e';
-    item.time = new Date();
+    item.updatedTime = new Date();
     await model.insertMany([item]);
 };
 
@@ -65,7 +65,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     winningPrize1.value = 1000;
     winningPrize1.quantity = 1;
     item.winningPrizes = [winningPrize1];
-    item.time = new Date();
+    item.updatedTime = new Date();
 
     await model.insertMany([item]);
 };
@@ -89,6 +89,6 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
     item.totalWin = 200;
     item.endGameLogId = '66821f6484a90b840624fd6b';
     item.endGameLogTimeStamp = new Date();
-    item.time = new Date();
+    item.updatedTime = new Date();
     await model.insertMany([item]);
 };

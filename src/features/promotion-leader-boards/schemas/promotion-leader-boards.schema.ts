@@ -50,7 +50,7 @@ export class PromotionLeaderBoards {
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
-    time: Date;
+    updatedTime: Date;
 }
 
 export const PromotionLeaderBoardsSchema = SchemaFactory.createForClass(PromotionLeaderBoards);

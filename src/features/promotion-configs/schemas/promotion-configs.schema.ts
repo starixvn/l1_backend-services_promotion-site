@@ -57,7 +57,7 @@ export class PromotionConfigs {
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
-    time: Date;
+    updatedTime: Date;
 }
 
 export const PromotionConfigsSchema = SchemaFactory.createForClass(PromotionConfigs);

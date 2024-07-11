@@ -42,7 +42,7 @@ export class PromotionRuns {
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
-    time: Date;
+    updatedTime: Date;
 }
 
 export const PromotionRunsSchema = SchemaFactory.createForClass(PromotionRuns);
