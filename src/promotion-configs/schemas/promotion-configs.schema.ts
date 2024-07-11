@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsObject, IsNumber, IsDate, IsBoolean, isNumber, ValidateNested, IsArray } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
+import * as mongoose from 'mongoose';
 
 export type PromotionConfigsDocument = PromotionConfigs & mongoose.Document;
 
@@ -46,9 +46,9 @@ export class PromotionConfigs {
     @Prop({ required: true })
     endDateTime: Date;
 
-    @ApiProperty({ type: [Object] })
-    @Prop({ type: [Object] })
-    operators: object[];
+    @ApiProperty({ isArray: true, type: Operator })
+    @Prop({ isArray: true, type: Operator })
+    operators: Operator[];
 
     @ApiProperty({ type: [Object] })
     @Prop({ type: [Object] })
