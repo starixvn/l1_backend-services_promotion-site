@@ -27,7 +27,6 @@ describe('Promotion', () => {
     it('/leader-board (GET)', async () => {
         // Act
         const token = ''; //await getBearerToken();
-        console.log('token', token);
         const result = await request(app.getHttpServer()).get('/leader-board?promotionId=1').set('Authorization', token);
 
         // Assert

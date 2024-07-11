@@ -15,13 +15,8 @@ export class PromotionConfigService {
     ) {}
 
     async getAll(): Promise<Result<PromotionConfigs[]>> {
-        try {
-            const data = (await this.model.find({}).lean().exec()) as PromotionConfigs[];
-            return new Result(ErrorCodes.Success, ErrorMessages.Empty, data);
-        } catch (error) {
-            this.logger.error(error);
-            return new Result(ErrorCodes.Failed, error.message);
-        }
+        const execution = this.model.find({}).lean().exec();
+        return this.dataHandler.getData(execution);
     }
 
     async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs[]>> {

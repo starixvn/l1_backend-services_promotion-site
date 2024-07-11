@@ -26,7 +26,6 @@ describe('Promotion', () => {
     it('/promotion-config (GET)', async () => {
         // Act
         const token = ''; //await getBearerToken();
-        console.log('token', token);
         const result = await request(app.getHttpServer()).get('/promotion-config').set('Authorization', token);
 
         // Assert
@@ -38,7 +37,6 @@ describe('Promotion', () => {
     it('/promotion-config/getPromotionsBySession (GET)', async () => {
         // Act
         const token = ''; //await getBearerToken();
-        console.log('token', token);
         const result = await request(app.getHttpServer())
             .get('/promotion-config/getPromotionsBySession/61765beed2b6510001f18bd6')
             .set('Authorization', token);
