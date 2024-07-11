@@ -1,8 +1,8 @@
 import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Result } from 'src/common/models/result';
-import { PromotionConfigs } from 'src/promotion-configs/schemas';
+import { Result } from 'src/_shared/common/models/result';
+import { PromotionConfigs } from 'src/features/promotions/promotion-configs/schemas';
 import * as request from 'supertest';
 import { AppModule } from '../../../src/app.module';
 import { setupDatabase } from '../_stubs/setup-database';
@@ -40,14 +40,12 @@ describe('Promotion', () => {
         const token = ''; //await getBearerToken();
         console.log('token', token);
         const result = await request(app.getHttpServer())
-             .get('/promotion-config/getPromotionsBySession/61765beed2b6510001f18bd6')
-             .set('Authorization', token);
+            .get('/promotion-config/getPromotionsBySession/61765beed2b6510001f18bd6')
+            .set('Authorization', token);
 
-         // Assert
-         const model = JSON.parse(result.text) as Result<PromotionConfigs>;
+        // Assert
+        const model = JSON.parse(result.text) as Result<PromotionConfigs>;
         expect(result.status).toBe(200);
         expect(model.data.name).toEqual('Weekly Promotion');
     });
-
 });
-

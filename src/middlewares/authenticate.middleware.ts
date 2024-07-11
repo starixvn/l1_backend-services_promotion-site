@@ -2,7 +2,7 @@ import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
 import { NextFunction, Request, Response } from 'express';
-import { SentryLogger } from '../common/providers';
+import { SentryLogger } from '../_shared/common/providers';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import * as jwksClient from 'jwks-rsa';

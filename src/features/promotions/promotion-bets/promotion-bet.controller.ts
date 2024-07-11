@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { PromotionBetService } from './promotion-bet.service';
 import { PromotionBets } from './schemas';
-import { Result } from '../common/models/result';
+import { Result } from '../../../_shared/common/models/result';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PromotionBetResponse } from './models/promotion-bet-response';
 

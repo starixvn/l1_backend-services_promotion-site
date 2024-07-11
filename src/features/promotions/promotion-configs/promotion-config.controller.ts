@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Result } from '../common/models/result';
+import { Result } from '../../../_shared/common/models/result';
 import { PromotionConfigResponse } from './models/promotion-config-response';
 import { PromotionConfigsResponse } from './models/promotion-configs-response';
 import { PromotionConfigService } from './promotion-config.service';

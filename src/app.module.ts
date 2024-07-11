@@ -6,13 +6,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CommonModule } from './common/common.module';
-import configuration from './config/configuration';
-import { CronService } from './cron-jobs/cron-service';
-import { LeaderBoardModule } from './leader-boards/leader-board.module';
-import { PromotionConfigModule } from './promotion-configs/promotion-config.module';
-import { PromotionBetModule } from './promotion-bets/promotion-bet.module';
-import { PromotionRunModule } from './promotion-runs/promotion-run.module';
+import { CommonModule } from './_shared/common/common.module';
+import configuration from './_shared/config/configuration';
+import { CronService } from './features/cron-jobs/cron-service';
+import { LeaderBoardModule } from './features/leader-boards/leader-board.module';
+import { PromotionConfigModule } from './features/promotions/promotion-configs/promotion-config.module';
+import { PromotionBetModule } from './features/promotions/promotion-bets/promotion-bet.module';
+import { PromotionRunModule } from './features/promotions/promotion-runs/promotion-run.module';
 
 @Module({
     imports: [

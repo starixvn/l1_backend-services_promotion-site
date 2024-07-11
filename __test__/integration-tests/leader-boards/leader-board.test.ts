@@ -5,8 +5,8 @@ import { AppModule } from '../../../src/app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { setupDatabase } from '../_stubs/setup-database';
 import { getBearerToken } from '../_stubs/helper';
-import { PromotionLeaderBoards } from 'src/leader-boards/schemas';
-import { Result } from 'src/common/models/result';
+import { PromotionLeaderBoards } from 'src/features/leader-boards/schemas';
+import { Result } from 'src/_shared/common/models/result';
 
 jest.setTimeout(10000);
 describe('Promotion', () => {

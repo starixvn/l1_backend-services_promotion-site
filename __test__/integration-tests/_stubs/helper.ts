@@ -1,5 +1,5 @@
-import { AuthConfig } from '../../../src/config/auth-config';
-import { OpenIdClientHelper } from '../../../src/helpers';
+import { AuthConfig } from '../../../src/_shared/config/auth-config';
+import { OpenIdClientHelper } from '../../../src/_shared/helpers';
 
 export const getBearerToken = async () => {
     const authConfigs = {

@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { LeaderBoardService } from './leader-board.service';
 import { PromotionLeaderBoards } from './schemas';
-import { Result } from '../common/models/result';
+import { Result } from '../../_shared/common/models/result';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LeaderBoardResponse } from './models/leader-board-response';
 

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { ErrorCodes, ErrorMessages, Result } from '../common/models/result';
-import { SentryLogger } from '../common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../../../_shared/common/models/result';
+import { SentryLogger } from '../../../_shared/common/providers';
 import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class PromotionConfigService {
 
     async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs>> {
         try {
-            const data = await this.model.find({}).lean().exec() as PromotionConfigs[];
+            const data = (await this.model.find({}).lean().exec()) as PromotionConfigs[];
             const result = data.find((promotionConfigs) =>
                 promotionConfigs.operators.some((operator) =>
                     operator.currencyGroups.some((currencyGroup) => currencyGroup.currencyGroupId === currencyGroupId),

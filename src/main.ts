@@ -9,7 +9,7 @@ import helmet from '@fastify/helmet';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
-import { SentryLogger } from './common/providers/logger.service';
+import { SentryLogger } from './_shared/common/providers/logger.service';
 
 async function bootstrap() {
     if (process.env.ENABLE_OTEL) {
