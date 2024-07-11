@@ -15,6 +15,8 @@ import { PromotionConfigModule } from './features/promotion-configs/promotion-co
 import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
 import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
 import { UserSessionModule } from './features/users/user-session.module';
+import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
+import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
 
 @Module({
     imports: [
@@ -37,11 +39,12 @@ import { UserSessionModule } from './features/users/user-session.module';
         PromotionRunModule,
         NotificationModule,
         UserSessionModule,
+        TicketSiloModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],
     controllers: [AppController],
-    providers: [AppService, CronService],
+    providers: [AppService, CronService, PromotionProcessor],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

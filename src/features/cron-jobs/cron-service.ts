@@ -1,12 +1,27 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+//import { SentryLogger } from 'src/_shared/common/providers';
+import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
+import { TicketSiloService } from '../ticket-silos/ticket-silo.service';
+import { UserSessionsService } from '../users/services/user-session.service';
+import { PromotionBetService } from '../promotion-bets/promotion-bet.service';
+import { LeaderBoardService } from '../promotion-leader-boards/leader-board.service';
+import { PromotionRunService } from '../promotion-runs/promotion-run.service';
+import { PromotionProcessor } from './promotion-processor';
 
 @Injectable()
 export class CronService {
-    private readonly logger = new Logger(CronService.name);
+    constructor(
+        //private readonly logger: SentryLogger,
+        private readonly promotionProcessor: PromotionProcessor,
+    ) {}
 
     @Cron(CronExpression.EVERY_10_SECONDS)
     handleCron() {
-        console.log('cron is running');
+        try {
+            this.promotionProcessor.proceed();
+        } catch (error) {
+            //this.logger.error(error);
+        }
     }
 }

@@ -20,6 +20,11 @@ export class PromotionConfigService {
         return this.dataHandler.getData(execution);
     }
 
+    async getNewPromotions(): Promise<Result<PromotionConfigs[]>> {
+        const execution = this.model.find({ status: 'new' }).lean().exec();
+        return this.dataHandler.getData(execution);
+    }
+
     async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs[]>> {
         const filter = { 'operators.currencyGroups.currencyGroupId': currencyGroupId, 'operators.currencyGroups.enabled': true };
         const execution = this.model.find(filter).lean().exec();

@@ -27,7 +27,6 @@ describe('Promotion', () => {
     it('/promotion-bet(GET)', async () => {
         // Act
         const token = ''; //await getBearerToken();
-        console.log('token', token);
         const result = await request(app.getHttpServer()).get('/promotion-bet').set('Authorization', token);
 
         // Assert

@@ -68,6 +68,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     winningPrize1.quantity = 1;
     item.winningPrizes = [winningPrize1];
     item.updatedTime = new Date();
+    item.status = 'new';
 
     await model.insertMany([item]);
 };
