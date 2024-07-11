@@ -5,6 +5,11 @@ export class AppController {
     @Get()
     @Render('index')
     root() {
-        return { message: 'Hello from Promotion Site!' };
+        const jsonObject = {
+            message: 'Hello from Promotion Site!',
+            date: Date.toString(),
+        }
+
+        return { jsonObject: JSON.stringify(jsonObject) };
     }
 }

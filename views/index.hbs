@@ -6,18 +6,11 @@
 </head>
 
 <body>
-    {{message}}
     <div id="root"></div>
-
-    <script>
-        function htmlDecode(input) {
-            var e = document.createElement('textarea');
-            e.innerHTML = input;
-            // handle case of empty input
-            return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-        }
-        var json = '{{ json }}';
-        var AppInitialState = JSON.parse(htmlDecode(json));
+    {{ jsonObject.message }}
+    <script type="text/javascript">
+        var AppInitialState = JSON.parse('{{{jsonObject}}}');
+        console.log(AppInitialState);
     </script>
 
 
