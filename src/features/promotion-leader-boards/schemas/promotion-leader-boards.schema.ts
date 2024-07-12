@@ -17,10 +17,10 @@ export class PromotionLeaderBoards {
     @Prop({ type: Object, required: true })
     operatorId: string;
 
-    @IsNumber()
+    @IsString()
     @ApiProperty()
     @Prop({ required: true })
-    playerId: number;
+    playerId: string;
 
     @IsString()
     @ApiProperty()
@@ -46,6 +46,11 @@ export class PromotionLeaderBoards {
     @ApiProperty()
     @Prop({ required: true })
     latestPromotionBetId: string;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    currency: string;
 
     @IsDate()
     @ApiProperty()

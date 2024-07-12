@@ -14,6 +14,8 @@ import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../s
 import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
 import { PromotionRuns, PromotionRunsDocument } from '../../../src/features/promotion-runs/schemas/promotion-runs.schema';
 import { TicketSilos, TicketSilosDocument } from '../../../src/features/ticket-silos/schemas/ticket-silos.schema';
+import { ExchangeRates, ExchangeRatesDocument } from '../../../src/features/exchange-rates/schemas';
+import { GameConfigs, GameConfigsDocument } from '../../../src/features/game-configs/schemas';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initLeaderBoard(moduleFixture);
@@ -23,6 +25,58 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initNotification(moduleFixture);
     await initPromotionRuns(moduleFixture);
     await initTicketSilos(moduleFixture);
+    await initExchangeRate(moduleFixture);
+    await initGameConfig(moduleFixture);
+};
+
+const initGameConfig = async (moduleFixture: TestingModule) => {
+    const createGameConfig = (gameId, type) => {
+        const item = new GameConfigs();
+        item.gameId = gameId;
+        item.type = type;
+        return item;
+    };
+
+    const model = moduleFixture.get(getModelToken('GameConfigs')) as Model<GameConfigsDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const items = [createGameConfig(2, 1), createGameConfig(2, 2), createGameConfig(2, 3), createGameConfig(3, 3)];
+
+    await model.insertMany(items);
+};
+
+const initExchangeRate = async (moduleFixture: TestingModule) => {
+    const createExchangeRate = (code) => {
+        const item = new ExchangeRates();
+        item.time = new Date();
+        item.exDate = new Date();
+        item.code = code;
+        return item;
+    };
+
+    const model = moduleFixture.get(getModelToken('ExchangeRates')) as Model<ExchangeRatesDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const items = [
+        createExchangeRate({
+            VND: 1,
+            USD: 23000,
+            THB: 90,
+        }),
+        createExchangeRate({
+            VND: 1.1,
+            USD: 23000,
+            THB: 90,
+        }),
+    ];
+
+    await model.insertMany(items);
 };
 
 const createTicket = (playerId, roundId, stake, payout, currency) => {
@@ -73,13 +127,14 @@ const initLeaderBoard = async (moduleFixture: TestingModule) => {
     const item = new PromotionLeaderBoards();
     item.promotionId = 1;
     item.operatorId = 'ONEworks1';
-    item.playerId = 9931920;
+    item.playerId = '9931920';
     item.siteName = 'lumi';
     item.currencyGroupId = '61765beed2b6510001f18bd6';
     item.nickName = 'Onion3417';
     item.point = 100;
     item.latestPromotionBetId = '668cb02429c4a627515ed81e';
     item.updatedTime = new Date();
+    item.currency = 'VND';
     await model.insertMany([item]);
 };
 

@@ -13,8 +13,8 @@ export class ExchangeRateService {
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
-    async getAll(): Promise<Result<ExchangeRates[]>> {
-        const execution = this.model.find({}).lean().exec();
+    async getAll(): Promise<Result<ExchangeRates>> {
+        const execution = this.model.findOne({}).sort({ exDate: -1 }).lean().exec();
         return this.dataHandler.getData(execution);
     }
 }

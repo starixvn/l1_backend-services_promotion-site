@@ -62,6 +62,8 @@ export class TicketSiloService {
                         stake: '$stake',
                         payout: '$payout',
                         roundTime: '$roundTime',
+                        gameId: '$gameId',
+                        currency: '$currency',
                         siteName: { $arrayElemAt: ['$result.siteName', 0] },
                         currencyGroupId: { $arrayElemAt: ['$result.currencyGroupId', 0] },
                     },

@@ -19,6 +19,7 @@ import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
 import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
 import { DomainModule } from './domain/domain.module';
 import { ExchangeRateModule } from './features/exchange-rates/exchange-rate.module';
+import { GameConfigModule } from './features/game-configs/game-config.module';
 
 @Module({
     imports: [
@@ -44,6 +45,7 @@ import { ExchangeRateModule } from './features/exchange-rates/exchange-rate.modu
         TicketSiloModule,
         DomainModule,
         ExchangeRateModule,
+        GameConfigModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],
