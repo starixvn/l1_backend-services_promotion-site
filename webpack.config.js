@@ -6,7 +6,7 @@ module.exports = {
     index: '/views/index.tsx',
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'public/bundle'),
   },
   module: {
