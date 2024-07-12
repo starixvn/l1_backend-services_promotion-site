@@ -52,6 +52,9 @@ export class UserSession {
 
     @Prop()
     disableAward: boolean;
+
+    @Prop({ required: true })
+    ssoTime: Date;
 }
 
 export const UserSessionSchema = SchemaFactory.createForClass(UserSession);

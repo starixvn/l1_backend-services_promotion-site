@@ -17,4 +17,57 @@ export class TicketSiloService {
         const execution = this.model.find({}).lean().exec();
         return this.dataHandler.getData(execution);
     }
+
+    async getTicketWithUserInfos(startTime: Date, endTime: Date): Promise<Result<TicketSilos[]>> {
+        const execution = this.model
+            .aggregate([
+                {
+                    $match: {
+                        roundTime: { $gte: startTime, $lte: endTime },
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'usersessions',
+                        let: {
+                            playerId: '$playerId',
+                            operatorId: '$operatorId',
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $and: [
+                                            {
+                                                $eq: ['$playerId', '$$playerId'],
+                                            },
+                                            {
+                                                $eq: ['$operatorId', '$$operatorId'],
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                            {
+                                $sort: { ssoTime: -1 },
+                            },
+                        ],
+                        as: 'result',
+                    },
+                },
+                {
+                    $project: {
+                        playerId: '$playerId',
+                        operatorId: '$operatorId',
+                        stake: '$stake',
+                        payout: '$payout',
+                        roundTime: '$roundTime',
+                        siteName: { $arrayElemAt: ['$result.siteName', 0] },
+                        currencyGroupId: { $arrayElemAt: ['$result.currencyGroupId', 0] },
+                    },
+                },
+            ])
+            .exec();
+        return this.dataHandler.getData(execution);
+    }
 }

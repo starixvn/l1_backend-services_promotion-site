@@ -7,6 +7,11 @@ export type TicketSilosDocument = TicketSilos & mongoose.Document;
 
 @Schema()
 export class TicketSilos {
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    currency: string;
+
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
@@ -46,6 +51,14 @@ export class TicketSilos {
     @ApiProperty()
     @Prop({ required: true })
     winloss: number;
+
+    @IsString()
+    @ApiProperty()
+    siteName: string;
+
+    @IsString()
+    @ApiProperty()
+    currencyGroupId: string;
 }
 
 export const TicketSilosSchema = SchemaFactory.createForClass(TicketSilos);

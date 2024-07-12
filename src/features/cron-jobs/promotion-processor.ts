@@ -6,7 +6,8 @@ import { PromotionRunService } from '../promotion-runs/promotion-run.service';
 import { TicketSiloService } from '../ticket-silos/ticket-silo.service';
 import { UserSessionsService } from '../users/services/user-session.service';
 import { PromotionRuns } from '../promotion-runs/schemas';
-import { PROMOTION_STATUSES } from '../promotion-configs/schemas';
+import { PROMOTION_STATUSES, PromotionConfigs } from '../promotion-configs/schemas';
+import { TicketSilos } from '../ticket-silos/schemas';
 
 export class PromotionProcessor {
     constructor(
@@ -54,14 +55,19 @@ export class PromotionProcessor {
         const currentTime = new Date();
         for (const promotion of result.data) {
             const promotionRunResult = await this.promotionRunService.getByPromotionId(promotion.promotionId);
-            const promotionConfig = JSON.parse(promotionRunResult.data.promotionConfigs);
-            console.log('process', promotionConfig);
+            const promotionConfig = JSON.parse(promotionRunResult.data.promotionConfigs) as PromotionConfigs;
+            const ticketResult = await this.ticketSiloService.getTicketWithUserInfos(
+                new Date(promotionConfig.startDateTime),
+                new Date(promotionConfig.endDateTime),
+            );
+
+            for (const ticket of ticketResult.data) {
+                this.processTicket(promotionConfig, ticket);
+            }
         }
     }
 
-    manipulateDataForRunningPromotion() {
-        // use promotionConfigs from promotionRun
-    }
+    processTicket(promotionConfig: PromotionConfigs, ticket: TicketSilos) {}
 
     updatePromotionStatusSettled() {}
 }

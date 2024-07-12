@@ -25,7 +25,7 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initTicketSilos(moduleFixture);
 };
 
-const createTicket = (playerId, roundId, stake, payout) => {
+const createTicket = (playerId, roundId, stake, payout, currency) => {
     const item = new TicketSilos();
     item.roundTime = new Date();
     item.gameId = 2;
@@ -35,6 +35,7 @@ const createTicket = (playerId, roundId, stake, payout) => {
     item.stake = stake;
     item.payout = payout;
     item.winloss = item.stake - item.payout;
+    item.currency = currency;
 
     return item;
 };
@@ -47,10 +48,10 @@ const initTicketSilos = async (moduleFixture: TestingModule) => {
 
     // Insert
     const items = [
-        createTicket('1', 1, 100, 200),
-        createTicket('1', 2, 100, 50),
-        createTicket('2', 1, 100, 200),
-        createTicket('3', 2, 100, 50),
+        createTicket('1', 1, 100, 200, 'VND'),
+        createTicket('1', 2, 100, 50, 'VND'),
+        createTicket('2', 1, 100, 200, 'USD'),
+        createTicket('3', 2, 100, 50, 'THB'),
     ];
     await model.insertMany(items);
 };
@@ -139,6 +140,20 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
     await model.insertMany([item]);
 };
 
+const createUserSession = (playerId, operatorId, currencyGroupId, siteName, ssoTime, random) => {
+    const item = new UserSession();
+    item.username = 'testUser';
+    item.sessionId = `${random}_${operatorId}_${playerId}`;
+    item.browserUserAgent = 'chrome';
+    item.operatorId = operatorId;
+    item.siteName = siteName;
+    item.currencyGroupId = currencyGroupId;
+    item.recheckInTime = new Date();
+    item.playerId = playerId;
+    item.ssoTime = ssoTime;
+    return item;
+};
+
 const initUserSession = async (moduleFixture: TestingModule) => {
     const model = moduleFixture.get(getModelToken('UserSession')) as Model<UserSessionDocument>;
 
@@ -146,16 +161,21 @@ const initUserSession = async (moduleFixture: TestingModule) => {
     await model.deleteMany({});
 
     // Insert
-    const item = new UserSession();
-    item.username = 'testUser';
-    item.sessionId = 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518';
-    item.browserUserAgent = 'chrome';
-    item.operatorId = 'ONEworks1';
-    item.siteName = 'lumi';
-    item.currencyGroupId = '61765beed2b6510001f18bd6';
-    item.recheckInTime = new Date();
+    const items = [
+        createUserSession('1', 'ONEworksVGCash', '61765beed2b6510001f18bd6', 'lumi1', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9'),
+        createUserSession('2', 'ONEworksVGCash', '61765beed2b6510001f18bd6', 'lumi2', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9'),
+        createUserSession(
+            '3',
+            'ONEworksVGCash',
+            '61765beed2b6510001f18bd6_1',
+            'lumi3',
+            new Date(new Date().setDate(new Date().getDate() - 1)),
+            'xch5pum5k1K2Hjozkmgt404MnJjgAyg91',
+        ),
+        createUserSession('3', 'ONEworksVGCash', '61765beed2b6510001f18bd6_2', 'lumi3', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg92'),
+    ];
 
-    await model.insertMany([item]);
+    await model.insertMany(items);
 };
 
 const initNotification = async (moduleFixture: TestingModule) => {

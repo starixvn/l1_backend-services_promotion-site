@@ -18,6 +18,7 @@ import { UserSessionModule } from './features/users/user-session.module';
 import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
 import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
 import { DomainModule } from './domain/domain.module';
+import { ExchangeRateModule } from './features/exchange-rates/exchange-rate.module';
 
 @Module({
     imports: [
@@ -42,6 +43,7 @@ import { DomainModule } from './domain/domain.module';
         UserSessionModule,
         TicketSiloModule,
         DomainModule,
+        ExchangeRateModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],
