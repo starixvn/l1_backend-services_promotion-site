@@ -6,7 +6,7 @@ const LeaderBoard = () => {
   const navigate = useNavigate();
 
   const handleBackToHome = () => {
-    navigate('/');
+    navigate(`${window.AppInitialState.subPath}/`);
   }
 
   return (
@@ -81,6 +81,11 @@ const LeaderBoard = () => {
           </div>
         </div>
       </div>
+
+      <div>
+        <button className="btn btn-primary" onClick={handleBackToHome}>BACK TO HOME</button>
+      </div>
+
     </div>
   );
 };
