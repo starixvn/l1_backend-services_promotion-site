@@ -22,6 +22,9 @@ import { join } from 'path';
 
 @Module({
     imports: [
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'public'), // Adjust this path as necessary
+        }),
         ConfigModule.forRoot({
             isGlobal: true,
             load: [configuration],
@@ -44,9 +47,6 @@ import { join } from 'path';
         TicketSiloModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'public'), // Adjust this path as necessary
-        }),
     ],
     controllers: [AppController],
     providers: [AppService, CronService, PromotionProcessor],
