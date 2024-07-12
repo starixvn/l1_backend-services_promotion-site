@@ -38,6 +38,6 @@ module.exports = {
     compress: true,
     port: 5000,
   },
-  watch: true, 
+  watch: false, 
   devtool: 'source-map'
 };

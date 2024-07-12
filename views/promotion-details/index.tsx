@@ -55,21 +55,21 @@ const PromotionDetail = () => {
           <h3 className="title">Prize Categories</h3>
           <div className="info-list">
             <div className="info-item">
-              <img src="/static/images/first-prize.png" alt="Prize 1" />
+              <img src="static/images/first-prize.png" alt="Prize 1" />
               <div>
                 <h3>First Place</h3>
                 <p>$1000</p>
               </div>
             </div>
             <div className="info-item">
-              <img src="/static/images/second-prize.png" alt="Prize 2" />
+              <img src="static/images/second-prize.png" alt="Prize 2" />
               <div>
                 <h3>Second Place</h3>
                 <p>$600</p>
               </div>
             </div>
             <div className="info-item">
-              <img src="/static/images/third-prize.png" alt="Prize 3" />
+              <img src="static/images/third-prize.png" alt="Prize 3" />
               <div>
                 <h3>Third Place</h3>
                 <p>$400</p>

@@ -17,6 +17,8 @@ import { PromotionRunModule } from './features/promotion-runs/promotion-run.modu
 import { UserSessionModule } from './features/users/user-session.module';
 import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
 import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
     imports: [
@@ -42,6 +44,9 @@ import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
         TicketSiloModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'public'), // Adjust this path as necessary
+        }),
     ],
     controllers: [AppController],
     providers: [AppService, CronService, PromotionProcessor],

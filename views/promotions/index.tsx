@@ -15,7 +15,7 @@ const Promotions = () => {
         <h2>Promotions</h2>
         <ul className="promotion-list">
           <li className="promotion-item">
-            <img src="/static/images/image-1.png" alt="promotion 1" width={150} />
+            <img src="static/images/image-1.png" alt="promotion 1" width={150} />
             <div className="promotion-description">
               <h3>Promotion 1</h3>
               <p>Description of promotion 1</p>
@@ -25,7 +25,7 @@ const Promotions = () => {
           </li>
 
           <li className="promotion-item">
-            <img src="/static/images/image-2.png" alt="promotion 2" width={150} />
+            <img src="static/images/image-2.png" alt="promotion 2" width={150} />
             <div className="promotion-description">
               <h3>Promotion 2</h3>
               <p>Description of promotion 2</p>
