@@ -22,9 +22,6 @@ import { join } from 'path';
 
 @Module({
     imports: [
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'public'), // Adjust this path as necessary
-        }),
         ConfigModule.forRoot({
             isGlobal: true,
             load: [configuration],
