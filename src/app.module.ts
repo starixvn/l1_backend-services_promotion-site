@@ -17,8 +17,7 @@ import { PromotionRunModule } from './features/promotion-runs/promotion-run.modu
 import { UserSessionModule } from './features/users/user-session.module';
 import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
 import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { DomainModule } from './domain/domain.module';
 
 @Module({
     imports: [
@@ -42,6 +41,7 @@ import { join } from 'path';
         NotificationModule,
         UserSessionModule,
         TicketSiloModule,
+        DomainModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],

@@ -10,6 +10,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { SentryLogger } from './_shared/common/providers/logger.service';
+import { DomainService } from './domain/domain.service';
 
 async function bootstrap() {
     if (process.env.ENABLE_OTEL) {
@@ -30,6 +31,18 @@ async function bootstrap() {
             handlebars: require('hbs'),
         },
         templates: join(__dirname, '..', 'views'),
+    });
+
+    const domain = app.get(DomainService);
+
+    app.enableCors({
+        origin: (origin, callback) => {
+            if (domain.isAllowAccess(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error(`Not allowed by CORS ${origin}`));
+            }
+        },
     });
 
     await app.init();
