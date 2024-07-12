@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { Result } from '../../_shared/common/models/result';
+import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler } from '../../_shared/common/providers';
 import { Notifications, NotificationsDocument } from './schemas';
 
@@ -14,12 +14,18 @@ export class NotificationService {
     ) {}
 
     async existPromotionTournament(promotionIds: number[]): Promise<Result<boolean>> {
-        const execution = this.model.exists({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
-        return this.dataHandler.getData(execution);
+        if (promotionIds?.length > 0) {
+            const execution = this.model.exists({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
+            return this.dataHandler.getData(execution);
+        }
+        return new Result(ErrorCodes.Success, '', false);
     }
 
     async getPromotionByIds(promotionIds: number[]): Promise<Result<Notifications[]>> {
-        const execution = this.model.find({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } }).lean().exec();
+        const execution = this.model
+            .find({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } })
+            .lean()
+            .exec();
         return this.dataHandler.getData(execution);
     }
 }

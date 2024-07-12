@@ -27,6 +27,6 @@ export class NotificationController {
             );
             return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion.promotionId));
         }
-        return new Result(ErrorCodes.Failed, '', false);
+        return new Result(ErrorCodes.Success, '', false);
     }
 }
