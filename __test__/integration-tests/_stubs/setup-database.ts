@@ -1,6 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
+import { Messages, Notifications, NotificationsDocument } from '../../../src/features/notifications/schemas';
 import { PromotionBets, PromotionBetsDocument } from '../../../src/features/promotion-bets/schemas';
 import {
     CurrencyGroup,
@@ -17,6 +18,7 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initPromotionConfig(moduleFixture);
     await initPromotionBet(moduleFixture);
     await initUserSession(moduleFixture);
+    await initNotification(moduleFixture);
 };
 
 const initLeaderBoard = async (moduleFixture: TestingModule) => {
@@ -111,6 +113,28 @@ const initUserSession = async (moduleFixture: TestingModule) => {
     item.siteName = 'lumi';
     item.currencyGroupId = '61765beed2b6510001f18bd6';
     item.recheckInTime = new Date();
+
+    await model.insertMany([item]);
+};
+
+const initNotification = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('Notifications')) as Model<NotificationsDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new Notifications();
+    item.displayKind = 4;
+    item.enabled = true;
+
+    item.messages = new Messages();
+    item.messages['en-US'] = 'Promotion message';
+
+    item.title = new Messages();
+    item.title['en-US'] = 'Promotion Title';
+    item.time = new Date();
+    item.promotionId = 1;
 
     await model.insertMany([item]);
 };

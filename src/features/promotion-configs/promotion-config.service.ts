@@ -27,7 +27,7 @@ export class PromotionConfigService {
 
     async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs[]>> {
         const filter = { 'operators.currencyGroups.currencyGroupId': currencyGroupId, 'operators.currencyGroups.enabled': true };
-        const execution = this.model.find(filter).lean().exec();
+        const execution = this.model.find(filter).sort([['startDateTime', -1]]).lean().exec();
         
         return await this.dataHandler.getData(execution);
     }

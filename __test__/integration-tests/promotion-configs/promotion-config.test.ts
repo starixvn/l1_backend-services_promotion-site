@@ -49,8 +49,8 @@ describe('Promotion', () => {
             .set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as Result<PromotionConfigs>;
-        expect(result.status).toBe(200);
-        expect(model.data.name).toEqual('Weekly Promotion');
+        const model = JSON.parse(result.text) as Result<PromotionConfigs[]>;
+        expect(result.status).toBe(201);
+        expect(model.data[0].name).toEqual('Weekly Promotion');
     });
 });
