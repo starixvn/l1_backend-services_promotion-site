@@ -12,13 +12,11 @@ export class UserSessionsService {
     constructor(@InjectModel(UserSession.name) private readonly model: Model<UserSessionDocument>) {}
 
     async getUserSession(sessionId: string): Promise<UserSession> {
-        const a = await this.model.findOne({playerId:"666"}).lean().exec();
-        return this.model.findOne({ sessionId: sessionId }).lean().exec();
+        return this.model.findOne({ sessionId: sessionId, disableAward: false }).lean().exec();
     }
 
     async verifySession(request: VerifySessionRequest) {
         const userSession = await this.getUserSession(request.session);
-        const a = this.model.find({ sessionId: request.session }).lean().exec();
         const isValid =
             userSession && userSession.username === request.username && userSession.browserUserAgent === request.browserUserAgent;
         const isSessionExpired = this.isSessionExpired(userSession);

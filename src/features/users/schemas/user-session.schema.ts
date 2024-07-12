@@ -49,6 +49,9 @@ export class UserSession {
 
     @Prop({ required: true })
     recheckInTime: Date;
+
+    @Prop()
+    disableAward: boolean;
 }
 
 export const UserSessionSchema = SchemaFactory.createForClass(UserSession);
