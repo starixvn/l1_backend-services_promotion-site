@@ -4,7 +4,7 @@ import { PromotionRunService } from './promotion-run.service';
 import { PromotionRuns, PromotionRunsSchema } from './schemas';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: PromotionRuns.name, schema: PromotionRunsSchema, collection: 'promotion_configs' }])],
+    imports: [MongooseModule.forFeature([{ name: PromotionRuns.name, schema: PromotionRunsSchema, collection: 'promotion_runs' }])],
     providers: [PromotionRunService],
     exports: [PromotionRunService],
 })

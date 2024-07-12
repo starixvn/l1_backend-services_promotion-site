@@ -20,19 +20,28 @@ export class PromotionConfigService {
         return this.dataHandler.getData(execution);
     }
 
-    async getNewPromotions(): Promise<Result<PromotionConfigs[]>> {
-        const execution = this.model.find({ status: 'new' }).lean().exec();
+    async getPromotionsByStatus(status: string): Promise<Result<PromotionConfigs[]>> {
+        const execution = this.model.find({ status }).lean().exec();
         return this.dataHandler.getData(execution);
+    }
+
+    async markPromotionRunning(promotionId: number): Promise<Result<PromotionConfigs>> {
+        const filter = { promotionId };
+        const updates = { status: 'running' };
+
+        return this.dataHandler.updateData(this.model, filter, updates);
     }
 
     async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs[]>> {
         const filter = { 'operators.currencyGroups.currencyGroupId': currencyGroupId, 'operators.currencyGroups.enabled': true };
-        const execution = this.model.find(filter).sort([['startDateTime', -1]]).lean().exec();
-        
+        const execution = this.model
+            .find(filter)
+            .sort([['startDateTime', -1]])
+            .lean()
+            .exec();
+
         return await this.dataHandler.getData(execution);
     }
-
-
 
     async getByCurrencyGroupIdAndSiteName(
         operatorId: string,

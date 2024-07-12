@@ -19,7 +19,7 @@ export class CronService {
     @Cron(CronExpression.EVERY_10_SECONDS)
     handleCron() {
         try {
-            this.promotionProcessor.proceed();
+            //this.promotionProcessor.proceed();
         } catch (error) {
             //this.logger.error(error);
         }

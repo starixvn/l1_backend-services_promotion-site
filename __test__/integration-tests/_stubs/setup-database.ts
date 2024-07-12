@@ -12,6 +12,8 @@ import {
 } from '../../../src/features/promotion-configs/schemas';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
 import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
+import { PromotionRuns, PromotionRunsDocument } from '../../../src/features/promotion-runs/schemas/promotion-runs.schema';
+import { TicketSilos, TicketSilosDocument } from '../../../src/features/ticket-silos/schemas/ticket-silos.schema';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initLeaderBoard(moduleFixture);
@@ -19,6 +21,45 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initPromotionBet(moduleFixture);
     await initUserSession(moduleFixture);
     await initNotification(moduleFixture);
+    await initPromotionRuns(moduleFixture);
+    await initTicketSilos(moduleFixture);
+};
+
+const createTicket = (playerId, roundId, stake, payout) => {
+    const item = new TicketSilos();
+    item.roundTime = new Date();
+    item.gameId = 2;
+    item.operatorId = 'ONEworksVGCash';
+    item.playerId = playerId;
+    item.roundId = roundId;
+    item.stake = stake;
+    item.payout = payout;
+    item.winloss = item.stake - item.payout;
+
+    return item;
+};
+
+const initTicketSilos = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('TicketSilos')) as Model<TicketSilosDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const items = [
+        createTicket('1', 1, 100, 200),
+        createTicket('1', 2, 100, 50),
+        createTicket('2', 1, 100, 200),
+        createTicket('3', 2, 100, 50),
+    ];
+    await model.insertMany(items);
+};
+
+const initPromotionRuns = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('PromotionRuns')) as Model<PromotionRunsDocument>;
+
+    // Clear
+    await model.deleteMany({});
 };
 
 const initLeaderBoard = async (moduleFixture: TestingModule) => {
@@ -62,8 +103,8 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     currencyGroup1.enabled = true;
     operator1.currencyGroups = [currencyGroup1];
     item.operators = [operator1];
-    item.startDateTime = new Date();
-    item.endDateTime = new Date();
+    item.startDateTime = new Date(new Date().setDate(new Date().getDate() - 2));
+    item.endDateTime = new Date(new Date().setDate(new Date().getDate() + 2));
     const winningPrize1 = new WinningPrize();
     winningPrize1.name = '1st prize';
     winningPrize1.value = 1000;

@@ -5,6 +5,13 @@ import * as mongoose from 'mongoose';
 
 export type PromotionConfigsDocument = PromotionConfigs & mongoose.Document;
 
+export const PROMOTION_STATUSES = {
+    new: 'new',
+    running: 'running',
+    settled: 'settled',
+    paid: 'paid',
+};
+
 export class CurrencyGroup {
     currencyGroupId: string;
     slotGameMinBet: number;

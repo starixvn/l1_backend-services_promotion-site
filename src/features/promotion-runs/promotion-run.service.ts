@@ -17,4 +17,14 @@ export class PromotionRunService {
         const execution = this.model.find({}).lean().exec();
         return this.dataHandler.getData(execution);
     }
+
+    async getByPromotionId(promotionId: number): Promise<Result<PromotionRuns>> {
+        const execution = this.model.findOne({ promotionId }).lean().exec();
+        return this.dataHandler.getData(execution);
+    }
+
+    async create(data: PromotionRuns): Promise<Result<PromotionRuns>> {
+        console.log('create');
+        return this.dataHandler.createData<PromotionRuns>(this.model, data);
+    }
 }

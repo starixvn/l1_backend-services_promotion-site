@@ -43,6 +43,11 @@ export class PromotionRuns {
     @ApiProperty()
     @Prop({ required: true })
     updatedTime: Date;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    promotionConfigs: string;
 }
 
 export const PromotionRunsSchema = SchemaFactory.createForClass(PromotionRuns);
