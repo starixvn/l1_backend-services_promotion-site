@@ -4,9 +4,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { FormatIcu } from "@tolgee/format-icu";
 import { InContextTools } from "@tolgee/web/tools";
-import Promotions from './promotions/index.jsx';
-import PromotionDetail from './promotion-details/index.jsx';
-import LeaderBoard from "./leader-board/index.jsx";
+import Promotions from './promotions/index';
+import PromotionDetail from './promotion-details/index';
+import LeaderBoard from "./leader-board/index";
 
 const tolgee = Tolgee()
   .use(FormatIcu())
