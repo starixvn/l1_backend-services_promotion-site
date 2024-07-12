@@ -1,14 +1,7 @@
 import React from 'react';
 import '../../public/static/css/style.scss';
-import { useNavigate } from 'react-router-dom';
 
-const PromotionDetail = () => {
-  const navigate = useNavigate();
-
-  const handleLeaderBoard = () => {
-    navigate(`${window.AppInitialState.subPath}/leader-board`);
-  }
-
+const PromotionDetail = ({ handleLeaderBoard }) => {
   return (
     <div>
       <div className="tournament-container">

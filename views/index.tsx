@@ -1,13 +1,11 @@
 import { BackendFetch, Tolgee, TolgeeProvider } from "@tolgee/react";
 import ReactDOM from 'react-dom/client';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { FormatIcu } from "@tolgee/format-icu";
 import { InContextTools } from "@tolgee/web/tools";
 import Promotions from './promotions/index';
 import PromotionDetail from './promotion-details/index';
 import LeaderBoard from "./leader-board/index";
-
 
 const tolgee = Tolgee()
   .use(FormatIcu())
@@ -31,17 +29,47 @@ tolgee.addPlugin(
   })
 );
 
+
 const App = () => {
-  const subPath = window.AppInitialState.subPath;
-  return (
-    <Router>
-      <Routes>
-        <Route path={`${subPath}/`} element={<Promotions />} />
-        <Route path={`${subPath}/promotion-details`} element={<PromotionDetail />} />
-        <Route path={`${subPath}/leader-board`} element={<LeaderBoard />} />
-      </Routes>
-    </Router>
-  );
+  const [appState, setAppState] = React.useState({
+    isShowPromotions: true,
+    isShowPromotionDetail: false,
+    isShowLeaderBoard: false,
+  })
+
+  const handleBackToHome = () => {
+    setAppState({
+      isShowPromotions: true,
+      isShowPromotionDetail: false,
+      isShowLeaderBoard: false,
+    });
+  }
+
+  const handleMoreInfo = () => {
+    setAppState({
+      isShowPromotions: false,
+      isShowPromotionDetail: true,
+      isShowLeaderBoard: false,
+    });
+  }
+
+  const handleLeaderBoard = () => {
+    setAppState({
+      isShowPromotions: false,
+      isShowPromotionDetail: false,
+      isShowLeaderBoard: true,
+    });
+  }
+
+  if (appState.isShowPromotionDetail) {
+    return <PromotionDetail handleLeaderBoard={handleLeaderBoard} />;
+  }
+
+  if (appState.isShowLeaderBoard) {
+    return <LeaderBoard handleBackToHome={handleBackToHome} />;
+  }
+
+  return <Promotions handleMoreInfo={handleMoreInfo} />;
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

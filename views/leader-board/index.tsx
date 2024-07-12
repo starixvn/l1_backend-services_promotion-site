@@ -1,14 +1,7 @@
 import React from 'react';
 import '../../public/static/css/style.scss';
-import { useNavigate } from 'react-router-dom';
 
-const LeaderBoard = () => {
-  const navigate = useNavigate();
-
-  const handleBackToHome = () => {
-    navigate(`${window.AppInitialState.subPath}/`);
-  }
-
+const LeaderBoard = ({ handleBackToHome }) => {
   return (
     <div>
       <div className="leaderboard">

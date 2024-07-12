@@ -1,14 +1,7 @@
 import React from 'react';
 import '../../public/static/css/style.scss';
-import { useNavigate } from 'react-router-dom';
 
-const Promotions = () => {
-  const navigate = useNavigate();
-
-  const handleMoreInfo = () => {
-    navigate(`${window.AppInitialState.subPath}/promotion-details`);
-  }
-
+const Promotions = ({ handleMoreInfo }) => {
   return (
     <div>
       <div className="promotion-container">
