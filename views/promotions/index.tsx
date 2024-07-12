@@ -6,7 +6,7 @@ const Promotions = () => {
   const navigate = useNavigate();
 
   const handleMoreInfo = () => {
-    navigate('/promotion-details');
+    navigate('/promotion/promotion-details');
   }
 
   return (

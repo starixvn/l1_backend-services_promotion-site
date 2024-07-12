@@ -8,10 +8,10 @@
     "scripts": {
         "prebuild": "rimraf dist",
         "build:webpack": "webpack --mode production",
-        "watch:webpack": "webpack --mode development --watch",
+        "watch:webpack": "webpack --mode development",
         "watch:nest": "nest start --watch",
         "watch:all": "concurrently \"npm run watch:webpack\" \"npm run watch:nest\"",
-        "build": "npm run webpack --mode development && nest build",
+        "build": "npm run watch:webpack && nest build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "concurrently \"npm run build:webpack\" \"nest start\"",
         "start:dev": "concurrently \"npm run watch:webpack\" \"npm run watch:nest\"",

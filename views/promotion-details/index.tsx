@@ -6,7 +6,7 @@ const PromotionDetail = () => {
   const navigate = useNavigate();
 
   const handleLeaderBoard = () => {
-    navigate('/leader-board');
+    navigate('/promotion/leader-board');
   }
 
   return (

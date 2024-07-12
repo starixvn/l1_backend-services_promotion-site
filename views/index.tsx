@@ -34,9 +34,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Promotions />} />
-        <Route path="/promotion-details" element={<PromotionDetail />} />
-        <Route path="/leader-board" element={<LeaderBoard />} />
+        <Route path="/promotion" element={<Promotions />} />
+        <Route path="/promotion/promotion-details" element={<PromotionDetail />} />
+        <Route path="/promotion/leader-board" element={<LeaderBoard />} />
       </Routes>
     </Router>
   );
