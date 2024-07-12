@@ -141,3 +141,70 @@ p {
 .participation {
     --item-background: #e3f2fd;
 }
+
+.leaderboard {
+    width: 50rem;
+    height: auto;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.board-header {
+    display: grid;
+    grid-template-columns: 7rem 1fr 1fr;
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.board-body {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+}
+
+.board-row {
+    display: grid;
+    grid-template-columns: 7rem 1fr 1fr;
+    text-align: center;
+    height: 4rem;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-row.player {
+    background: #ff9800;
+    color: #fff;
+}
+
+.top-3 {
+    background: #f9fbe7;
+}
+
+.ranking-place {
+    display: inline-flex;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    background: var(--background, #cfd8dc);
+    color: var(--color, #212121);
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    position: relative;
+    border: 2px solid var(--border, #b0bec5);
+}
+
+.place-first {
+    --background: #f0f4c3;
+    --border: #e6ee9c;
+}
+
+.place-second {
+    --background: #dcedc8;
+    --border: #c5e1a5;
+}
+
+.place-third {
+    --background: #c8e6c9;
+    --border: #a5d6a7;
+}
