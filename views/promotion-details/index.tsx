@@ -6,7 +6,7 @@ const PromotionDetail = () => {
   const navigate = useNavigate();
 
   const handleLeaderBoard = () => {
-    navigate('/promotion/leader-board');
+    navigate(`${window.AppInitialState.subPath}/leader-board`);
   }
 
   return (

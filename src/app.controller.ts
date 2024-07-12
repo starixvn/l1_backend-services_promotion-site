@@ -8,6 +8,7 @@ export class AppController {
         const jsonObject = {
             message: 'Hello from Promotion Site!',
             date: Date.toString(),
+            subPath: process.env.SUB_PATH
         }
 
         return { jsonObject: JSON.stringify(jsonObject) };

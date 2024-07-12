@@ -9193,9 +9193,59 @@ __webpack_require__.r(__webpack_exports__);
 var LeaderBoard = function LeaderBoard() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
   var handleBackToHome = function handleBackToHome() {
-    navigate('/');
+    navigate("".concat(window.AppInitialState.subPath, "/"));
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "  WELCOME LEADER BOARD "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "leaderboard"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+    className: "text-center"
+  }, "Leaderboard"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-table"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "place"
+  }, "Ranking"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "name"
+  }, "Nickname"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "points"
+  }, "Total Points")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row top-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place place-first"
+  }, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "O***149"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "1223")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row top-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place place-second"
+  }, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "E***663"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "1007")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row top-3 player"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place place-third"
+  }, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "You"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "987")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place"
+  }, "4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "W***345"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "865")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place"
+  }, "5")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "N***918"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "701")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place"
+  }, "6")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "R***128"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "531")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place"
+  }, "7")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "B***519"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "401"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "board-row player"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "ranking-place place-third"
+  }, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "You"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "987"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "btn btn-primary",
     onClick: handleBackToHome
   }, "BACK TO HOME")));
@@ -9224,7 +9274,7 @@ __webpack_require__.r(__webpack_exports__);
 var PromotionDetail = function PromotionDetail() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
   var handleLeaderBoard = function handleLeaderBoard() {
-    navigate('/leader-board');
+    navigate("".concat(window.AppInitialState.subPath, "/leader-board"));
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "tournament-container"
@@ -9310,7 +9360,7 @@ __webpack_require__.r(__webpack_exports__);
 var Promotions = function Promotions() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
   var handleMoreInfo = function handleMoreInfo() {
-    navigate('/promotion-details');
+    navigate("".concat(window.AppInitialState.subPath, "/promotion-details"));
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "promotion-container"
@@ -9482,7 +9532,64 @@ p {
 
 .participation {
   --item-background: #e3f2fd; }
-`, "",{"version":3,"sources":["webpack://./public/static/css/style.scss"],"names":[],"mappings":"AAAA;;;EAGI,sBAAsB,EAAA;;AAG1B;EACI,0BAA0B;EAC1B,yBAAyB;EACzB,6BAA6B;EAC7B,wCAAwC;EAExC,6DAAc;EACd,gCAAwB;EAExB,wBAAgB;EAChB,0BAAkB,EAAA;;AAGtB;;EAEI,YAAY;EACZ,qBAAqB,EAAA;;AAGzB;EACI,UAAU;EACV,SAAS;EACT,8CAA8C;EAC9C,sDAAsD;EACtD,8BAA8B;EAC9B,4BAA4B;EAC5B,mBAAmB,EAAA;;AAGvB;;;;;;EAMI,aAAa;EACb,qBAAqB,EAAA;;AAGzB;;EAEI,sBAAsB,EAAA;;AAG1B;EACI,kBAAkB,EAAA;;AAGtB;EACI,aAAa;EACb,mBAAmB,EAAA;;AAGvB;EACI,eAAe;EACf,YAAY,EAAA;;AAGhB;EACI,gBAAgB;EAChB,YAAY;EACZ,iBAAiB;EACjB,eAAe;EACf,gBAAgB;EAChB,oBAAoB;EACpB,iBAAiB;EACjB,YAAY,EAAA;;AAGhB;EACI,UAAU,EAAA;;AAGd;EACI,kBAAkB,EAAA;;AAGtB;EACI,sCAAsC;EACtC,WAAW,EAAA;;AAGf;EACI,aAAa,EAAA;;AAGjB;EACI,gBAAgB;EAChB,eAAe,EAAA;;AAGnB;EACI,aAAa;EACb,SAAS,EAAA;;AAGb;EACI,mBAAmB,EAAA;;AAGvB;EACI,iBAAiB;EACjB,aAAa,EAAA;;AAGjB;EACI,2CAA2C;EAC3C,gBAAgB;EAChB,oBAAoB;EACpB,mBAAmB,EAAA;;AAGvB;EACI,mBAAmB,EAAA;;AAGvB;EACI,aAAa;EACb,8BAA8B,EAAA;;AAGlC;EACI,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,qBAAqB;EACrB,wCAAwC;EACxC,uCAAuC,EAAA;;AAG3C;EACI,0BAAkB,EAAA;;AAGtB;EACI,0BAAkB,EAAA","sourcesContent":["*,\r\n*::before,\r\n*::after {\r\n    box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n    font-size: 10px !important;\r\n    overscroll-behavior: none;\r\n    -ms-overscroll-behavior: none;\r\n    -webkit-tap-highlight-color: transparent;\r\n\r\n    --font-family: 'Montserrat', -apple-system, arial, sans-serif;\r\n    --page-background-color: #f5f5f5;\r\n\r\n    --color-primary: #159639;\r\n    --color-secondary: #c3a125;\r\n}\r\n\r\nhtml,\r\nbody {\r\n    height: 100%;\r\n    scrollbar-width: none;\r\n}\r\n\r\nbody {\r\n    padding: 0;\r\n    margin: 0;\r\n    background-color: var(--page-background-color);\r\n    font: 1.4rem/1.5 var(--font-family, arial, sans-serif);\r\n    color: var(--text-color, #000);\r\n    overscroll-behavior: contain;\r\n    touch-action: pan-y;\r\n}\r\n\r\nh1,\r\nh2,\r\nh3,\r\nh4,\r\nh5,\r\nh6 {\r\n    margin-top: 0;\r\n    margin-bottom: 0.5rem;\r\n}\r\n\r\nimg,\r\nsvg {\r\n    vertical-align: middle;\r\n}\r\n\r\nimg {\r\n    border-style: none;\r\n}\r\n\r\np {\r\n    margin-top: 0;\r\n    margin-bottom: 1rem;\r\n}\r\n\r\n.img-fluid {\r\n    max-width: 100%;\r\n    height: auto;\r\n}\r\n\r\n.btn {\r\n    border-radius: 0;\r\n    height: 32px;\r\n    line-height: 32px;\r\n    font-size: 14px;\r\n    box-shadow: none;\r\n    text-transform: none;\r\n    padding: 0 1.5rem;\r\n    border: none;\r\n}\r\n\r\n.text-red {\r\n    color: red;\r\n}\r\n\r\n.text-center {\r\n    text-align: center;\r\n}\r\n\r\n.btn-primary {\r\n    background-color: var(--color-primary);\r\n    color: #fff;\r\n}\r\n\r\n.promotion-container {\r\n    padding: 1rem;\r\n}\r\n\r\n.promotion-list {\r\n    list-style: none;\r\n    padding-left: 0;\r\n}\r\n\r\n.promotion-item {\r\n    display: flex;\r\n    gap: 1rem;\r\n}\r\n\r\n.promotion-item:not(:last-child) {\r\n    margin-bottom: 2rem;\r\n}\r\n\r\n.tournament-container {\r\n    max-width: 100rem;\r\n    padding: 1rem;\r\n}\r\n\r\n.title {\r\n    border-left: 5px solid var(--color-primary);\r\n    background: #eee;\r\n    padding-left: 0.5rem;\r\n    margin-bottom: 1rem;\r\n}\r\n\r\n.info-container {\r\n    margin-bottom: 3rem;\r\n}\r\n\r\n.info-list {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.info-item {\r\n    width: 30rem;\r\n    padding: 1rem;\r\n    text-align: center;\r\n    border-radius: 0.5rem;\r\n    background: var(--item-background, #fff);\r\n    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.promotion {\r\n    --item-background: #e8eaf6;\r\n}\r\n\r\n.participation {\r\n    --item-background: #e3f2fd;\r\n}"],"sourceRoot":""}]);
+
+.leaderboard {
+  width: 50rem;
+  height: auto;
+  overflow: hidden;
+  margin: 0 auto; }
+
+.board-header {
+  display: grid;
+  grid-template-columns: 7rem 1fr 1fr;
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center; }
+
+.board-body {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd; }
+
+.board-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr 1fr;
+  text-align: center;
+  height: 4rem;
+  align-items: center;
+  border-bottom: 1px solid #ddd; }
+
+.board-row.player {
+  background: #ff9800;
+  color: #fff; }
+
+.top-3 {
+  background: #f9fbe7; }
+
+.ranking-place {
+  display: inline-flex;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  background: var(--background, #cfd8dc);
+  color: var(--color, #212121);
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  position: relative;
+  border: 2px solid var(--border, #b0bec5); }
+
+.place-first {
+  --background: #f0f4c3;
+  --border: #e6ee9c; }
+
+.place-second {
+  --background: #dcedc8;
+  --border: #c5e1a5; }
+
+.place-third {
+  --background: #c8e6c9;
+  --border: #a5d6a7; }
+`, "",{"version":3,"sources":["webpack://./public/static/css/style.scss"],"names":[],"mappings":"AAAA;;;EAGI,sBAAsB,EAAA;;AAG1B;EACI,0BAA0B;EAC1B,yBAAyB;EACzB,6BAA6B;EAC7B,wCAAwC;EAExC,6DAAc;EACd,gCAAwB;EAExB,wBAAgB;EAChB,0BAAkB,EAAA;;AAGtB;;EAEI,YAAY;EACZ,qBAAqB,EAAA;;AAGzB;EACI,UAAU;EACV,SAAS;EACT,8CAA8C;EAC9C,sDAAsD;EACtD,8BAA8B;EAC9B,4BAA4B;EAC5B,mBAAmB,EAAA;;AAGvB;;;;;;EAMI,aAAa;EACb,qBAAqB,EAAA;;AAGzB;;EAEI,sBAAsB,EAAA;;AAG1B;EACI,kBAAkB,EAAA;;AAGtB;EACI,aAAa;EACb,mBAAmB,EAAA;;AAGvB;EACI,eAAe;EACf,YAAY,EAAA;;AAGhB;EACI,gBAAgB;EAChB,YAAY;EACZ,iBAAiB;EACjB,eAAe;EACf,gBAAgB;EAChB,oBAAoB;EACpB,iBAAiB;EACjB,YAAY,EAAA;;AAGhB;EACI,UAAU,EAAA;;AAGd;EACI,kBAAkB,EAAA;;AAGtB;EACI,sCAAsC;EACtC,WAAW,EAAA;;AAGf;EACI,aAAa,EAAA;;AAGjB;EACI,gBAAgB;EAChB,eAAe,EAAA;;AAGnB;EACI,aAAa;EACb,SAAS,EAAA;;AAGb;EACI,mBAAmB,EAAA;;AAGvB;EACI,iBAAiB;EACjB,aAAa,EAAA;;AAGjB;EACI,2CAA2C;EAC3C,gBAAgB;EAChB,oBAAoB;EACpB,mBAAmB,EAAA;;AAGvB;EACI,mBAAmB,EAAA;;AAGvB;EACI,aAAa;EACb,8BAA8B,EAAA;;AAGlC;EACI,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,qBAAqB;EACrB,wCAAwC;EACxC,uCAAuC,EAAA;;AAG3C;EACI,0BAAkB,EAAA;;AAGtB;EACI,0BAAkB,EAAA;;AAGtB;EACI,YAAY;EACZ,YAAY;EACZ,gBAAgB;EAChB,cAAc,EAAA;;AAGlB;EACI,aAAa;EACb,mCAAmC;EACnC,6BAA6B;EAC7B,eAAe;EACf,kBAAkB,EAAA;;AAGtB;EACI,mBAAmB;EACnB,sBAAsB,EAAA;;AAG1B;EACI,aAAa;EACb,mCAAmC;EACnC,kBAAkB;EAClB,YAAY;EACZ,mBAAmB;EACnB,6BAA6B,EAAA;;AAGjC;EACI,mBAAmB;EACnB,WAAW,EAAA;;AAGf;EACI,mBAAmB,EAAA;;AAGvB;EACI,oBAAoB;EACpB,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,sCAAsC;EACtC,4BAA4B;EAC5B,mBAAmB;EACnB,uBAAuB;EACvB,iBAAiB;EACjB,kBAAkB;EAClB,wCAAwC,EAAA;;AAG5C;EACI,qBAAa;EACb,iBAAS,EAAA;;AAGb;EACI,qBAAa;EACb,iBAAS,EAAA;;AAGb;EACI,qBAAa;EACb,iBAAS,EAAA","sourcesContent":["*,\r\n*::before,\r\n*::after {\r\n    box-sizing: border-box;\r\n}\r\n\r\nhtml {\r\n    font-size: 10px !important;\r\n    overscroll-behavior: none;\r\n    -ms-overscroll-behavior: none;\r\n    -webkit-tap-highlight-color: transparent;\r\n\r\n    --font-family: 'Montserrat', -apple-system, arial, sans-serif;\r\n    --page-background-color: #f5f5f5;\r\n\r\n    --color-primary: #159639;\r\n    --color-secondary: #c3a125;\r\n}\r\n\r\nhtml,\r\nbody {\r\n    height: 100%;\r\n    scrollbar-width: none;\r\n}\r\n\r\nbody {\r\n    padding: 0;\r\n    margin: 0;\r\n    background-color: var(--page-background-color);\r\n    font: 1.4rem/1.5 var(--font-family, arial, sans-serif);\r\n    color: var(--text-color, #000);\r\n    overscroll-behavior: contain;\r\n    touch-action: pan-y;\r\n}\r\n\r\nh1,\r\nh2,\r\nh3,\r\nh4,\r\nh5,\r\nh6 {\r\n    margin-top: 0;\r\n    margin-bottom: 0.5rem;\r\n}\r\n\r\nimg,\r\nsvg {\r\n    vertical-align: middle;\r\n}\r\n\r\nimg {\r\n    border-style: none;\r\n}\r\n\r\np {\r\n    margin-top: 0;\r\n    margin-bottom: 1rem;\r\n}\r\n\r\n.img-fluid {\r\n    max-width: 100%;\r\n    height: auto;\r\n}\r\n\r\n.btn {\r\n    border-radius: 0;\r\n    height: 32px;\r\n    line-height: 32px;\r\n    font-size: 14px;\r\n    box-shadow: none;\r\n    text-transform: none;\r\n    padding: 0 1.5rem;\r\n    border: none;\r\n}\r\n\r\n.text-red {\r\n    color: red;\r\n}\r\n\r\n.text-center {\r\n    text-align: center;\r\n}\r\n\r\n.btn-primary {\r\n    background-color: var(--color-primary);\r\n    color: #fff;\r\n}\r\n\r\n.promotion-container {\r\n    padding: 1rem;\r\n}\r\n\r\n.promotion-list {\r\n    list-style: none;\r\n    padding-left: 0;\r\n}\r\n\r\n.promotion-item {\r\n    display: flex;\r\n    gap: 1rem;\r\n}\r\n\r\n.promotion-item:not(:last-child) {\r\n    margin-bottom: 2rem;\r\n}\r\n\r\n.tournament-container {\r\n    max-width: 100rem;\r\n    padding: 1rem;\r\n}\r\n\r\n.title {\r\n    border-left: 5px solid var(--color-primary);\r\n    background: #eee;\r\n    padding-left: 0.5rem;\r\n    margin-bottom: 1rem;\r\n}\r\n\r\n.info-container {\r\n    margin-bottom: 3rem;\r\n}\r\n\r\n.info-list {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.info-item {\r\n    width: 30rem;\r\n    padding: 1rem;\r\n    text-align: center;\r\n    border-radius: 0.5rem;\r\n    background: var(--item-background, #fff);\r\n    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.promotion {\r\n    --item-background: #e8eaf6;\r\n}\r\n\r\n.participation {\r\n    --item-background: #e3f2fd;\r\n}\r\n\r\n.leaderboard {\r\n    width: 50rem;\r\n    height: auto;\r\n    overflow: hidden;\r\n    margin: 0 auto;\r\n}\r\n\r\n.board-header {\r\n    display: grid;\r\n    grid-template-columns: 7rem 1fr 1fr;\r\n    border-bottom: 1px solid #ddd;\r\n    padding: 0.5rem;\r\n    text-align: center;\r\n}\r\n\r\n.board-body {\r\n    margin-bottom: 1rem;\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n.board-row {\r\n    display: grid;\r\n    grid-template-columns: 7rem 1fr 1fr;\r\n    text-align: center;\r\n    height: 4rem;\r\n    align-items: center;\r\n    border-bottom: 1px solid #ddd;\r\n}\r\n\r\n.board-row.player {\r\n    background: #ff9800;\r\n    color: #fff;\r\n}\r\n\r\n.top-3 {\r\n    background: #f9fbe7;\r\n}\r\n\r\n.ranking-place {\r\n    display: inline-flex;\r\n    border-radius: 50%;\r\n    width: 3rem;\r\n    height: 3rem;\r\n    background: var(--background, #cfd8dc);\r\n    color: var(--color, #212121);\r\n    align-items: center;\r\n    justify-content: center;\r\n    font-size: 1.4rem;\r\n    position: relative;\r\n    border: 2px solid var(--border, #b0bec5);\r\n}\r\n\r\n.place-first {\r\n    --background: #f0f4c3;\r\n    --border: #e6ee9c;\r\n}\r\n\r\n.place-second {\r\n    --background: #dcedc8;\r\n    --border: #c5e1a5;\r\n}\r\n\r\n.place-third {\r\n    --background: #c8e6c9;\r\n    --border: #a5d6a7;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -155148,14 +155255,15 @@ tolgee.addPlugin((0,_tolgee_web_tools__WEBPACK_IMPORTED_MODULE_7__.InContextTool
   }
 }));
 var App = function App() {
+  var subPath = window.AppInitialState.subPath;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
-    path: "/",
+    path: "".concat(subPath, "/"),
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_promotions_index__WEBPACK_IMPORTED_MODULE_2__["default"], null)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
-    path: "/promotion-details",
+    path: "".concat(subPath, "/promotion-details"),
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_promotion_details_index__WEBPACK_IMPORTED_MODULE_3__["default"], null)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
-    path: "/leader-board",
+    path: "".concat(subPath, "/leader-board"),
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_leader_board_index__WEBPACK_IMPORTED_MODULE_4__["default"], null)
   })));
 };

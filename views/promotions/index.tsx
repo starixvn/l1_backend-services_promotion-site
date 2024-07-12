@@ -6,7 +6,7 @@ const Promotions = () => {
   const navigate = useNavigate();
 
   const handleMoreInfo = () => {
-    navigate('/promotion/promotion-details');
+    navigate(`${window.AppInitialState.subPath}/promotion-details`);
   }
 
   return (

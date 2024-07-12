@@ -8,6 +8,7 @@ import Promotions from './promotions/index';
 import PromotionDetail from './promotion-details/index';
 import LeaderBoard from "./leader-board/index";
 
+
 const tolgee = Tolgee()
   .use(FormatIcu())
   .use(BackendFetch())
@@ -31,12 +32,13 @@ tolgee.addPlugin(
 );
 
 const App = () => {
+  const subPath = window.AppInitialState.subPath;
   return (
     <Router>
       <Routes>
-        <Route path="/promotion" element={<Promotions />} />
-        <Route path="/promotion/promotion-details" element={<PromotionDetail />} />
-        <Route path="/promotion/leader-board" element={<LeaderBoard />} />
+        <Route path={`${subPath}/`} element={<Promotions />} />
+        <Route path={`${subPath}/promotion-details`} element={<PromotionDetail />} />
+        <Route path={`${subPath}/leader-board`} element={<LeaderBoard />} />
       </Routes>
     </Router>
   );
