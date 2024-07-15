@@ -71,6 +71,11 @@ export class PromotionBets {
     @ApiProperty()
     @Prop({ required: true })
     nickname: string;
+
+    @IsNumber()
+    @ApiProperty()
+    @Prop({ required: true })
+    multiplier: number;
 }
 
 export const PromotionBetsSchema = SchemaFactory.createForClass(PromotionBets);

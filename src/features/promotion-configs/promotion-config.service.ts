@@ -27,9 +27,9 @@ export class PromotionConfigService {
         return this.dataHandler.getData(execution);
     }
 
-    async markPromotionRunning(promotionId: number): Promise<Result<PromotionConfigs>> {
+    async updatePromotionStatus(promotionId: number, status: string): Promise<Result<PromotionConfigs>> {
         const filter = { promotionId };
-        const updates = { status: PROMOTION_STATUSES.running };
+        const updates = { status: status, updatedTime: new Date() };
 
         return this.dataHandler.updateData(this.model, filter, updates);
     }

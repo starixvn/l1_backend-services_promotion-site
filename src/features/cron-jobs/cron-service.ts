@@ -8,11 +8,12 @@ import { PromotionBetService } from '../promotion-bets/promotion-bet.service';
 import { LeaderBoardService } from '../promotion-leader-boards/leader-board.service';
 import { PromotionRunService } from '../promotion-runs/promotion-run.service';
 import { PromotionProcessor } from './promotion-processor';
+import { SentryLogger } from '../../_shared/common/providers';
 
 @Injectable()
 export class CronService {
     constructor(
-        //private readonly logger: SentryLogger,
+        @Inject(SentryLogger) private readonly logger: SentryLogger,
         private readonly promotionProcessor: PromotionProcessor,
     ) {}
 

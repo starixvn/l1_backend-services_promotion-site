@@ -162,7 +162,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     operator1.currencyGroups = [currencyGroup1];
     item.operators = [operator1];
     item.startDateTime = new Date(new Date().setDate(new Date().getDate() - 2));
-    item.endDateTime = new Date(new Date().setDate(new Date().getDate() + 2));
+    item.endDateTime = new Date(new Date().setSeconds(new Date().getSeconds() + 20));
     const winningPrize1 = new WinningPrize();
     winningPrize1.name = '1st prize';
     winningPrize1.value = 1000;
@@ -204,8 +204,9 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         item.dataSourceId = dataSourceId;
         item.dataSourceTimeStamp = dataSourceTimeStamp;
         item.updatedTime = new Date();
-        item.currency = 'USD';
+        item.currency = 'VND';
         item.nickname = nickname;
+        item.multiplier = 1000;
 
         return item;
     };

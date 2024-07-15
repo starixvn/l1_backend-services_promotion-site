@@ -5,6 +5,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { setupDatabase } from '../_stubs/setup-database';
 import { PromotionProcessor } from '../../../src/features/cron-jobs/promotion-processor';
 import { PromotionBetModule } from '../../../src/features/promotion-bets/promotion-bet.module';
+import { UserServiceClient } from '../../../src/_shared/services/user-service';
 
 jest.setTimeout(100000);
 describe('Promotion', () => {
@@ -15,6 +16,7 @@ describe('Promotion', () => {
     beforeEach(async () => {
         moduleFixture = await Test.createTestingModule({
             imports: [AppModule, PromotionBetModule],
+            providers: [UserServiceClient],
         }).compile();
 
         app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());

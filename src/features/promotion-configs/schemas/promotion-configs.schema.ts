@@ -8,7 +8,7 @@ export type PromotionConfigsDocument = PromotionConfigs & mongoose.Document;
 export const PROMOTION_STATUSES = {
     new: 'new',
     running: 'running',
-    settled: 'finished',
+    finished: 'finished',
     paid: 'paid',
 };
 
