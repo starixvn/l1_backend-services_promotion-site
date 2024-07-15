@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslate } from '@tolgee/react';
 import '../../public/static/css/style.scss';
 
 const PromotionDetail = ({ handleLeaderBoard }) => {
+  const { t } = useTranslate();
+
   return (
     <div>
       <div className="tournament-container">
@@ -9,7 +12,7 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
         <p className="text-center">Place bet and win up to $1000</p>
 
         <div className="info-container promotion">
-          <h3 className="title">Promotion Information</h3>
+          <h3 className="title">{t('title_promotion_info')}</h3>
           <div className="info-list">
             <div className="info-item">
               <h3>Duration</h3>

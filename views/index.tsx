@@ -14,21 +14,16 @@ const tolgee = Tolgee()
     availableLanguages: ["en", "vi", "th", "id", "zh-cn", "zh-tw"],
     fallbackLanguage: "en",
     defaultLanguage: "en",
-    ns: ["FootballSlot", "Common"],
-    defaultNs: "FootballSlot",
+    ns: ["PromotionCampaign", "Common"],
+    defaultNs: "PromotionCampaign",
+    projectId: "5",
   });
 
-// if (!appSettings.useTolgeeStatic) {
 tolgee.addPlugin(
   InContextTools({
-    credentials: {
-      apiUrl: "https://tolgee.sabagame.com/",
-      apiKey: "tgpak_gjpxe3jsoe2xgy3lgezgiolwoy4gy5twgrtwqz3pgrtwq",
-      projectId: "2",
-    },
+    credentials: window.AppInitialState.tolgeeInContextTools
   })
 );
-
 
 const App = () => {
   const [appState, setAppState] = React.useState({

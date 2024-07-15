@@ -15,7 +15,7 @@
         "build": "npm run watch:webpack && nest build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "concurrently \"npm run build:webpack\" \"nest start\"",
-        "start:dev": "concurrently \"npm run watch:webpack-debug\" \"npm run watch:nest\"",
+        "start:dev": "concurrently \"npm run watch:webpack-debug\" \"nest start\"",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
         "lint": "eslint \"{src,views,libs,test}/**/*.{ts, tsx}\" --fix",

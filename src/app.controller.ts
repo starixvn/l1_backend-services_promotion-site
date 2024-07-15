@@ -51,10 +51,13 @@ export class AppController {
 
         const jsonObject = {
             message: 'Hello from Promotion Site!',
-            date: Date.toString(),
             subPath: process.env.SUB_PATH,
-            result,
-        };
+            tolgeeInContextTools: process.env.USE_TOLGEE_STATIC === 'true' ?
+                {} : {
+                    apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
+                    apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
+                    projectId: "5",
+                }
 
         return { jsonObject: JSON.stringify(jsonObject) };
     }

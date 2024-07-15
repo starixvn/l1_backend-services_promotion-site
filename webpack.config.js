@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'development', 
   entry: {
     index: '/views/index.tsx',
   },
@@ -17,6 +18,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
+            cacheDirectory: false
           },
         },
       },
@@ -38,6 +40,7 @@ module.exports = {
     compress: true,
     port: 5000,
   },
-  watch: false, 
+  watch: true, 
+  cache: false, 
   devtool: 'source-map'
 };
