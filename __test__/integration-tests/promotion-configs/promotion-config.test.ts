@@ -3,6 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { Test, TestingModule } from '@nestjs/testing';
 import { Result } from 'src/_shared/common/models/result';
 import { PromotionConfigs } from 'src/features/promotion-configs/schemas';
+import { VerifySessionRequest } from 'src/features/users/models';
 import * as request from 'supertest';
 import { AppModule } from '../../../src/app.module';
 import { setupDatabase } from '../_stubs/setup-database';
@@ -34,17 +35,17 @@ describe('Promotion', () => {
         expect(model.data[0].name).toEqual('Weekly Promotion');
     });
 
-    it('/promotion-config/getPromotionsByUserSession (POST)', async () => {
+    it('/promotion-config/getByUserSession (POST)', async () => {
         // Act
         const token = ''; //await getBearerToken();
-        const payload = {
-            session: 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518',
+        const payload: VerifySessionRequest = {
+            sessionId: 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518',
             username: 'testUser',
             browserUserAgent: 'chrome',
         };
 
         const result = await request(app.getHttpServer())
-            .post('/promotion-config/getPromotionsByUserSession')
+            .post('/promotion-config/getByUserSession')
             .send(payload)
             .set('Authorization', token);
 

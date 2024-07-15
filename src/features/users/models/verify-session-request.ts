@@ -2,7 +2,7 @@ import { IsString } from 'class-validator';
 
 export class VerifySessionRequest {
     @IsString()
-    readonly session: string;
+    readonly sessionId: string;
 
     @IsString()
     readonly username: string;

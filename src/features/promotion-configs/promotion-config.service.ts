@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
+import { UserSession } from '../users/schemas';
 import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
 
 @Injectable()
@@ -32,27 +33,24 @@ export class PromotionConfigService {
         return this.dataHandler.updateData(this.model, filter, updates);
     }
 
-    async getByCurrencyGroupId(currencyGroupId: string): Promise<Result<PromotionConfigs[]>> {
-        const filter = { 'operators.currencyGroups.currencyGroupId': currencyGroupId, 'operators.currencyGroups.enabled': true };
+    async getBySession(session: UserSession): Promise<Result<PromotionConfigs[]>> {
+        const filter = {
+            'operators.currencyGroups.currencyGroupId': session.currencyGroupId,
+            'operators.currencyGroups.enabled': true,
+        };
+        const projection = '-_id';
         const execution = this.model
-            .find(filter)
+            .find(filter, projection)
             .sort([['startDateTime', -1]])
             .lean()
             .exec();
 
-        return await this.dataHandler.getData(execution);
-    }
-
-    async getByCurrencyGroupIdAndSiteName(
-        operatorId: string,
-        siteName: string,
-        currencyGroupId: string,
-    ): Promise<Result<PromotionConfigs[]>> {
-        const promotions = (await this.getByCurrencyGroupId(currencyGroupId)).data;
-        if (promotions?.length > 0) {
-            const data = promotions.filter((promotion) =>
+        const promotions = await this.dataHandler.getData(execution);
+        if (promotions?.data?.length > 0) {
+            const data = promotions?.data.filter((promotion) =>
                 promotion.operators.some(
-                    (operator) => operator.operatorId === operatorId && !operator.excludedSiteNames?.split(',').includes(siteName),
+                    (operator) =>
+                        operator.operatorId === session.operatorId && !operator.excludedSiteNames?.split(',').includes(session.siteName),
                 ),
             );
             return new Result(ErrorCodes.Success, '', data);

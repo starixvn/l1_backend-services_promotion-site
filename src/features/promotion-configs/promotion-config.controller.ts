@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UserServiceClient } from 'src/_shared/services/user-service';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { NotificationService } from '../notifications/notification.service';
-import { UserSessionsService } from '../users/services/user-session.service';
+import { VerifySessionRequest } from '../users/models';
 import { PromotionConfigsResponse, PromotionViewModel } from './models/promotion-configs-response';
 import { PromotionConfigService } from './promotion-config.service';
 import { PromotionConfigs } from './schemas';
@@ -12,7 +13,6 @@ import { PromotionConfigs } from './schemas';
 export class PromotionConfigController {
     constructor(
         private readonly service: PromotionConfigService,
-        @Inject(UserSessionsService) private readonly userSessionsService: UserSessionsService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
     ) {}
 
@@ -23,21 +23,28 @@ export class PromotionConfigController {
         return this.service.getAll();
     }
 
-    @Post('/getPromotionsByUserSession')
-    @ApiOperation({ operationId: 'getPromotionsByUserSession' })
+    @Post('/getByUserSession')
+    @ApiOperation({ operationId: 'getByUserSession' })
     @ApiOkResponse({ type: PromotionConfigsResponse })
-    async getPromotionsByUserSession(
-        @Body() userSession: { session: string; username: string; browserUserAgent: string },
-    ): Promise<Result<PromotionViewModel[]>> {
-        const { isAuthenticated, session } = await this.userSessionsService.verifySession(userSession);
+    async getByUserSession(@Body() userSession: VerifySessionRequest): Promise<Result<PromotionViewModel[]>> {
+        const { isAuthenticated, session } = await UserServiceClient.getSession(
+            userSession.sessionId,
+            userSession.username,
+            userSession.browserUserAgent,
+        );
+
         if (!isAuthenticated) {
             return new Result(ErrorCodes.Failed, 'Session invalid');
         }
+
+        if (session.disableAward) {
+            return new Result(ErrorCodes.Failed, 'User is disable award');
+        }
         //TODO: Temp set for dev purpose
-        session.currencyGroupId = '61765beed2b6510001f18bd6';
-        const promotions = await this.service.getByCurrencyGroupId(session.currencyGroupId);
+        session.currencyGroupId = '61b953ad815d6c000196a14c';
+        const promotions = await this.service.getBySession(session);
         if (promotions.data.length == 0) {
-            return new Result(ErrorCodes.Failed, 'No Promotion for user');
+            return new Result(ErrorCodes.Failed, 'No Promotion records');
         }
         const promotionIds = promotions.data.map((promotion) => promotion.promotionId);
         const notifications = await this.notificationService.getPromotionByIds(promotionIds);

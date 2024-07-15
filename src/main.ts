@@ -1,15 +1,16 @@
-import { initializer, initSpanProcessor, addIdentifiers } from 'sc-instrument';
 import * as dotenv from 'dotenv';
+import { addIdentifiers, initializer, initSpanProcessor } from 'sc-instrument';
 dotenv.config();
 
+import helmet from '@fastify/helmet';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import helmet from '@fastify/helmet';
 import { join } from 'path';
 
-import { AppModule } from './app.module';
 import { SentryLogger } from './_shared/common/providers/logger.service';
+import { UserServiceClient } from './_shared/services/user-service';
+import { AppModule } from './app.module';
 import { DomainService } from './domain/domain.service';
 
 async function bootstrap() {
@@ -46,6 +47,7 @@ async function bootstrap() {
     });
 
     await app.init();
+    UserServiceClient.init();
     const config = new DocumentBuilder()
         .addBearerAuth()
         .setTitle('Promotion Site')
