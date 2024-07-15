@@ -18,7 +18,8 @@ export class NotificationController {
     @ApiOperation({ operationId: 'existPromotionTournament' })
     @ApiOkResponse({ type: Result<boolean> })
     async existPromotionTournament(@Query('ss') sessionId: string): Promise<Result<boolean>> {
-        const userSession = await this.userSessionService.getUserSession(sessionId);
+        const ss = Buffer.from(sessionId, 'base64').toString();
+        const userSession = await this.userSessionService.getUserSession(ss);
         if (userSession) {
             const promotionsResult = await this.promotionConfigService.getByCurrencyGroupIdAndSiteName(
                 userSession.operatorId,
