@@ -17,4 +17,31 @@ export class LeaderBoardService {
         const execution = this.model.find({ promotionId }).lean().exec();
         return this.dataHandler.getData(execution);
     }
+
+    async getLatestDataSourceTimeStamp(promotionId: number): Promise<Date> {
+        const execution = this.model.findOne({ promotionId }).sort({ dataSourceTimeStamp: -1 }).lean().exec();
+        return (await this.dataHandler.getData(execution))?.data?.dataSourceTimeStamp;
+    }
+
+    async upsert(data: PromotionLeaderBoards) {
+        const filter = { promotionId: data.promotionId, operatorId: data.operatorId, playerId: data.playerId };
+        const existingItemIncrement: any = { point: data.point, pointInBaseCurrency: data.pointInBaseCurrency };
+        const newData = {
+            promotionId: data.promotionId,
+            operatorId: data.operatorId,
+            playerId: data.playerId,
+            siteName: data.siteName,
+            currencyGroupId: data.currencyGroupId,
+            currency: data.currency,
+            updatedTime: new Date(),
+            nickname: data.nickName,
+        };
+
+        return this.dataHandler.updateData(
+            this.model,
+            filter,
+            { $inc: existingItemIncrement as any, $setOnInsert: newData, $set: { dataSourceTimeStamp: data.dataSourceTimeStamp } },
+            { upsert: true, setDefaultsOnInsert: true },
+        );
+    }
 }

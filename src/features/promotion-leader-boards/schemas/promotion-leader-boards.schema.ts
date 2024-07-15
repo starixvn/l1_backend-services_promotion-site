@@ -42,10 +42,10 @@ export class PromotionLeaderBoards {
     @Prop({ required: true })
     point: number;
 
-    @IsString()
+    @IsNumber()
     @ApiProperty()
     @Prop({ required: true })
-    latestPromotionBetId: string;
+    pointInBaseCurrency: number;
 
     @IsString()
     @ApiProperty()
@@ -56,6 +56,11 @@ export class PromotionLeaderBoards {
     @ApiProperty()
     @Prop({ required: true })
     updatedTime: Date;
+
+    @IsDate()
+    @ApiProperty()
+    @Prop({ required: true })
+    dataSourceTimeStamp: Date;
 }
 
 export const PromotionLeaderBoardsSchema = SchemaFactory.createForClass(PromotionLeaderBoards);

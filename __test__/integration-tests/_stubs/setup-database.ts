@@ -104,6 +104,7 @@ const initTicketSilos = async (moduleFixture: TestingModule) => {
     const items = [
         createTicket('1', 1, 100, 200, 'VND'),
         createTicket('1', 2, 100, 50, 'VND'),
+        createTicket('1', 2, 100, 150, 'VND'),
         createTicket('2', 1, 100, 200, 'USD'),
         createTicket('3', 2, 100, 50, 'THB'),
     ];
@@ -126,15 +127,16 @@ const initLeaderBoard = async (moduleFixture: TestingModule) => {
     // Insert
     const item = new PromotionLeaderBoards();
     item.promotionId = 1;
-    item.operatorId = 'ONEworks1';
-    item.playerId = '9931920';
+    item.operatorId = 'ONEworksVGCash';
+    item.playerId = '1';
     item.siteName = 'lumi';
     item.currencyGroupId = '61765beed2b6510001f18bd6';
     item.nickName = 'Onion3417';
-    item.point = 100;
-    item.latestPromotionBetId = '668cb02429c4a627515ed81e';
+    item.point = 1;
     item.updatedTime = new Date();
     item.currency = 'VND';
+    item.dataSourceTimeStamp = new Date();
+    item.pointInBaseCurrency = 1000;
     await model.insertMany([item]);
 };
 
@@ -179,20 +181,52 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
     await model.deleteMany({});
 
     // Insert
-    const item = new PromotionBets();
-    item.promotionId = 1;
-    item.operatorId = 'ONEworks1';
-    item.playerId = 9931920;
-    item.siteName = 'lumi';
-    item.currencyGroupId = '61765beed2b6510001f18bd6';
-    item.gameId = 1;
-    item.roundId = 100;
-    item.totalAmount = 100;
-    item.totalWin = 200;
-    item.endGameLogId = '66821f6484a90b840624fd6b';
-    item.endGameLogTimeStamp = new Date();
-    item.updatedTime = new Date();
-    await model.insertMany([item]);
+    const createBet = (
+        operatorId,
+        playerId,
+        nickname,
+        siteName,
+        currencyGroupId,
+        totalAmount,
+        totalWin,
+        dataSourceId,
+        dataSourceTimeStamp,
+    ) => {
+        const item = new PromotionBets();
+        item.operatorId = operatorId;
+        item.playerId = playerId;
+        item.siteName = siteName;
+        item.currencyGroupId = currencyGroupId;
+        item.gameId = 1;
+        item.roundId = 100;
+        item.totalAmount = totalAmount;
+        item.totalWin = totalWin;
+        item.dataSourceId = dataSourceId;
+        item.dataSourceTimeStamp = dataSourceTimeStamp;
+        item.updatedTime = new Date();
+        item.currency = 'USD';
+        item.nickname = nickname;
+
+        return item;
+    };
+
+    const items = [
+        createBet(
+            'ONEworksVGCash',
+            1,
+            'p1',
+            'lumi1',
+            '61765beed2b6510001f18bd6',
+            100,
+            200,
+            '66821f6484a90b840624fd6b_1',
+            new Date(new Date().setDate(new Date().getDate() - 1)),
+        ),
+        createBet('ONEworksVGCash', 1, 'p1', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date()),
+        createBet('ONEworksVGCash', 2, 'p2', 'lumi1', '61765beed2b6510001f18bd6', 100, 50, '66821f6484a90b840624fd6b_1', new Date()),
+        createBet('ONEworksVGCash', 3, 'p3', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date()),
+    ];
+    await model.insertMany(items);
 };
 
 const createUserSession = (playerId, operatorId, currencyGroupId, siteName, ssoTime, random) => {

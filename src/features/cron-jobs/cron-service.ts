@@ -20,6 +20,7 @@ export class CronService {
     handleCron() {
         try {
             //this.promotionProcessor.proceed();
+            // log to sentry every run
         } catch (error) {
             //this.logger.error(error);
         }

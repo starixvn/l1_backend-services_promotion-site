@@ -6,6 +6,7 @@ import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { UserSession } from '../users/schemas';
 import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
+import { PROMOTION_STATUSES } from './schemas';
 
 @Injectable()
 export class PromotionConfigService {
@@ -28,7 +29,7 @@ export class PromotionConfigService {
 
     async markPromotionRunning(promotionId: number): Promise<Result<PromotionConfigs>> {
         const filter = { promotionId };
-        const updates = { status: 'running' };
+        const updates = { status: PROMOTION_STATUSES.running };
 
         return this.dataHandler.updateData(this.model, filter, updates);
     }

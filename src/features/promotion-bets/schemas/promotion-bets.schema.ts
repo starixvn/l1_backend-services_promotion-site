@@ -7,20 +7,15 @@ export type PromotionBetsDocument = PromotionBets & mongoose.Document;
 
 @Schema()
 export class PromotionBets {
-    @IsNumber()
-    @ApiProperty()
-    @Prop({ required: true })
-    promotionId: number;
-
     @IsString()
     @ApiProperty()
     @Prop({ required: true })
     operatorId: string;
 
-    @IsNumber()
+    @IsString()
     @ApiProperty()
     @Prop({ required: true })
-    playerId: number;
+    playerId: string;
 
     @IsString()
     @ApiProperty()
@@ -55,17 +50,27 @@ export class PromotionBets {
     @IsString()
     @ApiProperty()
     @Prop({ required: true })
-    endGameLogId: string;
+    dataSourceId: string;
 
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
-    endGameLogTimeStamp: Date;
+    dataSourceTimeStamp: Date;
 
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
     updatedTime: Date;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    currency: string;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    nickname: string;
 }
 
 export const PromotionBetsSchema = SchemaFactory.createForClass(PromotionBets);

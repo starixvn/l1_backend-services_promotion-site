@@ -17,4 +17,15 @@ export class PromotionBetService {
         const execution = this.model.find({}).lean().exec();
         return this.dataHandler.getData(execution);
     }
+
+    async getBets(startTime: Date, endTime: Date, latestDataSourceTimeStamp: Date): Promise<Result<PromotionBets[]>> {
+        const startDateTime = latestDataSourceTimeStamp && latestDataSourceTimeStamp > startTime ? latestDataSourceTimeStamp : startTime;
+        const execution = this.model
+            .find({
+                dataSourceTimeStamp: { $gte: startDateTime, $lte: endTime },
+            })
+            .lean()
+            .exec();
+        return this.dataHandler.getData(execution);
+    }
 }
