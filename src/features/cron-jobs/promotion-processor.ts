@@ -3,7 +3,6 @@ import { PromotionBetService } from '../promotion-bets/promotion-bet.service';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
 import { LeaderBoardService } from '../promotion-leader-boards/leader-board.service';
 import { PromotionRunService } from '../promotion-runs/promotion-run.service';
-import { TicketSiloService } from '../ticket-silos/ticket-silo.service';
 import { PromotionRuns } from '../promotion-runs/schemas';
 import { CurrencyGroup, PROMOTION_STATUSES, PromotionConfigs } from '../promotion-configs/schemas';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
@@ -12,15 +11,12 @@ import { GameConfigService } from '../game-configs/game-config.service';
 import { GameConfigs, SLOT_GAME_TYPES } from '../game-configs/schemas';
 import { PromotionBets } from '../promotion-bets/schemas';
 import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
-import { UserClientService } from '../users/services/user-client.service';
 import { SentryLogger } from '../../_shared/common/providers';
 
 export class PromotionProcessor {
     constructor(
         @Inject(SentryLogger) private readonly logger: SentryLogger,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
-        @Inject(TicketSiloService) private readonly ticketSiloService: TicketSiloService,
-        @Inject(UserClientService) private readonly userSessionService: UserClientService,
         @Inject(LeaderBoardService) private readonly leaderBoardService: LeaderBoardService,
         @Inject(PromotionRunService) private readonly promotionRunService: PromotionRunService,
         @Inject(PromotionBetService) private readonly promotionBetService: PromotionBetService,
@@ -71,8 +67,7 @@ export class PromotionProcessor {
 
     async getSealedPromotionConfig(sourcePromotionConfigs: PromotionConfigs) {
         const promotionRunResult = await this.promotionRunService.getByPromotionId(sourcePromotionConfigs.promotionId);
-        const promotionConfig = JSON.parse(promotionRunResult.data.promotionConfigs) as PromotionConfigs;
-        return promotionConfig;
+        return JSON.parse(promotionRunResult.data.promotionConfigs) as PromotionConfigs;
     }
 
     async processRunningPromotions() {
@@ -88,32 +83,19 @@ export class PromotionProcessor {
                 latestDataSourceTimeStamp,
             );
 
-            const leaderBoards = [];
             for (const operator of promotionConfig.operators) {
                 for (const currencyGroup of operator.currencyGroups) {
                     if (currencyGroup.enabled) {
                         for (const ticket of ticketResult.data) {
-                            this.processTicket(
-                                leaderBoards,
-                                promotion.promotionId,
-                                gameConfigs.data,
-                                currencyGroup,
-                                ticket,
-                                exchangeRate.data,
-                            );
+                            await this.processTicket(promotion.promotionId, gameConfigs.data, currencyGroup, ticket, exchangeRate.data);
                         }
                     }
                 }
             }
-
-            for (const leaderBoard of leaderBoards) {
-                await this.leaderBoardService.upsert(leaderBoard);
-            }
         }
     }
 
-    processTicket(
-        leaderBoards: PromotionLeaderBoards[],
+    async processTicket(
         promotionId: number,
         gameConfigs: GameConfigs[],
         currencyGroup: CurrencyGroup,
@@ -136,7 +118,7 @@ export class PromotionProcessor {
             leaderBoard.pointInBaseCurrency = leaderBoard.point * exchangeRate.code[ticket.currency] * ticket.multiplier;
             leaderBoard.dataSourceTimeStamp = ticket.dataSourceTimeStamp;
 
-            leaderBoards.push(leaderBoard);
+            await this.leaderBoardService.upsert(leaderBoard);
         }
     }
 
