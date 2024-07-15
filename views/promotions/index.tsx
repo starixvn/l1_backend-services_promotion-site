@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../../public/static/css/style.scss';
-import { useTranslate } from '@tolgee/react';
+import { usePromotionCampaignTranslate } from '../hooks/use-translator';
 
 const Promotions = ({ handleMoreInfo }) => {
   const [promotions, setPromotions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { t } = useTranslate();
+  const { t } = usePromotionCampaignTranslate();
 
   useEffect(() => {
     fetch('promotion-config')

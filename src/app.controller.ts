@@ -11,7 +11,7 @@ export class AppController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) {}
+    ) { }
 
     @Get()
     @Render('index')
@@ -58,6 +58,7 @@ export class AppController {
                     apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
                     projectId: "5",
                 }
+        }
 
         return { jsonObject: JSON.stringify(jsonObject) };
     }
