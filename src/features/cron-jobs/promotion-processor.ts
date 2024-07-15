@@ -117,6 +117,7 @@ export class PromotionProcessor {
             leaderBoard.point = (ticket.totalWin - ticket.totalAmount) / 100;
             leaderBoard.pointInBaseCurrency = leaderBoard.point * exchangeRate.code[ticket.currency] * ticket.multiplier;
             leaderBoard.dataSourceTimeStamp = ticket.dataSourceTimeStamp;
+            leaderBoard.nickName = ticket.nickname;
 
             await this.leaderBoardService.upsert(leaderBoard);
         }

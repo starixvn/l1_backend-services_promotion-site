@@ -34,7 +34,7 @@ export class LeaderBoardService {
             currencyGroupId: data.currencyGroupId,
             currency: data.currency,
             updatedTime: new Date(),
-            nickname: data.nickName,
+            nickName: data.nickName,
         };
 
         return this.dataHandler.updateData(

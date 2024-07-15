@@ -61,6 +61,16 @@ export class PromotionLeaderBoards {
     @ApiProperty()
     @Prop({ required: true })
     dataSourceTimeStamp: Date;
+
+    @IsBoolean()
+    @ApiProperty()
+    @Prop({ required: false })
+    isAwarded: boolean;
+
+    @IsDate()
+    @ApiProperty()
+    @Prop({ required: false })
+    awardedTime: Date;
 }
 
 export const PromotionLeaderBoardsSchema = SchemaFactory.createForClass(PromotionLeaderBoards);
