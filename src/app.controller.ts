@@ -27,31 +27,9 @@ export class AppController {
         if (!isAuthenticated) {
             return new Result(ErrorCodes.Failed, 'Session invalid');
         }
-        //TODO: Temp set for dev purpose
-        session.currencyGroupId = '61b953ad815d6c000196a14c';
-        const promotions = await this.service.getBySession(session);
-        if (promotions.data.length == 0) {
-            return new Result(ErrorCodes.Failed, 'No Promotion records');
-        }
-        const promotionIds = promotions.data.map((promotion) => promotion.promotionId);
-        const notifications = await this.notificationService.getPromotionByIds(promotionIds);
-        const result: PromotionViewModel[] = [];
-        promotions.data.forEach((promotion) => {
-            notifications.data.forEach((notification) => {
-                if (promotion.promotionId == notification.promotionId) {
-                    const promotionVM: PromotionViewModel = {
-                        ...promotion,
-                        title: notification.title,
-                        content: notification.messages,
-                    };
-                    result.push(promotionVM);
-                }
-            });
-        });
 
         const jsonObject = {
             message: 'Hello from Promotion Site!',
-            subPath: process.env.SUB_PATH,
             tolgeeInContextTools: process.env.USE_TOLGEE_STATIC === 'true' ?
                 {} : {
                     apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
