@@ -8,18 +8,19 @@ import { CommonModule } from './_shared/common/common.module';
 import configuration from './_shared/config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DomainModule } from './domain/domain.module';
 import { CronService } from './features/cron-jobs/cron-service';
+import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
+import { ExchangeRateModule } from './features/exchange-rates/exchange-rate.module';
+import { GameConfigModule } from './features/game-configs/game-config.module';
 import { NotificationModule } from './features/notifications/notification.module';
 import { PromotionBetModule } from './features/promotion-bets/promotion-bet.module';
 import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
 import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
 import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
-import { UserSessionModule } from './features/users/user-session.module';
 import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
-import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
-import { DomainModule } from './domain/domain.module';
-import { ExchangeRateModule } from './features/exchange-rates/exchange-rate.module';
-import { GameConfigModule } from './features/game-configs/game-config.module';
+import { UserSessionModule } from './features/users/user-session.module';
+import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middleware';
 
 @Module({
     imports: [
@@ -55,5 +56,6 @@ import { GameConfigModule } from './features/game-configs/game-config.module';
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         //consumer.apply(AuthenticateMiddleware).exclude('/', 'api(.*)').forRoutes('*');
+        consumer.apply(DecodeSessionIdMiddleware).forRoutes('*');
     }
 }
