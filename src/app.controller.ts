@@ -1,15 +1,16 @@
 import { Controller, Get, Inject, NotFoundException, Query, Render } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
-import { UserServiceClient } from './_shared/services/user-service';
 import { NotificationService } from './features/notifications/notification.service';
 import { PromotionViewModel } from './features/promotion-configs/models/promotion-configs-response';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
+import { UserClientService } from './features/users/services/user-client.service';
 
 @Controller()
 export class AppController {
     constructor(
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
+        @Inject(UserClientService) private readonly userClientService: UserClientService,
     ) {}
 
     @Get()
@@ -22,7 +23,7 @@ export class AppController {
         if (!sessionId || !username || !username) {
             return new NotFoundException('');
         }
-        const { isAuthenticated, session } = await UserServiceClient.getSession(sessionId, username, browserUserAgent);
+        const { isAuthenticated, session } = await this.userClientService.getSession({ sessionId, username, browserUserAgent });
         if (!isAuthenticated) {
             return new Result(ErrorCodes.Failed, 'Session invalid');
         }

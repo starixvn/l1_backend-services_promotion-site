@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationService } from '../notifications/notification.service';
 import { Notifications, NotificationsSchema } from '../notifications/schemas';
+import { UserClientService } from '../users/services/user-client.service';
 import { PromotionConfigController } from './promotion-config.controller';
 import { PromotionConfigService } from './promotion-config.service';
 import { PromotionConfigs, PromotionConfigsSchema } from './schemas';
@@ -11,7 +12,7 @@ import { PromotionConfigs, PromotionConfigsSchema } from './schemas';
         MongooseModule.forFeature([{ name: PromotionConfigs.name, schema: PromotionConfigsSchema, collection: 'promotion_configs' }]),
         MongooseModule.forFeature([{ name: Notifications.name, schema: NotificationsSchema, collection: 'notifications' }]),
     ],
-    providers: [PromotionConfigService, NotificationService],
+    providers: [PromotionConfigService, NotificationService, UserClientService],
     exports: [PromotionConfigService],
     controllers: [PromotionConfigController],
 })

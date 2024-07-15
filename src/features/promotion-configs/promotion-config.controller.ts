@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserServiceClient } from 'src/_shared/services/user-service';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { NotificationService } from '../notifications/notification.service';
 import { VerifySessionRequest } from '../users/models';
+import { UserClientService } from '../users/services/user-client.service';
 import { PromotionConfigsResponse, PromotionViewModel } from './models/promotion-configs-response';
 import { PromotionConfigService } from './promotion-config.service';
 import { PromotionConfigs } from './schemas';
@@ -14,6 +14,7 @@ export class PromotionConfigController {
     constructor(
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
+        @Inject(UserClientService) private readonly userSessionService: UserClientService,
     ) {}
 
     @Get('/')
@@ -27,11 +28,7 @@ export class PromotionConfigController {
     @ApiOperation({ operationId: 'getByUserSession' })
     @ApiOkResponse({ type: PromotionConfigsResponse })
     async getByUserSession(@Body() userSession: VerifySessionRequest): Promise<Result<PromotionViewModel[]>> {
-        const { isAuthenticated, session } = await UserServiceClient.getSession(
-            userSession.sessionId,
-            userSession.username,
-            userSession.browserUserAgent,
-        );
+        const { isAuthenticated, session } = await this.userSessionService.getSession(userSession);
 
         if (!isAuthenticated) {
             return new Result(ErrorCodes.Failed, 'Session invalid');

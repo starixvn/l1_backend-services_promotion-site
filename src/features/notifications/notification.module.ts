@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PromotionConfigModule } from '../promotion-configs/promotion-config.module';
+import { UserClientServiceModule } from '../users/user-service.module';
 import { NotificationController } from './notification.controller';
 import { NotificationService } from './notification.service';
 import { Notifications, NotificationsSchema } from './schemas';
-import { UserSessionsService } from '../users/services/user-session.service';
-import { PromotionConfigModule } from '../promotion-configs/promotion-config.module';
-import { UserModule } from '../users/user.module';
 
 @Module({
     imports: [
         PromotionConfigModule,
-        UserModule,
+        UserClientServiceModule,
         MongooseModule.forFeature([{ name: Notifications.name, schema: NotificationsSchema, collection: 'notifications' }]),
     ],
     providers: [NotificationService],

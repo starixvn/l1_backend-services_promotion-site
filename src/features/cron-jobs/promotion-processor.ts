@@ -1,26 +1,25 @@
 import { Inject } from '@nestjs/common';
-import { PromotionBetService } from '../promotion-bets/promotion-bet.service';
-import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
-import { LeaderBoardService } from '../promotion-leader-boards/leader-board.service';
-import { PromotionRunService } from '../promotion-runs/promotion-run.service';
-import { TicketSiloService } from '../ticket-silos/ticket-silo.service';
-import { UserSessionsService } from '../users/services/user-session.service';
-import { PromotionRuns } from '../promotion-runs/schemas';
-import { CurrencyGroup, Operator, PROMOTION_STATUSES, PromotionConfigs } from '../promotion-configs/schemas';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { ExchangeRates } from '../exchange-rates/schemas';
-import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
 import { GameConfigService } from '../game-configs/game-config.service';
-import { GameConfigs } from '../game-configs/schemas';
-import { SLOT_GAME_TYPES } from '../game-configs/schemas';
+import { GameConfigs, SLOT_GAME_TYPES } from '../game-configs/schemas';
+import { PromotionBetService } from '../promotion-bets/promotion-bet.service';
 import { PromotionBets } from '../promotion-bets/schemas';
+import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
+import { CurrencyGroup, Operator, PROMOTION_STATUSES, PromotionConfigs } from '../promotion-configs/schemas';
+import { LeaderBoardService } from '../promotion-leader-boards/leader-board.service';
+import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
+import { PromotionRunService } from '../promotion-runs/promotion-run.service';
+import { PromotionRuns } from '../promotion-runs/schemas';
+import { TicketSiloService } from '../ticket-silos/ticket-silo.service';
+import { UserClientService } from '../users/services/user-client.service';
 
 export class PromotionProcessor {
     constructor(
         //private readonly logger: SentryLogger,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(TicketSiloService) private readonly ticketSiloService: TicketSiloService,
-        @Inject(UserSessionsService) private readonly userSessionService: UserSessionsService,
+        @Inject(UserClientService) private readonly userSessionService: UserClientService,
         @Inject(LeaderBoardService) private readonly leaderBoardService: LeaderBoardService,
         @Inject(PromotionRunService) private readonly promotionRunService: PromotionRunService,
         @Inject(PromotionBetService) private readonly promotionBetService: PromotionBetService,

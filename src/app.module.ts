@@ -19,7 +19,7 @@ import { PromotionConfigModule } from './features/promotion-configs/promotion-co
 import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
 import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
 import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
-import { UserSessionModule } from './features/users/user-session.module';
+import { UserClientServiceModule } from './features/users/user-service.module';
 import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middleware';
 
 @Module({
@@ -42,7 +42,7 @@ import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middl
         PromotionBetModule,
         PromotionRunModule,
         NotificationModule,
-        UserSessionModule,
+        UserClientServiceModule,
         TicketSiloModule,
         DomainModule,
         ExchangeRateModule,

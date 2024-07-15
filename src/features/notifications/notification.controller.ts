@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
-import { UserSessionsService } from '../users/services/user-session.service';
+import { UserClientService } from '../users/services/user-client.service';
 import { NotificationService } from './notification.service';
 
 @ApiTags('notification')
@@ -11,17 +11,21 @@ export class NotificationController {
     constructor(
         private readonly notificationService: NotificationService,
         private readonly promotionConfigService: PromotionConfigService,
-        private readonly userSessionService: UserSessionsService,
+        private readonly userClientService: UserClientService,
     ) {}
 
     @Get('/exist-promotion-tournament')
     @ApiOperation({ operationId: 'existPromotionTournament' })
     @ApiOkResponse({ type: Result<boolean> })
-    async existPromotionTournament(@Query('ss') sessionId: string): Promise<Result<boolean>> {
-        const ss = Buffer.from(sessionId, 'base64').toString();
-        const userSession = await this.userSessionService.getUserSession(ss);
-        if (userSession) {
-            const promotionsResult = await this.promotionConfigService.getBySession(userSession);
+    async existPromotionTournament(
+        @Query('sessionId') sessionId: string,
+        @Query('username') username: string,
+        @Query('browserUserAgent') browserUserAgent: string,
+    ): Promise<Result<boolean>> {
+        const { isAuthenticated, session } = await this.userClientService.getSession({ sessionId, username, browserUserAgent });
+
+        if (isAuthenticated || !session.disableAward) {
+            const promotionsResult = await this.promotionConfigService.getBySession(session);
             return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion.promotionId));
         }
         return new Result(ErrorCodes.Success, '', false);
