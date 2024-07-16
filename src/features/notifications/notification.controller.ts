@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Headers } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
@@ -20,11 +20,11 @@ export class NotificationController {
     async existPromotionTournament(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Query('browserUserAgent') browserUserAgent: string,
+        @Headers('user-agent') browserUserAgent: string,
     ): Promise<Result<boolean>> {
         const { isAuthenticated, session } = await this.userClientService.getSession({ sessionId, username, browserUserAgent });
 
-        if (isAuthenticated || !session.disableAward) {
+        if (isAuthenticated && !session.disableAward) {
             const promotionsResult = await this.promotionConfigService.getBySession(session);
             return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion.promotionId));
         }

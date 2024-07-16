@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, NotFoundException, Query, Render } from '@nestjs/common';
+import { Controller, Get, Inject, NotFoundException, Query, Render, Headers } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
 import { NotificationService } from './features/notifications/notification.service';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
@@ -10,14 +10,14 @@ export class AppController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) { }
+    ) {}
 
     @Get()
     @Render('index')
     async root(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Query('browserUserAgent') browserUserAgent: string,
+        @Headers('user-agent') browserUserAgent: string,
     ) {
         const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
 
@@ -33,13 +33,15 @@ export class AppController {
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             message: 'Hello from Promotion Site!',
-            tolgeeInContextTools: process.env.USE_TOLGEE_STATIC === 'true' ?
-                {} : {
-                    apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
-                    apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
-                    projectId: "5",
-                }
-        }
+            tolgeeInContextTools:
+                process.env.USE_TOLGEE_STATIC === 'true'
+                    ? {}
+                    : {
+                          apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
+                          apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
+                          projectId: '5',
+                      },
+        };
 
         return { jsonObject: JSON.stringify(jsonObject) };
     }
