@@ -7,6 +7,7 @@ import { UserClientService } from '../users/services/user-client.service';
 import { PromotionConfigsResponse, PromotionViewModel } from './models/promotion-configs-response';
 import { PromotionConfigService } from './promotion-config.service';
 import { PromotionConfigs } from './schemas';
+import { fakePromotions, PromotionViewModelFake } from './models/promotion-configs-response-fake';
 
 @ApiTags('promotion-config')
 @Controller('promotion-config')
@@ -15,7 +16,7 @@ export class PromotionConfigController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserClientService) private readonly userSessionService: UserClientService,
-    ) {}
+    ) { }
 
     @Get('/')
     @ApiOperation({ operationId: 'getAll' })
@@ -27,7 +28,8 @@ export class PromotionConfigController {
     @Post('/getByUserSession')
     @ApiOperation({ operationId: 'getByUserSession' })
     @ApiOkResponse({ type: PromotionConfigsResponse })
-    async getByUserSession(@Body() userSession: VerifySessionRequest): Promise<Result<PromotionViewModel[]>> {
+    async getByUserSession(@Body() userSession: VerifySessionRequest): Promise<Result<PromotionViewModelFake[]>> {
+        return new Result(0, '', fakePromotions);
         const { isAuthenticated, session } = await this.userSessionService.getSession(userSession);
 
         if (!isAuthenticated) {
@@ -37,6 +39,7 @@ export class PromotionConfigController {
         if (session.disableAward) {
             return new Result(ErrorCodes.Failed, 'User is disable award');
         }
+
         const promotions = await this.service.getBySession(session);
         if (promotions.data.length == 0) {
             return new Result(ErrorCodes.Failed, 'No Promotion records');
@@ -56,6 +59,7 @@ export class PromotionConfigController {
                 }
             });
         });
-        return new Result(0, '', result);
+
+        return new Result(0, '', fakePromotions);
     }
 }

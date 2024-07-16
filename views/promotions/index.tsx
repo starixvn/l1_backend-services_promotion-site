@@ -4,9 +4,23 @@ import { useTranslator } from '../hooks/use-translator';
 import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { PromotionViewModel } from 'src/features/promotion-configs/models/promotion-configs-response';
 import { LanguageLocaleMapper } from '../constants/index';
+import { PromotionViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
+
+const PromotionContent = ({ promotion }) => {
+  const { t } = useTranslator();
+
+  if (promotion.status === 'completed') {
+    return <p className="text-red">{t('completed')}</p>;
+  }
+
+  const template = "dd/MM/yyyy";
+  const startdate = formatDate(convertToGMT8(new Date(promotion.startDateTime)), template);
+  const enddate = formatDate(convertToGMT8(new Date(promotion.endDateTime)), template);
+  return <p>{t("take_place_from", { startdate, enddate }).replaceTolgeeFormat()} </p>;
+}
 
 const Promotions = ({ handleMoreInfo }) => {
-  const [promotions, setPromotions] = useState<PromotionViewModel[]>(null);
+  const [promotions, setPromotions] = useState<PromotionViewModelFake[]>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { t } = useTranslator();
@@ -19,8 +33,7 @@ const Promotions = ({ handleMoreInfo }) => {
       },
       body: JSON.stringify({
         sessionId: '4HXGdnCqjTtg6CDdmMad4huZypcozhKC_ONEworksVGCash_6275877',
-        username: 'ONEworksVGCash_6275877',
-        browserUserAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
+        username: 'ONEworksVGCash_6275877'
       }),
     })
       .then((response) => {
@@ -42,17 +55,6 @@ const Promotions = ({ handleMoreInfo }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const buildPromotionContent = (promotion) => {
-    if (promotion.status === 'completed') {
-      return <p className="text-red">{t('completed')}</p>;
-    }
-
-    const template = "dd/MM/yyyy";
-    const startdate = formatDate(convertToGMT8(new Date(promotion.startDateTime)), template);
-    const enddate = formatDate(convertToGMT8(new Date(promotion.endDateTime)), template);
-    return <p>{t("take_place_from", { startdate, enddate }).replaceTolgeeFormat()} </p>;
-  }
-
   const language = LanguageLocaleMapper[window.AppInitialState?.lang];
 
   return (
@@ -65,9 +67,9 @@ const Promotions = ({ handleMoreInfo }) => {
               <li key={index} className="promotion-item">
                 <img src={`static/images/promotion-${promotion.promotionId}.png`} alt="promotion 1" width={150} />
                 <div className="promotion-description">
-                  <h3>{promotion?.title[language]}</h3>
-                  <p>{promotion?.content[language]}</p>
-                  {buildPromotionContent(promotion)}
+                  <h3>{promotion.title}</h3>
+                  <p>{promotion.content}</p>
+                  <PromotionContent promotion={promotion} />
                   <button className="btn btn-primary" onClick={handleMoreInfo}>{t('more_info')}</button>
                 </div>
               </li>
