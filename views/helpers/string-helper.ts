@@ -4,7 +4,7 @@ interface String {
 }
 
 String.prototype.replaceTolgeeFormat = function () {
-    return this.replaceAll("%", "").replaceAll("(%", "(").replaceAll("#%", "#");
+    return this.replaceAll("%", "");
 };
 
 String.prototype.capitalizeFirstLetter = function () {

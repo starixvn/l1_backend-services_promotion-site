@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PromotionViewModel } from 'src/features/promotion-configs/models/promotion-configs-response';
 import '../../public/static/css/style.scss';
-import { LanguageLocaleMapper } from '../constants/index';
 import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { useTranslator } from '../hooks/use-translator';
 
@@ -53,8 +52,6 @@ const Promotions = ({ handleMoreInfo }) => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-  const language = LanguageLocaleMapper[window.AppInitialState?.lang];
 
   return (
     <div>

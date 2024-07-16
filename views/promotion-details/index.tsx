@@ -1,23 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslator } from '../hooks/use-translator';
 import '../helpers/string-helper';
 import '../../public/static/css/style.scss';
+import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
+import { convertToGMT8, formatDate } from '../helpers/time-helper';
+import { useTranslate } from "@tolgee/react";
 
+const TermsAndConditionLine = ({ index }) => {
+  const { t } = useTranslate();
+  const key = `terms_conditions_para_${index}`;
+
+  if (index !== 6) {
+    return <li>{t(key, { counttotalprize: 404 }).replaceTolgeeFormat()}</li>
+  }
+  <li>{t(key)}</li>
+
+}
 const PromotionDetail = ({ handleLeaderBoard }) => {
-  const { t } = useTranslator();
+  const [promotionDetail, setPromotionDetail] = useState<PromotionDetailViewModelFake>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { t } = useTranslate();
 
+  useEffect(() => {
+    fetch('promotion-config/getPromotionDetails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(promotionDetail => {
+        setPromotionDetail(promotionDetail.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+
+  const template = "dd/MM/yyyy";
+  const startdate = formatDate(convertToGMT8(new Date(promotionDetail.startDateTime)), template);
+  const enddate = formatDate(convertToGMT8(new Date(promotionDetail.endDateTime)), template);
   return (
     <div>
       <div className="tournament-container">
-        <h2 className="text-center">Weekly Tournament</h2>
-        <p className="text-center">{t("promotion_header", { prizevalue1: 404 }).replaceTolgeeFormat()}</p>
+        <h2 className="text-center">{promotionDetail.title}</h2>
+        <p className="text-center">{t("promotion_header", { prizevalue1: promotionDetail.totalPrize }).replaceTolgeeFormat()}</p>
 
         <div className="info-container promotion">
           <h3 className="title">{t('title_promotion_info')}</h3>
           <div className="info-list">
             <div className="info-item">
               <h3>{t('duration')}</h3>
-              <p>{t("take_place_from", { startdate: 404, enddate: 404 }).replaceTolgeeFormat()}</p>
+              <p>{t("take_place_from", { startdate, enddate }).replaceTolgeeFormat()}</p>
             </div>
             <div className="info-item">
               <h3>{t('eligible_games')}</h3>
@@ -35,7 +82,7 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
           <div className="info-list">
             <div className="info-item">
               <h3>{t('step1')}</h3>
-              <p>{t("step1_para_1", { minstakeforslotgame: 404, minstakeforothers: 404 }).replaceTolgeeFormat()}</p>
+              <p>{t("step1_para_1", { minstakeforslotgame: promotionDetail.slotGameMinBet, minstakeforothers: promotionDetail.otherGameMinBet }).replaceTolgeeFormat()}</p>
             </div>
             <div className="info-item">
               <h3>{t('step2')}</h3>
@@ -43,7 +90,7 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
             </div>
             <div className="info-item">
               <h3>{t('step3')}</h3>
-              <p>{t("step3_para_1", { counttotalprize: 404 }).replaceTolgeeFormat()}</p>
+              <p>{t("step3_para_1", { counttotalprize: promotionDetail.countTotalPrize }).replaceTolgeeFormat()}</p>
             </div>
           </div>
         </div>
@@ -78,17 +125,9 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
         <div className="terms-conditions">
           <h3 className="title">{t('title_terms_conditions')}</h3>
           <ul>
-            <li>{t('terms_conditions_para_1')}</li>
-            <li>{t('terms_conditions_para_2')}</li>
-            <li>{t('terms_conditions_para_3')}</li>
-            <li>{t('terms_conditions_para_4')}</li>
-            <li>{t('terms_conditions_para_5')}</li>
-            <li>{t("terms_conditions_para_6", { counttotalprize: 404 }).replaceTolgeeFormat()}</li>
-            <li>{t('terms_conditions_para_7')}</li>
-            <li>{t('terms_conditions_para_8')}</li>
-            <li>{t('terms_conditions_para_9')}</li>
-            <li>{t('terms_conditions_para_10')}</li>
-            <li>{t('terms_conditions_para_11')}</li>
+            {
+              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => <li key={item}><TermsAndConditionLine index={item} /></li>)
+            }
           </ul>
         </div>
       </div>
