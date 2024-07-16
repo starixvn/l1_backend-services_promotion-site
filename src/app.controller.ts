@@ -19,15 +19,19 @@ export class AppController {
         @Query('username') username: string,
         @Query('browserUserAgent') browserUserAgent: string,
     ) {
+        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
+
         if (!sessionId || !username || !username) {
-            return new NotFoundException('');
+            return unauthorizedResult;
         }
+
         const { isAuthenticated, session } = await this.userClientService.getSession({ sessionId, username, browserUserAgent });
         if (!isAuthenticated && !session.disableAward) {
-            return new Result(ErrorCodes.Failed, 'Session invalid');
+            return unauthorizedResult;
         }
 
         const jsonObject = {
+            results: new Result(ErrorCodes.Success, ''),
             message: 'Hello from Promotion Site!',
             tolgeeInContextTools: process.env.USE_TOLGEE_STATIC === 'true' ?
                 {} : {

@@ -6,69 +6,76 @@ import { InContextTools } from "@tolgee/web/tools";
 import Promotions from './promotions/index';
 import PromotionDetail from './promotion-details/index';
 import LeaderBoard from "./leader-board/index";
+import Unauthorized from "./unauthorized";
 
-const tolgee = Tolgee()
-  .use(FormatIcu())
-  .use(BackendFetch())
-  .init({
-    availableLanguages: ["en", "vi", "th", "id", "zh-cn", "zh-tw"],
-    fallbackLanguage: "en",
-    defaultLanguage: "en",
-    ns: ["PromotionCampaign", "Common"],
-    defaultNs: "PromotionCampaign",
-    projectId: "5",
-  });
+const root = ReactDOM.createRoot(document.getElementById('root'));
+let initialComponent = <Unauthorized />;
 
-tolgee.addPlugin(
-  InContextTools({
-    credentials: window.AppInitialState?.tolgeeInContextTools
-  })
-);
+if (window.AppInitialState?.results.isSuccessful) {
+  const tolgee = Tolgee()
+    .use(FormatIcu())
+    .use(BackendFetch())
+    .init({
+      availableLanguages: ["en", "vi", "th", "id", "zh-cn", "zh-tw"],
+      fallbackLanguage: "en",
+      defaultLanguage: "en",
+      ns: ["PromotionCampaign", "Common"],
+      defaultNs: "PromotionCampaign",
+      projectId: "5",
+    });
 
-const App = () => {
-  const [appState, setAppState] = React.useState({
-    isShowPromotions: true,
-    isShowPromotionDetail: false,
-    isShowLeaderBoard: false,
-  })
-
-  const handleBackToHome = () => {
-    setAppState({
+  tolgee.addPlugin(
+    InContextTools({
+      credentials: window.AppInitialState?.tolgeeInContextTools
+    })
+  );
+  const App = () => {
+    const [appState, setAppState] = React.useState({
       isShowPromotions: true,
       isShowPromotionDetail: false,
       isShowLeaderBoard: false,
-    });
-  }
+    })
 
-  const handleMoreInfo = () => {
-    setAppState({
-      isShowPromotions: false,
-      isShowPromotionDetail: true,
-      isShowLeaderBoard: false,
-    });
-  }
+    const handleBackToHome = () => {
+      setAppState({
+        isShowPromotions: true,
+        isShowPromotionDetail: false,
+        isShowLeaderBoard: false,
+      });
+    }
 
-  const handleLeaderBoard = () => {
-    setAppState({
-      isShowPromotions: false,
-      isShowPromotionDetail: false,
-      isShowLeaderBoard: true,
-    });
-  }
+    const handleMoreInfo = () => {
+      setAppState({
+        isShowPromotions: false,
+        isShowPromotionDetail: true,
+        isShowLeaderBoard: false,
+      });
+    }
 
-  if (appState.isShowPromotionDetail) {
-    return <PromotionDetail handleLeaderBoard={handleLeaderBoard} />;
-  }
+    const handleLeaderBoard = () => {
+      setAppState({
+        isShowPromotions: false,
+        isShowPromotionDetail: false,
+        isShowLeaderBoard: true,
+      });
+    }
 
-  if (appState.isShowLeaderBoard) {
-    return <LeaderBoard handleBackToHome={handleBackToHome} />;
-  }
+    if (appState.isShowPromotionDetail) {
+      return <PromotionDetail handleLeaderBoard={handleLeaderBoard} />;
+    }
 
-  return <Promotions handleMoreInfo={handleMoreInfo} />;
-};
+    if (appState.isShowLeaderBoard) {
+      return <LeaderBoard handleBackToHome={handleBackToHome} />;
+    }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<TolgeeProvider
-  tolgee={tolgee}
-  fallback="Loading..." // loading fallback
-><App /></TolgeeProvider >);
+    return <Promotions handleMoreInfo={handleMoreInfo} />;
+  };
+
+  initialComponent = <TolgeeProvider
+    tolgee={tolgee}
+    fallback="Loading..." // loading fallback
+  ><App /></TolgeeProvider >
+}
+
+
+root.render(initialComponent);
