@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { LeanDocument, Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
@@ -34,14 +34,13 @@ export class PromotionConfigService {
         return this.dataHandler.updateData(this.model, filter, updates);
     }
 
-    async getBySession(session: UserSession): Promise<Result<PromotionConfigs[]>> {
+    async getBySession(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {
         const filter = {
             'operators.currencyGroups.currencyGroupId': session.currencyGroupId,
             'operators.currencyGroups.enabled': true,
         };
-        const projection = '-_id';
         const execution = this.model
-            .find(filter, projection)
+            .find(filter)
             .sort([['startDateTime', -1]])
             .lean()
             .exec();

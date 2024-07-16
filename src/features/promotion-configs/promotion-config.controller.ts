@@ -41,12 +41,12 @@ export class PromotionConfigController {
         if (promotions.data.length == 0) {
             return new Result(ErrorCodes.Failed, 'No Promotion records');
         }
-        const promotionIds = promotions.data.map((promotion) => promotion.promotionId);
+        const promotionIds = promotions.data.map((promotion) => promotion._id?.toString());
         const notifications = await this.notificationService.getPromotionByIds(promotionIds);
         const result: PromotionViewModel[] = [];
         promotions.data.forEach((promotion) => {
             notifications.data.forEach((notification) => {
-                if (promotion.promotionId == notification.promotionId) {
+                if (promotion._id?.toString() == notification.promotionId) {
                     const promotionVM: PromotionViewModel = {
                         ...promotion,
                         title: notification.title,

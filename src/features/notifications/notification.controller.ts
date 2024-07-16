@@ -26,7 +26,7 @@ export class NotificationController {
 
         if (isAuthenticated && !session.disableAward) {
             const promotionsResult = await this.promotionConfigService.getBySession(session);
-            return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion.promotionId));
+            return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
         }
         return new Result(ErrorCodes.Success, '', false);
     }

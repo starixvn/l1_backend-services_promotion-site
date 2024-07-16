@@ -285,7 +285,7 @@ const initNotification = async (moduleFixture: TestingModule) => {
     item.title = new Messages();
     item.title['en-US'] = 'Promotion Title';
     item.time = new Date();
-    item.promotionId = 1;
+    item.promotionId = '1';
 
     await model.insertMany([item]);
 };

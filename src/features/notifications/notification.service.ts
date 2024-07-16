@@ -13,7 +13,7 @@ export class NotificationService {
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
-    async existPromotionTournament(promotionIds: number[]): Promise<Result<boolean>> {
+    async existPromotionTournament(promotionIds: string[]): Promise<Result<boolean>> {
         if (promotionIds?.length > 0) {
             const execution = this.model.exists({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
             return this.dataHandler.getData(execution);
@@ -21,7 +21,7 @@ export class NotificationService {
         return new Result(ErrorCodes.Success, '', false);
     }
 
-    async getPromotionByIds(promotionIds: number[]): Promise<Result<Notifications[]>> {
+    async getPromotionByIds(promotionIds: string[]): Promise<Result<Notifications[]>> {
         const execution = this.model
             .find({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } })
             .lean()
