@@ -5,7 +5,7 @@ import { LeanDocument, Model, Schema } from 'mongoose';
 import { PromotionBets, PromotionBetsDocument } from './schemas';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
-import { EndGamesSchema, EndGamesDocument, EndGames, TempLogEndGames } from '../end-games/schemas';
+import { EndGamesSchema, EndGamesDocument, EndGames, TempLogEndGames, LOG_DB, END_GAMES_COLLECTION } from '../end-games/schemas';
 import { TempLogEndGameService } from '../end-games/temp-log-end-game.service';
 
 @Injectable()
@@ -38,17 +38,26 @@ export class PromotionBetService {
     }
 
     async syncEndGameLog(): Promise<void> {
-        const logDB = this.model.db.useDb('log');
-        const endGameModel = logDB.model<EndGamesDocument>('end_games', EndGamesSchema as any);
-        const execution = endGameModel.find({}).lean().exec();
-        const data = await this.dataHandler.getData(execution);
-        const tempLogData = data.data.map((item) => {
+        const endGameLogs = await this.queryEndGameLog();
+        const tempLogData = endGameLogs.map((item) => {
             return this.createTempLogItem(item);
         });
         await this.tempLogEndGameService.deleteAll();
         await this.tempLogEndGameService.insertMany(tempLogData);
+        await this.tempLogEndGameService.syncToPromotionBet();
+    }
+
+    async queryEndGameLog(): Promise<LeanDocument<EndGamesDocument>[]> {
         const latestDataSourceTimeStamp = await this.getLatestDataSourceTimeStamp();
-        await this.tempLogEndGameService.syncToPromotionBet(latestDataSourceTimeStamp);
+        const queryTime = latestDataSourceTimeStamp ? latestDataSourceTimeStamp : new Date(new Date().setDate(new Date().getDate() - 1));
+        const logDB = this.model.db.useDb(LOG_DB);
+        const endGameModel = logDB.model<EndGamesDocument>(END_GAMES_COLLECTION, EndGamesSchema as any);
+        const execution = endGameModel
+            .find({ logTimeStamp: { $gt: queryTime } })
+            .lean()
+            .exec();
+        const endGameLogs = await this.dataHandler.getData(execution);
+        return endGameLogs.data;
     }
 
     createTempLogItem(item: LeanDocument<EndGamesDocument>) {

@@ -3,6 +3,9 @@ import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsObject, IsNumber, IsDate, IsBoolean, isNumber, ValidateNested, IsArray } from 'class-validator';
 
+export const LOG_DB = 'log';
+export const END_GAMES_COLLECTION = 'end_games';
+
 export type EndGamesDocument = EndGames & mongoose.Document;
 
 export class Call {

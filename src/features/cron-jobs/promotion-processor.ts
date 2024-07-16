@@ -31,9 +31,9 @@ export class PromotionProcessor {
         try {
             console.log('proceed');
             await this.promotionBetService.syncEndGameLog();
-            //await this.processNewPromotions();
-            //await this.processRunningPromotions();
-            //await this.processFinishedPromotions();
+            await this.processNewPromotions();
+            await this.processRunningPromotions();
+            await this.processFinishedPromotions();
         } catch (errors) {
             console.log(errors);
             this.logger.error(errors);

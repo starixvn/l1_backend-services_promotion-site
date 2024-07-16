@@ -21,13 +21,8 @@ export class TempLogEndGameService {
         return this.dataHandler.insertMany(this.model, data);
     }
 
-    async syncToPromotionBet(latestDataSourceTimeStamp: Date) {
+    async syncToPromotionBet() {
         const query = [
-            {
-                $match: {
-                    logTimeStamp: { $gte: latestDataSourceTimeStamp },
-                },
-            },
             {
                 $lookup: {
                     from: 'usersessions',
