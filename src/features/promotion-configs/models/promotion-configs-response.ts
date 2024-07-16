@@ -20,8 +20,32 @@ export class PromotionViewModel {
         this.status = status;
     }
 }
-export class PromotionDetailViewModel {
-    constructor(public winningPrizes: object[]) {
-        this.winningPrizes = winningPrizes;
+export class WinningPrize {
+    constructor(value: number, ranking: string) {
+        this.value = value;
+        this.ranking = ranking;
+        if (+ranking) {
+            this.from = +ranking;
+        } else {
+            const rankings = ranking.split('-');
+            if (rankings.length > 1) {
+                this.from = +rankings[0];
+                this.to = +rankings[1];
+            }
+        }
     }
+    public value: number;
+    public ranking: string;
+
+    public from: number;
+    public to: number;
+}
+
+export class PromotionDetailViewModel {
+    constructor(winningPrizes: object[]) {
+        winningPrizes.forEach((winningPrize) => {
+            this.winningPrizes.push(new WinningPrize(winningPrize['value'], winningPrize['ranking']));
+        });
+    }
+    public winningPrizes: WinningPrize[] = [];
 }

@@ -9,8 +9,8 @@ import {
     PromotionDetailViewModel,
     PromotionViewModel,
 } from './models/promotion-configs-response';
-import { PromotionConfigService } from './promotion-config.service';
 import { fakePromotionDetails, PromotionDetailViewModelFake } from './models/promotion-configs-response-fake';
+import { PromotionConfigService } from './promotion-config.service';
 
 @ApiTags('promotion-config')
 @Controller('promotion-config')
@@ -79,7 +79,6 @@ export class PromotionConfigController {
         @Param('id') id: number,
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
-        @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigResponse> {
         const { isAuthenticated, session } = await this.userClientService.getSession({
