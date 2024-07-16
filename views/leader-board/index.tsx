@@ -11,7 +11,7 @@ const LeaderBoard = ({ handleBackToHome }) => {
         <div className="board-table">
           <div className="board-header">
             <div className="place">{t("ranking")}</div>
-            <div className="name">{t("character_name", { ns: "Common" })}</div>
+            <div className="name">{t("nickname")}</div>
             <div className="points">{t("total_points")}</div>
           </div>
           <div className="board-body">

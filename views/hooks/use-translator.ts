@@ -1,6 +1,5 @@
 import { useTranslate } from "@tolgee/react";
 export class ResourceTypes {
-    public static readonly COMMON = "Common";
     public static readonly PROMOTION_CAMPAIGN = "PromotionCampaign";
 }
 
@@ -15,7 +14,7 @@ export function parseTranslationKey(input: string) {
 }
 
 export const useTranslator = (gameNamespaces?: string[]) => {
-    const defaultNamespaces = [ResourceTypes.PROMOTION_CAMPAIGN, ResourceTypes.COMMON];
+    const defaultNamespaces = [ResourceTypes.PROMOTION_CAMPAIGN];
     const ns = gameNamespaces ? gameNamespaces.concat(defaultNamespaces) : defaultNamespaces;
     const translator = useTranslate(ns);
     const t = (key: string, params?: any, opt?: any) => {
@@ -24,12 +23,4 @@ export const useTranslator = (gameNamespaces?: string[]) => {
         return translator.t({ key: parsedKey, ns, params, ...opt });
     };
     return { t };
-};
-
-export const useCommonTranslate = () => {
-    return useTranslate(ResourceTypes.COMMON);
-};
-
-export const usePromotionCampaignTranslate = () => {
-    return useTranslate(ResourceTypes.PROMOTION_CAMPAIGN);
 };

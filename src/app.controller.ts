@@ -18,6 +18,7 @@ export class AppController {
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
+        @Query('lang') lang: string,
     ) {
         const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
 
@@ -32,7 +33,7 @@ export class AppController {
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
-            message: 'Hello from Promotion Site!',
+            lang,
             tolgeeInContextTools:
                 process.env.USE_TOLGEE_STATIC === 'true'
                     ? {}

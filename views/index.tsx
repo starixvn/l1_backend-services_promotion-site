@@ -18,8 +18,8 @@ if (window.AppInitialState?.results.isSuccessful) {
     .init({
       availableLanguages: ["en", "vi", "th", "id", "zh-cn", "zh-tw"],
       fallbackLanguage: "en",
-      defaultLanguage: "en",
-      ns: ["PromotionCampaign", "Common"],
+      defaultLanguage: window.AppInitialState?.lang || "en",
+      ns: ["PromotionCampaign"],
       defaultNs: "PromotionCampaign",
       projectId: "5",
     });
