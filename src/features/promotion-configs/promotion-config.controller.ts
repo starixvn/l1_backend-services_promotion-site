@@ -10,6 +10,7 @@ import {
     PromotionViewModel,
 } from './models/promotion-configs-response';
 import { PromotionConfigService } from './promotion-config.service';
+import { fakePromotionDetails, PromotionDetailViewModelFake } from './models/promotion-configs-response-fake';
 
 @ApiTags('promotion-config')
 @Controller('promotion-config')
@@ -18,7 +19,7 @@ export class PromotionConfigController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) {}
+    ) { }
 
     @Post('/getByUserSession')
     @ApiOperation({ operationId: 'getByUserSession' })
@@ -69,6 +70,8 @@ export class PromotionConfigController {
 
         return new Result(ErrorCodes.Success, '', result);
     }
+
+
     @Post('/:id')
     @ApiOperation({ operationId: 'getByUserSession' })
     @ApiOkResponse({ type: PromotionConfigResponse })
@@ -110,5 +113,11 @@ export class PromotionConfigController {
 
         const result: PromotionDetailViewModel = new PromotionDetailViewModel(promotion.data.winningPrizes);
         return new Result(ErrorCodes.Success, '', result);
+    }
+
+
+    @Post('/getPromotionDetails')
+    async getPromotionDetails(): Promise<Result<PromotionDetailViewModelFake>> {
+        return new Result(0, '', fakePromotionDetails);
     }
 }
