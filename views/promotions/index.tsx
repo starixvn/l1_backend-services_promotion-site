@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../../public/static/css/style.scss';
-import { useTranslator } from '../hooks/use-translator';
-import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { PromotionViewModel } from 'src/features/promotion-configs/models/promotion-configs-response';
+import '../../public/static/css/style.scss';
 import { LanguageLocaleMapper } from '../constants/index';
-import { PromotionViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
+import { convertToGMT8, formatDate } from '../helpers/time-helper';
+import { useTranslator } from '../hooks/use-translator';
 
 const PromotionContent = ({ promotion }) => {
   const { t } = useTranslator();
@@ -20,7 +19,7 @@ const PromotionContent = ({ promotion }) => {
 }
 
 const Promotions = ({ handleMoreInfo }) => {
-  const [promotions, setPromotions] = useState<PromotionViewModelFake[]>(null);
+  const [promotions, setPromotions] = useState<PromotionViewModel[]>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { t } = useTranslator();

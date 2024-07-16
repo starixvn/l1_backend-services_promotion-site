@@ -1,23 +1,27 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Messages } from 'src/features/notifications/schemas';
 import { Result } from '../../../_shared/common/models/result';
-import { PromotionConfigs } from '../schemas';
-import { PromotionViewModelFake } from './promotion-configs-response-fake';
-export class PromotionViewModel extends PromotionConfigs {
-    /**
-     *
-     */
-    constructor() {
-        super();
+
+export class PromotionConfigsResponse extends Result<PromotionViewModel[]> {}
+export class PromotionConfigResponse extends Result<PromotionDetailViewModel> {}
+
+export class PromotionViewModel {
+    constructor(
+        public promotionId: number,
+        public title: string,
+        public content: string,
+        public startDateTime: Date,
+        public endDateTime: Date,
+        public status: string,
+    ) {
+        this.promotionId = promotionId;
+        this.title = title;
+        this.content = content;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.status = status;
     }
-
-    title: Messages;
-    content: Messages;
 }
-
-export class PromotionConfigsResponse extends Result<PromotionViewModelFake[]> {
-    @ApiProperty({ isArray: true, type: PromotionViewModelFake })
-    data: PromotionViewModelFake[];
+export class PromotionDetailViewModel {
+    constructor(public winningPrizes: object[]) {
+        this.winningPrizes = winningPrizes;
+    }
 }
-
-

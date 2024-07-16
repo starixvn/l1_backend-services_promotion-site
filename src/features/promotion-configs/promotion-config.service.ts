@@ -6,7 +6,6 @@ import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { UserSession } from '../users/schemas';
 import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
-import { PROMOTION_STATUSES } from './schemas';
 
 @Injectable()
 export class PromotionConfigService {
@@ -32,6 +31,19 @@ export class PromotionConfigService {
         const updates = { status: status, updatedTime: new Date() };
 
         return this.dataHandler.updateData(this.model, filter, updates);
+    }
+
+    async getById(id: number): Promise<Result<LeanDocument<PromotionConfigsDocument>>> {
+        const filter = {
+            promotionId: id,
+        };
+        const execution = this.model.findOne(filter).lean().exec();
+
+        const promotion = await this.dataHandler.getData(execution);
+        if (promotion?.data) {
+            return new Result(ErrorCodes.Success, '', promotion?.data);
+        }
+        return new Result(ErrorCodes.Failed, '');
     }
 
     async getBySession(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {

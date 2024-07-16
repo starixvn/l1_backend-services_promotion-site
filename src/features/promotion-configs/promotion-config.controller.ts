@@ -1,13 +1,15 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Inject, Param, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { NotificationService } from '../notifications/notification.service';
-import { VerifySessionRequest } from '../users/models';
 import { UserClientService } from '../users/services/user-client.service';
-import { PromotionConfigsResponse, PromotionViewModel } from './models/promotion-configs-response';
+import {
+    PromotionConfigResponse,
+    PromotionConfigsResponse,
+    PromotionDetailViewModel,
+    PromotionViewModel,
+} from './models/promotion-configs-response';
 import { PromotionConfigService } from './promotion-config.service';
-import { PromotionConfigs } from './schemas';
-import { fakePromotions, PromotionViewModelFake } from './models/promotion-configs-response-fake';
 
 @ApiTags('promotion-config')
 @Controller('promotion-config')
@@ -15,22 +17,23 @@ export class PromotionConfigController {
     constructor(
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
-        @Inject(UserClientService) private readonly userSessionService: UserClientService,
-    ) { }
-
-    @Get('/')
-    @ApiOperation({ operationId: 'getAll' })
-    @ApiOkResponse({ type: PromotionConfigsResponse })
-    async getAll(): Promise<Result<PromotionConfigs[]>> {
-        return this.service.getAll();
-    }
+        @Inject(UserClientService) private readonly userClientService: UserClientService,
+    ) {}
 
     @Post('/getByUserSession')
     @ApiOperation({ operationId: 'getByUserSession' })
     @ApiOkResponse({ type: PromotionConfigsResponse })
-    async getByUserSession(@Body() userSession: VerifySessionRequest): Promise<Result<PromotionViewModelFake[]>> {
-        return new Result(0, '', fakePromotions);
-        const { isAuthenticated, session } = await this.userSessionService.getSession(userSession);
+    async getByUserSession(
+        @Body('sessionId') sessionId: string,
+        @Body('username') username: string,
+        @Body('lang') lang: string = 'en-US',
+        @Headers('user-agent') browserUserAgent: string,
+    ): Promise<PromotionConfigsResponse> {
+        const { isAuthenticated, session } = await this.userClientService.getSession({
+            sessionId,
+            username,
+            browserUserAgent,
+        });
 
         if (!isAuthenticated) {
             return new Result(ErrorCodes.Failed, 'Session invalid');
@@ -50,16 +53,62 @@ export class PromotionConfigController {
         promotions.data.forEach((promotion) => {
             notifications.data.forEach((notification) => {
                 if (promotion._id?.toString() == notification.promotionId) {
-                    const promotionVM: PromotionViewModel = {
-                        ...promotion,
-                        title: notification.title,
-                        content: notification.messages,
-                    };
-                    result.push(promotionVM);
+                    result.push(
+                        new PromotionViewModel(
+                            promotion.promotionId,
+                            notification.title[lang],
+                            notification.messages[lang],
+                            promotion.startDateTime,
+                            promotion.endDateTime,
+                            promotion.status,
+                        ),
+                    );
                 }
             });
         });
 
-        return new Result(0, '', fakePromotions);
+        return new Result(ErrorCodes.Success, '', result);
+    }
+    @Post('/:id')
+    @ApiOperation({ operationId: 'getByUserSession' })
+    @ApiOkResponse({ type: PromotionConfigResponse })
+    async getById(
+        @Param('id') id: number,
+        @Body('sessionId') sessionId: string,
+        @Body('username') username: string,
+        @Body('lang') lang: string = 'en-US',
+        @Headers('user-agent') browserUserAgent: string,
+    ): Promise<PromotionConfigResponse> {
+        const { isAuthenticated, session } = await this.userClientService.getSession({
+            sessionId,
+            username,
+            browserUserAgent,
+        });
+
+        if (!isAuthenticated) {
+            return new Result(ErrorCodes.Failed, 'Session invalid');
+        }
+
+        if (session.disableAward) {
+            return new Result(ErrorCodes.Failed, 'User is disable award');
+        }
+
+        const promotion = await this.service.getById(id);
+        if (promotion.errorCode === ErrorCodes.Failed) {
+            return new Result(ErrorCodes.Failed, 'Not Found Promotion');
+        }
+        const isBelongToUser = () => {
+            return promotion.data.operators.some(
+                (operator) =>
+                    operator.operatorId === session.operatorId && !operator.excludedSiteNames?.split(',').includes(session.siteName),
+            );
+        };
+
+        if (!isBelongToUser) {
+            return new Result(ErrorCodes.Failed, 'Promotion not belong to user');
+        }
+
+        const result: PromotionDetailViewModel = new PromotionDetailViewModel(promotion.data.winningPrizes);
+        return new Result(ErrorCodes.Success, '', result);
     }
 }
