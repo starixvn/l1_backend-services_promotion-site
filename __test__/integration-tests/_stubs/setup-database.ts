@@ -16,17 +16,51 @@ import { PromotionRuns, PromotionRunsDocument } from '../../../src/features/prom
 import { TicketSilos, TicketSilosDocument } from '../../../src/features/ticket-silos/schemas/ticket-silos.schema';
 import { ExchangeRates, ExchangeRatesDocument } from '../../../src/features/exchange-rates/schemas';
 import { GameConfigs, GameConfigsDocument } from '../../../src/features/game-configs/schemas';
+import { UserInfos, UserInfosDocument } from '../../../src/features/users/schemas';
+import { Call, EndGames, EndGamesDocument, EndGamesSchema } from '../../../src/features/end-games/schemas';
+import { multiCaching } from 'cache-manager';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initLeaderBoard(moduleFixture);
     await initPromotionConfig(moduleFixture);
     await initPromotionBet(moduleFixture);
     await initUserSession(moduleFixture);
+    await initUserInfo(moduleFixture);
     await initNotification(moduleFixture);
     await initPromotionRuns(moduleFixture);
     await initTicketSilos(moduleFixture);
     await initExchangeRate(moduleFixture);
     await initGameConfig(moduleFixture);
+    await initEndGame(moduleFixture);
+};
+
+const initEndGame = async (moduleFixture: TestingModule) => {
+    const createEndGame = (operatorId, playerId, gameTypeId, gameRoundId) => {
+        const item = new EndGames();
+        item.operatorId = operatorId;
+        item.logTimeStamp = new Date(new Date().setSeconds(new Date().getSeconds() + 15));
+        const call = new Call();
+        call.playerId = playerId;
+        call.gameTypeId = gameTypeId;
+        call.gameRoundId = gameRoundId;
+        call.totalAmount = '100';
+        call.totalWin = '150';
+        item.call = call;
+        item.system = 1;
+        return item;
+    };
+
+    const model = moduleFixture.get(getModelToken('GameConfigs')) as Model<GameConfigsDocument>;
+    const logDB = model.db.useDb('log');
+    const endGameModel = logDB.model<EndGamesDocument>('end_games', EndGamesSchema as any);
+
+    // Clear
+    await endGameModel.deleteMany({});
+
+    // Insert
+    const items = [createEndGame('ONEworksVGCash', '500', '73', '123')];
+
+    await endGameModel.insertMany(items);
 };
 
 const initGameConfig = async (moduleFixture: TestingModule) => {
@@ -191,6 +225,7 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         totalWin,
         dataSourceId,
         dataSourceTimeStamp,
+        roundId,
     ) => {
         const item = new PromotionBets();
         item.operatorId = operatorId;
@@ -198,7 +233,7 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         item.siteName = siteName;
         item.currencyGroupId = currencyGroupId;
         item.gameId = 1;
-        item.roundId = 100;
+        item.roundId = roundId;
         item.totalAmount = totalAmount;
         item.totalWin = totalWin;
         item.dataSourceId = dataSourceId;
@@ -222,15 +257,16 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
             200,
             '66821f6484a90b840624fd6b_1',
             new Date(new Date().setDate(new Date().getDate() - 1)),
+            100,
         ),
-        createBet('ONEworksVGCash', 1, 'p1', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date()),
-        createBet('ONEworksVGCash', 2, 'p2', 'lumi1', '61765beed2b6510001f18bd6', 100, 50, '66821f6484a90b840624fd6b_1', new Date()),
-        createBet('ONEworksVGCash', 3, 'p3', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date()),
+        createBet('ONEworksVGCash', 1, 'p1', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date(), 101),
+        createBet('ONEworksVGCash', 2, 'p2', 'lumi1', '61765beed2b6510001f18bd6', 100, 50, '66821f6484a90b840624fd6b_1', new Date(), 100),
+        createBet('ONEworksVGCash', 3, 'p3', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date(), 100),
     ];
     await model.insertMany(items);
 };
 
-const createUserSession = (playerId, operatorId, currencyGroupId, siteName, ssoTime, random) => {
+const createUserSession = (playerId, operatorId, currencyGroupId, siteName, ssoTime, random, id) => {
     const item = new UserSession();
     item.username = 'testUser';
     item.sessionId = `${random}_${operatorId}_${playerId}`;
@@ -241,6 +277,9 @@ const createUserSession = (playerId, operatorId, currencyGroupId, siteName, ssoT
     item.recheckInTime = new Date();
     item.playerId = playerId;
     item.ssoTime = ssoTime;
+    item.currencyCode = 'VND';
+    item.multiplier = 1000;
+    item.id = id;
     return item;
 };
 
@@ -252,8 +291,8 @@ const initUserSession = async (moduleFixture: TestingModule) => {
 
     // Insert
     const items = [
-        createUserSession('1', 'ONEworksVGCash', '61765beed2b6510001f18bd6', 'lumi1', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9'),
-        createUserSession('2', 'ONEworksVGCash', '61765beed2b6510001f18bd6', 'lumi2', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9'),
+        createUserSession('1', 'ONEworksVGCash', '61765beed2b6510001f18bd6', 'lumi1', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9', '11'),
+        createUserSession('2', 'ONEworksVGCash', '61765beed2b6510001f18bd6', 'lumi2', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9', '22'),
         createUserSession(
             '3',
             'ONEworksVGCash',
@@ -261,11 +300,43 @@ const initUserSession = async (moduleFixture: TestingModule) => {
             'lumi3',
             new Date(new Date().setDate(new Date().getDate() - 1)),
             'xch5pum5k1K2Hjozkmgt404MnJjgAyg91',
+            '33',
         ),
-        createUserSession('3', 'ONEworksVGCash', '61765beed2b6510001f18bd6_2', 'lumi3', new Date(), 'xch5pum5k1K2Hjozkmgt404MnJjgAyg92'),
+        createUserSession(
+            '3',
+            'ONEworksVGCash',
+            '61765beed2b6510001f18bd6_2',
+            'lumi3',
+            new Date(),
+            'xch5pum5k1K2Hjozkmgt404MnJjgAyg92',
+            '33',
+        ),
+        createUserSession(
+            '500',
+            'ONEworksVGCash',
+            '61765beed2b6510001f18bd6_5',
+            'lumi3',
+            new Date(),
+            'xch5pum5k1K2Hjozkmgt404MnJjgAyg92',
+            '55',
+        ),
     ];
 
     await model.insertMany(items);
+};
+
+const initUserInfo = async (moduleFixture: TestingModule) => {
+    const model = moduleFixture.get(getModelToken('UserInfos')) as Model<UserInfosDocument>;
+
+    // Clear
+    await model.deleteMany({});
+
+    // Insert
+    const item = new UserInfos();
+    item.id = '55';
+    item.name = 'Hero';
+
+    await model.insertMany([item]);
 };
 
 const initNotification = async (moduleFixture: TestingModule) => {

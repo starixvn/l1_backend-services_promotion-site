@@ -55,6 +55,12 @@ export class UserSession {
 
     @Prop({ required: true })
     ssoTime: Date;
+
+    @Prop()
+    multiplier: number;
+
+    @Prop()
+    id: string;
 }
 
 export const UserSessionSchema = SchemaFactory.createForClass(UserSession);

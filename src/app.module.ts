@@ -21,6 +21,8 @@ import { PromotionRunModule } from './features/promotion-runs/promotion-run.modu
 import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
 import { UserClientServiceModule } from './features/users/user-service.module';
 import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middleware';
+import { TempLogEndGameModule } from './features/end-games/temp-log-end-game.module';
+import { UserInfoModule } from './features/users/user-info.module';
 
 @Module({
     imports: [
@@ -47,6 +49,8 @@ import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middl
         DomainModule,
         ExchangeRateModule,
         GameConfigModule,
+        TempLogEndGameModule,
+        UserInfoModule,
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],

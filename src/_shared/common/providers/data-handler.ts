@@ -75,4 +75,24 @@ export class DataHandler {
             return new Result(ErrorCodes.Failed, error.message);
         }
     }
+
+    async deleteMany<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<T>> {
+        try {
+            const result = await model.deleteMany(filter, options).lean().exec();
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
+
+    async insertMany<T>(model: Model<any>, data: any): Promise<Result<T>> {
+        try {
+            const result = await model.insertMany(data);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
 }

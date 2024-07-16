@@ -52,6 +52,8 @@ export interface UserSession {
     operatorToken: string;
 
     disableAward: boolean;
+
+    id: string;
 }
 
 export class VerifySessionResult {

@@ -12,6 +12,9 @@ import { GameConfigs, SLOT_GAME_TYPES } from '../game-configs/schemas';
 import { PromotionBets } from '../promotion-bets/schemas';
 import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
 import { SentryLogger } from '../../_shared/common/providers';
+import { InjectModel } from '@nestjs/mongoose';
+import { TicketSilos, TicketSilosDocument } from '../ticket-silos/schemas';
+import { Model, Schema } from 'mongoose';
 
 export class PromotionProcessor {
     constructor(
@@ -26,9 +29,11 @@ export class PromotionProcessor {
 
     async proceed() {
         try {
-            await this.processNewPromotions();
-            await this.processRunningPromotions();
-            await this.processFinishedPromotions();
+            console.log('proceed');
+            await this.promotionBetService.syncEndGameLog();
+            //await this.processNewPromotions();
+            //await this.processRunningPromotions();
+            //await this.processFinishedPromotions();
         } catch (errors) {
             console.log(errors);
             this.logger.error(errors);
@@ -119,7 +124,7 @@ export class PromotionProcessor {
             leaderBoard.dataSourceTimeStamp = ticket.dataSourceTimeStamp;
             leaderBoard.nickName = ticket.nickname;
 
-            await this.leaderBoardService.upsert(leaderBoard);
+            await this.leaderBoardService.upsert(leaderBoard); // todo: write in batch
         }
     }
 

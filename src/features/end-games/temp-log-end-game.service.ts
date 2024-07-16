@@ -1,0 +1,116 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Schema } from 'mongoose';
+
+import { TempLogEndGames, TempLogEndGamesDocument } from './schemas';
+import { DataHandler, SentryLogger } from '../../_shared/common/providers';
+import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
+
+@Injectable()
+export class TempLogEndGameService {
+    constructor(
+        @InjectModel(TempLogEndGames.name) private readonly model: Model<TempLogEndGamesDocument>,
+        @Inject(DataHandler) private readonly dataHandler: DataHandler,
+    ) {}
+
+    async deleteAll(): Promise<Result<TempLogEndGames[]>> {
+        return this.dataHandler.deleteMany(this.model, {});
+    }
+
+    async insertMany(data: TempLogEndGames[]): Promise<Result<TempLogEndGames[]>> {
+        return this.dataHandler.insertMany(this.model, data);
+    }
+
+    async syncToPromotionBet(latestDataSourceTimeStamp: Date) {
+        const query = [
+            {
+                $match: {
+                    logTimeStamp: { $gte: latestDataSourceTimeStamp },
+                },
+            },
+            {
+                $lookup: {
+                    from: 'usersessions',
+                    let: {
+                        playerId: '$playerId',
+                        operatorId: '$operatorId',
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        {
+                                            $eq: ['$playerId', '$$playerId'],
+                                        },
+                                        {
+                                            $eq: ['$operatorId', '$$operatorId'],
+                                        },
+                                    ],
+                                },
+                            },
+                        },
+                        {
+                            $sort: { ssoTime: -1 },
+                        },
+                    ],
+                    as: 'result',
+                },
+            },
+            {
+                $project: {
+                    playerId: '$playerId',
+                    operatorId: '$operatorId',
+                    gameId: '$gameTypeId',
+                    roundId: '$gameRoundId',
+                    totalAmount: '$totalAmount',
+                    totalWin: '$totalWin',
+                    dataSourceId: '$logId',
+                    dataSourceTimestamp: '$logTimeStamp',
+                    siteName: { $arrayElemAt: ['$result.siteName', 0] },
+                    currencyGroupId: { $arrayElemAt: ['$result.currencyGroupId', 0] },
+                    currency: { $arrayElemAt: ['$result.currencyCode', 0] },
+                    multiplier: { $arrayElemAt: ['$result.multiplier', 0] },
+                    userId: { $arrayElemAt: ['$result.id', 0] },
+                },
+            },
+            {
+                $lookup: {
+                    from: 'userinfos',
+                    localField: 'userId',
+                    foreignField: 'id',
+                    as: 'result',
+                },
+            },
+            {
+                $project: {
+                    playerId: '$playerId',
+                    operatorId: '$operatorId',
+                    gameId: '$gameId',
+                    roundId: '$roundId',
+                    totalAmount: '$totalAmount',
+                    totalWin: '$totalWin',
+                    dataSourceId: '$dataSourceId',
+                    dataSourceTimestamp: '$dataSourceTimestamp',
+                    siteName: '$siteName',
+                    currencyGroupId: '$currencyGroupId',
+                    currency: '$currency',
+                    multiplier: '$multiplier',
+                    nickname: { $arrayElemAt: ['$result.name', 0] },
+                    updatedTime: new Date(),
+                },
+            },
+            {
+                $merge: {
+                    into: 'promotion_bets',
+                    on: ['operatorId', 'playerId', 'gameId', 'roundId'],
+                    whenMatched: 'merge',
+                    whenNotMatched: 'insert',
+                },
+            },
+        ];
+
+        const execution = this.model.aggregate(query).exec();
+        return this.dataHandler.getData(execution);
+    }
+}
