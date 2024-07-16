@@ -45,4 +45,10 @@ export class AppController {
 
         return { jsonObject: JSON.stringify(jsonObject) };
     }
+
+    @Get('/icon')
+    @Render('icon')
+    icon() {
+        return {};
+    }
 }
