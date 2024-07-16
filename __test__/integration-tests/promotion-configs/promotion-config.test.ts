@@ -5,6 +5,7 @@ import { Result } from 'src/_shared/common/models/result';
 import { PromotionConfigs } from 'src/features/promotion-configs/schemas';
 import { VerifySessionRequest } from 'src/features/users/models';
 import * as request from 'supertest';
+import { UserServiceClient } from '../../../src/_shared/services/user-service';
 import { AppModule } from '../../../src/app.module';
 import { setupDatabase } from '../_stubs/setup-database';
 
@@ -20,6 +21,7 @@ describe('Promotion', () => {
 
         app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
         await app.init();
+        UserServiceClient.init();
         await app.getHttpAdapter().getInstance().ready();
         await setupDatabase(moduleFixture);
     });
@@ -38,8 +40,9 @@ describe('Promotion', () => {
     it('/promotion-config/getByUserSession (POST)', async () => {
         // Act
         const token = ''; //await getBearerToken();
+
         const payload: VerifySessionRequest = {
-            sessionId: 'xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518',
+            sessionId: Buffer.from('xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518', 'base64').toString(),
             username: 'testUser',
             browserUserAgent: 'chrome',
         };

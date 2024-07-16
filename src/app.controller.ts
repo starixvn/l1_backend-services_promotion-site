@@ -1,7 +1,6 @@
 import { Controller, Get, Inject, NotFoundException, Query, Render } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
 import { NotificationService } from './features/notifications/notification.service';
-import { PromotionViewModel } from './features/promotion-configs/models/promotion-configs-response';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
 import { UserClientService } from './features/users/services/user-client.service';
 
@@ -24,7 +23,7 @@ export class AppController {
             return new NotFoundException('');
         }
         const { isAuthenticated, session } = await this.userClientService.getSession({ sessionId, username, browserUserAgent });
-        if (!isAuthenticated) {
+        if (!isAuthenticated && !session.disableAward) {
             return new Result(ErrorCodes.Failed, 'Session invalid');
         }
 

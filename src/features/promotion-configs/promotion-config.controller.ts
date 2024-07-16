@@ -37,8 +37,6 @@ export class PromotionConfigController {
         if (session.disableAward) {
             return new Result(ErrorCodes.Failed, 'User is disable award');
         }
-        //TODO: Temp set for dev purpose
-        session.currencyGroupId = '61b953ad815d6c000196a14c';
         const promotions = await this.service.getBySession(session);
         if (promotions.data.length == 0) {
             return new Result(ErrorCodes.Failed, 'No Promotion records');

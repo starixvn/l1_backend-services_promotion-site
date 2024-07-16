@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from '../../../src/app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { setupDatabase } from '../_stubs/setup-database';
-import { getBearerToken } from '../_stubs/helper';
-import { PromotionLeaderBoards } from 'src/features/promotion-leader-boards/schemas';
+import { Test, TestingModule } from '@nestjs/testing';
 import { Result } from 'src/_shared/common/models/result';
+import { PromotionLeaderBoards } from 'src/features/promotion-leader-boards/schemas';
+import * as request from 'supertest';
+import { UserServiceClient } from '../../../src/_shared/services/user-service';
+import { AppModule } from '../../../src/app.module';
+import { setupDatabase } from '../_stubs/setup-database';
 
 jest.setTimeout(10000);
 describe('Promotion', () => {
@@ -20,6 +20,8 @@ describe('Promotion', () => {
 
         app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
         await app.init();
+        UserServiceClient.init();
+
         await app.getHttpAdapter().getInstance().ready();
         await setupDatabase(moduleFixture);
     });

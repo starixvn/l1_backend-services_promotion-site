@@ -10,6 +10,8 @@ export class DecodeSessionIdMiddleware implements NestMiddleware {
                 req.query['sessionId'] = Buffer.from(req.query['sessionId'].toString(), 'base64').toString();
             }
             next();
-        } catch (ex) {}
+        } catch (ex) {
+            
+        }
     }
 }
