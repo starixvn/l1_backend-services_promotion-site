@@ -21,7 +21,7 @@ const tolgee = Tolgee()
 
 tolgee.addPlugin(
   InContextTools({
-    credentials: window.AppInitialState.tolgeeInContextTools
+    credentials: window.AppInitialState?.tolgeeInContextTools
   })
 );
 

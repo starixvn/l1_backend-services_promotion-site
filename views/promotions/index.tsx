@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../public/static/css/style.scss';
 import { usePromotionCampaignTranslate } from '../hooks/use-translator';
+import { convertToGMT8, formatDate } from '../helpers/time-helper';
 
 const Promotions = ({ handleMoreInfo }) => {
   const [promotions, setPromotions] = useState(null);
@@ -34,7 +35,10 @@ const Promotions = ({ handleMoreInfo }) => {
       return <p className="text-red">{t('completed')}</p>;
     }
 
-    return <p>Take place from {promotion.startDateTime} to {promotion.endDateTime}</p>;
+    const template = "dd/MM/yyyy";
+    const startDate = formatDate(convertToGMT8(new Date(promotion.startDateTime)), template);
+    const endDate = formatDate(convertToGMT8(new Date(promotion.endDateTime)), template);
+    return <p>Take place from {startDate} to {endDate}</p>;
   }
 
   return (
@@ -55,25 +59,6 @@ const Promotions = ({ handleMoreInfo }) => {
               </li>
             ))
           }
-          {/* <li className="promotion-item">
-            <img src="static/images/promotion-1.png" alt="promotion 1" width={150} />
-            <div className="promotion-description">
-              <h3>Promotion 1</h3>
-              <p>Description of promotion 1</p>
-              <p>Take place from 10/17/2024 to 10/23/2024</p>
-              <button className="btn btn-primary" onClick={handleMoreInfo}>More Info</button>
-            </div>
-          </li>
-
-          <li className="promotion-item">
-            <img src="static/images/promotion-2.png" alt="promotion 2" width={150} />
-            <div className="promotion-description">
-              <h3>Promotion 2</h3>
-              <p>Description of promotion 2</p>
-              <p className="text-red">Completed</p>
-              <button className="btn btn-primary" onClick={handleMoreInfo}>More Info</button>
-            </div>
-          </li> */}
         </ul>
       </div>
     </div>
