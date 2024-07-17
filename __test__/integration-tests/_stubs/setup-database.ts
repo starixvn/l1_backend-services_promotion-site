@@ -185,7 +185,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     item.promotionId = 1;
     const operator1 = new Operator();
     operator1.operatorId = 'ONEworks1';
-    operator1.excludedSiteNames = 'lumi1,lumi2';
+    operator1.includedSiteNames = 'lumi,lumi1,lumi2';
     item.name = 'Weekly Promotion';
 
     const currencyGroup1 = new CurrencyGroup();

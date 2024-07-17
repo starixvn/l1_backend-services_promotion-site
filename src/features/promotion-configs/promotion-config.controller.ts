@@ -85,7 +85,7 @@ export class PromotionConfigController {
         const isBelongToUser = () => {
             return promotion.data.operators.some(
                 (operator) =>
-                    operator.operatorId === session.operatorId && !operator.excludedSiteNames?.split(',').includes(session.siteName),
+                    operator.operatorId === session.operatorId && operator.includedSiteNames?.split(',').includes(session.siteName),
             );
         };
 

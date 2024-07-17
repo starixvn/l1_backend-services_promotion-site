@@ -21,7 +21,7 @@ export class CurrencyGroup {
 
 export class Operator {
     operatorId: string;
-    excludedSiteNames: string;
+    includedSiteNames: string;
     currencyGroups: CurrencyGroup[];
 }
 

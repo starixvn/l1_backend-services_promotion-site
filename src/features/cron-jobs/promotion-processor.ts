@@ -120,7 +120,7 @@ export class PromotionProcessor {
             currencyGroup.currencyGroupId === ticket.currencyGroupId &&
             ticket.totalWin > ticket.totalAmount &&
             this.isValidMinBet(gameConfigs, currencyGroup, ticket) &&
-            !this.isSiteNameExcluded(operator.excludedSiteNames, ticket.siteName)
+            this.isSiteNameIncluded(operator.includedSiteNames, ticket.siteName)
         ) {
             const leaderBoard = new PromotionLeaderBoards();
             leaderBoard.promotionId = promotionId;
@@ -139,8 +139,8 @@ export class PromotionProcessor {
         }
     }
 
-    isSiteNameExcluded(excludedSiteNames: string, siteName: string) {
-        return excludedSiteNames.replace(' ', '').split(',').includes(siteName);
+    isSiteNameIncluded(includedSiteNames: string, siteName: string) {
+        return includedSiteNames.replace(' ', '').split(',').includes(siteName);
     }
 
     isValidMinBet(gameConfigs: GameConfigs[], currencyGroup: CurrencyGroup, ticket: PromotionBets) {
