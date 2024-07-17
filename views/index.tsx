@@ -31,6 +31,7 @@ if (window.AppInitialState?.results.isSuccessful) {
     })
   );
   const App = () => {
+    const [activedPromotionId, setActivedPromotionId] = React.useState(0);
     const [appState, setAppState] = React.useState({
       isShowPromotions: true,
       isShowPromotionDetail: false,
@@ -45,7 +46,8 @@ if (window.AppInitialState?.results.isSuccessful) {
       });
     }
 
-    const handleMoreInfo = () => {
+    const handleMoreInfo = (promotionId: number) => {
+      setActivedPromotionId(promotionId);
       setAppState({
         isShowPromotions: false,
         isShowPromotionDetail: true,
@@ -62,7 +64,7 @@ if (window.AppInitialState?.results.isSuccessful) {
     }
 
     if (appState.isShowPromotionDetail) {
-      return <PromotionDetail handleLeaderBoard={handleLeaderBoard} />;
+      return <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} />;
     }
 
     if (appState.isShowLeaderBoard) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PromotionViewModel } from 'src/features/promotion-configs/models/promotion-configs-response';
 import '../../public/static/css/style.scss';
-import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../../views/helpers';
+import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../helpers';
 import { useTranslator } from '../hooks/use-translator';
 import LoadingSpinner from '../components/loading-spinner';
 
@@ -68,7 +68,7 @@ const Promotions = ({ handleMoreInfo }) => {
                                     <h3>{promotion.title}</h3>
                                     <p>{promotion.content}</p>
                                     <PromotionContent promotion={promotion} />
-                                    <button className="btn btn-primary" onClick={handleMoreInfo}>
+                                    <button className="btn btn-primary" onClick={() => handleMoreInfo(promotion.promotionId)}>
                                         {t('more_info')}
                                     </button>
                                 </div>

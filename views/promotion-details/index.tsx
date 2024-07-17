@@ -5,20 +5,25 @@ import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/mod
 import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { useTranslate } from "@tolgee/react";
 import LoadingSpinner from '../components/loading-spinner';
+import { GameUtils, ParamsHelper } from '../helpers';
 
-const PromotionDetail = ({ handleLeaderBoard }) => {
+const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
+  const { sessionId, username } = ParamsHelper.getParams();
   const [promotionDetail, setPromotionDetail] = useState<PromotionDetailViewModelFake>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { t } = useTranslate();
 
   useEffect(() => {
-    fetch('promotion-config/getPromotionDetails', {
+    fetch(`promotion-config/${promotionId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        sessionId: GameUtils.base64Decode(sessionId),
+        username,
+      }),
     })
       .then((response) => {
         if (!response.ok) {
