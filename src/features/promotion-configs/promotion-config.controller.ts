@@ -62,6 +62,7 @@ export class PromotionConfigController {
         @Param('id') id: number,
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
+        @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigResponse> {
         const { isAuthenticated, session } = await this.userClientService.getSession({
@@ -78,7 +79,7 @@ export class PromotionConfigController {
             return new Result(ErrorCodes.Failed, 'User is disable award');
         }
 
-        const promotion = await this.service.getById(id);
+        const promotion = await this.service.getById(id, session.currencyGroupId);
         if (promotion.errorCode === ErrorCodes.Failed) {
             return new Result(ErrorCodes.Failed, 'Not Found Promotion');
         }
@@ -93,8 +94,12 @@ export class PromotionConfigController {
         if (!isBelongToUser) {
             return new Result(ErrorCodes.Failed, 'Promotion not belong to user');
         }
-
-        const result: PromotionDetailViewModel = new PromotionDetailViewModel(promotion.data.winningPrizes);
+        const notification = await this.notificationService.getPromotionById(promotion.data._id);
+        if (!notification.data) {
+            return new Result(ErrorCodes.Failed, 'Promotion data not available');
+        }
+        const title = notification.data.title[lang];
+        const result: PromotionDetailViewModel = this.service.getPromotionDetail(promotion.data, session.currencyGroupId,title);
         return new Result(ErrorCodes.Success, '', result);
     }
 

@@ -28,4 +28,9 @@ export class NotificationService {
             .exec();
         return this.dataHandler.getData(execution);
     }
+
+    async getPromotionById(promotionId: string): Promise<Result<Notifications>> {
+        const execution = this.model.findOne({ displayKind: 4, enabled: true, promotionId }).lean().exec();
+        return this.dataHandler.getData(execution);
+    }
 }

@@ -6,8 +6,8 @@ import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
-import { PromotionViewModel } from './models/promotion-configs-response';
-import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
+import { PromotionDetailViewModel, PromotionViewModel } from './models/promotion-configs-response';
+import { CurrencyGroup, PromotionConfigs, PromotionConfigsDocument, WinningPrize } from './schemas';
 
 @Injectable()
 export class PromotionConfigService {
@@ -35,8 +35,10 @@ export class PromotionConfigService {
         return this.dataHandler.updateData(this.model, filter, updates);
     }
 
-    async getById(id: number): Promise<Result<LeanDocument<PromotionConfigsDocument>>> {
+    async getById(id: number, currencyGroupId: string): Promise<Result<LeanDocument<PromotionConfigsDocument>>> {
         const filter = {
+            'operators.currencyGroups.currencyGroupId': currencyGroupId,
+            'operators.currencyGroups.enabled': true,
             promotionId: id,
         };
         const execution = this.model.findOne(filter).lean().exec();
@@ -100,6 +102,31 @@ export class PromotionConfigService {
             a.status - b.status || b.startDateTime.getTime() - a.startDateTime.getTime();
         result.sort(sortByStatusThenTime);
 
+        return result;
+    }
+
+    getPromotionDetail(
+        promotion: LeanDocument<PromotionConfigsDocument>,
+        userCurrencyGroupId: string,
+        title: string,
+    ): PromotionDetailViewModel {
+        const { startDateTime, endDateTime, winningPrizes, operators } = promotion;
+        let currencyGroup: CurrencyGroup;
+        operators.forEach((operator) => {
+            operator.currencyGroups.forEach((cg) => {
+                if (cg.currencyGroupId == userCurrencyGroupId) {
+                    currencyGroup = cg;
+                }
+            });
+        });
+        const result: PromotionDetailViewModel = new PromotionDetailViewModel(
+            title,
+            startDateTime,
+            endDateTime,
+            currencyGroup.otherGameMinBet,
+            currencyGroup.slotGameMinBet,
+            (winningPrizes as WinningPrize[]),
+        );
         return result;
     }
 }

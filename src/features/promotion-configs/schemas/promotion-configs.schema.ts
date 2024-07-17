@@ -28,7 +28,7 @@ export class Operator {
 export class WinningPrize {
     name: string;
     value: number;
-    quantity: number;
+    ranking: string;
 }
 
 @Schema()

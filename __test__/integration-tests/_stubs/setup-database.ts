@@ -1,6 +1,9 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
+import { Call, EndGames, EndGamesDocument, EndGamesSchema } from '../../../src/features/end-games/schemas';
+import { ExchangeRates, ExchangeRatesDocument } from '../../../src/features/exchange-rates/schemas';
+import { GameConfigs, GameConfigsDocument } from '../../../src/features/game-configs/schemas';
 import { Messages, Notifications, NotificationsDocument } from '../../../src/features/notifications/schemas';
 import { PromotionBets, PromotionBetsDocument } from '../../../src/features/promotion-bets/schemas';
 import {
@@ -11,14 +14,10 @@ import {
     WinningPrize,
 } from '../../../src/features/promotion-configs/schemas';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
-import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
-import { PromotionRuns, PromotionRunsDocument } from '../../../src/features/promotion-runs/schemas/promotion-runs.schema';
+import { PromotionRunsDocument } from '../../../src/features/promotion-runs/schemas/promotion-runs.schema';
 import { TicketSilos, TicketSilosDocument } from '../../../src/features/ticket-silos/schemas/ticket-silos.schema';
-import { ExchangeRates, ExchangeRatesDocument } from '../../../src/features/exchange-rates/schemas';
-import { GameConfigs, GameConfigsDocument } from '../../../src/features/game-configs/schemas';
 import { UserInfos, UserInfosDocument } from '../../../src/features/users/schemas';
-import { Call, EndGames, EndGamesDocument, EndGamesSchema } from '../../../src/features/end-games/schemas';
-import { multiCaching } from 'cache-manager';
+import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initLeaderBoard(moduleFixture);
@@ -200,7 +199,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     const winningPrize1 = new WinningPrize();
     winningPrize1.name = '1st prize';
     winningPrize1.value = 1000;
-    winningPrize1.quantity = 1;
+    winningPrize1.ranking = "1";
     item.winningPrizes = [winningPrize1];
     item.updatedTime = new Date();
     item.status = 'new';

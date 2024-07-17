@@ -1,4 +1,5 @@
 import { Result } from '../../../_shared/common/models/result';
+import { WinningPrize } from '../schemas';
 
 export class PromotionConfigsResponse extends Result<PromotionViewModel[]> {}
 export class PromotionConfigResponse extends Result<PromotionDetailViewModel> {}
@@ -41,7 +42,7 @@ export class PromotionViewModel {
     public status: Status;
     public isCompleted: boolean;
 }
-export class WinningPrize {
+export class WinningPrizeViewModel {
     constructor(value: number, ranking: string) {
         this.value = value;
         this.ranking = ranking;
@@ -63,10 +64,31 @@ export class WinningPrize {
 }
 
 export class PromotionDetailViewModel {
-    constructor(winningPrizes: object[]) {
+    constructor(
+        public title: string,
+        public startDateTime: Date,
+        public endDateTime: Date,
+        public otherGameMinBet: number,
+        public slotGameMinBet: number,
+        winningPrizes: WinningPrize[],
+    ) {
+        this.title = title;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.otherGameMinBet = otherGameMinBet;
+        this.slotGameMinBet = slotGameMinBet;
+
         winningPrizes.forEach((winningPrize) => {
-            this.winningPrizes.push(new WinningPrize(winningPrize['value'], winningPrize['ranking']));
+            this.winningPrizes.push(new WinningPrizeViewModel(winningPrize.value, winningPrize.ranking));
         });
+        this.totalPrize = winningPrizes.reduce(
+            (winningPrize, currentWinningPrize) => winningPrize + currentWinningPrize.value,
+            0,
+        );
+        this.countTotalPrize = winningPrizes.length;
     }
-    public winningPrizes: WinningPrize[] = [];
+
+    public winningPrizes: WinningPrizeViewModel[] = [];
+    public totalPrize: number;
+    public countTotalPrize: number;
 }
