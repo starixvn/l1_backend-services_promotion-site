@@ -140,7 +140,7 @@ export class PromotionProcessor {
     }
 
     isSiteNameIncluded(includedSiteNames: string, siteName: string) {
-        return includedSiteNames.replace(' ', '').split(',').includes(siteName);
+        return !includedSiteNames || includedSiteNames.replace(' ', '').split(',').includes(siteName);
     }
 
     isValidMinBet(gameConfigs: GameConfigs[], currencyGroup: CurrencyGroup, ticket: PromotionBets) {
