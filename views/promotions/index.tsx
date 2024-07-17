@@ -64,7 +64,7 @@ const Promotions = ({ handleMoreInfo }) => {
                     {promotions &&
                         promotions.map((promotion, index) => (
                             <li key={index} className="promotion-item">
-                                <img src={`static/images/promotion-${promotion.promotionId}.png`} alt="promotion 1" width={150} />
+                                <img src={`static/images/promotion.png`} alt="promotion 1" width={150} />
                                 <div className="promotion-description">
                                     <h3>{promotion.title}</h3>
                                     <p>{promotion.content}</p>

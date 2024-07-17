@@ -17,7 +17,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
 
   useEffect(() => {
     // fetch(`promotion-config/${promotionId}`, {
-    fetch(`promotion-config/getPromotionDetails`, {
+    fetch(`promotions/getPromotionDetails`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
