@@ -26,6 +26,7 @@ export class PromotionViewModel {
         this.endDateTime = endDateTime;
 
         this.status = this.getStatus();
+        this.isCompleted = this.status === Status.Completed;
     }
 
     private getStatus = (): Status => {
@@ -38,6 +39,7 @@ export class PromotionViewModel {
         return Status.Completed;
     };
     public status: Status;
+    public isCompleted: boolean;
 }
 export class WinningPrize {
     constructor(value: number, ranking: string) {

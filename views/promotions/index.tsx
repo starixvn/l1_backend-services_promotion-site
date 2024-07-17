@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { PromotionViewModel } from 'src/features/promotion-configs/models/promotion-configs-response';
 import '../../public/static/css/style.scss';
-import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../helpers';
-import { useTranslator } from '../hooks/use-translator';
 import LoadingSpinner from '../components/loading-spinner';
+import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../helpers';
 import '../helpers/string-helper';
+import { useTranslator } from '../hooks/use-translator';
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
 
-    if (promotion.status === 'completed') {
+    if (promotion.isCompleted) {
         return <p className="text-red">{t('completed')}</p>;
     }
 
