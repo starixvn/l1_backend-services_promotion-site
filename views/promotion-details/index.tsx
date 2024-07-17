@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslator } from '../hooks/use-translator';
 import '../helpers/string-helper';
 import '../../public/static/css/style.scss';
 import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
 import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { useTranslate } from "@tolgee/react";
+import LoadingSpinner from '../components/loading-spinner';
 
 const TermsAndConditionLine = ({ index, counttotalprize }) => {
   const { t } = useTranslate();
@@ -46,7 +46,7 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
       });
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
 
 

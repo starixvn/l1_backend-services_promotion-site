@@ -3,6 +3,7 @@ import { PromotionViewModel } from 'src/features/promotion-configs/models/promot
 import '../../public/static/css/style.scss';
 import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../../views/helpers';
 import { useTranslator } from '../hooks/use-translator';
+import LoadingSpinner from '../components/loading-spinner';
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
@@ -51,7 +52,7 @@ const Promotions = ({ handleMoreInfo }) => {
             });
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error.message}</div>;
 
     return (

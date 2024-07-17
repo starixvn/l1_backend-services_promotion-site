@@ -7,6 +7,7 @@ import Promotions from './promotions/index';
 import PromotionDetail from './promotion-details/index';
 import LeaderBoard from "./leader-board/index";
 import Unauthorized from "./unauthorized";
+import LoadingSpinner from "./components/loading-spinner";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
@@ -73,7 +74,7 @@ if (window.AppInitialState?.results.isSuccessful) {
 
   initialComponent = <TolgeeProvider
     tolgee={tolgee}
-    fallback="Loading..." // loading fallback
+    fallback={<LoadingSpinner />} // loading fallback
   ><App /></TolgeeProvider >
 }
 
