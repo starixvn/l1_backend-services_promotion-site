@@ -64,7 +64,8 @@ export class PromotionConfigService {
             const data = promotions?.data.filter((promotion) =>
                 promotion.operators.some(
                     (operator) =>
-                        operator.operatorId === session.operatorId && operator.includedSiteNames?.split(',').includes(session.siteName),
+                        operator.operatorId === session.operatorId &&
+                        (operator.includedSiteNames === '' || operator.includedSiteNames?.split(',').includes(session.siteName)),
                 ),
             );
             return new Result(ErrorCodes.Success, '', data);
