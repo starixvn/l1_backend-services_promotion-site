@@ -12,8 +12,8 @@ import {
 import { fakePromotionDetails, PromotionDetailViewModelFake } from './models/promotion-configs-response-fake';
 import { PromotionConfigService } from './promotion-config.service';
 
-@ApiTags('promotion-config')
-@Controller('promotion-config')
+@ApiTags('promotions')
+@Controller('promotions')
 export class PromotionConfigController {
     constructor(
         private readonly service: PromotionConfigService,
@@ -21,7 +21,7 @@ export class PromotionConfigController {
         @Inject(UserClientService) private readonly userClientService: UserClientService,
     ) {}
 
-    @Post('/getByUserSession')
+    @Post('/')
     @ApiOperation({ operationId: 'getByUserSession' })
     @ApiOkResponse({ type: PromotionConfigsResponse })
     async getByUserSession(

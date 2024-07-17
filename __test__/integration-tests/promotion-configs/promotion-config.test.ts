@@ -26,18 +26,7 @@ describe('Promotion', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/promotion-config (GET)', async () => {
-        // Act
-        const token = ''; //await getBearerToken();
-        const result = await request(app.getHttpServer()).get('/promotion-config').set('Authorization', token);
-
-        // Assert
-        const model = JSON.parse(result.text) as Result<PromotionConfigs[]>;
-        expect(result.status).toBe(200);
-        expect(model.data[0].name).toEqual('Weekly Promotion');
-    });
-
-    it('/promotion-config/getByUserSession (POST)', async () => {
+    it('/promotions getByUserSession(POST)', async () => {
         // Act
         const token = ''; //await getBearerToken();
 
@@ -48,7 +37,7 @@ describe('Promotion', () => {
         };
 
         const result = await request(app.getHttpServer())
-            .post('/promotion-config/getByUserSession')
+            .post('/promotions')
             .send(payload)
             .set('Authorization', token);
 

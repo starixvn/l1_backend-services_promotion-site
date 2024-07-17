@@ -27,7 +27,7 @@ const Promotions = ({ handleMoreInfo }) => {
     const { t } = useTranslator();
 
     useEffect(() => {
-        fetch('promotion-config/getByUserSession', {
+        fetch('promotions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

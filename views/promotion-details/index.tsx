@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import '../helpers/string-helper';
-import '../../public/static/css/style.scss';
-import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
-import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { useTranslate } from "@tolgee/react";
+import React, { useEffect, useState } from 'react';
+import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
+import '../../public/static/css/style.scss';
 import LoadingSpinner from '../components/loading-spinner';
 import { GameUtils, ParamsHelper } from '../helpers';
+import '../helpers/string-helper';
+import { convertToGMT8, formatDate } from '../helpers/time-helper';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { sessionId, username } = ParamsHelper.getParams();
@@ -15,7 +15,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { t } = useTranslate();
 
   useEffect(() => {
-    fetch(`promotion-config/${promotionId}`, {
+    fetch(`promotions/${promotionId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
