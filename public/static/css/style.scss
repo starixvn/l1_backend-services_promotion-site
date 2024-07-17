@@ -107,6 +107,20 @@ p {
 .tournament-container {
     max-width: 100rem;
     padding: 1rem;
+    height: 1000px;
+
+    .leader-board {
+        text-align: center;
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 0;
+        padding: 1rem;
+        background-color: lightgray;
+
+        #button {
+            display: inline-block;
+        }
+    }
 }
 
 .title {
@@ -235,6 +249,7 @@ p {
     border: 0.5rem solid rgba(0, 0, 0, 0.5);
     animation: spin-1 0.6s infinite linear alternate, spin-2 1.2s infinite linear;
 }
+
 
 @keyframes spin-1 {
     0% {

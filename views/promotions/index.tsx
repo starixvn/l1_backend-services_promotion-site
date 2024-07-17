@@ -4,6 +4,7 @@ import '../../public/static/css/style.scss';
 import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../helpers';
 import { useTranslator } from '../hooks/use-translator';
 import LoadingSpinner from '../components/loading-spinner';
+import '../helpers/string-helper';
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();

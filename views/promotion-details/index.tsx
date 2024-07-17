@@ -48,6 +48,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const template = "dd/MM/yyyy";
   const startdate = formatDate(convertToGMT8(new Date(promotionDetail.startDateTime)), template);
   const enddate = formatDate(convertToGMT8(new Date(promotionDetail.endDateTime)), template);
+
   return (
     <div>
       <div className="tournament-container">
@@ -131,10 +132,9 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
             }
           </ul>
         </div>
-      </div>
-
-      <div>
-        <button className="btn btn-primary" onClick={handleLeaderBoard}>{t('leaderboard')}</button>
+        <div className='leader-board '>
+          <button className="btn btn-primary" onClick={handleLeaderBoard}>{t('leaderboard')}</button>
+        </div>
       </div>
     </div>
   );
