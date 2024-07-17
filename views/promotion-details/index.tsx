@@ -6,16 +6,6 @@ import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { useTranslate } from "@tolgee/react";
 import LoadingSpinner from '../components/loading-spinner';
 
-const TermsAndConditionLine = ({ index, counttotalprize }) => {
-  const { t } = useTranslate();
-  const key = `terms_conditions_para_${index}`;
-
-  if (index !== 6) {
-    return <li>{t(key)}</li>;
-  }
-
-  return <li>{t(key, { counttotalprize }).replaceTolgeeFormat()}</li>;
-}
 const PromotionDetail = ({ handleLeaderBoard }) => {
   const [promotionDetail, setPromotionDetail] = useState<PromotionDetailViewModelFake>(null);
   const [loading, setLoading] = useState(true);
@@ -126,7 +116,13 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
           <h3 className="title">{t('title_terms_conditions')}</h3>
           <ul>
             {
-              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => <li key={item}><TermsAndConditionLine index={item} counttotalprize={promotionDetail.countTotalPrize} /></li>)
+              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
+                const key = `terms_conditions_para_${item}`
+                return <li key={key}>{item === 6 ?
+                  t(key, { counttotalprize: promotionDetail.countTotalPrize }).replaceTolgeeFormat() :
+                  t(key)}
+                </li>
+              })
             }
           </ul>
         </div>
