@@ -38,7 +38,7 @@ const initEndGame = async (moduleFixture: TestingModule) => {
     const createEndGame = (operatorId, playerId, gameTypeId, gameRoundId) => {
         const item = new EndGames();
         item.operatorId = operatorId;
-        item.logTimeStamp = new Date(new Date().setSeconds(new Date().getSeconds() + 15));
+        item.logTimeStamp = new Date(new Date().setSeconds(new Date().getSeconds() + 15)).toDateString();
         const call = new Call();
         call.playerId = playerId;
         call.gameTypeId = gameTypeId;

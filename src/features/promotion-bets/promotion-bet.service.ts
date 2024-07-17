@@ -53,7 +53,7 @@ export class PromotionBetService {
         const logDB = this.model.db.useDb(LOG_DB);
         const endGameModel = logDB.model<EndGamesDocument>(END_GAMES_COLLECTION, EndGamesSchema as any);
         const execution = endGameModel
-            .find({ logTimeStamp: { $gt: queryTime } })
+            .find({ logTimeStamp: { $gt: queryTime.toISOString() } })
             .lean()
             .exec();
         const endGameLogs = await this.dataHandler.getData(execution);
@@ -67,7 +67,7 @@ export class PromotionBetService {
         tempLog.gameRoundId = item.call.gameRoundId;
         tempLog.gameTypeId = item.call.gameTypeId;
         tempLog.logId = item._id;
-        tempLog.logTimeStamp = item.logTimeStamp;
+        tempLog.logTimeStamp = new Date(item.logTimeStamp);
         tempLog.siteId = item.call.siteId;
         tempLog.system = item.system;
         tempLog.totalAmount = +item.call.totalAmount;

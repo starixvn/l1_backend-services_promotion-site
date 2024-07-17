@@ -24,10 +24,10 @@ export class EndGames {
     @Prop()
     operatorId: string;
 
-    @IsDate()
+    @IsString()
     @ApiProperty()
     @Prop()
-    logTimeStamp: Date;
+    logTimeStamp: string;
 
     @ApiProperty({ type: Call })
     @Prop({ type: Call })
