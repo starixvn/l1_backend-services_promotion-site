@@ -19,7 +19,7 @@ export class PromotionConfigController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) { }
+    ) {}
 
     @Post('/getByUserSession')
     @ApiOperation({ operationId: 'getByUserSession' })
@@ -50,30 +50,13 @@ export class PromotionConfigController {
         }
         const promotionIds = promotions.data.map((promotion) => promotion._id?.toString());
         const notifications = await this.notificationService.getPromotionByIds(promotionIds);
-        const result: PromotionViewModel[] = [];
-        promotions.data.forEach((promotion) => {
-            notifications.data.forEach((notification) => {
-                if (promotion._id?.toString() == notification.promotionId) {
-                    result.push(
-                        new PromotionViewModel(
-                            promotion.promotionId,
-                            notification.title[lang],
-                            notification.messages[lang],
-                            promotion.startDateTime,
-                            promotion.endDateTime,
-                            promotion.status,
-                        ),
-                    );
-                }
-            });
-        });
+        const result: PromotionViewModel[] = this.service.getPromotionsByNotifications(promotions.data, notifications.data, lang);
 
         return new Result(ErrorCodes.Success, '', result);
     }
 
-
     @Post('/:id')
-    @ApiOperation({ operationId: 'getByUserSession' })
+    @ApiOperation({ operationId: 'getById' })
     @ApiOkResponse({ type: PromotionConfigResponse })
     async getById(
         @Param('id') id: number,
@@ -113,7 +96,6 @@ export class PromotionConfigController {
         const result: PromotionDetailViewModel = new PromotionDetailViewModel(promotion.data.winningPrizes);
         return new Result(ErrorCodes.Success, '', result);
     }
-
 
     @Post('/getPromotionDetails')
     async getPromotionDetails(): Promise<Result<PromotionDetailViewModelFake>> {

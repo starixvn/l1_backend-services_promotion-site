@@ -4,7 +4,9 @@ import { LeanDocument, Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
+import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
+import { PromotionViewModel } from './models/promotion-configs-response';
 import { PromotionConfigs, PromotionConfigsDocument } from './schemas';
 
 @Injectable()
@@ -68,5 +70,35 @@ export class PromotionConfigService {
             return new Result(ErrorCodes.Success, '', data);
         }
         return new Result(ErrorCodes.Success, '', []);
+    }
+
+    getPromotionsByNotifications(
+        promotions: LeanDocument<PromotionConfigsDocument>[],
+        notifications: Notifications[],
+        lang: string = 'en-US',
+    ): PromotionViewModel[] {
+        let result: PromotionViewModel[] = [];
+        if (notifications.length > 0) {
+            promotions.forEach((promotion) => {
+                notifications.forEach((notification) => {
+                    if (promotion._id?.toString() == notification.promotionId) {
+                        result.push(
+                            new PromotionViewModel(
+                                promotion.promotionId,
+                                notification.title[lang],
+                                notification.messages[lang],
+                                promotion.startDateTime,
+                                promotion.endDateTime,
+                            ),
+                        );
+                    }
+                });
+            });
+        }
+        const sortByStatusThenTime = (a: PromotionViewModel, b: PromotionViewModel): number =>
+            a.status - b.status || b.startDateTime.getTime() - a.startDateTime.getTime();
+        result.sort(sortByStatusThenTime);
+
+        return result;
     }
 }

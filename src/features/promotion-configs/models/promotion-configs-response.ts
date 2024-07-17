@@ -2,6 +2,14 @@ import { Result } from '../../../_shared/common/models/result';
 
 export class PromotionConfigsResponse extends Result<PromotionViewModel[]> {}
 export class PromotionConfigResponse extends Result<PromotionDetailViewModel> {}
+export class PromotionsViewModel {
+    constructor(public promotions: PromotionViewModel[]) {}
+}
+enum Status {
+    Running = 1,
+    New = 2,
+    Completed = 3,
+}
 
 export class PromotionViewModel {
     constructor(
@@ -10,15 +18,26 @@ export class PromotionViewModel {
         public content: string,
         public startDateTime: Date,
         public endDateTime: Date,
-        public status: string,
     ) {
         this.promotionId = promotionId;
         this.title = title;
         this.content = content;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.status = status;
+
+        this.status = this.getStatus();
     }
+
+    private getStatus = (): Status => {
+        const currentTime = new Date();
+        if (currentTime < this.startDateTime) {
+            return Status.New;
+        } else if (currentTime > this.startDateTime && currentTime < this.endDateTime) {
+            return Status.Running;
+        }
+        return Status.Completed;
+    };
+    public status: Status;
 }
 export class WinningPrize {
     constructor(value: number, ranking: string) {
