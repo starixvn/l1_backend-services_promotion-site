@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/loading-spinner';
 import { GameUtils, ParamsHelper } from '../helpers';
 import Prize from './prize';
 
+
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { sessionId, username } = ParamsHelper.getParams();
   const [promotionDetail, setPromotionDetail] = useState<PromotionDetailViewModelFake>(null);
@@ -51,6 +52,39 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const startdate = formatDate(convertToGMT8(new Date(promotionDetail.startDateTime)), template);
   const enddate = formatDate(convertToGMT8(new Date(promotionDetail.endDateTime)), template);
 
+  const promotionInformation = [
+    {
+      header: t('duration'),
+      description: t("take_place_from", { startdate, enddate }).replaceTolgeeFormat()
+    },
+    {
+      header: t('eligible_games'),
+      description: t('all_games')
+    },
+    {
+      header: t('total_prize'),
+      description: "USD $2000"
+    }
+  ]
+
+  const participantSteps = [
+    {
+      header: t('step1'),
+      description: t('step1_para_1', {
+        minstakeforslotgame: promotionDetail.slotGameMinBet,
+        minstakeforothers: promotionDetail.otherGameMinBet
+      }).replaceTolgeeFormat()
+    },
+    {
+      header: t('step2'),
+      description: t('step2_para_1')
+    },
+    {
+      header: t('step3'),
+      description: t('step3_para_1', { counttotalprize: promotionDetail.countTotalPrize }).replaceTolgeeFormat()
+    }
+  ]
+
   return (
     <div>
       <div className="tournament-container">
@@ -60,36 +94,28 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
         <div className="info-container promotion">
           <h3 className="title">{t('title_promotion_info')}</h3>
           <div className="info-list">
-            <div className="info-item">
-              <h3>{t('duration')}</h3>
-              <p>{t("take_place_from", { startdate, enddate }).replaceTolgeeFormat()}</p>
-            </div>
-            <div className="info-item">
-              <h3>{t('eligible_games')}</h3>
-              <p>{t('all_games')}</p>
-            </div>
-            <div className="info-item">
-              <h3>{t('total_prize')}</h3>
-              <p>USD $2000</p>
-            </div>
+            {
+              promotionInformation.map((infomation, index) => {
+                return <div className="info-item" key={index}>
+                  <h3>{infomation.header}</h3>
+                  <p>{infomation.description}</p>
+                </div>
+              })
+            }
           </div>
         </div>
 
         <div className="info-container participation">
           <h3 className="title">{t('title_participant_steps')}</h3>
           <div className="info-list">
-            <div className="info-item">
-              <h3>{t('step1')}</h3>
-              <p>{t("step1_para_1", { minstakeforslotgame: promotionDetail.slotGameMinBet, minstakeforothers: promotionDetail.otherGameMinBet }).replaceTolgeeFormat()}</p>
-            </div>
-            <div className="info-item">
-              <h3>{t('step2')}</h3>
-              <p>{t('step2_para_1')}</p>
-            </div>
-            <div className="info-item">
-              <h3>{t('step3')}</h3>
-              <p>{t("step3_para_1", { counttotalprize: promotionDetail.countTotalPrize }).replaceTolgeeFormat()}</p>
-            </div>
+            {
+              participantSteps.map((step, index) => {
+                return <div className="info-item" key={index}>
+                  <h3>{step.header}</h3>
+                  <p>{step.description}</p>
+                </div>
+              })
+            }
           </div>
         </div>
 
