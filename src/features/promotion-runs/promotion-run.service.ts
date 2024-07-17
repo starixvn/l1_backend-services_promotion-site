@@ -24,7 +24,6 @@ export class PromotionRunService {
     }
 
     async create(data: PromotionRuns): Promise<Result<PromotionRuns>> {
-        console.log('create');
         return this.dataHandler.createData<PromotionRuns>(this.model, data);
     }
 }

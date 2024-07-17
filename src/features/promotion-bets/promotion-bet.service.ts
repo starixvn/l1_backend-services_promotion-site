@@ -25,7 +25,7 @@ export class PromotionBetService {
         const startDateTime = latestDataSourceTimeStamp && latestDataSourceTimeStamp > startTime ? latestDataSourceTimeStamp : startTime;
         const execution = this.model
             .find({
-                dataSourceTimeStamp: { $gte: startDateTime, $lte: endTime },
+                dataSourceTimeStamp: { $gt: startDateTime, $lt: endTime },
             })
             .lean()
             .exec();
@@ -39,9 +39,11 @@ export class PromotionBetService {
 
     async syncEndGameLog(): Promise<void> {
         const endGameLogs = await this.queryEndGameLog();
-        const tempLogData = endGameLogs.map((item) => {
-            return this.createTempLogItem(item);
-        });
+        const tempLogData = endGameLogs
+            .filter((item) => item.call.totalWin > item.call.totalAmount)
+            .map((item) => {
+                return this.createTempLogItem(item);
+            });
         await this.tempLogEndGameService.deleteAll();
         await this.tempLogEndGameService.insertMany(tempLogData);
         await this.tempLogEndGameService.syncToPromotionBet();
