@@ -6,15 +6,15 @@ import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/mod
 import { convertToGMT8, formatDate } from '../helpers/time-helper';
 import { useTranslate } from "@tolgee/react";
 
-const TermsAndConditionLine = ({ index }) => {
+const TermsAndConditionLine = ({ index, counttotalprize }) => {
   const { t } = useTranslate();
   const key = `terms_conditions_para_${index}`;
 
   if (index !== 6) {
-    return <li>{t(key, { counttotalprize: 404 }).replaceTolgeeFormat()}</li>
+    return <li>{t(key)}</li>;
   }
-  <li>{t(key)}</li>
 
+  return <li>{t(key, { counttotalprize }).replaceTolgeeFormat()}</li>;
 }
 const PromotionDetail = ({ handleLeaderBoard }) => {
   const [promotionDetail, setPromotionDetail] = useState<PromotionDetailViewModelFake>(null);
@@ -126,7 +126,7 @@ const PromotionDetail = ({ handleLeaderBoard }) => {
           <h3 className="title">{t('title_terms_conditions')}</h3>
           <ul>
             {
-              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => <li key={item}><TermsAndConditionLine index={item} /></li>)
+              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => <li key={item}><TermsAndConditionLine index={item} counttotalprize={promotionDetail.countTotalPrize} /></li>)
             }
           </ul>
         </div>
