@@ -1,3 +1,5 @@
+import { WinningPrize } from "./promotion-configs-response";
+
 export class PromotionViewModelFake {
     title: string;
     content: string;
@@ -38,17 +40,14 @@ const fakePromotions: PromotionViewModelFake[] = [
 
 
 export class WinningPrizeFake {
-    name: string;
+    ranking: string;
     value: number;
-    quantity: number;
     constructor(
-        name: string,
-        value: number,
-        quantity: number
+        ranking: string,
+        value: number
     ) {
-        this.name = name;
+        this.ranking = ranking;
         this.value = value;
-        this.quantity = quantity;
     }
 }
 
@@ -93,9 +92,11 @@ const fakePromotionDetails: PromotionDetailViewModelFake = new PromotionDetailVi
     1000,
     3,
     [
-        new WinningPrizeFake("1st prize", 1000, 1),
-        new WinningPrizeFake("2nd prize", 600, 1),
-        new WinningPrizeFake("3rd prize", 400, 4)
+        new WinningPrize(1000, "1"),
+        new WinningPrize(600, "2"),
+        new WinningPrize(400, "3"),
+        new WinningPrize(200, "4-6"),
+        new WinningPrize(100, "7-10")
     ]
 )
 

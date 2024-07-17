@@ -1,11 +1,12 @@
-import { useTranslate } from "@tolgee/react";
 import React, { useEffect, useState } from 'react';
-import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
+import '../helpers/string-helper';
 import '../../public/static/css/style.scss';
+import { PromotionDetailViewModelFake } from 'src/features/promotion-configs/models/promotion-configs-response-fake';
+import { convertToGMT8, formatDate } from '../helpers/time-helper';
+import { useTranslate } from "@tolgee/react";
 import LoadingSpinner from '../components/loading-spinner';
 import { GameUtils, ParamsHelper } from '../helpers';
-import '../helpers/string-helper';
-import { convertToGMT8, formatDate } from '../helpers/time-helper';
+import Prize from './prize';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { sessionId, username } = ParamsHelper.getParams();
@@ -15,7 +16,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { t } = useTranslate();
 
   useEffect(() => {
-    fetch(`promotions/${promotionId}`, {
+    // fetch(`promotion-config/${promotionId}`, {
+    fetch(`promotion-config/getPromotionDetails`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,28 +95,10 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
 
         <div className="info-container prize">
           <h3 className="title">{t('title_prize_categories')}</h3>
-          <div className="info-list">
-            <div className="info-item">
-              <img src="static/images/first-prize.png" alt="Prize 1" />
-              <div>
-                <h3>{t('first_place')}</h3>
-                <p>$1000</p>
-              </div>
-            </div>
-            <div className="info-item">
-              <img src="static/images/second-prize.png" alt="Prize 2" />
-              <div>
-                <h3>{t('second_place')}</h3>
-                <p>$600</p>
-              </div>
-            </div>
-            <div className="info-item">
-              <img src="static/images/third-prize.png" alt="Prize 3" />
-              <div>
-                <h3>{t('third_place')}</h3>
-                <p>$400</p>
-              </div>
-            </div>
+          <div className="prize-container ">
+            {
+              promotionDetail.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)
+            }
           </div>
         </div>
 
