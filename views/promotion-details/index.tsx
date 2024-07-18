@@ -3,7 +3,7 @@ import React from 'react';
 import '../../public/static/css/style.scss';
 import LoadingSpinner from '../components/loading-spinner';
 import '../helpers/string-helper';
-import { convertToGMT8, formatDate } from '../helpers/time-helper';
+import { convertToGMT8, formatDate, formatNumberWithComma } from '../helpers/common-helper';
 import Prize from './prize';
 import useFetchData from '../hooks/use-fetch-data';
 
@@ -29,7 +29,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     },
     {
       header: t('total_prize'),
-      description: data.totalPrize,
+      description: formatNumberWithComma(data.totalPrize),
     },
   ];
 
@@ -37,8 +37,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     {
       header: t('step1'),
       description: t('step1_para_1', {
-        minstakeforslotgame: data.slotGameMinBet,
-        minstakeforothers: data.otherGameMinBet,
+        minstakeforslotgame: formatNumberWithComma(data.slotGameMinBet),
+        minstakeforothers: formatNumberWithComma(data.otherGameMinBet),
       }).replaceTolgeeFormat(),
     },
     {
@@ -55,7 +55,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     <div>
       <div className="tournament-container">
         <h2 className="text-center">{data.title}</h2>
-        <p className="text-center">{t('promotion_header', { prizevalue1: data.winningPrizes[0]?.value }).replaceTolgeeFormat()}</p>
+        <p className="text-center">{t('promotion_header', { prizevalue1: formatNumberWithComma(data.winningPrizes[0]?.value) }).replaceTolgeeFormat()}</p>
 
         <div className="info-container promotion">
           <h3 className="title">{t('title_promotion_info')}</h3>

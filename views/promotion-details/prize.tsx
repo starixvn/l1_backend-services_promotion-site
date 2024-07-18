@@ -2,6 +2,7 @@ import React from 'react';
 import '../helpers/string-helper';
 import '../../public/static/css/style.scss';
 import { useTranslate } from "@tolgee/react";
+import { formatNumberWithComma } from '../helpers/common-helper';
 
 const getPrizeDescription = ({ prize }) => {
   const { t } = useTranslate();
@@ -42,7 +43,7 @@ const Prize = ({ prize }) => {
     <img src={`${imagePath}/${image}`} alt="" />
     <div>
       <h3>{text}</h3>
-      <p>{prize.value}</p>
+      <p>{formatNumberWithComma(prize.value)}</p>
     </div>
   </div>);
 }
