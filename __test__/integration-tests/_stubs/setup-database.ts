@@ -197,9 +197,8 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     item.startDateTime = new Date(new Date().setDate(new Date().getDate() - 2));
     item.endDateTime = new Date(new Date().setSeconds(new Date().getSeconds() + 20));
     const winningPrize1 = new WinningPrize();
-    winningPrize1.name = '1st prize';
     winningPrize1.value = 1000;
-    winningPrize1.ranking = "1";
+    winningPrize1.ranking = '1';
     item.winningPrizes = [winningPrize1];
     item.updatedTime = new Date();
     item.status = 'new';

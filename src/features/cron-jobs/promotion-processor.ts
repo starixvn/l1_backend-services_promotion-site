@@ -64,9 +64,37 @@ export class PromotionProcessor {
         const result = await this.promotionConfigService.getPromotionsByStatus(PROMOTION_STATUSES.running);
         const currentTime = this.getCurrentTime();
         for (const promotionConfig of result.data) {
-            if (promotionConfig.endDateTime < currentTime) {
-                await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.finished);
+            try {
+                if (promotionConfig.endDateTime < currentTime) {
+                    await this.updateAwardedAmount(promotionConfig);
+                    await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.finished);
+                }
+            } catch (e) {
+                this.logger.error(e);
             }
+        }
+    }
+
+    async updateAwardedAmount(promotionConfigs: PromotionConfigs) {
+        const awards = promotionConfigs.winningPrizes.reduce((accumulator, currentValue) => {
+            if (currentValue.ranking.includes('-')) {
+                const ranks = currentValue.ranking.split('-');
+                const fromRank = +ranks[0];
+                const toRank = +ranks[1];
+                for (let i = 0; i < toRank - fromRank + 1; i++) {
+                    accumulator.push(currentValue.value);
+                }
+            } else {
+                accumulator.push(currentValue.value);
+            }
+
+            return accumulator;
+        }, []);
+
+        const topLeaderBoard = await this.leaderBoardService.getTopLeaderBoard(promotionConfigs.promotionId, awards.length);
+        for (let i = 0; i < topLeaderBoard.data.length; i++) {
+            const leaderBoard = topLeaderBoard.data[i];
+            this.leaderBoardService.updateAwardAmount(leaderBoard, awards[i]);
         }
     }
 

@@ -26,7 +26,6 @@ export class Operator {
 }
 
 export class WinningPrize {
-    name: string;
     value: number;
     ranking: string;
 }
@@ -57,9 +56,9 @@ export class PromotionConfigs {
     @Prop({ isArray: true, type: Operator })
     operators: Operator[];
 
-    @ApiProperty({ type: [Object] })
-    @Prop({ type: [Object] })
-    winningPrizes: object[];
+    @ApiProperty({ isArray: true, type: WinningPrize })
+    @Prop({ isArray: true, type: WinningPrize })
+    winningPrizes: WinningPrize[];
 
     @IsDate()
     @ApiProperty()

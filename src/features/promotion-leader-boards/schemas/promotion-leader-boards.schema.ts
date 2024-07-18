@@ -71,6 +71,11 @@ export class PromotionLeaderBoards {
     @ApiProperty()
     @Prop({ required: false })
     awardedTime: Date;
+
+    @IsNumber()
+    @ApiProperty()
+    @Prop()
+    awardedAmount: number;
 }
 
 export const PromotionLeaderBoardsSchema = SchemaFactory.createForClass(PromotionLeaderBoards);
