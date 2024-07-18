@@ -167,7 +167,7 @@ const initLeaderBoard = async (moduleFixture: TestingModule) => {
     item.nickName = 'Onion3417';
     item.point = 1;
     item.updatedTime = new Date();
-    item.currency = 'VND';
+    item.currency = 'INH';
     item.dataSourceTimeStamp = new Date();
     item.pointInBaseCurrency = 1000;
     await model.insertMany([item]);
@@ -237,7 +237,8 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         item.dataSourceId = dataSourceId;
         item.dataSourceTimeStamp = dataSourceTimeStamp;
         item.updatedTime = new Date();
-        item.currency = 'VND';
+        item.currencyCode = 'VND';
+        item.currencyName = 'INH';
         item.nickname = nickname;
         item.multiplier = 1000;
 

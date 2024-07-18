@@ -65,7 +65,12 @@ export class PromotionBets {
     @IsString()
     @ApiProperty()
     @Prop({ required: true })
-    currency: string;
+    currencyCode: string;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    currencyName: string;
 
     @IsString()
     @ApiProperty()

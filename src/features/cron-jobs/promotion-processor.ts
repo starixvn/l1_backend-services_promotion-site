@@ -156,9 +156,9 @@ export class PromotionProcessor {
             leaderBoard.operatorId = ticket.operatorId;
             leaderBoard.siteName = ticket.siteName;
             leaderBoard.currencyGroupId = ticket.currencyGroupId;
-            leaderBoard.currency = ticket.currency;
+            leaderBoard.currency = ticket.currencyName;
             leaderBoard.point = (ticket.totalWin - ticket.totalAmount) / 100;
-            leaderBoard.pointInBaseCurrency = leaderBoard.point * exchangeRate.code[ticket.currency] * ticket.multiplier;
+            leaderBoard.pointInBaseCurrency = leaderBoard.point * exchangeRate.code[ticket.currencyCode] * ticket.multiplier;
             leaderBoard.dataSourceTimeStamp = ticket.dataSourceTimeStamp;
             leaderBoard.nickName = ticket.nickname;
 
