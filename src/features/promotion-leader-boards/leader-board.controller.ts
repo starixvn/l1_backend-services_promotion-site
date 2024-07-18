@@ -11,7 +11,7 @@ export class LeaderBoardController {
     constructor(
         private readonly service: LeaderBoardService,
         @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) {}
+    ) { }
 
     @Post('/:promotionId')
     @ApiOperation({ operationId: 'getLeaderBoard' })

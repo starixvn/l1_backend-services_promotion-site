@@ -1,9 +1,31 @@
 import React from 'react';
 import '../../public/static/css/style.scss';
 import { useTranslate } from '@tolgee/react';
+import LoadingSpinner from '../components/loading-spinner';
+import useFetchData from '../hooks/use-fetch-data';
+
+export const PlayerBoard = ({ player, currentUserNickName, index }) => {
+  const { t } = useTranslate();
+  const isTop3 = index < 3;
+  const isCurrentPlayer = player.nickName === currentUserNickName;
+
+  return (
+    <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isCurrentPlayer ? 'player' : ''} `}>
+      <div>
+        <span className={`ranking-place ${isTop3 ? 'place-third' : ''} `}>{index + 1}</span>
+      </div>
+      <div>{isCurrentPlayer ? t("you") : player.nickName}</div>
+      <div>{player.point}</div>
+    </div>)
+}
 
 const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
   const { t } = useTranslate();
+  const { data, loading, error } = useFetchData(`/leader-board/${promotionId}`);
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div>
       <div className="leaderboard">
@@ -15,63 +37,18 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
             <div className="points">{t("total_points")}</div>
           </div>
           <div className="board-body">
-            <div className="board-row top-3">
-              <div>
-                <span className="ranking-place place-first">1</span>
+            {
+              data.leadBoardItems.map((player, index) => <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />)
+            }
+
+            <div className="board-body">
+              <div className="board-row player">
+                <div>
+                  <span className="ranking-place place-third">{data.currentUser.rank}</span>
+                </div>
+                <div>{t("you")}</div>
+                <div>{data.currentUser.point}</div>
               </div>
-              <div>O***149</div>
-              <div>1223</div>
-            </div>
-            <div className="board-row top-3">
-              <div>
-                <span className="ranking-place place-second">2</span>
-              </div>
-              <div>E***663</div>
-              <div>1007</div>
-            </div>
-            <div className="board-row top-3 player">
-              <div>
-                <span className="ranking-place place-third">3</span>
-              </div>
-              <div>{t("you")}</div>
-              <div>987</div>
-            </div>
-            <div className="board-row">
-              <div>
-                <span className="ranking-place">4</span>
-              </div>
-              <div>W***345</div>
-              <div>865</div>
-            </div>
-            <div className="board-row">
-              <div>
-                <span className="ranking-place">5</span>
-              </div>
-              <div>N***918</div>
-              <div>701</div>
-            </div>
-            <div className="board-row">
-              <div>
-                <span className="ranking-place">6</span>
-              </div>
-              <div>R***128</div>
-              <div>531</div>
-            </div>
-            <div className="board-row">
-              <div>
-                <span className="ranking-place">7</span>
-              </div>
-              <div>B***519</div>
-              <div>401</div>
-            </div>
-          </div>
-          <div className="board-body">
-            <div className="board-row player">
-              <div>
-                <span className="ranking-place place-third">3</span>
-              </div>
-              <div>{t("you")}</div>
-              <div>987</div>
             </div>
           </div>
         </div>
