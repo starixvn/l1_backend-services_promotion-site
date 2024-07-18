@@ -3,6 +3,7 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { NotificationService } from '../notifications/notification.service';
 import { UserClientService } from '../users/services/user-client.service';
+import { isIncludedSite } from './helpers/promotion-helper';
 import {
     PromotionConfigResponse,
     PromotionConfigsResponse,
@@ -78,15 +79,8 @@ export class PromotionConfigController {
             return new Result(ErrorCodes.Failed, 'Not Found Promotion');
         }
         const promotion = getPromotionResult.data;
-        const isBelongToUser = () => {
-            return promotion.operators.some(
-                (operator) =>
-                    operator.operatorId === session.operatorId &&
-                    (operator.includedSiteNames === '' || operator.includedSiteNames?.split(',').includes(session.siteName)),
-            );
-        };
 
-        if (!isBelongToUser) {
+        if (!isIncludedSite(promotion, session)) {
             return new Result(ErrorCodes.Failed, 'Promotion not belong to user');
         }
         const notification = await this.notificationService.getPromotionById(promotion._id);

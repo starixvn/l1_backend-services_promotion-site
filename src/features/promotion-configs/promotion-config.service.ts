@@ -6,6 +6,7 @@ import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
+import { isIncludedSite } from './helpers/promotion-helper';
 import { PromotionDetailViewModel, PromotionViewModel } from './models/promotion-configs-response';
 import { CurrencyGroup, PromotionConfigs, PromotionConfigsDocument, WinningPrize } from './schemas';
 
@@ -66,11 +67,7 @@ export class PromotionConfigService {
 
         const promotions = await this.dataHandler.getData(execution);
         if (promotions?.data?.length > 0) {
-            const data = promotions?.data.filter((promotion) =>
-                promotion.operators.some(
-                    (operator) => operator.includedSiteNames === '' || operator.includedSiteNames?.split(',').includes(session.siteName),
-                ),
-            );
+            const data = promotions?.data.filter((promotion) => isIncludedSite(promotion, session));
             return new Result(ErrorCodes.Success, '', data);
         }
         return new Result(ErrorCodes.Success, '', []);
