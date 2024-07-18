@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { Result } from '../../_shared/common/models/result';
 import { DataHandler } from '../../_shared/common/providers';
 import { UserSession } from '../users/schemas';
-import { LeaderBoardItemViewModel, LeaderBoardViewModel } from './models/leader-board-response';
+import { LeaderBoardItemViewModel, LeaderBoardViewModel, you } from './models/leader-board-response';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from './schemas';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class LeaderBoardService {
     > {
         const currentUser = await this.model.findOne({ promotionId, playerId: userSession.playerId }).lean().exec();
         if (!currentUser) {
-            return { rank: 0, ...new LeaderBoardItemViewModel('you', 0) };
+            return { rank: 0, ...new LeaderBoardItemViewModel(you, 0) };
         }
         const rankBeforeUser = await this.model
             .find({
@@ -53,7 +53,7 @@ export class LeaderBoardService {
             .lean()
             .count()
             .exec();
-        return { rank: rankBeforeUser + 1, ...new LeaderBoardItemViewModel('you', currentUser.point) };
+        return { rank: rankBeforeUser + 1, ...new LeaderBoardItemViewModel(you, currentUser.point) };
     }
 
     async getTopLeaderBoard(promotionId: number, limit: number): Promise<Result<PromotionLeaderBoards[]>> {
