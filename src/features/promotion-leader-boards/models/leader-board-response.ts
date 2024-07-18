@@ -2,12 +2,19 @@ import { Result } from '../../../_shared/common/models/result';
 
 export class LeaderBoardResponse extends Result<LeaderBoardViewModel> {}
 export class LeaderBoardViewModel {
-    constructor(public leadBoardItems: LeaderBoardItemViewModel[]) {
+    constructor(
+        public leadBoardItems: LeaderBoardItemViewModel[],
+        public currentUser: LeaderBoardItemViewModel & {
+            rank: number;
+        },
+    ) {
         this.leadBoardItems = leadBoardItems;
+        this.currentUser = currentUser;
+        const isUserTop10 = currentUser.rank <= 10;
+        if (isUserTop10) {
+            this.leadBoardItems[currentUser.rank - 1] = currentUser;
+        }
     }
-    public currentUser: LeaderBoardItemViewModel & {
-        rank: number;
-    };
 }
 export class LeaderBoardItemViewModel {
     constructor(
@@ -21,7 +28,7 @@ export class LeaderBoardItemViewModel {
 export const GetFakeDataUserTop = () => {
     const leaderBoardItems: LeaderBoardItemViewModel[] = [];
 
-    leaderBoardItems.push(new LeaderBoardItemViewModel('Faker666', 1000));
+    leaderBoardItems.push(new LeaderBoardItemViewModel('you', 1000));
     leaderBoardItems.push(new LeaderBoardItemViewModel('A***666', 900));
     leaderBoardItems.push(new LeaderBoardItemViewModel('C***123', 800));
     leaderBoardItems.push(new LeaderBoardItemViewModel('D***123', 700));
@@ -32,9 +39,7 @@ export const GetFakeDataUserTop = () => {
     leaderBoardItems.push(new LeaderBoardItemViewModel('K***123', 200));
     leaderBoardItems.push(new LeaderBoardItemViewModel('J***123', 100));
 
-    const leaderBoard = new LeaderBoardViewModel(leaderBoardItems);
-    leaderBoard.currentUser = { rank: 1, ...new LeaderBoardItemViewModel('Faker666', 1000) };
-    return leaderBoard;
+    return new LeaderBoardViewModel(leaderBoardItems, { rank: 1, ...new LeaderBoardItemViewModel('you', 1000) });
 };
 
 export const GetFakeData = () => {
@@ -51,7 +56,5 @@ export const GetFakeData = () => {
     leaderBoardItems.push(new LeaderBoardItemViewModel('K***123', 200));
     leaderBoardItems.push(new LeaderBoardItemViewModel('J***123', 100));
 
-    const leaderBoard = new LeaderBoardViewModel(leaderBoardItems);
-    leaderBoard.currentUser = { ...new LeaderBoardItemViewModel('Faker666', 10), rank: 15 };
-    return leaderBoard;
+    return new LeaderBoardViewModel(leaderBoardItems, { ...new LeaderBoardItemViewModel('you', 10), rank: 15 });
 };

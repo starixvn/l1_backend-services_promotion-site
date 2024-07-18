@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../../src/_shared/common/models/result';
 import { UserClientService } from '../users/services/user-client.service';
 import { LeaderBoardService } from './leader-board.service';
-import { GetFakeData, GetFakeDataUserTop, LeaderBoardResponse } from './models/leader-board-response';
+import { LeaderBoardResponse } from './models/leader-board-response';
 
 @ApiTags('leader-board')
 @Controller('leader-board')
@@ -32,10 +32,6 @@ export class LeaderBoardController {
             return new Result(ErrorCodes.Failed, verifySession.errorMessage);
         }
 
-        this.service.getLeaderBoard(promotionId, verifySession.data.currencyGroupId);
-        if (promotionId == 1) {
-            return new Result(ErrorCodes.Success, '', GetFakeDataUserTop());
-        }
-        return new Result(ErrorCodes.Success, '', GetFakeData());
+        return new Result(ErrorCodes.Success, '', await this.service.getLeaderBoard(promotionId, verifySession.data));
     }
 }
