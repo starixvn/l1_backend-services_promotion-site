@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserClientService } from '../users/services/user-client.service';
 import { LeaderBoardController } from './leader-board.controller';
 import { LeaderBoardService } from './leader-board.service';
 import { PromotionLeaderBoards, PromotionLeaderBoardsSchema } from './schemas';
@@ -10,7 +11,7 @@ import { PromotionLeaderBoards, PromotionLeaderBoardsSchema } from './schemas';
             { name: PromotionLeaderBoards.name, schema: PromotionLeaderBoardsSchema, collection: 'promotion_leaderboards' },
         ]),
     ],
-    providers: [LeaderBoardService],
+    providers: [LeaderBoardService, UserClientService],
     exports: [LeaderBoardService],
     controllers: [LeaderBoardController],
 })

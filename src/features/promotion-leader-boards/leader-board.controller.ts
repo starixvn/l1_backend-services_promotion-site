@@ -1,19 +1,41 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { LeaderBoardService } from './leader-board.service';
-import { PromotionLeaderBoards } from './schemas';
-import { Result } from '../../_shared/common/models/result';
+import { Body, Controller, Headers, Inject, Param, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { LeaderBoardResponse } from './models/leader-board-response';
+import { ErrorCodes, Result } from '../../../src/_shared/common/models/result';
+import { UserClientService } from '../users/services/user-client.service';
+import { LeaderBoardService } from './leader-board.service';
+import { GetFakeData, GetFakeDataUserTop, LeaderBoardResponse } from './models/leader-board-response';
 
 @ApiTags('leader-board')
 @Controller('leader-board')
 export class LeaderBoardController {
-    constructor(private readonly service: LeaderBoardService) {}
+    constructor(
+        private readonly service: LeaderBoardService,
+        @Inject(UserClientService) private readonly userClientService: UserClientService,
+    ) {}
 
-    @Get('/')
+    @Post('/:promotionId')
     @ApiOperation({ operationId: 'getLeaderBoard' })
     @ApiOkResponse({ type: LeaderBoardResponse })
-    async getLeaderBoard(@Query('promotionId') promotionId: string): Promise<Result<PromotionLeaderBoards[]>> {
-        return this.service.getLeaderBoard(promotionId);
+    async getLeaderBoard(
+        @Param('promotionId') promotionId: number,
+        @Body('sessionId') sessionId: string,
+        @Body('username') username: string,
+        @Headers('user-agent') browserUserAgent: string,
+    ): Promise<LeaderBoardResponse> {
+        const verifySession = await this.userClientService.getSessionVerify({
+            sessionId,
+            username,
+            browserUserAgent,
+        });
+
+        if (!verifySession.isSuccessful) {
+            return new Result(ErrorCodes.Failed, verifySession.errorMessage);
+        }
+
+        this.service.getLeaderBoard(promotionId, verifySession.data.currencyGroupId);
+        if (promotionId == 1) {
+            return new Result(ErrorCodes.Success, '', GetFakeDataUserTop());
+        }
+        return new Result(ErrorCodes.Success, '', GetFakeData());
     }
 }
