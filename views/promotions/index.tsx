@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { PromotionViewModel } from 'src/features/promotion-configs/models/promotion-configs-response';
+import React from 'react';
 import '../../public/static/css/style.scss';
 import LoadingSpinner from '../components/loading-spinner';
-import { GameUtils, ParamsHelper, convertToGMT8, formatDate } from '../helpers';
+import { convertToGMT8, formatDate } from '../helpers';
 import '../helpers/string-helper';
 import { useTranslator } from '../hooks/use-translator';
+import useFetchData from '../hooks/use-fetch-data';
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
@@ -20,38 +20,8 @@ const PromotionContent = ({ promotion }) => {
 };
 
 const Promotions = ({ handleMoreInfo }) => {
-    const { sessionId, username } = ParamsHelper.getParams();
-    const [promotions, setPromotions] = useState<PromotionViewModel[]>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { t } = useTranslator();
-
-    useEffect(() => {
-        fetch('promotions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                sessionId: GameUtils.base64Decode(sessionId),
-                username,
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((promotions) => {
-                setPromotions(promotions.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setError(error);
-                setLoading(false);
-            });
-    }, []);
+    const { data, loading, error } = useFetchData('promotions');
 
     if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error.message}</div>;
@@ -61,8 +31,8 @@ const Promotions = ({ handleMoreInfo }) => {
             <div className="promotion-container">
                 <h2>{t('promotions')}</h2>
                 <ul className="promotion-list">
-                    {promotions &&
-                        promotions.map((promotion, index) => (
+                    {data &&
+                        data.map((promotion, index) => (
                             <li key={index} className="promotion-item">
                                 <img src={`static/images/promotion.png`} alt="promotion 1" width={150} />
                                 <div className="promotion-description">
