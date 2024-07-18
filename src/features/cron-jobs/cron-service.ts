@@ -10,7 +10,7 @@ export class CronService {
         private readonly promotionProcessor: PromotionProcessor,
     ) {}
 
-    @Cron(CronExpression.EVERY_MINUTE)
+    @Cron(process.env.PROMOTION_CRON_JOB, { disabled: process.env.DISABLE_PROMOTION_CRON_JOB === 'true' })
     handleCron() {
         try {
             const startTime = new Date();
