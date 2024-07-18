@@ -36,7 +36,12 @@ export class LeaderBoardService {
     }
 
     async upsert(data: PromotionLeaderBoards): Promise<Result<PromotionLeaderBoards>> {
-        const filter = { promotionId: data.promotionId, operatorId: data.operatorId, playerId: data.playerId };
+        const filter = {
+            promotionId: data.promotionId,
+            operatorId: data.operatorId,
+            playerId: data.playerId,
+            dataSourceTimeStamp: { $ne: data.dataSourceTimeStamp },
+        };
         const existingItemIncrement: any = { point: data.point, pointInBaseCurrency: data.pointInBaseCurrency };
         const newData = {
             promotionId: data.promotionId,
