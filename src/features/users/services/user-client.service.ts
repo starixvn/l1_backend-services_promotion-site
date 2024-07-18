@@ -1,12 +1,24 @@
 import { Injectable } from '@nestjs/common';
 
-import { UserServiceClient } from '../../../../src/_shared/services/user-service';
+import { ErrorCodes, Result } from 'src/_shared/common/models/result';
+import { UserServiceClient, UserSession } from '../../../../src/_shared/services/user-service';
 import { VerifySessionRequest } from '../models';
 
 @Injectable()
 export class UserClientService {
+    async getSessionVerify(request: VerifySessionRequest): Promise<Result<UserSession>> {
+        const { isAuthenticated, session } = await UserServiceClient.getSession(
+            request.sessionId,
+            request.username,
+            request.browserUserAgent,
+        );
+        if (!isAuthenticated) {
+            return new Result(ErrorCodes.Failed, 'Session invalid');
+        }
 
-    async getSession(request: VerifySessionRequest) {
-        return await UserServiceClient.getSession(request.sessionId, request.username, request.browserUserAgent);
+        if (session.disableAward) {
+            return new Result(ErrorCodes.Failed, 'User is disable award');
+        }
+        return new Result(ErrorCodes.Success, '', session);
     }
 }

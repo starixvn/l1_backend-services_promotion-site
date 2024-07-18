@@ -30,19 +30,16 @@ export class PromotionConfigController {
         @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigsResponse> {
-        const { isAuthenticated, session } = await this.userClientService.getSession({
+        const verifySession = await this.userClientService.getSessionVerify({
             sessionId,
             username,
             browserUserAgent,
         });
 
-        if (!isAuthenticated) {
-            return new Result(ErrorCodes.Failed, 'Session invalid');
+        if (!verifySession.isSuccessful) {
+            return new Result(ErrorCodes.Failed, verifySession.errorMessage);
         }
-
-        if (session.disableAward) {
-            return new Result(ErrorCodes.Failed, 'User is disable award');
-        }
+        const session = verifySession.data;
 
         const promotions = await this.service.getBySession(session);
         if (promotions.data.length == 0) {
@@ -65,26 +62,24 @@ export class PromotionConfigController {
         @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigResponse> {
-        const { isAuthenticated, session } = await this.userClientService.getSession({
+        const verifySession = await this.userClientService.getSessionVerify({
             sessionId,
             username,
             browserUserAgent,
         });
 
-        if (!isAuthenticated) {
-            return new Result(ErrorCodes.Failed, 'Session invalid');
+        if (!verifySession.isSuccessful) {
+            return new Result(ErrorCodes.Failed, verifySession.errorMessage);
         }
+        const session = verifySession.data;
 
-        if (session.disableAward) {
-            return new Result(ErrorCodes.Failed, 'User is disable award');
-        }
-
-        const promotion = await this.service.getById(id, session.currencyGroupId);
-        if (promotion.errorCode === ErrorCodes.Failed) {
+        const getPromotionResult = await this.service.getById(id, session.currencyGroupId);
+        if (getPromotionResult.errorCode === ErrorCodes.Failed) {
             return new Result(ErrorCodes.Failed, 'Not Found Promotion');
         }
+        const promotion = getPromotionResult.data;
         const isBelongToUser = () => {
-            return promotion.data.operators.some(
+            return promotion.operators.some(
                 (operator) =>
                     operator.operatorId === session.operatorId &&
                     (operator.includedSiteNames === '' || operator.includedSiteNames?.split(',').includes(session.siteName)),
@@ -94,12 +89,12 @@ export class PromotionConfigController {
         if (!isBelongToUser) {
             return new Result(ErrorCodes.Failed, 'Promotion not belong to user');
         }
-        const notification = await this.notificationService.getPromotionById(promotion.data._id);
+        const notification = await this.notificationService.getPromotionById(promotion._id);
         if (!notification.data) {
             return new Result(ErrorCodes.Failed, 'Promotion data not available');
         }
         const title = notification.data.title[lang];
-        const result: PromotionDetailViewModel = this.service.getPromotionDetail(promotion.data, session.currencyGroupId,title);
+        const result: PromotionDetailViewModel = this.service.getPromotionDetail(promotion, session.currencyGroupId, title);
         return new Result(ErrorCodes.Success, '', result);
     }
 

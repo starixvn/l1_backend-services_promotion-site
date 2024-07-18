@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, NotFoundException, Query, Render, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Inject, Query, Render } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
 import { NotificationService } from './features/notifications/notification.service';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
@@ -26,8 +26,8 @@ export class AppController {
             return unauthorizedResult;
         }
 
-        const { isAuthenticated, session } = await this.userClientService.getSession({ sessionId, username, browserUserAgent });
-        if (!isAuthenticated && !session.disableAward) {
+        const { isSuccessful } = await this.userClientService.getSessionVerify({ sessionId, username, browserUserAgent });
+        if (!isSuccessful) {
             return unauthorizedResult;
         }
 
