@@ -40,7 +40,7 @@ export class LeaderBoardService {
             promotionId: data.promotionId,
             operatorId: data.operatorId,
             playerId: data.playerId,
-            dataSourceTimeStamp: { $ne: data.dataSourceTimeStamp },
+            dataSourceTimeStamp: { $lt: data.dataSourceTimeStamp },
         };
         const existingItemIncrement: any = { point: data.point, pointInBaseCurrency: data.pointInBaseCurrency };
         const newData = {

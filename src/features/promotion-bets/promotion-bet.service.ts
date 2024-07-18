@@ -27,6 +27,7 @@ export class PromotionBetService {
             .find({
                 dataSourceTimeStamp: { $gt: startDateTime, $lt: endTime },
             })
+            .sort({ dataSourceTimeStamp: 1 })
             .lean()
             .exec();
         return this.dataHandler.getData(execution);
