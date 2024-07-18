@@ -33,6 +33,6 @@ describe('Promotion', () => {
         // Assert
         const model = JSON.parse(result.text) as Result<PromotionBets[]>;
         expect(result.status).toBe(200);
-        expect(model.data[0].playerId).toEqual(1);
+        expect(model.data[0].playerId).toEqual('1');
     });
 });

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { ErrorCodes, Result } from 'src/_shared/common/models/result';
+import { ErrorCodes, Result } from '../../../_shared/common/models/result';
 import { UserServiceClient, UserSession } from '../../../../src/_shared/services/user-service';
 import { VerifySessionRequest } from '../models';
 
