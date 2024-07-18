@@ -22,7 +22,7 @@ export const PlayerBoard = ({ player, currentUserNickName, index }) => {
 
 const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
   const { t } = useTranslate();
-  const { data, loading, error } = useFetchData(`/leader-board/${promotionId}`);
+  const { data, loading, error } = useFetchData(`/leader-board/1`);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
