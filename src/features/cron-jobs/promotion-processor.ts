@@ -67,7 +67,7 @@ export class PromotionProcessor {
             try {
                 if (promotionConfig.endDateTime < currentTime) {
                     await this.updateAwardedAmount(promotionConfig);
-                    await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.finished);
+                    await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.completed);
                 }
             } catch (e) {
                 this.logger.error(e);
