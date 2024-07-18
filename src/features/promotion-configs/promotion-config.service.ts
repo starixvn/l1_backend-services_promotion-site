@@ -37,8 +37,7 @@ export class PromotionConfigService {
 
     async getById(id: number, currencyGroupId: string): Promise<Result<LeanDocument<PromotionConfigsDocument>>> {
         const filter = {
-            'operators.currencyGroups.currencyGroupId': currencyGroupId,
-            'operators.currencyGroups.enabled': true,
+            'operators.currencyGroups': { $elemMatch: { enabled: true, currencyGroupId: currencyGroupId } },
             promotionId: id,
         };
         const execution = this.model.findOne(filter).lean().exec();
@@ -52,8 +51,12 @@ export class PromotionConfigService {
 
     async getBySession(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {
         const filter = {
-            'operators.currencyGroups.currencyGroupId': session.currencyGroupId,
-            'operators.currencyGroups.enabled': true,
+            operators: {
+                $elemMatch: {
+                    operatorId: session.operatorId,
+                    currencyGroups: { $elemMatch: { enabled: true, currencyGroupId: session.currencyGroupId } },
+                },
+            },
         };
         const execution = this.model
             .find(filter)
@@ -65,9 +68,7 @@ export class PromotionConfigService {
         if (promotions?.data?.length > 0) {
             const data = promotions?.data.filter((promotion) =>
                 promotion.operators.some(
-                    (operator) =>
-                        operator.operatorId === session.operatorId &&
-                        (operator.includedSiteNames === '' || operator.includedSiteNames?.split(',').includes(session.siteName)),
+                    (operator) => operator.includedSiteNames === '' || operator.includedSiteNames?.split(',').includes(session.siteName),
                 ),
             );
             return new Result(ErrorCodes.Success, '', data);
@@ -125,7 +126,7 @@ export class PromotionConfigService {
             endDateTime,
             currencyGroup.otherGameMinBet,
             currencyGroup.slotGameMinBet,
-            (winningPrizes as WinningPrize[]),
+            winningPrizes as WinningPrize[],
         );
         return result;
     }
