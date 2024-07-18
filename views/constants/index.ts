@@ -1,8 +1,2 @@
-export const LanguageLocaleMapper = {
-    en: "en-US",
-    vi: "vi-VN",
-    th: "th-TH",
-    id: "id-ID",
-    zh_cn: "zh-CN",
-    zh_tw: "zh-TW",
-};
+export const LanguageMapper = { "en-US": "en", "vi-VN": "vi", "th-TH": "th", "id-ID": "id", "zh-CN": "zh_cn", "zh-TW": "zh_tw" };
+

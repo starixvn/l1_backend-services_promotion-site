@@ -8,6 +8,8 @@ import PromotionDetail from './promotion-details/index';
 import LeaderBoard from "./leader-board/index";
 import Unauthorized from "./unauthorized";
 import LoadingSpinner from "./components/loading-spinner";
+import { ParamsHelper } from "./helpers";
+import { LanguageMapper } from "./constants";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
@@ -19,7 +21,7 @@ if (window.AppInitialState?.results.isSuccessful) {
     .init({
       availableLanguages: ["en", "vi", "th", "id", "zh-cn", "zh-tw"],
       fallbackLanguage: "en",
-      defaultLanguage: window.AppInitialState?.lang || "en",
+      defaultLanguage: LanguageMapper[ParamsHelper.getParams().language] || "en" || ParamsHelper.getParams().language || "en",
       ns: ["PromotionCampaign"],
       defaultNs: "PromotionCampaign",
       projectId: "5",

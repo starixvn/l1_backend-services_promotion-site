@@ -4,6 +4,7 @@ export class ParamsHelper {
         const urlParams = new URLSearchParams(queryString);
         const sessionId = urlParams.get('sessionId');
         const username = urlParams.get('username');
-        return { sessionId, username };
+        const language = urlParams.get('language');
+        return { sessionId, username, language };
     }
 }
