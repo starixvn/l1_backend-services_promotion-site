@@ -3,6 +3,7 @@ import '../../public/static/css/style.scss';
 import { useTranslate } from '@tolgee/react';
 import LoadingSpinner from '../components/loading-spinner';
 import useFetchData from '../hooks/use-fetch-data';
+import { formatNumberWithComma } from '../helpers/common-helper';
 
 export const PlayerBoard = ({ player, currentUserNickName, index }) => {
   const { t } = useTranslate();
@@ -15,7 +16,7 @@ export const PlayerBoard = ({ player, currentUserNickName, index }) => {
         <span className={`ranking-place ${isTop3 ? 'place-third' : ''} `}>{index + 1}</span>
       </div>
       <div>{isCurrentPlayer ? t("you") : player.nickName}</div>
-      <div>{player.point}</div>
+      <div>{formatNumberWithComma(player.point)}</div>
     </div>)
 }
 
@@ -47,7 +48,7 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
                   <span className="ranking-place place-third">{data.currentUser.rank}</span>
                 </div>
                 <div>{t("you")}</div>
-                <div>{data.currentUser.point}</div>
+                <div>{formatNumberWithComma(data.currentUser.point)}</div>
               </div>
             </div>
           </div>
