@@ -76,10 +76,9 @@ if (window.AppInitialState?.results.isSuccessful) {
     return <Promotions handleMoreInfo={handleMoreInfo} />;
   };
 
-  initialComponent = <TolgeeProvider
-    tolgee={tolgee}
-    fallback={<LoadingSpinner />} // loading fallback
-  ><App /></TolgeeProvider >
+  initialComponent = <TolgeeProvider tolgee={tolgee} fallback={<LoadingSpinner />}>
+    <App />
+  </TolgeeProvider >
 }
 
 

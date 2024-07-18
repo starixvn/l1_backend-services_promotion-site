@@ -1,16 +1,10 @@
 import { Controller, Get, Headers, Inject, Query, Render } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
-import { NotificationService } from './features/notifications/notification.service';
-import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
 import { UserClientService } from './features/users/services/user-client.service';
 
 @Controller()
 export class AppController {
-    constructor(
-        private readonly service: PromotionConfigService,
-        @Inject(NotificationService) private readonly notificationService: NotificationService,
-        @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) { }
+    constructor(@Inject(UserClientService) private readonly userClientService: UserClientService) { }
 
     @Get()
     @Render('index')
