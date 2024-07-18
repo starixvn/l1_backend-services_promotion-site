@@ -11,11 +11,10 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { t } = useTranslate();
   const { data, loading, error } = useFetchData(`promotions/${promotionId}`);
 
-
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
 
-  const template = 'dd/MM/yyyy';
+  const template = 'hh:mm dd/MM/yyyy';
   const startdate = formatDate(convertToGMT8(new Date(data.startDateTime)), template);
   const enddate = formatDate(convertToGMT8(new Date(data.endDateTime)), template);
 
@@ -30,7 +29,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     },
     {
       header: t('total_prize'),
-      description: 'USD $2000',
+      description: data.totalPrize,
     },
   ];
 
@@ -56,7 +55,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     <div>
       <div className="tournament-container">
         <h2 className="text-center">{data.title}</h2>
-        <p className="text-center">{t('promotion_header', { prizevalue1: data.totalPrize }).replaceTolgeeFormat()}</p>
+        <p className="text-center">{t('promotion_header', { prizevalue1: data.winningPrizes[0]?.value }).replaceTolgeeFormat()}</p>
 
         <div className="info-container promotion">
           <h3 className="title">{t('title_promotion_info')}</h3>
