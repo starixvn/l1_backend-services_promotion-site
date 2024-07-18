@@ -66,11 +66,11 @@ if (window.AppInitialState?.results.isSuccessful) {
     }
 
     if (appState.isShowPromotionDetail) {
-      return <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} />;
+      return <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} handleBackToHome={handleBackToHome} />;
     }
 
     if (appState.isShowLeaderBoard) {
-      return <LeaderBoard handleBackToHome={handleBackToHome} />;
+      return <LeaderBoard handleMoreInfo={handleMoreInfo} promotionId={activedPromotionId} />;
     }
 
     return <Promotions handleMoreInfo={handleMoreInfo} />;

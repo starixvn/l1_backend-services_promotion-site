@@ -7,7 +7,7 @@ import { convertToGMT8, formatDate, formatNumberWithComma } from '../helpers/com
 import Prize from './prize';
 import useFetchData from '../hooks/use-fetch-data';
 
-const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
+const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) => {
   const { t } = useTranslate();
   const { data, loading, error } = useFetchData(`promotions/${promotionId}`);
 
@@ -110,9 +110,16 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
           </ul>
         </div>
         <div className="leader-board ">
-          <button className="btn btn-primary" onClick={handleLeaderBoard}>
-            {t('leaderboard')}
-          </button>
+          <div>
+            <button className="btn btn-primary" onClick={handleLeaderBoard}>
+              {t('leaderboard')}
+            </button>
+          </div>
+          <div className="float-left">
+            <button className="btn btn-primary" onClick={handleBackToHome}>
+              Back
+            </button>
+          </div>
         </div>
       </div>
     </div>

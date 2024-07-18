@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../../public/static/css/style.scss';
 import { useTranslate } from '@tolgee/react';
 
-const LeaderBoard = ({ handleBackToHome }) => {
+const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
   const { t } = useTranslate();
   return (
     <div>
@@ -76,11 +76,11 @@ const LeaderBoard = ({ handleBackToHome }) => {
           </div>
         </div>
       </div>
-
-      {/* <div>
-        <button className="btn btn-primary" onClick={handleBackToHome}>BACK TO HOME</button>
-      </div> */}
-
+      <div className="leader-board  ">
+        <button className="btn btn-primary" onClick={() => handleMoreInfo(promotionId)}>
+          Back
+        </button>
+      </div>
     </div>
   );
 };
