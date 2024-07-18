@@ -33,7 +33,7 @@ const LeaderBoard = ({ handleBackToHome }) => {
               <div>
                 <span className="ranking-place place-third">3</span>
               </div>
-              <div>You</div>
+              <div>{t("you")}</div>
               <div>987</div>
             </div>
             <div className="board-row">
