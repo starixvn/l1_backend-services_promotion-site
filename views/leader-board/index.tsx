@@ -5,17 +5,17 @@ import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
 
-export const PlayerBoard = ({ player, currentUserNickName, index }) => {
+export const PlayerBoard = ({ player, index }) => {
   const { t } = useTranslate();
   const isTop3 = index < 3;
-  const isCurrentPlayer = player.nickName === currentUserNickName;
+  const isOtherPlayer = player.nickName.includes("***");
 
   return (
-    <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isCurrentPlayer ? 'player' : ''} `}>
+    <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
       <div>
         <span className={`ranking-place ${isTop3 ? 'place-third' : ''} `}>{index + 1}</span>
       </div>
-      <div>{isCurrentPlayer ? t("you") : player.nickName}</div>
+      <div>{isOtherPlayer ? player.nickName : t("you")}</div>
       <div>{formatNumberWithComma(player.point)}</div>
     </div>)
 }
@@ -45,7 +45,7 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
             <div className="board-body">
               <div className="board-row player">
                 <div>
-                  <span className="ranking-place place-third">{data.currentUser.rank}</span>
+                  <span className="ranking-place place-third">{data.currentUser.point === 0 ? "-" : data.currentUser.rank}</span>
                 </div>
                 <div>{t("you")}</div>
                 <div>{formatNumberWithComma(data.currentUser.point)}</div>
