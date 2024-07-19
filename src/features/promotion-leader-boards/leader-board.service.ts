@@ -17,13 +17,13 @@ export class LeaderBoardService {
 
     async getLeaderBoard(promotionId: number, userSession: UserSession): Promise<LeaderBoardViewModel> {
         return new LeaderBoardViewModel(
-            await this.getTop10LeaderBoardByCurrencyId(promotionId, userSession.currencyGroupId),
+            await this.getTop10LeaderBoardByPromotionId(promotionId),
             await this.getUserLeaderBoard(promotionId, userSession),
         );
     }
 
-    private async getTop10LeaderBoardByCurrencyId(promotionId: number, currencyGroupId: string): Promise<LeaderBoardItemViewModel[]> {
-        const top10 = await this.model.find({ promotionId, currencyGroupId }).sort({ pointInBaseCurrency: -1 }).limit(10).lean().exec();
+    private async getTop10LeaderBoardByPromotionId(promotionId: number): Promise<LeaderBoardItemViewModel[]> {
+        const top10 = await this.model.find({ promotionId }).sort({ pointInBaseCurrency: -1 }).limit(10).lean().exec();
         const result: LeaderBoardItemViewModel[] = [];
         top10.forEach((playerLeaderBoard) => {
             result.push(new LeaderBoardItemViewModel(playerLeaderBoard.nickName, playerLeaderBoard.point));
@@ -46,7 +46,6 @@ export class LeaderBoardService {
         const rankBeforeUser = await this.model
             .find({
                 promotionId,
-                currencyGroupId: userSession.currencyGroupId,
                 pointInBaseCurrency: { $gt: currentUser.pointInBaseCurrency },
             })
             .sort({ pointInBaseCurrency: -1 })
