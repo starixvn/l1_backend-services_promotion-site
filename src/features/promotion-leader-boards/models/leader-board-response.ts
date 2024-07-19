@@ -22,7 +22,7 @@ export class LeaderBoardItemViewModel {
         public nickName: string,
         public point: number,
     ) {
-        this.point = point;
+        this.point = +point.toFixed(3);
         this.nickName = nickName != you ? `${nickName.substring(0, 1)}***${nickName.substring(nickName.length - 3, nickName.length)}` : you;
     }
 }

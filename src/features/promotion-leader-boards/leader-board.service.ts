@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { Result } from '../../_shared/common/models/result';
 import { DataHandler } from '../../_shared/common/providers';
+import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { UserSession } from '../users/schemas';
 import { LeaderBoardItemViewModel, LeaderBoardViewModel, you } from './models/leader-board-response';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from './schemas';
@@ -12,47 +13,55 @@ import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from './schemas'
 export class LeaderBoardService {
     constructor(
         @InjectModel(PromotionLeaderBoards.name) private readonly model: Model<PromotionLeaderBoardsDocument>,
+        @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
+
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
-    async getLeaderBoard(promotionId: number, userSession: UserSession): Promise<LeaderBoardViewModel> {
+    async getLeaderBoard(promotionId: number, session: UserSession): Promise<LeaderBoardViewModel> {
         return new LeaderBoardViewModel(
-            await this.getTop10LeaderBoardByPromotionId(promotionId),
-            await this.getUserLeaderBoard(promotionId, userSession),
+            await this.getTopLeaderBoardByPromotionId(promotionId, session),
+            await this.getPlayerLeaderBoardByPromotionId(promotionId, session),
         );
     }
 
-    private async getTop10LeaderBoardByPromotionId(promotionId: number): Promise<LeaderBoardItemViewModel[]> {
-        const top10 = await this.model.find({ promotionId }).sort({ pointInBaseCurrency: -1 }).limit(10).lean().exec();
-        const result: LeaderBoardItemViewModel[] = [];
-        top10.forEach((playerLeaderBoard) => {
-            result.push(new LeaderBoardItemViewModel(playerLeaderBoard.nickName, playerLeaderBoard.point));
+    private async getTopLeaderBoardByPromotionId(promotionId: number, session, top: number = 10): Promise<LeaderBoardItemViewModel[]> {
+        const topLeaderBoard = await this.model.find({ promotionId }).sort({ pointInBaseCurrency: -1 }).limit(top).lean().exec();
+
+        const exchangeRate = (await this.exchangeRateService.getAll()).data;
+        const convertValueToUserCurrency = (value: number) => value / exchangeRate.code[session.currencyCode] / session.multiplier;
+
+        const leaderBoardItems: LeaderBoardItemViewModel[] = [];
+        topLeaderBoard.forEach((playerLeaderBoard) => {
+            leaderBoardItems.push(
+                new LeaderBoardItemViewModel(playerLeaderBoard.nickName, convertValueToUserCurrency(playerLeaderBoard.pointInBaseCurrency)),
+            );
         });
-        return result;
+        return leaderBoardItems;
     }
 
-    private async getUserLeaderBoard(
+    private async getPlayerLeaderBoardByPromotionId(
         promotionId: number,
-        userSession: UserSession,
+        session: UserSession,
     ): Promise<
         LeaderBoardItemViewModel & {
             rank: number;
         }
     > {
-        const currentUser = await this.model.findOne({ promotionId, playerId: userSession.playerId }).lean().exec();
-        if (!currentUser) {
+        const playerLeaderBoard = await this.model.findOne({ promotionId, playerId: session.playerId }).lean().exec();
+        if (!playerLeaderBoard) {
             return { rank: 0, ...new LeaderBoardItemViewModel(you, 0) };
         }
         const rankBeforeUser = await this.model
             .find({
                 promotionId,
-                pointInBaseCurrency: { $gt: currentUser.pointInBaseCurrency },
+                pointInBaseCurrency: { $gt: playerLeaderBoard.pointInBaseCurrency },
             })
             .sort({ pointInBaseCurrency: -1 })
             .lean()
             .count()
             .exec();
-        return { rank: rankBeforeUser + 1, ...new LeaderBoardItemViewModel(you, currentUser.point) };
+        return { rank: rankBeforeUser + 1, ...new LeaderBoardItemViewModel(you, playerLeaderBoard.point) };
     }
 
     async getTopLeaderBoard(promotionId: number, limit: number): Promise<Result<PromotionLeaderBoards[]>> {
