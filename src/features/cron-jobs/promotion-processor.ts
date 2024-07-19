@@ -61,6 +61,8 @@ export class PromotionProcessor {
                     await this.updateAwardedAmount(promotionConfig);
                     await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.completed);
                     await this.promotionRunService.updateLatestRunTime(promotionConfig.promotionId);
+                    const sealedPromotionConfig = await this.getSealedPromotionConfig(promotionConfig);
+                    await this.updateChecksum(sealedPromotionConfig);
                 }
             } catch (e) {
                 this.logger.error(e);
@@ -138,12 +140,7 @@ export class PromotionProcessor {
         ticket: PromotionBets,
         exchangeRate: ExchangeRates,
     ) {
-        if (
-            currencyGroup.currencyGroupId === ticket.currencyGroupId &&
-            ticket.totalWin > ticket.totalAmount &&
-            this.isValidMinBet(gameConfigs, currencyGroup, ticket) &&
-            this.isSiteNameIncluded(operator.includedSiteNames, ticket.siteName)
-        ) {
+        if (this.isValidTicket(operator, currencyGroup, ticket, gameConfigs)) {
             const leaderBoard = new PromotionLeaderBoards();
             leaderBoard.promotionId = promotionId;
             leaderBoard.playerId = ticket.playerId;
@@ -151,8 +148,8 @@ export class PromotionProcessor {
             leaderBoard.siteName = ticket.siteName;
             leaderBoard.currencyGroupId = ticket.currencyGroupId;
             leaderBoard.currency = ticket.currencyName;
-            leaderBoard.point = (ticket.totalWin - ticket.totalAmount) / 100;
-            leaderBoard.pointInBaseCurrency = leaderBoard.point * exchangeRate.code[ticket.currencyCode] * ticket.multiplier;
+            leaderBoard.point = this.calculatePoint(ticket);
+            leaderBoard.pointInBaseCurrency = this.calculatePointInBaseCurrency(exchangeRate, ticket);
             leaderBoard.dataSourceTimeStamp = ticket.dataSourceTimeStamp;
             leaderBoard.nickName = ticket.nickname;
             leaderBoard.siteId = ticket.siteId;
@@ -162,6 +159,14 @@ export class PromotionProcessor {
             console.log('leaderBoard', leaderBoard);
             await this.leaderBoardService.upsert(leaderBoard);
         }
+    }
+
+    calculatePoint(ticket: PromotionBets) {
+        return (ticket.totalWin - ticket.totalAmount) / 100;
+    }
+
+    calculatePointInBaseCurrency(exchangeRate: ExchangeRates, ticket: PromotionBets) {
+        return this.calculatePoint(ticket) * exchangeRate.code[ticket.currencyCode] * ticket.multiplier;
     }
 
     isSiteNameIncluded(includedSiteNames: string, siteName: string) {
@@ -176,5 +181,42 @@ export class PromotionProcessor {
 
     getCurrentTime() {
         return new Date();
+    }
+
+    isValidTicket(operator: Operator, currencyGroup: CurrencyGroup, ticket: PromotionBets, gameConfigs: GameConfigs[]) {
+        return (
+            currencyGroup.currencyGroupId === ticket.currencyGroupId &&
+            ticket.totalWin > ticket.totalAmount &&
+            this.isValidMinBet(gameConfigs, currencyGroup, ticket) &&
+            this.isSiteNameIncluded(operator.includedSiteNames, ticket.siteName)
+        );
+    }
+
+    async updateChecksum(promotionConfig: PromotionConfigs) {
+        const gameConfigs = await this.gameConfigService.getAll();
+        const topLeaderBoard = await this.leaderBoardService.getTopLeaderBoardWithTestCurrency(promotionConfig.promotionId, 10);
+        for (const leaderBoard of topLeaderBoard.data) {
+            const ticketResult = await this.promotionBetService.getBetsByPlayer(
+                new Date(promotionConfig.startDateTime),
+                new Date(promotionConfig.endDateTime),
+                leaderBoard.operatorId,
+                leaderBoard.playerId,
+            );
+
+            let checksumPoint = 0;
+            for (const operator of promotionConfig.operators) {
+                for (const currencyGroup of operator.currencyGroups) {
+                    if (currencyGroup.enabled) {
+                        for (const ticket of ticketResult.data) {
+                            if (this.isValidTicket(operator, currencyGroup, ticket, gameConfigs.data)) {
+                                checksumPoint += this.calculatePoint(ticket);
+                            }
+                        }
+                    }
+                }
+            }
+
+            await this.leaderBoardService.updateChecksumPoint(leaderBoard, checksumPoint);
+        }
     }
 }

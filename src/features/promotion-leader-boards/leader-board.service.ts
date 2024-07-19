@@ -80,9 +80,21 @@ export class LeaderBoardService {
         return this.dataHandler.getData(execution);
     }
 
+    async getTopLeaderBoardWithTestCurrency(promotionId: number, limit: number): Promise<Result<PromotionLeaderBoards[]>> {
+        const execution = this.model.find({ promotionId }).sort({ pointInBaseCurrency: -1 }).limit(limit).lean().exec();
+        return this.dataHandler.getData(execution);
+    }
+
     async updateAwardAmount(leaderBoard: PromotionLeaderBoards, amount: number): Promise<Result<PromotionLeaderBoards>> {
         const filter = { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId };
         const updates = { awardedAmount: amount, updatedTime: new Date() };
+
+        return this.dataHandler.updateData(this.model, filter, updates);
+    }
+
+    async updateChecksumPoint(leaderBoard: PromotionLeaderBoards, checksumPoint: number): Promise<Result<PromotionLeaderBoards>> {
+        const filter = { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId };
+        const updates = { checksumPoint, updatedTime: new Date() };
 
         return this.dataHandler.updateData(this.model, filter, updates);
     }

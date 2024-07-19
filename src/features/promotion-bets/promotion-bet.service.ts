@@ -33,6 +33,19 @@ export class PromotionBetService {
         return this.dataHandler.getData(execution);
     }
 
+    async getBetsByPlayer(startTime: Date, endTime: Date, operatorId: string, playerId: string): Promise<Result<PromotionBets[]>> {
+        const execution = this.model
+            .find({
+                dataSourceTimeStamp: { $gt: startTime, $lt: endTime },
+                operatorId,
+                playerId,
+            })
+            .sort({ dataSourceTimeStamp: 1 })
+            .lean()
+            .exec();
+        return this.dataHandler.getData(execution);
+    }
+
     async getLatestDataSourceTimeStamp(): Promise<Date> {
         const execution = this.model.findOne({}).sort({ dataSourceTimeStamp: -1 }).lean().exec();
         return (await this.dataHandler.getData(execution))?.data?.dataSourceTimeStamp;

@@ -47,6 +47,11 @@ export class PromotionLeaderBoards {
     @Prop({ required: true })
     pointInBaseCurrency: number;
 
+    @IsNumber()
+    @ApiProperty()
+    @Prop()
+    checksumPoint: number;
+
     @IsString()
     @ApiProperty()
     @Prop({ required: true })
