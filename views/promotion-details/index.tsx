@@ -14,7 +14,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
 
-  const template = 'hh:mm dd/MM/yyyy';
+  const template = 'hh:mm mm/dd/yyyy';
   const startdate = formatDate(convertToGMT8(new Date(data.startDateTime)), template);
   const enddate = formatDate(convertToGMT8(new Date(data.endDateTime)), template);
 
