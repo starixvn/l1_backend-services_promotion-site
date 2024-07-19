@@ -1,10 +1,10 @@
 import { Result } from '../../../_shared/common/models/result';
 import { WinningPrize } from '../schemas';
 
-export class PromotionConfigsResponse extends Result<PromotionViewModel[]> {}
-export class PromotionConfigResponse extends Result<PromotionDetailViewModel> {}
+export class PromotionConfigsResponse extends Result<PromotionViewModel[]> { }
+export class PromotionConfigResponse extends Result<PromotionDetailViewModel> { }
 export class PromotionsViewModel {
-    constructor(public promotions: PromotionViewModel[]) {}
+    constructor(public promotions: PromotionViewModel[]) { }
 }
 enum Status {
     Running = 1,
@@ -78,14 +78,24 @@ export class PromotionDetailViewModel {
         this.otherGameMinBet = otherGameMinBet;
         this.slotGameMinBet = slotGameMinBet;
 
+        let countTotalPrize = 0;
         winningPrizes.forEach((winningPrize) => {
-            this.winningPrizes.push(new WinningPrizeViewModel(winningPrize.value, winningPrize.ranking));
+            const prize = new WinningPrizeViewModel(winningPrize.value, winningPrize.ranking);
+
+            const countTotalPrizeTmp = prize.to ?? prize.from;
+            if (countTotalPrizeTmp > countTotalPrize) {
+                countTotalPrize = countTotalPrizeTmp;
+            }
+
+            this.winningPrizes.push(prize);
         });
+
         this.totalPrize = winningPrizes.reduce(
             (winningPrize, currentWinningPrize) => winningPrize + currentWinningPrize.value,
             0,
         );
-        this.countTotalPrize = winningPrizes.length;
+
+        this.countTotalPrize = countTotalPrize;
     }
 
     public winningPrizes: WinningPrizeViewModel[] = [];
