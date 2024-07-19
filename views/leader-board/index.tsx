@@ -1,9 +1,9 @@
+import { useTranslate } from '@tolgee/react';
 import React from 'react';
 import '../../public/static/css/style.scss';
-import { useTranslate } from '@tolgee/react';
 import LoadingSpinner from '../components/loading-spinner';
-import useFetchData from '../hooks/use-fetch-data';
 import { formatNumberWithComma } from '../helpers/common-helper';
+import useFetchData from '../hooks/use-fetch-data';
 
 export const PlayerBoard = ({ player, currentUserNickName, index }) => {
   const { t } = useTranslate();
@@ -22,7 +22,7 @@ export const PlayerBoard = ({ player, currentUserNickName, index }) => {
 
 const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
   const { t } = useTranslate();
-  const { data, loading, error } = useFetchData(`/leader-board/1`);
+  const { data, loading, error } = useFetchData(`/leader-board/${promotionId}`);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
