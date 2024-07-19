@@ -90,12 +90,18 @@ export class LeaderBoardService {
             currency: data.currency,
             updatedTime: new Date(),
             nickName: data.nickName,
+            siteId: data.siteId,
+            playerName: data.playerName,
         };
 
         return this.dataHandler.updateData(
             this.model,
             filter,
-            { $inc: existingItemIncrement as any, $setOnInsert: newData, $set: { dataSourceTimeStamp: data.dataSourceTimeStamp } },
+            {
+                $inc: existingItemIncrement as any,
+                $setOnInsert: newData,
+                $set: { dataSourceTimeStamp: data.dataSourceTimeStamp, isTestCurrency: data.isTestCurrency },
+            },
             { upsert: true, setDefaultsOnInsert: true },
         );
     }

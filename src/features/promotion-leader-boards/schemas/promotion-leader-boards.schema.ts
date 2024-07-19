@@ -76,6 +76,21 @@ export class PromotionLeaderBoards {
     @ApiProperty()
     @Prop()
     awardedAmount: number;
+
+    @IsBoolean()
+    @ApiProperty()
+    @Prop({ required: true })
+    isTestCurrency: boolean;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    playerName: string;
+
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    siteId: string;
 }
 
 export const PromotionLeaderBoardsSchema = SchemaFactory.createForClass(PromotionLeaderBoards);

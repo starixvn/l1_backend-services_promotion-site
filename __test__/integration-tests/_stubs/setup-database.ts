@@ -170,6 +170,9 @@ const initLeaderBoard = async (moduleFixture: TestingModule) => {
     item.currency = 'INH';
     item.dataSourceTimeStamp = new Date();
     item.pointInBaseCurrency = 1000;
+    item.isTestCurrency = false;
+    item.playerName = 'playername';
+    item.siteId = '4100300';
     await model.insertMany([item]);
 };
 
@@ -241,6 +244,9 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         item.currencyName = 'INH';
         item.nickname = nickname;
         item.multiplier = 1000;
+        item.isTestCurrency = false;
+        item.playerName = 'playername';
+        item.siteId = '4100300';
 
         return item;
     };

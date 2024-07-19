@@ -161,6 +161,9 @@ export class PromotionProcessor {
             leaderBoard.pointInBaseCurrency = leaderBoard.point * exchangeRate.code[ticket.currencyCode] * ticket.multiplier;
             leaderBoard.dataSourceTimeStamp = ticket.dataSourceTimeStamp;
             leaderBoard.nickName = ticket.nickname;
+            leaderBoard.siteId = ticket.siteId;
+            leaderBoard.playerName = ticket.playerName;
+            leaderBoard.isTestCurrency = ticket.isTestCurrency;
 
             console.log('leaderBoard', leaderBoard);
             await this.leaderBoardService.upsert(leaderBoard); // todo: write in batch
