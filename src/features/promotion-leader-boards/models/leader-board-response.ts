@@ -11,7 +11,7 @@ export class LeaderBoardViewModel {
     ) {
         this.leadBoardItems = leadBoardItems;
         this.currentUser = currentUser;
-        const isUserTop10 = currentUser.rank <= 10;
+        const isUserTop10 = currentUser.rank <= 10 && currentUser.rank > 0;
         if (isUserTop10) {
             this.leadBoardItems[currentUser.rank - 1] = currentUser;
         }

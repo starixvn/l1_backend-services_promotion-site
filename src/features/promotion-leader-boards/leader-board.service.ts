@@ -26,7 +26,12 @@ export class LeaderBoardService {
     }
 
     private async getTopLeaderBoardByPromotionId(promotionId: number, session, top: number = 10): Promise<LeaderBoardItemViewModel[]> {
-        const topLeaderBoard = await this.model.find({ promotionId }).sort({ pointInBaseCurrency: -1 }).limit(top).lean().exec();
+        const topLeaderBoard = await this.model
+            .find({ promotionId, isTestCurrency: false })
+            .sort({ pointInBaseCurrency: -1 })
+            .limit(top)
+            .lean()
+            .exec();
 
         const exchangeRate = (await this.exchangeRateService.getAll()).data;
         const convertValueToUserCurrency = (value: number) => value / exchangeRate.code[session.currencyCode] / session.multiplier;
@@ -61,7 +66,8 @@ export class LeaderBoardService {
             .lean()
             .count()
             .exec();
-        return { rank: rankBeforeUser + 1, ...new LeaderBoardItemViewModel(you, playerLeaderBoard.point) };
+        const rank = !playerLeaderBoard.isTestCurrency ? rankBeforeUser + 1 : 0;
+        return { rank, ...new LeaderBoardItemViewModel(you, playerLeaderBoard.point) };
     }
 
     async getTopLeaderBoard(promotionId: number, limit: number): Promise<Result<PromotionLeaderBoards[]>> {
