@@ -47,7 +47,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
     },
     {
       header: t('step3'),
-      description: t('step3_para_1', { counttotalprize: data.countTotalPrize }).replaceTolgeeFormat(),
+      description: t('step3_para_1', { counttotalprize: data.numerousPrize }).replaceTolgeeFormat(),
     },
   ];
 
@@ -102,7 +102,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
               return (
                 <li key={key}>
                   {item === 6
-                    ? t(key, { counttotalprize: data.countTotalPrize }).replaceTolgeeFormat()
+                    ? t(key, { counttotalprize: data.numerousPrize }).replaceTolgeeFormat()
                     : t(key)}
                 </li>
               );

@@ -42,6 +42,7 @@ export class PromotionViewModel {
     public status: Status;
     public isCompleted: boolean;
 }
+
 export class WinningPrizeViewModel {
     constructor(value: number, ranking: string) {
         this.value = value;
@@ -63,6 +64,7 @@ export class WinningPrizeViewModel {
     public to: number;
 }
 
+
 export class PromotionDetailViewModel {
     constructor(
         public title: string,
@@ -78,27 +80,27 @@ export class PromotionDetailViewModel {
         this.otherGameMinBet = otherGameMinBet;
         this.slotGameMinBet = slotGameMinBet;
 
-        let countTotalPrize = 0;
-        winningPrizes.forEach((winningPrize) => {
-            const prize = new WinningPrizeViewModel(winningPrize.value, winningPrize.ranking);
+        this.winningPrizes = winningPrizes.map(prize => new WinningPrizeViewModel(prize.value, prize.ranking));
+        this.totalPrize = this.calculateTotalPrize(this.winningPrizes);
+        this.numerousPrize = this.calculateNumerousPrize(this.winningPrizes);
+    }
 
-            const countTotalPrizeTmp = prize.to ?? prize.from;
-            if (countTotalPrizeTmp > countTotalPrize) {
-                countTotalPrize = countTotalPrizeTmp;
-            }
+    calculateTotalPrize(winningPrizes: WinningPrizeViewModel[]): number {
+        return winningPrizes.reduce((total, prize) => {
+            const ranks = Math.max(1, (prize.to ?? prize.from) - prize.from + 1);
+            const rankingTotalPrize = prize.value * ranks;
+            return total + rankingTotalPrize;
+        }, 0);
+    }
 
-            this.winningPrizes.push(prize);
-        });
-
-        this.totalPrize = winningPrizes.reduce(
-            (winningPrize, currentWinningPrize) => winningPrize + currentWinningPrize.value,
-            0,
-        );
-
-        this.countTotalPrize = countTotalPrize;
+    private calculateNumerousPrize(winningPrizes: WinningPrizeViewModel[]): number {
+        return winningPrizes.reduce((max, prize) => {
+            const numerousPrizeTmp = prize.to ?? prize.from;
+            return numerousPrizeTmp > max ? numerousPrizeTmp : max;
+        }, 0);
     }
 
     public winningPrizes: WinningPrizeViewModel[] = [];
     public totalPrize: number;
-    public countTotalPrize: number;
+    public numerousPrize: number;
 }

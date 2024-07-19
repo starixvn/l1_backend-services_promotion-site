@@ -52,7 +52,7 @@ export class PromotionDetailViewModelFake {
     otherGameMinBet: number;
     slotGameMinBet: number;
     totalPrize: number;
-    countTotalPrize: number;
+    numerousPrize: number;
     winningPrizes: WinningPrizeFake[];
 
     constructor(
@@ -62,7 +62,7 @@ export class PromotionDetailViewModelFake {
         otherGameMinBet: number,
         slotGameMinBet: number,
         totalPrize: number,
-        countTotalPrize: number,
+        numerousPrize: number,
         winningPrizes: WinningPrizeFake[],
     ) {
         this.title = title;
@@ -71,7 +71,7 @@ export class PromotionDetailViewModelFake {
         this.otherGameMinBet = otherGameMinBet;
         this.slotGameMinBet = slotGameMinBet;
         this.totalPrize = totalPrize;
-        this.countTotalPrize = countTotalPrize;
+        this.numerousPrize = numerousPrize;
         this.winningPrizes = winningPrizes;
     }
 }
