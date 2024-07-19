@@ -6,13 +6,16 @@ export class PromotionConfigResponse extends Result<PromotionDetailViewModel> {}
 export class PromotionsViewModel {
     constructor(public promotions: PromotionViewModel[]) {}
 }
-enum Status {
+export enum Status {
     Running = 1,
     New = 2,
     Completed = 3,
 }
 
 export class PromotionViewModel {
+    public status: Status;
+    public isCompleted: boolean;
+
     constructor(
         public promotionId: number,
         public title: string,
@@ -30,7 +33,7 @@ export class PromotionViewModel {
         this.isCompleted = this.status === Status.Completed;
     }
 
-    private getStatus = (): Status => {
+    public getStatus = (): Status => {
         const currentTime = new Date();
         if (currentTime < this.startDateTime) {
             return Status.New;
@@ -39,31 +42,38 @@ export class PromotionViewModel {
         }
         return Status.Completed;
     };
-    public status: Status;
-    public isCompleted: boolean;
 }
 
 export class WinningPrizeViewModel {
+    public value: number;
+    public ranking: string;
+    public from: number;
+    public to?: number;
+
     constructor(value: number, ranking: string) {
         this.value = +value.toFixed(3);
         this.ranking = ranking;
-        if (+ranking) {
+        this.parseRanking(ranking);
+    }
+
+    private parseRanking(ranking: string): void {
+        if (this.isNumeric(ranking)) {
             this.from = +ranking;
         } else {
             const rankings = ranking.split('-');
-            if (rankings.length > 1) {
+            if (rankings.length === 2 && this.isNumeric(rankings[0]) && this.isNumeric(rankings[1])) {
                 this.from = +rankings[0];
                 this.to = +rankings[1];
+            } else {
+                throw new Error(`Invalid ranking format: ${ranking}`);
             }
         }
     }
-    public value: number;
-    public ranking: string;
 
-    public from: number;
-    public to: number;
+    private isNumeric(value: string): boolean {
+        return !isNaN(Number(value));
+    }
 }
-
 
 export class PromotionDetailViewModel {
     constructor(
