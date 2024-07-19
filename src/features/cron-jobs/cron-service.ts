@@ -15,7 +15,7 @@ export class CronService {
         try {
             const startTime = new Date();
             this.promotionProcessor.proceed();
-            this.logger.warn(`Promotion job {start:  ${startTime.toISOString()} - finish: ${new Date().toISOString()}}`);
+            this.logger.verbose(`Promotion job {start:  ${startTime.toISOString()} - finish: ${new Date().toISOString()}}`);
         } catch (error) {
             this.logger.error(error);
         }

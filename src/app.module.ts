@@ -18,7 +18,6 @@ import { PromotionBetModule } from './features/promotion-bets/promotion-bet.modu
 import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
 import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
 import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
-import { TicketSiloModule } from './features/ticket-silos/ticket-silo.module';
 import { UserClientServiceModule } from './features/users/user-service.module';
 import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middleware';
 import { TempLogEndGameModule } from './features/end-games/temp-log-end-game.module';
@@ -45,7 +44,6 @@ import { UserInfoModule } from './features/users/user-info.module';
         PromotionRunModule,
         NotificationModule,
         UserClientServiceModule,
-        TicketSiloModule,
         DomainModule,
         ExchangeRateModule,
         GameConfigModule,

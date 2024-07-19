@@ -41,7 +41,7 @@ export class PromotionBetService {
     async syncEndGameLog(): Promise<void> {
         const endGameLogs = await this.queryEndGameLog();
         const tempLogData = endGameLogs
-            .filter((item) => item.call.totalWin > item.call.totalAmount)
+            .filter((item) => +item.call.totalWin > +item.call.totalAmount)
             .map((item) => {
                 return this.createTempLogItem(item);
             });

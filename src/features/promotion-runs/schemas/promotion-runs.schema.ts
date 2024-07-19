@@ -21,28 +21,10 @@ export class PromotionRuns {
     @Prop({ required: true })
     promotionId: number;
 
-    @ApiProperty({ type: Object })
-    @Prop({ type: Object })
-    promotionBetPosition: object;
-
-    @ApiProperty({ type: Object })
-    @Prop({ type: Object })
-    promotionLeaderBoardPosition: object;
-
-    @IsBoolean()
-    @ApiProperty()
-    @Prop({ required: true })
-    isJobRunning: boolean;
-
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
     latestRunTime: Date;
-
-    @IsDate()
-    @ApiProperty()
-    @Prop({ required: true })
-    updatedTime: Date;
 
     @IsString()
     @ApiProperty()

@@ -26,4 +26,11 @@ export class PromotionRunService {
     async create(data: PromotionRuns): Promise<Result<PromotionRuns>> {
         return this.dataHandler.createData<PromotionRuns>(this.model, data);
     }
+
+    async updateLatestRunTime(promotionId: number): Promise<Result<PromotionRuns>> {
+        const filter = { promotionId };
+        const updates = { latestRunTime: new Date() };
+
+        return this.dataHandler.updateData(this.model, filter, updates);
+    }
 }

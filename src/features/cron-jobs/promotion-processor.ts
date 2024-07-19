@@ -12,9 +12,6 @@ import { GameConfigs, SLOT_GAME_TYPES } from '../game-configs/schemas';
 import { PromotionBets } from '../promotion-bets/schemas';
 import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
 import { SentryLogger } from '../../_shared/common/providers';
-import { InjectModel } from '@nestjs/mongoose';
-import { TicketSilos, TicketSilosDocument } from '../ticket-silos/schemas';
-import { Model, Schema } from 'mongoose';
 
 export class PromotionProcessor {
     constructor(
@@ -47,11 +44,7 @@ export class PromotionProcessor {
             if (promotionConfig.startDateTime <= currentTime && currentTime <= promotionConfig.endDateTime) {
                 const newPromotionRun = new PromotionRuns();
                 newPromotionRun.promotionId = promotionConfig.promotionId;
-                newPromotionRun.isJobRunning = false;
-                newPromotionRun.latestRunTime = new Date();
-                newPromotionRun.promotionBetPosition = {};
-                newPromotionRun.promotionLeaderBoardPosition = {};
-                newPromotionRun.updatedTime = new Date();
+                newPromotionRun.latestRunTime = this.getCurrentTime();
                 newPromotionRun.promotionConfigs = JSON.stringify(promotionConfig);
 
                 await this.promotionRunService.create(newPromotionRun);
@@ -62,12 +55,12 @@ export class PromotionProcessor {
 
     async processFinishedPromotions() {
         const result = await this.promotionConfigService.getPromotionsByStatus(PROMOTION_STATUSES.running);
-        const currentTime = this.getCurrentTime();
         for (const promotionConfig of result.data) {
             try {
-                if (promotionConfig.endDateTime < currentTime) {
+                if (promotionConfig.endDateTime < this.getCurrentTime()) {
                     await this.updateAwardedAmount(promotionConfig);
                     await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.completed);
+                    await this.promotionRunService.updateLatestRunTime(promotionConfig.promotionId);
                 }
             } catch (e) {
                 this.logger.error(e);
@@ -110,6 +103,7 @@ export class PromotionProcessor {
         for (const promotion of result.data) {
             try {
                 await this.processRunningPromotion(promotion, gameConfigs.data, exchangeRate.data);
+                await this.promotionRunService.updateLatestRunTime(promotion.promotionId);
             } catch (e) {
                 this.logger.error(e);
             }
@@ -166,7 +160,7 @@ export class PromotionProcessor {
             leaderBoard.isTestCurrency = ticket.isTestCurrency;
 
             console.log('leaderBoard', leaderBoard);
-            await this.leaderBoardService.upsert(leaderBoard); // todo: write in batch
+            await this.leaderBoardService.upsert(leaderBoard);
         }
     }
 

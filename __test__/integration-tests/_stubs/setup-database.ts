@@ -15,7 +15,6 @@ import {
 } from '../../../src/features/promotion-configs/schemas';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
 import { PromotionRunsDocument } from '../../../src/features/promotion-runs/schemas/promotion-runs.schema';
-import { TicketSilos, TicketSilosDocument } from '../../../src/features/ticket-silos/schemas/ticket-silos.schema';
 import { UserInfos, UserInfosDocument } from '../../../src/features/users/schemas';
 import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
 
@@ -27,7 +26,6 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initUserInfo(moduleFixture);
     await initNotification(moduleFixture);
     await initPromotionRuns(moduleFixture);
-    await initTicketSilos(moduleFixture);
     await initExchangeRate(moduleFixture);
     await initGameConfig(moduleFixture);
     await initEndGame(moduleFixture);
@@ -109,38 +107,6 @@ const initExchangeRate = async (moduleFixture: TestingModule) => {
         }),
     ];
 
-    await model.insertMany(items);
-};
-
-const createTicket = (playerId, roundId, stake, payout, currency) => {
-    const item = new TicketSilos();
-    item.roundTime = new Date();
-    item.gameId = 2;
-    item.operatorId = 'ONEworksVGCash';
-    item.playerId = playerId;
-    item.roundId = roundId;
-    item.stake = stake;
-    item.payout = payout;
-    item.winloss = item.stake - item.payout;
-    item.currency = currency;
-
-    return item;
-};
-
-const initTicketSilos = async (moduleFixture: TestingModule) => {
-    const model = moduleFixture.get(getModelToken('TicketSilos')) as Model<TicketSilosDocument>;
-
-    // Clear
-    await model.deleteMany({});
-
-    // Insert
-    const items = [
-        createTicket('1', 1, 100, 200, 'VND'),
-        createTicket('1', 2, 100, 50, 'VND'),
-        createTicket('1', 2, 100, 150, 'VND'),
-        createTicket('2', 1, 100, 200, 'USD'),
-        createTicket('3', 2, 100, 50, 'THB'),
-    ];
     await model.insertMany(items);
 };
 

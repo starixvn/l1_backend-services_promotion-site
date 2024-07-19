@@ -56,7 +56,12 @@ export class LeaderBoardService {
     }
 
     async getTopLeaderBoard(promotionId: number, limit: number): Promise<Result<PromotionLeaderBoards[]>> {
-        const execution = this.model.find({ promotionId }).sort({ pointInBaseCurrency: -1 }).limit(limit).lean().exec();
+        const execution = this.model
+            .find({ promotionId, isTestCurrency: false })
+            .sort({ pointInBaseCurrency: -1 })
+            .limit(limit)
+            .lean()
+            .exec();
         return this.dataHandler.getData(execution);
     }
 
