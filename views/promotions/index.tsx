@@ -13,7 +13,7 @@ const PromotionContent = ({ promotion }) => {
         return <p className="text-red">{t('completed')}</p>;
     }
 
-    const template = 'mm/dd/yyyy';
+    const template = 'MM/dd/yyyy';
     const startdate = formatDate(convertToBrowserLocale(promotion.startDateTime), template);
     const enddate = formatDate(convertToBrowserLocale(promotion.endDateTime), template);
     return <p>{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;

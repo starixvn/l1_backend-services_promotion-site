@@ -14,7 +14,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
 
-  const template = 'hh:mm mm/dd/yyyy';
+  const template = 'hh:mm MM/dd/yyyy';
   const startdate = formatDate(convertToBrowserLocale(data.startDateTime), template);
   const enddate = formatDate(convertToBrowserLocale(data.endDateTime), template);
 
