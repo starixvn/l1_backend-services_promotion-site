@@ -3,7 +3,7 @@ import React from 'react';
 import '../../public/static/css/style.scss';
 import LoadingSpinner from '../components/loading-spinner';
 import '../helpers/string-helper';
-import { convertToGMT8, formatDate, formatNumberWithComma } from '../helpers/common-helper';
+import { convertToBrowserLocale, formatDate, formatNumberWithComma } from '../helpers/common-helper';
 import Prize from './prize';
 import useFetchData from '../hooks/use-fetch-data';
 
@@ -15,8 +15,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
   if (error) return <div>Error: {error.message}</div>;
 
   const template = 'hh:mm mm/dd/yyyy';
-  const startdate = formatDate(convertToGMT8(new Date(data.startDateTime)), template);
-  const enddate = formatDate(convertToGMT8(new Date(data.endDateTime)), template);
+  const startdate = formatDate(convertToBrowserLocale(data.startDateTime), template);
+  const enddate = formatDate(convertToBrowserLocale(data.endDateTime), template);
 
   const promotionInformation = [
     {

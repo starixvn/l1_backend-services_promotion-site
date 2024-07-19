@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../public/static/css/style.scss';
 import LoadingSpinner from '../components/loading-spinner';
-import { convertToGMT8, formatDate } from '../helpers';
+import { convertToBrowserLocale, formatDate } from '../helpers';
 import '../helpers/string-helper';
 import { useTranslator } from '../hooks/use-translator';
 import useFetchData from '../hooks/use-fetch-data';
@@ -14,8 +14,8 @@ const PromotionContent = ({ promotion }) => {
     }
 
     const template = 'mm/dd/yyyy';
-    const startdate = formatDate(convertToGMT8(new Date(promotion.startDateTime)), template);
-    const enddate = formatDate(convertToGMT8(new Date(promotion.endDateTime)), template);
+    const startdate = formatDate(convertToBrowserLocale(promotion.startDateTime), template);
+    const enddate = formatDate(convertToBrowserLocale(promotion.endDateTime), template);
     return <p>{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
 };
 

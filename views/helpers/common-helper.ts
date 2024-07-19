@@ -1,9 +1,6 @@
-export const convertToGMT8 = (date) => {
-    return new Date(
-        date.toLocaleString("en-US", {
-            timeZone: "Asia/Manila",
-        })
-    );
+export const convertToBrowserLocale = (date) => {
+    const utcDate = new Date(date);
+    return new Date(utcDate.toLocaleString());
 };
 
 export const formatDate = (date, template) => {
