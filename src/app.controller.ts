@@ -20,7 +20,7 @@ export class AppController {
             return unauthorizedResult;
         }
 
-        const { isSuccessful } = await this.userClientService.getSessionVerify({ sessionId, username, browserUserAgent });
+        const { isSuccessful } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
         if (!isSuccessful) {
             return unauthorizedResult;
         }

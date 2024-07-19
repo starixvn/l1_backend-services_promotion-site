@@ -31,16 +31,19 @@ export class PromotionConfigController {
         @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigsResponse> {
-        const verifySession = await this.userClientService.getSessionVerify({
+        const {
+            isSuccessful,
+            errorMessage,
+            data: session,
+        } = await this.userClientService.getUserSession({
             sessionId,
             username,
             browserUserAgent,
         });
 
-        if (!verifySession.isSuccessful) {
-            return new Result(ErrorCodes.Failed, verifySession.errorMessage);
+        if (!isSuccessful) {
+            return new Result(ErrorCodes.Failed, errorMessage);
         }
-        const session = verifySession.data;
 
         const promotions = await this.service.getBySession(session);
         if (promotions.data.length == 0) {
@@ -63,16 +66,19 @@ export class PromotionConfigController {
         @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigResponse> {
-        const verifySession = await this.userClientService.getSessionVerify({
+        const {
+            isSuccessful,
+            errorMessage,
+            data: session,
+        } = await this.userClientService.getUserSession({
             sessionId,
             username,
             browserUserAgent,
         });
 
-        if (!verifySession.isSuccessful) {
-            return new Result(ErrorCodes.Failed, verifySession.errorMessage);
+        if (!isSuccessful) {
+            return new Result(ErrorCodes.Failed, errorMessage);
         }
-        const session = verifySession.data;
 
         const getPromotionResult = await this.service.getById(id, session.currencyGroupId);
         if (getPromotionResult.errorCode === ErrorCodes.Failed) {

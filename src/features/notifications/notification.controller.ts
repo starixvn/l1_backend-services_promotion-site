@@ -22,7 +22,7 @@ export class NotificationController {
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<Result<boolean>> {
-        const { isSuccessful, data: session } = await this.userClientService.getSessionVerify({ sessionId, username, browserUserAgent });
+        const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
         if (!isSuccessful) {
             return new Result(ErrorCodes.Success, '', false);

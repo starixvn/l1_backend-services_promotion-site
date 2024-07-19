@@ -22,7 +22,7 @@ export class LeaderBoardController {
         @Body('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<LeaderBoardResponse> {
-        const verifySession = await this.userClientService.getSessionVerify({
+        const verifySession = await this.userClientService.getUserSession({
             sessionId,
             username,
             browserUserAgent,
