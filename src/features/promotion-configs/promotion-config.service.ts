@@ -4,6 +4,7 @@ import { LeanDocument, Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
+import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
 import { isIncludedSite } from './helpers/promotion-helper';
@@ -15,6 +16,7 @@ export class PromotionConfigService {
     constructor(
         @InjectModel(PromotionConfigs.name) private readonly model: Model<PromotionConfigsDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
+        @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
 
         private readonly logger: SentryLogger,
     ) {}
@@ -103,20 +105,27 @@ export class PromotionConfigService {
         return result;
     }
 
-    getPromotionDetail(
+    async getPromotionDetail(
         promotion: LeanDocument<PromotionConfigsDocument>,
-        userCurrencyGroupId: string,
+        session: UserSession,
         title: string,
-    ): PromotionDetailViewModel {
+    ): Promise<PromotionDetailViewModel> {
         const { startDateTime, endDateTime, winningPrizes, operators } = promotion;
         let currencyGroup: CurrencyGroup;
         operators.forEach((operator) => {
             operator.currencyGroups.forEach((cg) => {
-                if (cg.currencyGroupId == userCurrencyGroupId) {
+                if (cg.currencyGroupId == session.currencyGroupId) {
                     currencyGroup = cg;
                 }
             });
         });
+        const exchangeRate = (await this.exchangeRateService.getAll()).data;
+        const convertValueToUserCurrency = (value) => (1 / (exchangeRate.code[session.currencyCode] * session.multiplier)) * value;
+
+        winningPrizes.forEach((winningPrize) => {
+            winningPrize.value = convertValueToUserCurrency(winningPrize.value);
+        });
+
         const result: PromotionDetailViewModel = new PromotionDetailViewModel(
             title,
             startDateTime,

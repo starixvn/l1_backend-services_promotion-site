@@ -88,7 +88,7 @@ export class PromotionConfigController {
             return new Result(ErrorCodes.Failed, 'Promotion data not available');
         }
         const title = notification.data.title[lang];
-        const result: PromotionDetailViewModel = this.service.getPromotionDetail(promotion, session.currencyGroupId, title);
+        const result: PromotionDetailViewModel = await this.service.getPromotionDetail(promotion, session, title);
         return new Result(ErrorCodes.Success, '', result);
     }
 

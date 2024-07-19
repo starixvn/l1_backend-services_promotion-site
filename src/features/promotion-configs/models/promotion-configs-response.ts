@@ -1,10 +1,10 @@
 import { Result } from '../../../_shared/common/models/result';
 import { WinningPrize } from '../schemas';
 
-export class PromotionConfigsResponse extends Result<PromotionViewModel[]> { }
-export class PromotionConfigResponse extends Result<PromotionDetailViewModel> { }
+export class PromotionConfigsResponse extends Result<PromotionViewModel[]> {}
+export class PromotionConfigResponse extends Result<PromotionDetailViewModel> {}
 export class PromotionsViewModel {
-    constructor(public promotions: PromotionViewModel[]) { }
+    constructor(public promotions: PromotionViewModel[]) {}
 }
 enum Status {
     Running = 1,
@@ -45,7 +45,7 @@ export class PromotionViewModel {
 
 export class WinningPrizeViewModel {
     constructor(value: number, ranking: string) {
-        this.value = value;
+        this.value = +value.toFixed(3);
         this.ranking = ranking;
         if (+ranking) {
             this.from = +ranking;
