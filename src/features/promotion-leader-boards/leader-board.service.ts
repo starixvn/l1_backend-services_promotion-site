@@ -90,9 +90,13 @@ export class LeaderBoardService {
         return this.dataHandler.getData(execution);
     }
 
-    async updateAwardAmount(leaderBoard: PromotionLeaderBoards, amount: number): Promise<Result<PromotionLeaderBoards>> {
+    async updateAwardAmount(
+        leaderBoard: PromotionLeaderBoards,
+        amount: number,
+        awardedInPlayerCurrency: number,
+    ): Promise<Result<PromotionLeaderBoards>> {
         const filter = { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId };
-        const updates = { awardedAmount: amount, updatedTime: new Date() };
+        const updates = { awardedAmountInBaseCurrency: amount, awardedAmount: awardedInPlayerCurrency, updatedTime: new Date() };
 
         return this.dataHandler.updateData(this.model, filter, updates);
     }
@@ -124,10 +128,12 @@ export class LeaderBoardService {
             siteName: data.siteName,
             currencyGroupId: data.currencyGroupId,
             currency: data.currency,
+            currencyCode: data.currencyCode,
             updatedTime: new Date(),
             nickName: data.nickName,
             siteId: data.siteId,
             playerName: data.playerName,
+            multiplier: data.multiplier,
         };
 
         return this.dataHandler.updateData(

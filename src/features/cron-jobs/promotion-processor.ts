@@ -91,8 +91,18 @@ export class PromotionProcessor {
         const topLeaderBoard = await this.leaderBoardService.getTopLeaderBoard(promotionConfigs.promotionId, awards.length);
         for (let i = 0; i < topLeaderBoard.data.length; i++) {
             const leaderBoard = topLeaderBoard.data[i];
-            this.leaderBoardService.updateAwardAmount(leaderBoard, awards[i]);
+            const awardedInPlayerCurrency = await this.convertWinningAmountToPlayerCurrency(
+                awards[i],
+                leaderBoard.currencyCode,
+                leaderBoard.multiplier,
+            );
+            this.leaderBoardService.updateAwardAmount(leaderBoard, awards[i], awardedInPlayerCurrency);
         }
+    }
+
+    async convertWinningAmountToPlayerCurrency(amount: number, currencyCode: string, multiplier: number) {
+        const exchangeRate = await this.exchangeRateService.getAll();
+        return amount / (exchangeRate.data.code[currencyCode] * multiplier);
     }
 
     async getSealedPromotionConfig(sourcePromotionConfigs: PromotionConfigs) {
@@ -159,6 +169,8 @@ export class PromotionProcessor {
             leaderBoard.siteId = ticket.siteId;
             leaderBoard.playerName = ticket.playerName;
             leaderBoard.isTestCurrency = ticket.isTestCurrency;
+            leaderBoard.currencyCode = ticket.currencyCode;
+            leaderBoard.multiplier = ticket.multiplier;
 
             //console.log('leaderBoard', leaderBoard);
             await this.leaderBoardService.upsert(leaderBoard);

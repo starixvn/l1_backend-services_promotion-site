@@ -57,6 +57,11 @@ export class PromotionLeaderBoards {
     @Prop({ required: true })
     currency: string;
 
+    @IsString()
+    @ApiProperty()
+    @Prop({ required: true })
+    currencyCode: string;
+
     @IsDate()
     @ApiProperty()
     @Prop({ required: true })
@@ -82,6 +87,11 @@ export class PromotionLeaderBoards {
     @Prop()
     awardedAmount: number;
 
+    @IsNumber()
+    @ApiProperty()
+    @Prop()
+    awardedAmountInBaseCurrency: number;
+
     @IsBoolean()
     @ApiProperty()
     @Prop({ required: true })
@@ -96,6 +106,11 @@ export class PromotionLeaderBoards {
     @ApiProperty()
     @Prop({ required: true })
     siteId: string;
+
+    @IsNumber()
+    @ApiProperty()
+    @Prop({ required: true })
+    multiplier: number;
 }
 
 export const PromotionLeaderBoardsSchema = SchemaFactory.createForClass(PromotionLeaderBoards);
