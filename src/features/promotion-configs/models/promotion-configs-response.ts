@@ -51,7 +51,7 @@ export class WinningPrizeViewModel {
     public to?: number;
 
     constructor(value: number, ranking: string) {
-        this.value = +value.toFixed(3);
+        this.value = +value.toFixed();
         this.ranking = ranking;
         this.parseRanking(ranking);
     }
