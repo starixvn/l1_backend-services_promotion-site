@@ -316,6 +316,7 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         item.isTestCurrency = false;
         item.playerName = 'playername';
         item.siteId = '4100300';
+        item.validBetAmount = 100;
 
         return item;
     };

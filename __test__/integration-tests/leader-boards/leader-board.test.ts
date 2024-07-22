@@ -2,14 +2,15 @@ import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Result } from 'src/_shared/common/models/result';
-import { PromotionLeaderBoards } from 'src/features/promotion-leader-boards/schemas';
 import * as request from 'supertest';
 import { UserServiceClient } from '../../../src/_shared/services/user-service';
 import { AppModule } from '../../../src/app.module';
+import { LeaderBoardViewModel } from '../../../src/features/promotion-leader-boards/models/leader-board-response';
+import { validSession } from '../_stubs/helper';
 import { setupDatabase } from '../_stubs/setup-database';
 
 jest.setTimeout(10000);
-describe('Promotion', () => {
+describe('LeaderBoard', () => {
     let app: INestApplication;
     let moduleFixture: TestingModule;
 
@@ -26,14 +27,17 @@ describe('Promotion', () => {
         await setupDatabase(moduleFixture);
     });
 
-    it('/leader-board (GET)', async () => {
+    it('/leader-board/:promotionId getLeaderBoard(POST)', async () => {
+        //Arrange
+        jest.spyOn(UserServiceClient, 'getSession').mockResolvedValue(validSession);
+
         // Act
         const token = ''; //await getBearerToken();
-        const result = await request(app.getHttpServer()).get('/leader-board?promotionId=1').set('Authorization', token);
+        const result = await request(app.getHttpServer()).post('/leader-board/1').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as Result<PromotionLeaderBoards[]>;
-        expect(result.status).toBe(200);
-        expect(model.data[0].playerId).toEqual(9931920);
+        const model = JSON.parse(result.text) as Result<LeaderBoardViewModel>;
+        expect(result.status).toBe(201);
+        expect(model.data.currentUser.point).toEqual(1);
     });
 });
