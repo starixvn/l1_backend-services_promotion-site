@@ -9,7 +9,7 @@ import useFetchData from '../hooks/use-fetch-data';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) => {
   const { t } = useTranslate();
-  const { data, loading, error } = useFetchData(`promotions/${promotionId}`);
+  const { data, loading, error } = useFetchData(`promotions/getPromotionDetailsFake`);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;

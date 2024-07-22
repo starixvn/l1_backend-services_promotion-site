@@ -21,7 +21,7 @@ const PromotionContent = ({ promotion }) => {
 
 const Promotions = ({ handleMoreInfo }) => {
     const { t } = useTranslator();
-    const { data, loading, error } = useFetchData('promotions');
+    const { data, loading, error } = useFetchData('promotions/getPromotionsFake');
 
     if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error.message}</div>;

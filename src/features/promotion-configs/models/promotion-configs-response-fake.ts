@@ -33,7 +33,6 @@ export class WinningPrizeFake {
     }
 }
 
-
 const winningPrizes: WinningPrize[] = [
     { value: 1000.0, ranking: '1' },         // Single rank prize
     { value: 500.0, ranking: '2-3' },       // Range prize

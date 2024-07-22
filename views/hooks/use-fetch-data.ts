@@ -19,8 +19,8 @@ function useFetchData(url: string) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        sessionId: GameUtils.base64Decode(sessionId),
-                        username,
+                        // sessionId: GameUtils.base64Decode(sessionId),
+                        // username,
                     }),
                 });
 

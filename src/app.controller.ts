@@ -14,16 +14,16 @@ export class AppController {
         @Headers('user-agent') browserUserAgent: string,
         @Query('language') language: string,
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
+        // const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
 
-        if (!sessionId || !username || !username) {
-            return unauthorizedResult;
-        }
+        // if (!sessionId || !username || !username) {
+        //     return unauthorizedResult;
+        // }
 
-        const { isSuccessful } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
-        if (!isSuccessful) {
-            return unauthorizedResult;
-        }
+        // const { isSuccessful } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
+        // if (!isSuccessful) {
+        //     return unauthorizedResult;
+        // }
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),

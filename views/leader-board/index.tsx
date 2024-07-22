@@ -23,7 +23,7 @@ export const PlayerBoard = ({ player, index }) => {
 
 const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
     const { t } = useTranslate();
-    const { data, loading, error } = useFetchData(`/leader-board/${promotionId}`);
+    const { data, loading, error } = useFetchData(`/leader-board/getLeaderboardFake`);
 
     if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error.message}</div>;
