@@ -152,7 +152,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     const item = new PromotionConfigs();
     item.promotionId = 1;
     const operator1 = new Operator();
-    operator1.operatorId = 'ONEworks1';
+    operator1.operatorId = 'ONEworksVGCash';
     operator1.includedSiteNames = 'lumi,lumi1,lumi2';
     item.name = 'Weekly Promotion';
 
@@ -312,6 +312,7 @@ const initUserInfo = async (moduleFixture: TestingModule) => {
 
 const initNotification = async (moduleFixture: TestingModule) => {
     const model = moduleFixture.get(getModelToken('Notifications')) as Model<NotificationsDocument>;
+    const promotionModel = moduleFixture.get(getModelToken('PromotionConfigs')) as Model<PromotionConfigsDocument>;
 
     // Clear
     await model.deleteMany({});
@@ -322,12 +323,12 @@ const initNotification = async (moduleFixture: TestingModule) => {
     item.enabled = true;
 
     item.messages = new Messages();
-    item.messages['en-US'] = 'Promotion message';
+    item.messages['en-US'] = 'Weekly Promotion Detail';
 
     item.title = new Messages();
-    item.title['en-US'] = 'Promotion Title';
+    item.title['en-US'] = 'Weekly Promotion';
     item.time = new Date();
-    item.promotionId = '1';
+    item.promotionId = (await promotionModel.findOne({ promotionId: 1 }))._id;
 
     await model.insertMany([item]);
 };

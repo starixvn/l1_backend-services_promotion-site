@@ -28,7 +28,6 @@ export class PromotionConfigController {
     async getByUserSession(
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
-        @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigsResponse> {
         const {
@@ -51,7 +50,7 @@ export class PromotionConfigController {
         }
         const promotionIds = promotions.data.map((promotion) => promotion._id?.toString());
         const notifications = await this.notificationService.getPromotionByIds(promotionIds);
-        const result: PromotionViewModel[] = this.service.getPromotionsByNotifications(promotions.data, notifications.data, lang);
+        const result: PromotionViewModel[] = this.service.getPromotionsByNotifications(promotions.data, notifications.data, session.language);
 
         return new Result(ErrorCodes.Success, '', result);
     }
@@ -63,7 +62,6 @@ export class PromotionConfigController {
         @Param('id') id: number,
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
-        @Body('lang') lang: string = 'en-US',
         @Headers('user-agent') browserUserAgent: string,
     ): Promise<PromotionConfigResponse> {
         const {
@@ -93,7 +91,7 @@ export class PromotionConfigController {
         if (!notification.data) {
             return new Result(ErrorCodes.Failed, 'Promotion data not available');
         }
-        const title = notification.data.title[lang];
+        const title = notification.data.title[session.language];
         const result: PromotionDetailViewModel = await this.service.getPromotionDetail(promotion, session, title);
         return new Result(ErrorCodes.Success, '', result);
     }

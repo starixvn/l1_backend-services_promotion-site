@@ -9,7 +9,7 @@ export interface UserSession {
 
     username: string;
 
-    owSeq: string;
+    owSeq?: string;
 
     memberId: string;
 

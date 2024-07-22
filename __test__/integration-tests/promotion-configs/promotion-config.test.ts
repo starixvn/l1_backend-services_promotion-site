@@ -1,12 +1,12 @@
 import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Result } from 'src/_shared/common/models/result';
-import { PromotionConfigs } from 'src/features/promotion-configs/schemas';
-import { VerifySessionRequest } from 'src/features/users/models';
 import * as request from 'supertest';
+import { Result } from '../../../src/_shared/common/models/result';
 import { UserServiceClient } from '../../../src/_shared/services/user-service';
 import { AppModule } from '../../../src/app.module';
+import { PromotionDetailViewModel, PromotionViewModel } from '../../../src/features/promotion-configs/models/promotion-configs-response';
+import { validSession } from '../_stubs/helper';
 import { setupDatabase } from '../_stubs/setup-database';
 
 jest.setTimeout(10000);
@@ -27,23 +27,32 @@ describe('Promotion', () => {
     });
 
     it('/promotions getByUserSession(POST)', async () => {
+        //Arrange
+        jest.spyOn(UserServiceClient, 'getSession').mockResolvedValue(validSession);
+
         // Act
         const token = ''; //await getBearerToken();
 
-        const payload: VerifySessionRequest = {
-            sessionId: Buffer.from('xch5pum5k1K2Hjozkmgt404MnJjgAyg9_ONEworksVGCash_7364518', 'base64').toString(),
-            username: 'testUser',
-            browserUserAgent: 'chrome',
-        };
-
-        const result = await request(app.getHttpServer())
-            .post('/promotions')
-            .send(payload)
-            .set('Authorization', token);
+        const result = await request(app.getHttpServer()).post('/promotions').set('Authorization', token);
 
         // Assert
-        const model = JSON.parse(result.text) as Result<PromotionConfigs[]>;
+        const model = JSON.parse(result.text) as Result<PromotionViewModel[]>;
         expect(result.status).toBe(201);
-        expect(model.data[0].name).toEqual('Weekly Promotion');
+        expect(model.data[0].title).toEqual('Weekly Promotion');
+    });
+
+    it('/promotions/:id getById(POST)', async () => {
+        //Arrange
+        jest.spyOn(UserServiceClient, 'getSession').mockResolvedValue(validSession);
+
+        // Act
+        const token = ''; //await getBearerToken();
+
+        const result = await request(app.getHttpServer()).post('/promotions/1').set('Authorization', token);
+
+        // Assert
+        const model = JSON.parse(result.text) as Result<PromotionDetailViewModel>;
+        expect(result.status).toBe(201);
+        expect(model.data.title).toEqual('Weekly Promotion');
     });
 });
