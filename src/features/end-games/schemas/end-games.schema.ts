@@ -15,6 +15,7 @@ export class Call {
     gameTypeId: number;
     totalAmount: string;
     totalWin: string;
+    validBetAmount: string;
 }
 
 @Schema()

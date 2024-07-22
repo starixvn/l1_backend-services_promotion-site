@@ -19,6 +19,7 @@ import { UserInfos, UserInfosDocument } from '../../../src/features/users/schema
 import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
+    const startTime = new Date();
     await initLeaderBoard(moduleFixture);
     await initPromotionConfig(moduleFixture);
     await initPromotionBet(moduleFixture);
@@ -29,6 +30,104 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initExchangeRate(moduleFixture);
     await initGameConfig(moduleFixture);
     await initEndGame(moduleFixture);
+
+    //await initBigData(moduleFixture);
+    //console.log('finish ', startTime.toISOString(), new Date().toISOString());
+};
+
+const initBigData = async (moduleFixture: TestingModule) => {
+    // Insert
+    const createBet = (
+        operatorId,
+        playerId,
+        nickname,
+        siteName,
+        currencyGroupId,
+        totalAmount,
+        totalWin,
+        dataSourceId,
+        dataSourceTimeStamp,
+        roundId,
+    ) => {
+        const item = new PromotionBets();
+        item.operatorId = operatorId;
+        item.playerId = playerId;
+        item.siteName = siteName;
+        item.currencyGroupId = currencyGroupId;
+        item.gameId = 1;
+        item.roundId = roundId;
+        item.totalAmount = totalAmount;
+        item.totalWin = totalWin;
+        item.dataSourceId = dataSourceId;
+        item.dataSourceTimeStamp = dataSourceTimeStamp;
+        item.updatedTime = new Date();
+        item.currencyCode = 'VND';
+        item.currencyName = 'INH';
+        item.nickname = nickname;
+        item.multiplier = 1000;
+        item.isTestCurrency = false;
+        item.playerName = 'playername';
+        item.siteId = '4100300';
+
+        return item;
+    };
+
+    const randomInt = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+
+    const createUserInfo = (id, name) => {
+        const item = new UserInfos();
+        item.id = id;
+        item.name = name;
+    };
+
+    const startDate = new Date(new Date().setDate(new Date().getDate() - 10)).getTime();
+
+    const items = [];
+    const userSessionItems = [];
+    const userInfoItems = [];
+    for (let i = 0; i < 50_000; i++) {
+        const playerId = randomInt(1, 10000);
+        items.push(
+            createBet(
+                'ONEworksVGCash',
+                playerId.toString(),
+                `p ${playerId}`,
+                'lumi1',
+                '61765beed2b6510001f18bd6',
+                100,
+                150,
+                '66821f6484a90b840624fd6b_1',
+                new Date(startDate + i * 100),
+                i + 1,
+            ),
+        );
+        userSessionItems.push(
+            createUserSession(
+                playerId.toString(),
+                'ONEworksVGCash',
+                '61765beed2b6510001f18bd6',
+                'lumi1',
+                new Date(),
+                `xch5pum5k1K2Hjozkmgt404MnJjgAyg9_${i.toString()}`,
+                `u${playerId.toString()}`,
+            ),
+        );
+        userInfoItems.push(createUserInfo(`u${playerId.toString()}`, `u${playerId.toString()}`));
+    }
+
+    const betModel = moduleFixture.get(getModelToken('PromotionBets')) as Model<PromotionBetsDocument>;
+    await betModel.deleteMany({});
+    await betModel.insertMany(items);
+
+    const userSessionModel = moduleFixture.get(getModelToken('UserSession')) as Model<UserSessionDocument>;
+    await userSessionModel.deleteMany({});
+    await userSessionModel.insertMany(userSessionItems);
+
+    const userInfoModel = moduleFixture.get(getModelToken('UserInfos')) as Model<UserInfosDocument>;
+    await userInfoModel.deleteMany({});
+    await userInfoModel.insertMany(userInfoItems);
 };
 
 const initEndGame = async (moduleFixture: TestingModule) => {
@@ -163,8 +262,8 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     currencyGroup1.enabled = true;
     operator1.currencyGroups = [currencyGroup1];
     item.operators = [operator1];
-    item.startDateTime = new Date(new Date().setDate(new Date().getDate() - 2));
-    item.endDateTime = new Date(new Date().setSeconds(new Date().getSeconds() + 20));
+    item.startDateTime = new Date(new Date().setDate(new Date().getDate() - 12));
+    item.endDateTime = new Date(new Date().setDate(new Date().getDate() + 2));
     const winningPrize1 = new WinningPrize();
     winningPrize1.value = 1000;
     winningPrize1.ranking = '1';
@@ -234,6 +333,7 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         createBet('ONEworksVGCash', 2, 'p2', 'lumi1', '61765beed2b6510001f18bd6', 100, 50, '66821f6484a90b840624fd6b_1', new Date(), 100),
         createBet('ONEworksVGCash', 3, 'p3', 'lumi1', '61765beed2b6510001f18bd6', 100, 150, '66821f6484a90b840624fd6b_1', new Date(), 100),
     ];
+
     await model.insertMany(items);
 };
 
@@ -251,6 +351,7 @@ const createUserSession = (playerId, operatorId, currencyGroupId, siteName, ssoT
     item.currencyCode = 'VND';
     item.multiplier = 1000;
     item.id = id;
+    item.userId = id;
     return item;
 };
 

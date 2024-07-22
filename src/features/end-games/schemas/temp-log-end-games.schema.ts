@@ -55,6 +55,11 @@ export class TempLogEndGames {
     @IsNumber()
     @ApiProperty()
     @Prop()
+    validBetAmount: number;
+
+    @IsNumber()
+    @ApiProperty()
+    @Prop()
     system: number;
 }
 

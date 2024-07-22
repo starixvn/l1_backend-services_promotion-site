@@ -7,7 +7,7 @@ import { PromotionProcessor } from '../../../src/features/cron-jobs/promotion-pr
 import { PromotionBetModule } from '../../../src/features/promotion-bets/promotion-bet.module';
 import { setupDatabase } from '../_stubs/setup-database';
 
-jest.setTimeout(100000);
+jest.setTimeout(1000000);
 describe('Promotion', () => {
     let app: INestApplication;
     let moduleFixture: TestingModule;

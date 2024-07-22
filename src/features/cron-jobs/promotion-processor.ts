@@ -27,10 +27,12 @@ export class PromotionProcessor {
     async proceed() {
         try {
             console.log('proceed');
+            const startTime = new Date();
             await this.promotionBetService.syncEndGameLog();
             await this.processNewPromotions();
             await this.processRunningPromotions();
             await this.processFinishedPromotions();
+            console.log('proceeded in ', startTime.toISOString(), new Date().toISOString());
         } catch (errors) {
             console.log(errors);
             this.logger.error(errors);
@@ -57,11 +59,11 @@ export class PromotionProcessor {
         const result = await this.promotionConfigService.getPromotionsByStatus(PROMOTION_STATUSES.running);
         for (const promotionConfig of result.data) {
             try {
-                if (promotionConfig.endDateTime < this.getCurrentTime()) {
+                const sealedPromotionConfig = await this.getSealedPromotionConfig(promotionConfig);
+                if (new Date(sealedPromotionConfig.endDateTime) < this.getCurrentTime()) {
                     await this.updateAwardedAmount(promotionConfig);
                     await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.completed);
                     await this.promotionRunService.updateLatestRunTime(promotionConfig.promotionId);
-                    const sealedPromotionConfig = await this.getSealedPromotionConfig(promotionConfig);
                     await this.updateChecksum(sealedPromotionConfig);
                 }
             } catch (e) {
@@ -121,6 +123,8 @@ export class PromotionProcessor {
             latestDataSourceTimeStamp,
         );
 
+        console.log('ticketResult', ticketResult.data.length);
+
         for (const operator of promotionConfig.operators) {
             for (const currencyGroup of operator.currencyGroups) {
                 if (currencyGroup.enabled) {
@@ -156,7 +160,7 @@ export class PromotionProcessor {
             leaderBoard.playerName = ticket.playerName;
             leaderBoard.isTestCurrency = ticket.isTestCurrency;
 
-            console.log('leaderBoard', leaderBoard);
+            //console.log('leaderBoard', leaderBoard);
             await this.leaderBoardService.upsert(leaderBoard);
         }
     }
@@ -176,7 +180,7 @@ export class PromotionProcessor {
     isValidMinBet(gameConfigs: GameConfigs[], currencyGroup: CurrencyGroup, ticket: PromotionBets) {
         const gameType = gameConfigs.find((config) => config.gameId === ticket.gameId)?.type;
         const minBet = SLOT_GAME_TYPES.includes(gameType) ? currencyGroup.slotGameMinBet : currencyGroup.otherGameMinBet;
-        return ticket.totalAmount >= minBet;
+        return ticket.validBetAmount >= minBet;
     }
 
     getCurrentTime() {

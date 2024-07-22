@@ -47,6 +47,11 @@ export class PromotionBets {
     @Prop({ required: true })
     totalWin: number;
 
+    @IsNumber()
+    @ApiProperty()
+    @Prop({ required: true })
+    validBetAmount: number;
+
     @IsString()
     @ApiProperty()
     @Prop({ required: true })

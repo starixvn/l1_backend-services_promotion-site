@@ -88,6 +88,7 @@ export class PromotionBetService {
         tempLog.system = item.system;
         tempLog.totalAmount = +item.call.totalAmount;
         tempLog.totalWin = +item.call.totalWin;
+        tempLog.validBetAmount = +item.call.validBetAmount;
 
         return tempLog;
     }
