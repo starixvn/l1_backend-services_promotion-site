@@ -1,39 +1,27 @@
-export class PromotionViewModelFake {
-    title: string;
-    content: string;
-    startDateTime: Date;
-    endDateTime: Date;
-    status: string;
-    promotionId: number;
-
-    constructor(title: string, content: string, startDateTime: Date, endDateTime: Date, status: string, promotionId: number) {
-        this.title = title;
-        this.content = content;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.status = status;
-        this.promotionId = promotionId;
-    }
-}
-
-// Create fake data
-const fakePromotions: PromotionViewModelFake[] = [
-    new PromotionViewModelFake(
-        'Weekly Promotion 1',
-        'Weekly Promotion Detail 1',
-        new Date('2024-08-01T22:16:00.000Z'),
-        new Date('2024-08-07T22:16:00.000Z'),
-        'new',
+import { WinningPrize } from "../schemas";
+import { PromotionDetailViewModel, PromotionViewModel } from "./promotion-configs-response";
+const fakePromotions: PromotionViewModel[] = [
+    new PromotionViewModel(
         1,
+        "Summer Sale",
+        "Get up to 50% off on selected items.",
+        new Date("2024-08-01T00:00:00"),
+        new Date("2024-08-31T23:59:59")
     ),
-    new PromotionViewModelFake(
-        'Weekly Promotion 2',
-        'Weekly Promotion Detail 2',
-        new Date('2024-09-01T22:16:00.000Z'),
-        new Date('2024-09-07T22:16:00.000Z'),
-        'completed',
+    new PromotionViewModel(
         2,
+        "Back to School",
+        "Special discounts on school supplies.",
+        new Date("2024-09-01T00:00:00"),
+        new Date("2024-09-30T23:59:59")
     ),
+    new PromotionViewModel(
+        3,
+        "Holiday Deals",
+        "Exclusive offers for the holiday season.",
+        new Date("2024-12-01T00:00:00"),
+        new Date("2024-12-31T23:59:59")
+    )
 ];
 
 export class WinningPrizeFake {
@@ -45,54 +33,24 @@ export class WinningPrizeFake {
     }
 }
 
-export class PromotionDetailViewModelFake {
-    title: string;
-    startDateTime: Date;
-    endDateTime: Date;
-    otherGameMinBet: number;
-    slotGameMinBet: number;
-    totalPrize: number;
-    numerousPrize: number;
-    winningPrizes: WinningPrizeFake[];
 
-    constructor(
-        title: string,
-        startDateTime: Date,
-        endDateTime: Date,
-        otherGameMinBet: number,
-        slotGameMinBet: number,
-        totalPrize: number,
-        numerousPrize: number,
-        winningPrizes: WinningPrizeFake[],
-    ) {
-        this.title = title;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.otherGameMinBet = otherGameMinBet;
-        this.slotGameMinBet = slotGameMinBet;
-        this.totalPrize = totalPrize;
-        this.numerousPrize = numerousPrize;
-        this.winningPrizes = winningPrizes;
-    }
-}
+const winningPrizes: WinningPrize[] = [
+    { value: 1000.0, ranking: '1' },         // Single rank prize
+    { value: 500.0, ranking: '2-3' },       // Range prize
+    { value: 200.0, ranking: '4' },         // Single rank prize
+    { value: 50.0, ranking: '5-10' }        // Range prize
+];
 
-// Create fake data
-const fakePromotionDetails: PromotionDetailViewModelFake = new PromotionDetailViewModelFake(
-    'Weekly Promotion 2',
-    new Date('2024-09-01T22:16:00.000Z'),
-    new Date('2024-09-07T22:16:00.000Z'),
-    2,
-    0.2,
-    1000,
-    3,
-    [
-        new WinningPrizeFake(1000, '1'),
-        new WinningPrizeFake(600, '2'),
-        new WinningPrizeFake(400, '3'),
-        new WinningPrizeFake(200, '4-6'),
-        new WinningPrizeFake(100, '7-10'),
-    ],
+// Create an instance of PromotionDetailViewModel with sample data
+const fakePromotionDetails = new PromotionDetailViewModel(
+    "Summer Special Promotion",
+    new Date("2024-07-01T00:00:00"),
+    new Date("2024-07-31T23:59:59"),
+    10.0, // otherGameMinBet
+    5.0,  // slotGameMinBet
+    winningPrizes
 );
+
 
 // Export fake data
 export { fakePromotionDetails, fakePromotions };

@@ -31,6 +31,7 @@ body {
     color: var(--text-color, #000);
     overscroll-behavior: contain;
     touch-action: pan-y;
+    font: 500 1.6rem/1.5 var(--font-family);
 }
 
 h1,
