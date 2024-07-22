@@ -27,7 +27,7 @@ const Promotions = ({ handleMoreInfo }) => {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div>
+        <div className="container">
             <div className="promotion-container">
                 <h2>{t('promotions')}</h2>
                 <ul className="promotion-list">

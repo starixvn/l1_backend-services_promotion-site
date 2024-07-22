@@ -11,7 +11,7 @@
         "watch:webpack-debug": "webpack --mode development --watch",
         "watch:webpack": "webpack --mode development",
         "watch:nest": "nest start --watch",
-        "watch:all": "concurrently \"npm run watch:webpack\" \"npm run watch:nest\"",
+        "watch:all": "npm run prebuild &&concurrently \"npm run watch:webpack\" \"nest start\"",
         "build": "npm run watch:webpack && nest build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "concurrently \"npm run build:webpack\" \"nest start\"",
