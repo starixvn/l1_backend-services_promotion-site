@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { LeanDocument, Model, Schema } from 'mongoose';
+import { LeanDocument, Model } from 'mongoose';
 
-import { PromotionBets, PromotionBetsDocument } from './schemas';
-import { DataHandler, SentryLogger } from '../../_shared/common/providers';
-import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
-import { EndGamesSchema, EndGamesDocument, EndGames, TempLogEndGames, LOG_DB, END_GAMES_COLLECTION } from '../end-games/schemas';
+import { Result } from '../../_shared/common/models/result';
+import { DataHandler } from '../../_shared/common/providers';
+import { END_GAMES_COLLECTION, EndGamesDocument, EndGamesSchema, LOG_DB, TempLogEndGames } from '../end-games/schemas';
 import { TempLogEndGameService } from '../end-games/temp-log-end-game.service';
+import { PromotionBets, PromotionBetsDocument } from './schemas';
 
 @Injectable()
 export class PromotionBetService {
@@ -15,11 +15,6 @@ export class PromotionBetService {
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
         @Inject(TempLogEndGameService) private readonly tempLogEndGameService: TempLogEndGameService,
     ) {}
-
-    async getAll(): Promise<Result<PromotionBets[]>> {
-        const execution = this.model.find({}).lean().exec();
-        return this.dataHandler.getData(execution);
-    }
 
     async getBets(startTime: Date, endTime: Date, latestDataSourceTimeStamp: Date): Promise<Result<PromotionBets[]>> {
         const startDateTime = latestDataSourceTimeStamp && latestDataSourceTimeStamp > startTime ? latestDataSourceTimeStamp : startTime;
