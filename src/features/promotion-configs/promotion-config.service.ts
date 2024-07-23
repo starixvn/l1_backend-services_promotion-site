@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { LeanDocument, Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
-import { DataHandler, SentryLogger } from '../../_shared/common/providers';
+import { DataHandler } from '../../_shared/common/providers';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
@@ -17,14 +17,7 @@ export class PromotionConfigService {
         @InjectModel(PromotionConfigs.name) private readonly model: Model<PromotionConfigsDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
-
-        private readonly logger: SentryLogger,
     ) {}
-
-    async getAll(): Promise<Result<PromotionConfigs[]>> {
-        const execution = this.model.find({}).lean().exec();
-        return this.dataHandler.getData(execution);
-    }
 
     async getPromotionsByStatus(status: string): Promise<Result<PromotionConfigs[]>> {
         const execution = this.model.find({ status }).lean().exec();

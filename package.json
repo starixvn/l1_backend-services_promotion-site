@@ -21,7 +21,7 @@
         "start:prod": "node dist/main",
         "lint": "eslint \"{src,views,libs,test}/**/*.{ts, tsx}\" --fix",
         "test": "jest ./__test__/unit-tests --config ./jest-config.json",
-        "test-file": "jest user.service.test.ts --config ./jest-config.json",
+        "test-file": "jest promotion-configs.service.test.ts --config ./jest-config.json",
         "test-coverage": "jest ./__test__/unit-tests --config ./jest-config.json --collect-coverage",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
