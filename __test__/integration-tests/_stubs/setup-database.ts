@@ -31,7 +31,7 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfig(moduleFixture);
     await initEndGame(moduleFixture);
 
-    //await initBigData(moduleFixture);
+    await initBigData(moduleFixture);
     //console.log('finish ', startTime.toISOString(), new Date().toISOString());
 };
 
@@ -58,6 +58,7 @@ const initBigData = async (moduleFixture: TestingModule) => {
         item.roundId = roundId;
         item.totalAmount = totalAmount;
         item.totalWin = totalWin;
+        item.validBetAmount = totalAmount;
         item.dataSourceId = dataSourceId;
         item.dataSourceTimeStamp = dataSourceTimeStamp;
         item.updatedTime = new Date();
@@ -87,7 +88,7 @@ const initBigData = async (moduleFixture: TestingModule) => {
     const items = [];
     const userSessionItems = [];
     const userInfoItems = [];
-    for (let i = 0; i < 50_000; i++) {
+    for (let i = 0; i < 10_000; i++) {
         const playerId = randomInt(1, 10000);
         items.push(
             createBet(
@@ -233,6 +234,8 @@ const initLeaderBoard = async (moduleFixture: TestingModule) => {
     item.point = 1;
     item.updatedTime = new Date();
     item.currency = 'INH';
+    item.currencyCode = 'VND';
+    item.multiplier = 1000;
     item.dataSourceTimeStamp = new Date();
     item.pointInBaseCurrency = 1000;
     item.isTestCurrency = false;
@@ -302,6 +305,7 @@ const initPromotionBet = async (moduleFixture: TestingModule) => {
         item.roundId = roundId;
         item.totalAmount = totalAmount;
         item.totalWin = totalWin;
+        item.validBetAmount = totalAmount;
         item.dataSourceId = dataSourceId;
         item.dataSourceTimeStamp = dataSourceTimeStamp;
         item.updatedTime = new Date();
