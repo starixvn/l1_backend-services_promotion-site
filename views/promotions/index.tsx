@@ -23,17 +23,19 @@ const PromotionContent = ({ promotion }) => {
 const Promotion = ({ promotion, handleMoreInfo }) => {
     const { t } = useTranslator();
     return (
-        <li className="promotion-item">
+        <div className="promotion-item">
             <img src={`static/images/promotion.png`} alt="promotion 1" width={150} />
             <div className="promotion-description">
                 <h3>{promotion.title}</h3>
                 <p>{promotion.content}</p>
                 <PromotionContent promotion={promotion} />
+            </div>
+            <div className='more-info'>
                 <button className="btn btn-primary" onClick={() => handleMoreInfo(promotion.promotionId)}>
                     {t('more_info')}
                 </button>
             </div>
-        </li>
+        </div>
     )
 }
 
@@ -45,13 +47,13 @@ const Promotions = ({ handleMoreInfo }) => {
 
     return (
         <div className="promotion-container">
-            <ul className="promotion-list">
+            <div className="promotion-list">
                 {
                     data && data.map((promotion: PromotionViewModel, index: number) => (
                         <Promotion key={index} promotion={promotion} handleMoreInfo={handleMoreInfo} />
                     ))
                 }
-            </ul>
+            </div>
         </div>
     );
 };

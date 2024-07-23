@@ -31,28 +31,26 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
     const rank =
         data.currentUser.point === 0 || (data.currentUser.rank === 0 && data.currentUser.point !== 0) ? '-' : data.currentUser.rank;
     return (
-        <div>
-            <div className="leaderboard">
-                <h2 className="text-center">{t('leaderboard')}</h2>
-                <div className="board-table">
-                    <div className="board-header">
-                        <div className="place">{t('ranking')}</div>
-                        <div className="name">{t('nickname')}</div>
-                        <div className="points">{t('total_points')}</div>
-                    </div>
-                    <div className="board-body">
-                        {data.leadBoardItems.map((player, index) => (
-                            <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
-                        ))}
+        <div className="leader-board-container">
+            <div className="page-header">{t('leaderboard')}</div>
+            <div className="board-table">
+                <div className="board-header">
+                    <div className="place">{t('ranking')}</div>
+                    <div className="name">{t('nickname')}</div>
+                    <div className="points">{t('total_points')}</div>
+                </div>
+                <div className="board-body">
+                    {data.leadBoardItems.map((player, index) => (
+                        <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
+                    ))}
 
-                        <div className="board-body">
-                            <div className="board-row player">
-                                <div>
-                                    <span className="ranking-place place-third">{rank}</span>
-                                </div>
-                                <div>{t('you')}</div>
-                                <div>{formatNumberWithComma(data.currentUser.point)}</div>
+                    <div className="board-body">
+                        <div className="board-row player">
+                            <div>
+                                <span className="ranking-place place-third">{rank}</span>
                             </div>
+                            <div>{t('you')}</div>
+                            <div>{formatNumberWithComma(data.currentUser.point)}</div>
                         </div>
                     </div>
                 </div>
