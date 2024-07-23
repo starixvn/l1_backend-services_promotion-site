@@ -6,7 +6,7 @@ import { Result } from '../../_shared/common/models/result';
 import { DataHandler } from '../../_shared/common/providers';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { UserSession } from '../users/schemas';
-import { LeaderBoardItemViewModel, LeaderBoardViewModel, you } from './models/leader-board-response';
+import { LeaderBoardItemViewModel, LeaderBoardViewModel, topUserRank, you } from './models/leader-board-response';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from './schemas';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class LeaderBoardService {
 
     async getLeaderBoard(promotionId: number, session: UserSession): Promise<LeaderBoardViewModel> {
         return new LeaderBoardViewModel(
-            await this.getTopLeaderBoardByPromotionId(promotionId, session),
+            await this.getTopLeaderBoardByPromotionId(promotionId, session, topUserRank),
             await this.getPlayerLeaderBoardByPromotionId(promotionId, session),
         );
     }

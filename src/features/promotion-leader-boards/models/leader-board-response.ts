@@ -2,6 +2,8 @@ import { Result } from '../../../_shared/common/models/result';
 
 export class LeaderBoardResponse extends Result<LeaderBoardViewModel> {}
 export const you = 'you';
+export const topUserRank = 10;
+
 export class LeaderBoardViewModel {
     constructor(
         public leadBoardItems: LeaderBoardItemViewModel[],
@@ -11,8 +13,8 @@ export class LeaderBoardViewModel {
     ) {
         this.leadBoardItems = leadBoardItems;
         this.currentUser = currentUser;
-        const isUserTop10 = currentUser.rank <= 10 && currentUser.rank > 0;
-        if (isUserTop10) {
+        const isUserOnTop = currentUser.rank <= topUserRank && currentUser.rank > 0;
+        if (isUserOnTop) {
             this.leadBoardItems[currentUser.rank - 1] = currentUser;
         }
     }
@@ -24,7 +26,7 @@ export class LeaderBoardItemViewModel {
     ) {
         let tempPoint = +point.toFixed(3);
         if (point - tempPoint > 0) tempPoint += 0.001;
-        this.point = tempPoint;
+        this.point = +tempPoint.toFixed(3);
         this.nickName = nickName != you ? `${nickName.substring(0, 1)}***${nickName.substring(nickName.length - 3, nickName.length)}` : you;
     }
 }
