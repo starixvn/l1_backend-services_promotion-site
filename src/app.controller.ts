@@ -1,10 +1,10 @@
 import { Controller, Get, Headers, Inject, Query, Render } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
-import { UserClientService } from './features/users/services/user-client.service';
+import { UserService } from './features/users/services/user.service';
 
 @Controller()
 export class AppController {
-    constructor(@Inject(UserClientService) private readonly userClientService: UserClientService) { }
+    constructor(@Inject(UserService) private readonly userClientService: UserService) { }
 
     @Get()
     @Render('index')

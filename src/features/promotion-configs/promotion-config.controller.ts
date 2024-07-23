@@ -2,7 +2,7 @@ import { Body, Controller, Headers, Inject, Param, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { NotificationService } from '../notifications/notification.service';
-import { UserClientService } from '../users/services/user-client.service';
+import { UserService } from '../users/services/user.service';
 import { isIncludedSite } from './helpers/promotion-helper';
 import {
     PromotionConfigResponse,
@@ -18,7 +18,7 @@ export class PromotionConfigController {
     constructor(
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
-        @Inject(UserClientService) private readonly userClientService: UserClientService,
+        @Inject(UserService) private readonly userClientService: UserService,
     ) {}
 
     @Post('/')

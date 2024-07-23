@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { ExchangeRates, ExchangeRateSchema } from '../exchange-rates/schemas';
-import { UserClientService } from '../users/services/user-client.service';
+import { UserService } from '../users/services/user.service';
 import { LeaderBoardController } from './leader-board.controller';
 import { LeaderBoardService } from './leader-board.service';
 import { PromotionLeaderBoards, PromotionLeaderBoardsSchema } from './schemas';
@@ -14,7 +14,7 @@ import { PromotionLeaderBoards, PromotionLeaderBoardsSchema } from './schemas';
             { name: ExchangeRates.name, schema: ExchangeRateSchema, collection: 'exchange_rates' },
         ]),
     ],
-    providers: [LeaderBoardService, UserClientService, ExchangeRateService],
+    providers: [LeaderBoardService, UserService, ExchangeRateService],
     exports: [LeaderBoardService],
     controllers: [LeaderBoardController],
 })

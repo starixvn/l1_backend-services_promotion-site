@@ -2,7 +2,7 @@ import { Controller, Get, Headers, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
-import { UserClientService } from '../users/services/user-client.service';
+import { UserService } from '../users/services/user.service';
 import { NotificationService } from './notification.service';
 
 @ApiTags('notification')
@@ -11,7 +11,7 @@ export class NotificationController {
     constructor(
         private readonly notificationService: NotificationService,
         private readonly promotionConfigService: PromotionConfigService,
-        private readonly userClientService: UserClientService,
+        private readonly userClientService: UserService,
     ) {}
 
     @Get('/exist-promotion-tournament')

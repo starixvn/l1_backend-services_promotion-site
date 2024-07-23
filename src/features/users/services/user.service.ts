@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { UserServiceClient, UserSession } from '../../../../src/_shared/services/user-service';
 import { ErrorCodes, Result } from '../../../_shared/common/models/result';
+import { UserServiceClient, UserSession } from '../../../_shared/services/user-service';
 import { VerifySessionRequest } from '../models';
 
 @Injectable()
-export class UserClientService {
+export class UserService {
     async getUserSession(request: VerifySessionRequest): Promise<Result<UserSession>> {
         const { isAuthenticated, session } = await UserServiceClient.getSession(
             request.sessionId,

@@ -1,7 +1,7 @@
 import { Body, Controller, Headers, Inject, Param, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../../src/_shared/common/models/result';
-import { UserClientService } from '../users/services/user-client.service';
+import { UserService } from '../users/services/user.service';
 import { LeaderBoardService } from './leader-board.service';
 import { LeaderBoardResponse } from './models/leader-board-response';
 
@@ -10,7 +10,7 @@ import { LeaderBoardResponse } from './models/leader-board-response';
 export class LeaderBoardController {
     constructor(
         private readonly service: LeaderBoardService,
-        @Inject(UserClientService) private readonly userClientService: UserClientService,
+        @Inject(UserService) private readonly userClientService: UserService,
     ) { }
 
     @Post('/:promotionId')
