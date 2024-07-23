@@ -24,16 +24,23 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
     const { t } = useTranslator();
     return (
         <div className="promotion-item">
-            <img src={`static/images/promotion.png`} alt="promotion 1" width={150} />
-            <div className="promotion-description">
-                <h3>{promotion.title}</h3>
-                <p>{promotion.content}</p>
-                <PromotionContent promotion={promotion} />
+            <div className="first-column ">
+                <div className='image-container'>
+                    <img src={`static/images/promotion.png`} alt="promotion 1" width={150} />
+                </div> </div>
+            <div className="promotion-description second-column  ">
+                <div >
+                    <h3>{promotion.title}</h3>
+                    <p>{promotion.content}</p>
+                    <PromotionContent promotion={promotion} />
+                </div>
             </div>
-            <div className='more-info'>
-                <button className="btn btn-primary" onClick={() => handleMoreInfo(promotion.promotionId)}>
-                    {t('more_info')}
-                </button>
+            <div className='third-column  '>
+                <div className="button-container">
+                    <button className="btn btn-primary" onClick={() => handleMoreInfo(promotion.promotionId)}>
+                        {t('more_info')}
+                    </button>
+                </div>
             </div>
         </div>
     )
