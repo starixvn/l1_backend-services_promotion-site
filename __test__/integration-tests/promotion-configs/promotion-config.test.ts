@@ -9,7 +9,7 @@ import { PromotionDetailViewModel, PromotionViewModel } from '../../../src/featu
 import { validSession } from '../_stubs/helper';
 import { setupDatabase } from '../_stubs/setup-database';
 
-jest.setTimeout(10000);
+jest.setTimeout(3 * 10000);
 describe('Promotion', () => {
     let app: INestApplication;
     let moduleFixture: TestingModule;

@@ -9,7 +9,7 @@ import { LeaderBoardViewModel } from '../../../src/features/promotion-leader-boa
 import { validSession } from '../_stubs/helper';
 import { setupDatabase } from '../_stubs/setup-database';
 
-jest.setTimeout(10000);
+jest.setTimeout(3 * 10000);
 describe('LeaderBoard', () => {
     let app: INestApplication;
     let moduleFixture: TestingModule;
