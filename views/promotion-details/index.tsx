@@ -53,20 +53,17 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
 
   return (
     <div className="tournament-container">
-      {/* <h2 className="text-center">{data.title}</h2> */}
-      {/* <div className='header'> <img src={`static/images/banner-event.png`} alt="promotion 1" /></div> */}
-      <div className="header text-center">
-        {/* <img src={`static/images/banner-event.png`} alt="" /> */}
-        {/* {t('promotion_header', { prizevalue1: formatNumberWithComma(data.winningPrizes[0]?.value) }).replaceTolgeeFormat()} */}
-      </div>
 
+      <div className='header  text-center'>
+        <div className='back-button-wrapper'> <button className="back-button" onClick={handleBackToHome}></button></div>
+      </div>
       <div className="info-container promotion">
         <div className="title">{t('title_promotion_info')}</div>
         <div className="info-list">
           {promotionInformation.map(({ header, description }, index) => {
             return (
               <div className="info-item" key={index}>
-                <div>{header}</div>
+                <div className='item-description-header'>{header}</div>
                 <p>{description}</p>
               </div>
             );
@@ -80,7 +77,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
           {participantSteps.map(({ header, description }, index) => {
             return (
               <div className="info-item" key={index}>
-                <div >{header}</div>
+                <div className='item-description-header'>{header}</div>
                 <p>{description}</p>
               </div>
             );
@@ -116,11 +113,6 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
         <div>
           <button className="btn btn-primary" onClick={handleLeaderBoard}>
             {t('leaderboard')}
-          </button>
-        </div>
-        <div className="float-left">
-          <button className="btn btn-primary" onClick={handleBackToHome}>
-            Back
           </button>
         </div>
       </div>

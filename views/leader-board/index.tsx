@@ -32,7 +32,11 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
         data.currentUser.point === 0 || (data.currentUser.rank === 0 && data.currentUser.point !== 0) ? '-' : data.currentUser.rank;
     return (
         <div className="leader-board-container">
-            <div className="page-header">{t('leaderboard')}</div>
+            <div className='header'>
+                <div> <button className="back-button" onClick={() => handleMoreInfo(promotionId)}></button></div>
+                <div className="text">{t('leaderboard')}</div>
+            </div>
+
             <div className="board-table">
                 <div className="board-header">
                     <div className="place">{t('ranking')}</div>
@@ -55,11 +59,11 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
                     </div>
                 </div>
             </div>
-            <div className="leader-board  ">
+            {/* <div className="leader-board  ">
                 <button className="btn btn-primary" onClick={() => handleMoreInfo(promotionId)}>
                     Back
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 };

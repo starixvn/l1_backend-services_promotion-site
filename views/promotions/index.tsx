@@ -41,12 +41,17 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
 
 const Promotions = ({ handleMoreInfo }) => {
     const { data, loading, error } = useFetchData('promotions/getPromotionsFake');
+    const { t } = useTranslator();
 
     if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error.message}</div>;
 
     return (
         <div className="promotion-container">
+            <div className='header'>
+                <div className="text">{t('promotions')}</div>
+            </div>
+
             <div className="promotion-list">
                 {
                     data && data.map((promotion: PromotionViewModel, index: number) => (

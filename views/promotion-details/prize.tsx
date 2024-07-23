@@ -37,7 +37,7 @@ const Prize = ({ prize }) => {
   return (<div className="info-item  ">
     <img src={`${imagePath}/${image}`} alt="" />
     <div>
-      <div className='prize-item'>{text}</div>
+      <div className='item-description-header'>{text}</div>
       <p>{formatNumberWithComma(prize.value)}</p>
     </div>
   </div>);
