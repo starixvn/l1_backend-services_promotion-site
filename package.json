@@ -21,6 +21,7 @@
         "start:prod": "node dist/main",
         "lint": "eslint \"{src,views,libs,test}/**/*.{ts, tsx}\" --fix",
         "test": "jest ./__test__/unit-tests --config ./jest-config.json",
+        "test-file": "jest user.service.test.ts --config ./jest-config.json",
         "test-coverage": "jest ./__test__/unit-tests --config ./jest-config.json --collect-coverage",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
@@ -28,7 +29,7 @@
         "integration-test": "jest ./__test__/integration-tests --config ./jest-config.json --maxWorkers=1 --forceExit",
         "integration-test-dev": "jest ./__test__/integration-tests --config ./jest-config.dev.json --maxWorkers=1 --forceExit",
         "integration-test-file-dev": "jest promotion-config.test.ts --config ./jest-config.dev.json --maxWorkers=1 --forceExit",
-        "reg": "npm set registry http://npm.lumigame.com",
+        "reg": "npm set registry https://npm.lumigame.com/",
         "clean:ts": "npx rimraf node_modules/.cache/ts-loader"
     },
     "dependencies": {
