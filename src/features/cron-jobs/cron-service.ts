@@ -1,7 +1,7 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import { PromotionProcessor } from './promotion-processor';
+import { Inject, Injectable } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { SentryLogger } from '../../_shared/common/providers';
+import { PromotionProcessor } from './promotion-processor';
 
 @Injectable()
 export class CronService {

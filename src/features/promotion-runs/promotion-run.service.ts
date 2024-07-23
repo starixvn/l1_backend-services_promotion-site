@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import { Result } from '../../_shared/common/models/result';
+import { DataHandler } from '../../_shared/common/providers';
 import { PromotionRuns, PromotionRunsDocument } from './schemas';
-import { DataHandler, SentryLogger } from '../../_shared/common/providers';
-import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
 
 @Injectable()
 export class PromotionRunService {

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsObject, IsNumber, IsDate, IsBoolean, isNumber, ValidateNested, IsArray } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
+import * as mongoose from 'mongoose';
 
 export const LOG_DB = 'log';
 export const END_GAMES_COLLECTION = 'end_games';

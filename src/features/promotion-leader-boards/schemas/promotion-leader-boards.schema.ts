@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsObject, IsNumber, IsDate, IsBoolean, isNumber } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import * as mongoose from 'mongoose';
 
 export type PromotionLeaderBoardsDocument = PromotionLeaderBoards & mongoose.Document;
 

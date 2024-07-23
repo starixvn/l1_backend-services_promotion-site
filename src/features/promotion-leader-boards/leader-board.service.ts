@@ -25,7 +25,7 @@ export class LeaderBoardService {
         );
     }
 
-    private async getTopLeaderBoardByPromotionId(promotionId: number, session, top: number = 10): Promise<LeaderBoardItemViewModel[]> {
+    private async getTopLeaderBoardByPromotionId(promotionId: number, session, top = 10): Promise<LeaderBoardItemViewModel[]> {
         const topLeaderBoard = await this.model
             .find({ promotionId, isTestCurrency: false })
             .sort({ pointInBaseCurrency: -1 })
@@ -140,7 +140,7 @@ export class LeaderBoardService {
             this.model,
             filter,
             {
-                $inc: existingItemIncrement as any,
+                $inc: existingItemIncrement,
                 $setOnInsert: newData,
                 $set: { dataSourceTimeStamp: data.dataSourceTimeStamp, isTestCurrency: data.isTestCurrency },
             },

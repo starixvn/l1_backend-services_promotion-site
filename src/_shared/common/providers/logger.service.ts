@@ -47,7 +47,7 @@ export class SentryLogger implements LoggerService {
         if (
             typeof exception === 'string' ||
             exception instanceof String ||
-            (exception && exception.message == null && exception.stack == null)
+            (exception && exception.message === null && exception.stack === null)
         ) {
             this.log(`${this.config.logIdentifier} ${exception}`, Severity.Error as Sentry.Severity);
         } else {

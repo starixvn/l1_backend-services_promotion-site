@@ -25,9 +25,10 @@ export class LeaderBoardItemViewModel {
         public point: number,
     ) {
         let tempPoint = +point.toFixed(3);
-        if (point - tempPoint > 0) tempPoint += 0.001;
+        point - tempPoint > 0 && (tempPoint += 0.001);
         this.point = +tempPoint.toFixed(3);
-        this.nickName = nickName != you ? `${nickName.substring(0, 1)}***${nickName.substring(nickName.length - 3, nickName.length)}` : you;
+        this.nickName =
+            nickName !== you ? `${nickName.substring(0, 1)}***${nickName.substring(nickName.length - 3, nickName.length)}` : you;
     }
 }
 export const GetFakeDataUserTop = () => {

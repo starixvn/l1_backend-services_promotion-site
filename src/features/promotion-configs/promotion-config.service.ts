@@ -78,14 +78,14 @@ export class PromotionConfigService {
     getPromotionsByNotifications(
         promotions: LeanDocument<PromotionConfigsDocument>[],
         notifications: Notifications[],
-        lang: string = 'en-US',
+        lang = 'en-US',
     ): PromotionViewModel[] {
-        let result: PromotionViewModel[] = [];
+        const promotionViewModels: PromotionViewModel[] = [];
         if (notifications.length > 0) {
             promotions.forEach((promotion) => {
                 notifications.forEach((notification) => {
-                    if (promotion._id?.toString() == notification.promotionId) {
-                        result.push(
+                    if (promotion._id?.toString() === notification.promotionId) {
+                        promotionViewModels.push(
                             new PromotionViewModel(
                                 promotion.promotionId,
                                 notification.title[lang],
@@ -100,9 +100,9 @@ export class PromotionConfigService {
         }
         const sortByStatusThenTime = (a: PromotionViewModel, b: PromotionViewModel): number =>
             a.status - b.status || b.startDateTime.getTime() - a.startDateTime.getTime();
-        result.sort(sortByStatusThenTime);
+        promotionViewModels.sort(sortByStatusThenTime);
 
-        return result;
+        return promotionViewModels;
     }
 
     async getPromotionDetail(
@@ -114,7 +114,7 @@ export class PromotionConfigService {
         let currencyGroup: CurrencyGroup;
         operators.forEach((operator) => {
             operator.currencyGroups.forEach((cg) => {
-                if (cg.currencyGroupId == session.currencyGroupId) {
+                if (cg.currencyGroupId === session.currencyGroupId) {
                     currencyGroup = cg;
                 }
             });
@@ -126,7 +126,7 @@ export class PromotionConfigService {
             winningPrize.value = convertValueToUserCurrency(winningPrize.value);
         });
 
-        const result: PromotionDetailViewModel = new PromotionDetailViewModel(
+        return new PromotionDetailViewModel(
             title,
             startDateTime,
             endDateTime,
@@ -134,6 +134,5 @@ export class PromotionConfigService {
             currencyGroup.slotGameMinBet,
             winningPrizes as WinningPrize[],
         );
-        return result;
     }
 }

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema } from 'mongoose';
+import { Model } from 'mongoose';
 
+import { Result } from '../../_shared/common/models/result';
+import { DataHandler } from '../../_shared/common/providers';
 import { TempLogEndGames, TempLogEndGamesDocument } from './schemas';
-import { DataHandler, SentryLogger } from '../../_shared/common/providers';
-import { ErrorCodes, ErrorMessages, Result } from '../../_shared/common/models/result';
 
 @Injectable()
 export class TempLogEndGameService {

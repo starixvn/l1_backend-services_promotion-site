@@ -7,8 +7,7 @@ import { isIncludedSite } from './helpers/promotion-helper';
 import {
     PromotionConfigResponse,
     PromotionConfigsResponse,
-    PromotionDetailViewModel,
-    PromotionViewModel,
+    PromotionDetailViewModel
 } from './models/promotion-configs-response';
 import { fakePromotionDetails, fakePromotions } from './models/promotion-configs-response-fake';
 import { PromotionConfigService } from './promotion-config.service';
@@ -20,7 +19,7 @@ export class PromotionConfigController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserClientService) private readonly userClientService: UserClientService,
-    ) { }
+    ) {}
 
     @Post('/')
     @ApiOperation({ operationId: 'getByUserSession' })
@@ -45,14 +44,17 @@ export class PromotionConfigController {
         }
 
         const promotions = await this.service.getBySession(session);
-        if (promotions.data.length == 0) {
+        if (promotions.data.length === 0) {
             return new Result(ErrorCodes.Failed, 'No Promotion records');
         }
         const promotionIds = promotions.data.map((promotion) => promotion._id?.toString());
         const notifications = await this.notificationService.getPromotionByIds(promotionIds);
-        const result: PromotionViewModel[] = this.service.getPromotionsByNotifications(promotions.data, notifications.data, session.language);
 
-        return new Result(ErrorCodes.Success, '', result);
+        return new Result(
+            ErrorCodes.Success,
+            '',
+            this.service.getPromotionsByNotifications(promotions.data, notifications.data, session.language),
+        );
     }
 
     @Post('/:id')
