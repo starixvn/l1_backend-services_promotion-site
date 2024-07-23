@@ -89,10 +89,11 @@ p {
 
 .promotion-container {
     padding: 1rem;
-
-    h2 {
-        text-align: center;
-    }
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .promotion-list {
