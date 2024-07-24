@@ -112,7 +112,7 @@ export class PromotionConfigService {
                 }
             });
         });
-        const exchangeRate = (await this.exchangeRateService.getAll()).data;
+        const exchangeRate = (await this.exchangeRateService.getLastExchangeRate()).data;
         const convertValueToUserCurrency = (value) => (1 / (exchangeRate.code[session.currencyCode] * session.multiplier)) * value;
 
         winningPrizes.forEach((winningPrize) => {

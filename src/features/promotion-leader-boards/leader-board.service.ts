@@ -33,7 +33,7 @@ export class LeaderBoardService {
             .lean()
             .exec();
 
-        const exchangeRate = (await this.exchangeRateService.getAll()).data;
+        const exchangeRate = (await this.exchangeRateService.getLastExchangeRate()).data;
         const convertValueToUserCurrency = (value: number) => value / exchangeRate.code[session.currencyCode] / session.multiplier;
 
         const leaderBoardItems: LeaderBoardItemViewModel[] = [];
