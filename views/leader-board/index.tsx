@@ -21,7 +21,7 @@ export const PlayerBoard = ({ player, index }) => {
     );
 };
 
-const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
+const LeaderBoard = ({ promotionId }) => {
     const { t } = useTranslate();
     const { data, loading, error } = useFetchData(`/leader-board/${promotionId}`);
 
@@ -33,7 +33,6 @@ const LeaderBoard = ({ handleMoreInfo, promotionId }) => {
     return (
         <div className="leader-board-container">
             <div className='header'>
-                <div> <button className="back-button" onClick={() => handleMoreInfo(promotionId)}></button></div>
                 <div className="text">{t('leaderboard')}</div>
             </div>
 

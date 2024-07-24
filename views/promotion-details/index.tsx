@@ -52,11 +52,12 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
   ];
 
   return (
+
     <div className="tournament-container">
       <div className='header  text-center'>
         <div>
           <img src='static/images/banner-event.png' />
-          <button onClick={handleBackToHome} className="back-icon">&larr;</button>
+          {/* <button onClick={handleBackToHome} className="back-icon">&larr;</button> */}
         </div>
         <div className="text-overlay"> {formatNumberWithComma(data.winningPrizes[0]?.value)} </div>
         {/* <div className='back-button-wrapper'>

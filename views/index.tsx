@@ -40,12 +40,21 @@ if (window.AppInitialState?.results.isSuccessful) {
       isShowLeaderBoard: false,
     })
 
-    const handleBackToHome = () => {
-      setAppState({
-        isShowPromotions: true,
-        isShowPromotionDetail: false,
-        isShowLeaderBoard: false,
-      });
+    const handleBackButton = () => {
+      if (appState.isShowLeaderBoard) {
+        setAppState({
+          isShowPromotions: false,
+          isShowPromotionDetail: true,
+          isShowLeaderBoard: false,
+        });
+      }
+      else {
+        setAppState({
+          isShowPromotions: true,
+          isShowPromotionDetail: false,
+          isShowLeaderBoard: false,
+        });
+      }
     }
 
     const handleMoreInfo = (promotionId: number) => {
@@ -65,15 +74,24 @@ if (window.AppInitialState?.results.isSuccessful) {
       });
     }
 
+
+    let result = <Promotions handleMoreInfo={handleMoreInfo} />;
+
     if (appState.isShowPromotionDetail) {
-      return <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} handleBackToHome={handleBackToHome} />;
+      result = <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} handleBackToHome={handleBackButton} />;
     }
 
     if (appState.isShowLeaderBoard) {
-      return <LeaderBoard handleMoreInfo={handleMoreInfo} promotionId={activedPromotionId} />;
+      result = <LeaderBoard promotionId={activedPromotionId} />;
     }
 
-    return <Promotions handleMoreInfo={handleMoreInfo} />;
+    return <>
+      <div>
+        {!appState.isShowPromotions && <div onClick={handleBackButton} className="back-icon">&larr;</div>}
+      </div>
+
+      {result}
+    </>;
   };
 
   initialComponent = <TolgeeProvider tolgee={tolgee} fallback={<LoadingSpinner />}>
