@@ -17,7 +17,7 @@ const PromotionContent = ({ promotion }) => {
     const template = 'MM/dd/yyyy';
     const startdate = formatDate(convertToBrowserLocale(promotion.startDateTime), template);
     const enddate = formatDate(convertToBrowserLocale(promotion.endDateTime), template);
-    return <p>{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
+    return <p className='duration'>{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
 };
 
 const Promotion = ({ promotion, handleMoreInfo }) => {
@@ -28,7 +28,7 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
                 <div className='image-container'>
                     <img src={`static/images/promotion.png`} alt="promotion 1" width={250} />
                 </div> </div>
-            <div className="promotion-description second-column  ">
+            <div className="second-column  ">
                 <div >
                     <h3>{promotion.title}</h3>
                     <p>{promotion.content}</p>
