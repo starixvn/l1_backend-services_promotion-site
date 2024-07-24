@@ -53,9 +53,16 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
 
   return (
     <div className="tournament-container">
-
       <div className='header  text-center'>
-        <div className='back-button-wrapper'> <button className="back-button" onClick={handleBackToHome}></button></div>
+        <div>
+          <img src='static/images/banner-event.png' />
+          <button onClick={handleBackToHome} className="back-icon">&larr;</button>
+        </div>
+        <div className="text-overlay"> {formatNumberWithComma(data.winningPrizes[0]?.value)} </div>
+        {/* <div className='back-button-wrapper'>
+          <button className="back-button" onClick={handleBackToHome}></button>
+        </div>
+        <div className="text-overlay"> {t('promotion_header', { prizevalue1: formatNumberWithComma(data.winningPrizes[0]?.value) }).replaceTolgeeFormat()} </div> */}
       </div>
       <div className="info-container promotion">
         <div className="title">{t('title_promotion_info')}</div>

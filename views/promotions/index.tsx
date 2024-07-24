@@ -26,7 +26,7 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
         <div className="promotion-item">
             <div className="first-column ">
                 <div className='image-container'>
-                    <img src={`static/images/promotion.png`} alt="promotion 1" width={150} />
+                    <img src={`static/images/promotion.png`} alt="promotion 1" width={250} />
                 </div> </div>
             <div className="promotion-description second-column  ">
                 <div >
