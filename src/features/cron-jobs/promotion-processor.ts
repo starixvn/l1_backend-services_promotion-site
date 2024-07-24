@@ -4,7 +4,7 @@ import { PromotionConfigService } from '../promotion-configs/promotion-config.se
 import { LeaderBoardService } from '../promotion-leader-boards/leader-board.service';
 import { PromotionRunService } from '../promotion-runs/promotion-run.service';
 import { PromotionRuns } from '../promotion-runs/schemas';
-import { CurrencyGroup, Operator, PROMOTION_STATUSES, PromotionConfigs } from '../promotion-configs/schemas';
+import { ConfigByCurrencyGroup, CurrencyGroup, Operator, PROMOTION_STATUSES, PromotionConfigs } from '../promotion-configs/schemas';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { ExchangeRates } from '../exchange-rates/schemas';
 import { GameConfigService } from '../game-configs/game-config.service';
@@ -124,6 +124,25 @@ export class PromotionProcessor {
         }
     }
 
+    getConfigsByCurrencyGroup(promotionConfig: PromotionConfigs) {
+        const configByCurrencyGroup: { [key: string]: ConfigByCurrencyGroup } = {};
+        for (const operator of promotionConfig.operators) {
+            for (const currencyGroup of operator.currencyGroups) {
+                if (currencyGroup.enabled) {
+                    configByCurrencyGroup[currencyGroup.currencyGroupId] = {
+                        currencyGroupId: currencyGroup.currencyGroupId,
+                        otherGameMinBet: currencyGroup.otherGameMinBet,
+                        slotGameMinBet: currencyGroup.slotGameMinBet,
+                        includedSiteNames: operator.includedSiteNames,
+                    };
+                }
+            }
+        }
+
+        console.log(configByCurrencyGroup);
+        return configByCurrencyGroup;
+    }
+
     async processRunningPromotion(promotion: PromotionConfigs, gameConfigs: GameConfigs[], exchangeRate: ExchangeRates) {
         const promotionConfig = await this.getSealedPromotionConfig(promotion);
         const latestDataSourceTimeStamp = await this.leaderBoardService.getLatestDataSourceTimeStamp(promotionConfig.promotionId);
@@ -134,50 +153,37 @@ export class PromotionProcessor {
         );
 
         console.log('ticketResult', ticketResult.data.length, new Date().toISOString());
-        for (const operator of promotionConfig.operators) {
-            for (const currencyGroup of operator.currencyGroups) {
-                if (currencyGroup.enabled) {
-                    const leaderBoardsObj: { [key: string]: PromotionLeaderBoards } = {};
-                    for (const ticket of ticketResult.data) {
-                        const leaderBoard = await this.processTicket(
-                            promotion.promotionId,
-                            gameConfigs,
-                            operator,
-                            currencyGroup,
-                            ticket,
-                            exchangeRate,
-                        );
-
-                        if (leaderBoard) {
-                            const key = `${leaderBoard.promotionId}_${leaderBoard.operatorId}_${leaderBoard.playerId}`;
-                            if (leaderBoardsObj[key]) {
-                                leaderBoardsObj[key].point += leaderBoard.point;
-                                leaderBoardsObj[key].pointInBaseCurrency += leaderBoard.pointInBaseCurrency;
-                                leaderBoardsObj[key].dataSourceTimeStamp = leaderBoard.dataSourceTimeStamp;
-                            } else {
-                                leaderBoardsObj[key] = leaderBoard;
-                            }
-                        }
-                    }
-
-                    const leaderBoards = Object.values(leaderBoardsObj).sort(
-                        (a, b) => a.dataSourceTimeStamp.getTime() - b.dataSourceTimeStamp.getTime(),
-                    );
-                    await this.leaderBoardService.bulkWrite(leaderBoards);
+        const configsByCurrencyGroup = this.getConfigsByCurrencyGroup(promotionConfig);
+        const leaderBoardsObj: { [key: string]: PromotionLeaderBoards } = {};
+        for (const ticket of ticketResult.data) {
+            const leaderBoard = this.processTicket(promotion.promotionId, gameConfigs, configsByCurrencyGroup, ticket, exchangeRate);
+            if (leaderBoard) {
+                const key = `${leaderBoard.promotionId}_${leaderBoard.operatorId}_${leaderBoard.playerId}`;
+                if (leaderBoardsObj[key]) {
+                    leaderBoardsObj[key].point += leaderBoard.point;
+                    leaderBoardsObj[key].pointInBaseCurrency += leaderBoard.pointInBaseCurrency;
+                    leaderBoardsObj[key].dataSourceTimeStamp = leaderBoard.dataSourceTimeStamp;
+                } else {
+                    leaderBoardsObj[key] = leaderBoard;
                 }
             }
         }
+
+        await this.leaderBoardService.bulkWrite(this.sortLeaderBoards(leaderBoardsObj));
     }
 
-    async processTicket(
+    sortLeaderBoards(leaderBoardsObj: { [key: string]: PromotionLeaderBoards }) {
+        return Object.values(leaderBoardsObj).sort((a, b) => a.dataSourceTimeStamp.getTime() - b.dataSourceTimeStamp.getTime());
+    }
+
+    processTicket(
         promotionId: number,
         gameConfigs: GameConfigs[],
-        operator: Operator,
-        currencyGroup: CurrencyGroup,
+        configsByCurrencyGroup: { [key: string]: ConfigByCurrencyGroup },
         ticket: PromotionBets,
         exchangeRate: ExchangeRates,
     ) {
-        if (this.isValidTicket(operator, currencyGroup, ticket, gameConfigs)) {
+        if (this.isValidTicket(configsByCurrencyGroup, ticket, gameConfigs)) {
             const leaderBoard = new PromotionLeaderBoards();
             leaderBoard.promotionId = promotionId;
             leaderBoard.playerId = ticket.playerId;
@@ -196,7 +202,6 @@ export class PromotionProcessor {
             leaderBoard.multiplier = ticket.multiplier;
             leaderBoard.updatedTime = new Date();
 
-            //console.log('leaderBoard', leaderBoard);
             return leaderBoard;
         }
 
@@ -215,9 +220,9 @@ export class PromotionProcessor {
         return !includedSiteNames || includedSiteNames.replace(' ', '').split(',').includes(siteName);
     }
 
-    isValidMinBet(gameConfigs: GameConfigs[], currencyGroup: CurrencyGroup, ticket: PromotionBets) {
+    isValidMinBet(gameConfigs: GameConfigs[], configByCurrencyGroup: ConfigByCurrencyGroup, ticket: PromotionBets) {
         const gameType = gameConfigs.find((config) => config.gameId === ticket.gameId)?.type;
-        const minBet = SLOT_GAME_TYPES.includes(gameType) ? currencyGroup.slotGameMinBet : currencyGroup.otherGameMinBet;
+        const minBet = SLOT_GAME_TYPES.includes(gameType) ? configByCurrencyGroup.slotGameMinBet : configByCurrencyGroup.otherGameMinBet;
         return ticket.validBetAmount >= minBet;
     }
 
@@ -225,17 +230,19 @@ export class PromotionProcessor {
         return new Date();
     }
 
-    isValidTicket(operator: Operator, currencyGroup: CurrencyGroup, ticket: PromotionBets, gameConfigs: GameConfigs[]) {
+    isValidTicket(configsByCurrencyGroup: { [key: string]: ConfigByCurrencyGroup }, ticket: PromotionBets, gameConfigs: GameConfigs[]) {
+        const configByCurrencyGroup = configsByCurrencyGroup[ticket.currencyGroupId];
         return (
-            currencyGroup.currencyGroupId === ticket.currencyGroupId &&
+            configByCurrencyGroup &&
             ticket.totalWin > ticket.totalAmount &&
-            this.isValidMinBet(gameConfigs, currencyGroup, ticket) &&
-            this.isSiteNameIncluded(operator.includedSiteNames, ticket.siteName)
+            this.isValidMinBet(gameConfigs, configByCurrencyGroup, ticket) &&
+            this.isSiteNameIncluded(configByCurrencyGroup.includedSiteNames, ticket.siteName)
         );
     }
 
     async updateChecksum(promotionConfig: PromotionConfigs) {
         const gameConfigs = await this.gameConfigService.getAll();
+        const configsByCurrencyGroup = this.getConfigsByCurrencyGroup(promotionConfig);
         const topLeaderBoard = await this.leaderBoardService.getTopLeaderBoardWithTestCurrency(promotionConfig.promotionId, 10);
         for (const leaderBoard of topLeaderBoard.data) {
             const ticketResult = await this.promotionBetService.getBetsByPlayer(
@@ -246,15 +253,9 @@ export class PromotionProcessor {
             );
 
             let checksumPoint = 0;
-            for (const operator of promotionConfig.operators) {
-                for (const currencyGroup of operator.currencyGroups) {
-                    if (currencyGroup.enabled) {
-                        for (const ticket of ticketResult.data) {
-                            if (this.isValidTicket(operator, currencyGroup, ticket, gameConfigs.data)) {
-                                checksumPoint += this.calculatePoint(ticket);
-                            }
-                        }
-                    }
+            for (const ticket of ticketResult.data) {
+                if (this.isValidTicket(configsByCurrencyGroup, ticket, gameConfigs.data)) {
+                    checksumPoint += this.calculatePoint(ticket);
                 }
             }
 

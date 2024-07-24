@@ -57,7 +57,6 @@ import { UserInfoModule } from './features/users/user-info.module';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        //consumer.apply(AuthenticateMiddleware).exclude('/', 'api(.*)').forRoutes('*');
         consumer.apply(DecodeSessionIdMiddleware).forRoutes('*');
     }
 }

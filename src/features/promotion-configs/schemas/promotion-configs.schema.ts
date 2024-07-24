@@ -30,6 +30,13 @@ export class WinningPrize {
     ranking: string;
 }
 
+export class ConfigByCurrencyGroup {
+    currencyGroupId: string;
+    slotGameMinBet: number;
+    otherGameMinBet: number;
+    includedSiteNames: string;
+}
+
 @Schema()
 export class PromotionConfigs {
     @IsNumber()

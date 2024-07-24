@@ -143,7 +143,7 @@ export class LeaderBoardService {
                 updateOne: {
                     filter: filter,
                     update: {
-                        $inc: existingItemIncrement as any,
+                        $inc: existingItemIncrement,
                         $setOnInsert: newData,
                         $set: { dataSourceTimeStamp: data.dataSourceTimeStamp, isTestCurrency: data.isTestCurrency },
                     },
