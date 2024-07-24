@@ -235,18 +235,18 @@ p {
 
         .back-icon {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 2rem;
+            left: 2rem;
             color: white;
             font-size: 4em;
             font-family: Arial, sans-serif;
             text-decoration: none;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
+            background: none;
+            padding: 2rem;
             border-radius: 50%;
             text-align: center;
-            width: 80px;
-            height: 80px;
+            width: 8rem;
+            height: 8rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -339,6 +339,7 @@ p {
         border-radius: 0.5rem;
         // box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
         flex: 1 1 calc(33.333% - 20px);
+
     }
 
     .item-description-header {
