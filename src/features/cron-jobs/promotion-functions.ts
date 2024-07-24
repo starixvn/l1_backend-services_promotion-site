@@ -76,7 +76,7 @@ export const sortLeaderBoards = (leaderBoardsObj: { [key: string]: PromotionLead
 };
 
 export const getAwards = (promotionConfigs: PromotionConfigs) => {
-    const awards = promotionConfigs.winningPrizes.reduce((accumulator, currentValue) => {
+    return promotionConfigs.winningPrizes.reduce((accumulator, currentValue) => {
         if (currentValue.ranking.includes('-')) {
             const ranks = currentValue.ranking.split('-');
             const fromRank = +ranks[0];
@@ -90,6 +90,4 @@ export const getAwards = (promotionConfigs: PromotionConfigs) => {
 
         return accumulator;
     }, []);
-
-    return awards;
 };
