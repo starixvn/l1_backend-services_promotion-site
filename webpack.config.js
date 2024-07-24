@@ -10,14 +10,13 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'public/bundle'),
   },
-  plugins: [
-    new CopyWebpackPlugin({
-        patterns: [
-            { from: 'public/bundle', to: path.resolve(__dirname, 'dist/public/bundle') },
-        ],
-    }),
-],
-
+//   plugins: [
+//     new CopyWebpackPlugin({
+//         patterns: [
+//             { from: 'public/bundle', to: path.resolve(__dirname, 'dist/public/bundle') },
+//         ],
+//     }),
+// ],
   module: {
     rules: [
       {
