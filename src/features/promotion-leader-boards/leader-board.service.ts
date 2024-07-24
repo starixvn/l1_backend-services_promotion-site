@@ -113,38 +113,45 @@ export class LeaderBoardService {
         return (await this.dataHandler.getData(execution))?.data?.dataSourceTimeStamp;
     }
 
-    async upsert(data: PromotionLeaderBoards): Promise<Result<PromotionLeaderBoards>> {
-        const filter = {
-            promotionId: data.promotionId,
-            operatorId: data.operatorId,
-            playerId: data.playerId,
-            dataSourceTimeStamp: { $lt: data.dataSourceTimeStamp },
-        };
-        const existingItemIncrement: any = { point: data.point, pointInBaseCurrency: data.pointInBaseCurrency };
-        const newData = {
-            promotionId: data.promotionId,
-            operatorId: data.operatorId,
-            playerId: data.playerId,
-            siteName: data.siteName,
-            currencyGroupId: data.currencyGroupId,
-            currency: data.currency,
-            currencyCode: data.currencyCode,
-            updatedTime: new Date(),
-            nickName: data.nickName,
-            siteId: data.siteId,
-            playerName: data.playerName,
-            multiplier: data.multiplier,
-        };
+    async bulkWrite(leaderBoards: PromotionLeaderBoards[]): Promise<Result<any>> {
+        console.log('bulkWrite', leaderBoards.length, new Date().toISOString());
+        const operations = [];
+        for (const data of leaderBoards) {
+            const filter = {
+                promotionId: data.promotionId,
+                operatorId: data.operatorId,
+                playerId: data.playerId,
+                dataSourceTimeStamp: { $lt: data.dataSourceTimeStamp },
+            };
+            const existingItemIncrement: any = { point: data.point, pointInBaseCurrency: data.pointInBaseCurrency };
+            const newData = {
+                promotionId: data.promotionId,
+                operatorId: data.operatorId,
+                playerId: data.playerId,
+                siteName: data.siteName,
+                currencyGroupId: data.currencyGroupId,
+                currency: data.currency,
+                currencyCode: data.currencyCode,
+                updatedTime: new Date(),
+                nickName: data.nickName,
+                siteId: data.siteId,
+                playerName: data.playerName,
+                multiplier: data.multiplier,
+            };
 
-        return this.dataHandler.updateData(
-            this.model,
-            filter,
-            {
-                $inc: existingItemIncrement,
-                $setOnInsert: newData,
-                $set: { dataSourceTimeStamp: data.dataSourceTimeStamp, isTestCurrency: data.isTestCurrency },
-            },
-            { upsert: true, setDefaultsOnInsert: true },
-        );
+            operations.push({
+                updateOne: {
+                    filter: filter,
+                    update: {
+                        $inc: existingItemIncrement as any,
+                        $setOnInsert: newData,
+                        $set: { dataSourceTimeStamp: data.dataSourceTimeStamp, isTestCurrency: data.isTestCurrency },
+                    },
+                    upsert: true,
+                },
+            });
+        }
+
+        return this.dataHandler.bulkWrite(this.model, operations);
     }
 }

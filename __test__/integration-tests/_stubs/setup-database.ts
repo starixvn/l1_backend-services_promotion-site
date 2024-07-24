@@ -19,7 +19,6 @@ import { UserInfos, UserInfosDocument } from '../../../src/features/users/schema
 import { UserSession, UserSessionDocument } from '../../../src/features/users/schemas/user-session.schema';
 
 export const setupDatabase = async (moduleFixture: TestingModule) => {
-    const startTime = new Date();
     await initLeaderBoard(moduleFixture);
     await initPromotionConfig(moduleFixture);
     await initPromotionBet(moduleFixture);
@@ -31,8 +30,7 @@ export const setupDatabase = async (moduleFixture: TestingModule) => {
     await initGameConfig(moduleFixture);
     await initEndGame(moduleFixture);
 
-    await initBigData(moduleFixture);
-    //console.log('finish ', startTime.toISOString(), new Date().toISOString());
+    //await initBigData(moduleFixture);
 };
 
 const initBigData = async (moduleFixture: TestingModule) => {
@@ -85,50 +83,33 @@ const initBigData = async (moduleFixture: TestingModule) => {
 
     const startDate = new Date(new Date().setDate(new Date().getDate() - 10)).getTime();
 
-    const items = [];
-    const userSessionItems = [];
-    const userInfoItems = [];
-    for (let i = 0; i < 10_000; i++) {
-        const playerId = randomInt(1, 10000);
-        items.push(
-            createBet(
-                'ONEworksVGCash',
-                playerId.toString(),
-                `p ${playerId}`,
-                'lumi1',
-                '61765beed2b6510001f18bd6',
-                100,
-                150,
-                '66821f6484a90b840624fd6b_1',
-                new Date(startDate + i * 100),
-                i + 1,
-            ),
-        );
-        userSessionItems.push(
-            createUserSession(
-                playerId.toString(),
-                'ONEworksVGCash',
-                '61765beed2b6510001f18bd6',
-                'lumi1',
-                new Date(),
-                `xch5pum5k1K2Hjozkmgt404MnJjgAyg9_${i.toString()}`,
-                `u${playerId.toString()}`,
-            ),
-        );
-        userInfoItems.push(createUserInfo(`u${playerId.toString()}`, `u${playerId.toString()}`));
-    }
-
     const betModel = moduleFixture.get(getModelToken('PromotionBets')) as Model<PromotionBetsDocument>;
     await betModel.deleteMany({});
-    await betModel.insertMany(items);
 
-    const userSessionModel = moduleFixture.get(getModelToken('UserSession')) as Model<UserSessionDocument>;
-    await userSessionModel.deleteMany({});
-    await userSessionModel.insertMany(userSessionItems);
+    for (let batch = 0; batch < 10; batch++) {
+        let items = [];
+        for (let i = 0; i < 100_000; i++) {
+            const index = batch * 100_000 + i;
+            const playerId = randomInt(1, 10000);
+            items.push(
+                createBet(
+                    'ONEworksVGCash',
+                    playerId.toString(),
+                    `p ${playerId}`,
+                    'lumi1',
+                    '61765beed2b6510001f18bd6',
+                    100,
+                    150,
+                    '66821f6484a90b840624fd6b_1',
+                    new Date(startDate + index * 100),
+                    index + 1,
+                ),
+            );
+        }
 
-    const userInfoModel = moduleFixture.get(getModelToken('UserInfos')) as Model<UserInfosDocument>;
-    await userInfoModel.deleteMany({});
-    await userInfoModel.insertMany(userInfoItems);
+        await betModel.insertMany(items);
+        console.log('inserted batch ', batch + 1, new Date().toISOString());
+    }
 };
 
 const initEndGame = async (moduleFixture: TestingModule) => {

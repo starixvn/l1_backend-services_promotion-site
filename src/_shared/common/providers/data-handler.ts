@@ -95,4 +95,14 @@ export class DataHandler {
             return new Result(ErrorCodes.Failed, error.message);
         }
     }
+
+    async bulkWrite(model: Model<any>, operations: any): Promise<Result<any>> {
+        try {
+            const result = await model.bulkWrite(operations);
+            return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
+        } catch (error) {
+            this.logger.error(error);
+            return new Result(ErrorCodes.Failed, error.message);
+        }
+    }
 }

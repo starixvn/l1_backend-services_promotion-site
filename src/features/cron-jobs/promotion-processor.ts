@@ -26,13 +26,13 @@ export class PromotionProcessor {
 
     async proceed() {
         try {
-            console.log('proceed');
+            console.log('proceed', new Date().toISOString());
             const startTime = new Date();
             await this.promotionBetService.syncEndGameLog();
             await this.processNewPromotions();
             await this.processRunningPromotions();
             await this.processFinishedPromotions();
-            console.log('proceeded in ', startTime.toISOString(), new Date().toISOString());
+            console.log('proceeded in ', (new Date().getTime() - startTime.getTime()) / 1000, startTime, new Date());
         } catch (errors) {
             console.log(errors);
             this.logger.error(errors);
@@ -133,14 +133,37 @@ export class PromotionProcessor {
             latestDataSourceTimeStamp,
         );
 
-        console.log('ticketResult', ticketResult.data.length);
-
+        console.log('ticketResult', ticketResult.data.length, new Date().toISOString());
         for (const operator of promotionConfig.operators) {
             for (const currencyGroup of operator.currencyGroups) {
                 if (currencyGroup.enabled) {
+                    const leaderBoardsObj: { [key: string]: PromotionLeaderBoards } = {};
                     for (const ticket of ticketResult.data) {
-                        await this.processTicket(promotion.promotionId, gameConfigs, operator, currencyGroup, ticket, exchangeRate);
+                        const leaderBoard = await this.processTicket(
+                            promotion.promotionId,
+                            gameConfigs,
+                            operator,
+                            currencyGroup,
+                            ticket,
+                            exchangeRate,
+                        );
+
+                        if (leaderBoard) {
+                            const key = `${leaderBoard.promotionId}_${leaderBoard.operatorId}_${leaderBoard.playerId}`;
+                            if (leaderBoardsObj[key]) {
+                                leaderBoardsObj[key].point += leaderBoard.point;
+                                leaderBoardsObj[key].pointInBaseCurrency += leaderBoard.pointInBaseCurrency;
+                                leaderBoardsObj[key].dataSourceTimeStamp = leaderBoard.dataSourceTimeStamp;
+                            } else {
+                                leaderBoardsObj[key] = leaderBoard;
+                            }
+                        }
                     }
+
+                    const leaderBoards = Object.values(leaderBoardsObj).sort(
+                        (a, b) => a.dataSourceTimeStamp.getTime() - b.dataSourceTimeStamp.getTime(),
+                    );
+                    await this.leaderBoardService.bulkWrite(leaderBoards);
                 }
             }
         }
@@ -171,10 +194,13 @@ export class PromotionProcessor {
             leaderBoard.isTestCurrency = ticket.isTestCurrency;
             leaderBoard.currencyCode = ticket.currencyCode;
             leaderBoard.multiplier = ticket.multiplier;
+            leaderBoard.updatedTime = new Date();
 
             //console.log('leaderBoard', leaderBoard);
-            await this.leaderBoardService.upsert(leaderBoard);
+            return leaderBoard;
         }
+
+        return null;
     }
 
     calculatePoint(ticket: PromotionBets) {
