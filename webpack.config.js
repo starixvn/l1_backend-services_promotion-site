@@ -53,7 +53,7 @@ module.exports = {
     compress: true,
     port: 5000,
   },
-  watch:true, 
+  watch: process.env.ENV === 'DEV', 
   cache: false, 
   devtool: 'source-map'
 };

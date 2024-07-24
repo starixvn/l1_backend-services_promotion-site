@@ -154,6 +154,9 @@ p {
                 flex: 1 1 calc(43.333% - 20px);
 
                 text-align: left;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
 
                 .image-container {
                     display: flex;
@@ -169,7 +172,7 @@ p {
 
                 .button-container {
                     display: flex;
-                    justify-content: center;
+                    justify-content: left;
                 }
 
                 button {
@@ -532,6 +535,10 @@ p {
         .third-column {
             flex: 1 1 100% !important;
             margin-bottom: 4rem;
+
+            .button-container {
+                justify-content: center !important;
+            }
         }
     }
 
@@ -550,13 +557,16 @@ p {
 
         .second-column {
             text-align: center !important;
-            ;
             flex: 1 1 100% !important;
         }
 
         .third-column {
             flex: 1 1 100% !important;
             margin-bottom: 4rem;
+
+            .button-container {
+                justify-content: center !important;
+            }
         }
     }
 
