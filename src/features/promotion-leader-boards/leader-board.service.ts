@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Result } from '../../_shared/common/models/result';
-import { DataHandler } from '../../_shared/common/providers';
+import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { UserSession } from '../users/schemas';
 import { LeaderBoardItemViewModel, LeaderBoardViewModel, topUserRank, you } from './models/leader-board-response';
@@ -20,6 +20,7 @@ export class LeaderBoardService {
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
+        @Inject(SentryLogger) private readonly logger: SentryLogger,
     ) {}
 
     async getLeaderBoard(promotionId: number, session: UserSession): Promise<LeaderBoardViewModel> {
@@ -118,7 +119,7 @@ export class LeaderBoardService {
     }
 
     async bulkWrite(leaderBoards: PromotionLeaderBoards[]): Promise<Result<any>> {
-        console.log('bulkWrite', leaderBoards, new Date().toISOString());
+        console.log('bulkWrite', leaderBoards.length, new Date().toISOString());
         const operations = [];
         for (const data of leaderBoards) {
             const filter = {
@@ -168,6 +169,7 @@ export class LeaderBoardService {
                 (promotionConfig.endDateTime.getTime() - new Date().getTime()) / (1000 * 60) > 10
             ) {
                 await this.dataHandler.deleteMany(this.model, { promotionId });
+                this.logger.warn(`clear leaderboard to recalculate for promotionId ${promotionId}`);
             }
         }
     }
