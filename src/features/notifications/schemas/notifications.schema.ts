@@ -42,6 +42,14 @@ export class Notifications {
     @ApiProperty()
     @Prop({ type: Boolean })
     enabled: true;
+
+    @ApiProperty()
+    @Prop({ type: Date })
+    startTime: Date;
+
+    @ApiProperty()
+    @Prop({ type: Date })
+    endTime: Date;
 }
 
 export const NotificationsSchema = SchemaFactory.createForClass(Notifications);

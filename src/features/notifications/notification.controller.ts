@@ -30,4 +30,23 @@ export class NotificationController {
         const promotionsResult = await this.promotionConfigService.getBySession(session);
         return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
     }
+
+    @Get('/exist-running-promotion-tournament')
+    @ApiOperation({ operationId: 'existRunningPromotionTournament' })
+    @ApiOkResponse({ type: Result<boolean> })
+    async existRunningPromotionTournament(
+        @Query('sessionId') sessionId: string,
+        @Query('username') username: string,
+        @Headers('user-agent') browserUserAgent: string,
+    ): Promise<Result<boolean>> {
+        const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
+
+        if (!isSuccessful) {
+            return new Result(ErrorCodes.Success, '', false);
+        }
+        const promotionsResult = await this.promotionConfigService.getBySession(session);
+        return this.notificationService.existValidNotificationInTournament(
+            promotionsResult.data?.map((promotion) => promotion._id?.toString()),
+        );
+    }
 }

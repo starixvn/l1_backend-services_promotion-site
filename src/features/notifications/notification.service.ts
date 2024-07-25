@@ -21,6 +21,21 @@ export class NotificationService {
         return new Result(ErrorCodes.Success, '', false);
     }
 
+    async existValidNotificationInTournament(promotionIds: string[]): Promise<Result<boolean>> {
+        if (promotionIds?.length > 0) {
+            const now = new Date();
+            const execution = this.model.exists({
+                displayKind: 4,
+                enabled: true,
+                promotionId: { $in: promotionIds },
+                startTime: { $gte: now },
+                endTime: { $lt: now },
+            });
+            return this.dataHandler.getData(execution);
+        }
+        return new Result(ErrorCodes.Success, '', false);
+    }
+
     async getPromotionByIds(promotionIds: string[]): Promise<Result<Notifications[]>> {
         const execution = this.model
             .find({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } })
