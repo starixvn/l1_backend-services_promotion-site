@@ -1,36 +1,24 @@
 <html>
 
-<head>
-    <meta charset='utf-8' />
-    <title>Promotion Site</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+    <head>
+        <meta charset='utf-8' />
+        <title>Promotion Site</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    </head>
 
-<style>
-    body.icon-container {
-        margin: 0;
-        height: 100%;
-    }
+    <style>
+        body.icon-container { margin: 0; height: 100%; } a#icon { position: absolute; height: inherit; } img.icon-img { height: inherit; }
+    </style>
 
-    a#icon {
-        position: absolute;
-        height: inherit;
-    }
+    <body class='icon-container'>
+        <a id='icon' target='_blank' rel='noopener noreferrer'>
+            <img src='static/images/icons/icon.gif' class='icon-img' />
+        </a>
 
-    img.icon-img {
-        height: inherit;
-    }
-</style>
-
-<body class='icon-container'>
-    <a id='icon' target='_blank' rel='noopener noreferrer'>
-        <img src='static/images/icon.gif' class='icon-img' />
-    </a>
-
-    <script type='text/javascript'>
-        const a = document.getElementById('icon'); const queryString = new URLSearchParams(window.location.search).toString();
-        a.setAttribute('href', `./?${queryString}`);
-    </script>
-</body>
+        <script type='text/javascript'>
+            const a = document.getElementById('icon'); const queryString = new URLSearchParams(window.location.search).toString();
+            a.setAttribute('href', `./?${queryString}`);
+        </script>
+    </body>
 
 </html>
