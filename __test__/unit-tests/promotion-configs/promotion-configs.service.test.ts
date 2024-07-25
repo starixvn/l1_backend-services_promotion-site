@@ -136,9 +136,9 @@ describe('PromotionConfigService', () => {
                 },
             } as any);
             const promotions = [
-                { promotionId: 1, name: 'promotion 1', operators: [{ includedSiteNames: 'lumi1' }] },
-                { promotionId: 2, name: 'promotion 2', operators: [{ includedSiteNames: 'lumi1' }] },
-                { promotionId: 3, name: 'promotion 3', operators: [{ includedSiteNames: 'lumi2' }] },
+                { promotionId: 1, name: 'promotion 1', operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi1' }] },
+                { promotionId: 2, name: 'promotion 2', operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi1' }] },
+                { promotionId: 3, name: 'promotion 3', operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi2' }] },
             ];
             jest.spyOn(dataHandler, 'getData').mockReturnValue(new Result(0, '', promotions));
             // Act
@@ -164,9 +164,9 @@ describe('PromotionConfigService', () => {
                 },
             } as any);
             const promotions = [
-                { promotionId: 1, name: 'promotion 1', operators: [{ includedSiteNames: '' }] },
-                { promotionId: 2, name: 'promotion 2', operators: [{ includedSiteNames: '' }] },
-                { promotionId: 3, name: 'promotion 3', operators: [{ includedSiteNames: '' }] },
+                { promotionId: 1, name: 'promotion 1', operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: '' }] },
+                { promotionId: 2, name: 'promotion 2', operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: '' }] },
+                { promotionId: 3, name: 'promotion 3', operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: '' }] },
             ];
             jest.spyOn(dataHandler, 'getData').mockReturnValue(new Result(0, '', promotions));
             // Act

@@ -1,7 +1,8 @@
-import { ConfigByCurrencyGroup, PromotionConfigs } from '../promotion-configs/schemas';
+import { isSiteNameIncluded } from '../../../src/_shared/helpers';
 import { ExchangeRates } from '../exchange-rates/schemas';
 import { GameConfigs, SLOT_GAME_TYPES } from '../game-configs/schemas';
 import { PromotionBets } from '../promotion-bets/schemas';
+import { ConfigByCurrencyGroup, PromotionConfigs } from '../promotion-configs/schemas';
 import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
 
 export const roundNumber = (value: number) => {
@@ -14,10 +15,6 @@ export const calculatePoint = (bet: PromotionBets) => {
 
 export const calculatePointInBaseCurrency = (exchangeRate: ExchangeRates, bet: PromotionBets) => {
     return roundNumber(calculatePoint(bet) * exchangeRate.code[bet.currencyCode] * bet.multiplier);
-};
-
-export const isSiteNameIncluded = (includedSiteNames: string, siteName: string) => {
-    return !includedSiteNames || includedSiteNames.replace(' ', '').split(',').includes(siteName);
 };
 
 export const isValidMinBet = (gameConfigs: GameConfigs[], configByCurrencyGroup: ConfigByCurrencyGroup, bet: PromotionBets) => {
