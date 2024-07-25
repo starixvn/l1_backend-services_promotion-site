@@ -88,3 +88,19 @@ export const getAwards = (promotionConfigs: PromotionConfigs) => {
         return accumulator;
     }, []);
 };
+
+export const formatPromotionNotification = (title: string, startTime: Date, endTime: Date) => {
+    return `the {{BeginBold}}${title}{{EndBold}} {{NewLine}}{{BeginBold}}From:{{EndBold}} ${formatDateTime(startTime)} {{NewLine}}{{BeginBold}}To      :{{EndBold}} ${formatDateTime(endTime)}`;
+};
+
+export const formatStartNotification = (title: string, startTime: Date, endTime: Date) => {
+    return `Start ${formatPromotionNotification(title, startTime, endTime)}`;
+};
+
+export const formatFinishNotification = (title: string, startTime: Date, endTime: Date) => {
+    return `Finish ${formatPromotionNotification(title, startTime, endTime)}`;
+};
+
+export const formatDateTime = (dateTime: Date) => {
+    return `${dateTime.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' })} GMT+7`;
+};

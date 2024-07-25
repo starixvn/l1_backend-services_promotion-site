@@ -16,6 +16,8 @@ import {
     calculatePoint,
     calculatePointInBaseCurrency,
     convertWinningAmountToPlayerCurrency,
+    formatFinishNotification,
+    formatStartNotification,
     getAwards,
     getConfigsByCurrencyGroup,
     getCurrentTime,
@@ -23,6 +25,7 @@ import {
     roundNumber,
     sortLeaderBoards,
 } from './promotion-functions';
+import { ChatBotService } from '../chat-bots/chat-bot-service';
 
 export class PromotionProcessor {
     constructor(
@@ -33,6 +36,7 @@ export class PromotionProcessor {
         @Inject(PromotionBetService) private readonly promotionBetService: PromotionBetService,
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
         @Inject(GameConfigService) private readonly gameConfigService: GameConfigService,
+        @Inject(ChatBotService) private readonly chatBotService: ChatBotService,
     ) {}
 
     async proceed() {
@@ -62,6 +66,10 @@ export class PromotionProcessor {
 
                 await this.promotionRunService.create(newPromotionRun);
                 await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.running);
+                await this.chatBotService.sendMessage(
+                    process.env.PROMOTION_CONVERSATION_ID,
+                    formatStartNotification(promotionConfig.name, promotionConfig.startDateTime, promotionConfig.endDateTime),
+                );
             }
         }
     }
@@ -76,6 +84,10 @@ export class PromotionProcessor {
                     await this.promotionConfigService.updatePromotionStatus(promotionConfig.promotionId, PROMOTION_STATUSES.completed);
                     await this.promotionRunService.updateLatestRunTime(promotionConfig.promotionId);
                     await this.updateChecksum(sealedPromotionConfig);
+                    await this.chatBotService.sendMessage(
+                        process.env.PROMOTION_CONVERSATION_ID,
+                        formatFinishNotification(promotionConfig.name, promotionConfig.startDateTime, promotionConfig.endDateTime),
+                    );
                 }
             } catch (e) {
                 this.logger.error(e);
