@@ -15,8 +15,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
   if (error) return <div>Error: {error.message}</div>;
 
   const template = 'hh:mm MM/dd/yyyy';
-  const startdate = formatDate(convertToBrowserLocale(data.startDateTime), template);
-  const enddate = formatDate(convertToBrowserLocale(data.endDateTime), template);
+  const startdate = formatDate(convertToBrowserLocale(data?.startDateTime), template);
+  const enddate = formatDate(convertToBrowserLocale(data?.endDateTime), template);
 
   const promotionInformation = [
     {
@@ -29,7 +29,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
     },
     {
       header: t('total_prize'),
-      description: formatNumberWithComma(data.totalPrize),
+      description: formatNumberWithComma(data?.totalPrize),
     },
   ];
 
@@ -37,8 +37,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
     {
       header: t('step1'),
       description: t('step1_para_1', {
-        minstakeforslotgame: formatNumberWithComma(data.slotGameMinBet),
-        minstakeforothers: formatNumberWithComma(data.otherGameMinBet),
+        minstakeforslotgame: formatNumberWithComma(data?.slotGameMinBet),
+        minstakeforothers: formatNumberWithComma(data?.otherGameMinBet),
       }).replaceTolgeeFormat(),
     },
     {
@@ -47,7 +47,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
     },
     {
       header: t('step3'),
-      description: t('step3_para_1', { counttotalprize: data.numerousPrize }).replaceTolgeeFormat(),
+      description: t('step3_para_1', { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat(),
     },
   ];
 
@@ -59,71 +59,74 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) =
           <img src='static/images/banner-event.png' />
           {/* <button onClick={handleBackToHome} className="back-icon">&larr;</button> */}
         </div>
-        <div className="text-overlay"> {formatNumberWithComma(data.winningPrizes[0]?.value)} </div>
+        <div className="text-overlay"> {formatNumberWithComma(data?.winningPrizes[0]?.value)} </div>
         {/* <div className='back-button-wrapper'>
           <button className="back-button" onClick={handleBackToHome}></button>
         </div>
-        <div className="text-overlay"> {t('promotion_header', { prizevalue1: formatNumberWithComma(data.winningPrizes[0]?.value) }).replaceTolgeeFormat()} </div> */}
+        <div className="text-overlay"> {t('promotion_header', { prizevalue1: formatNumberWithComma(data?.winningPrizes[0]?.value) }).replaceTolgeeFormat()} </div> */}
       </div>
-      <div className="info-container promotion">
-        <div className="title">{t('title_promotion_info')}</div>
-        <div className="info-list">
-          {promotionInformation.map(({ header, description }, index) => {
-            return (
-              <div className="info-item" key={index}>
-                <div className='item-description-header'>{header}</div>
-                <p>{description}</p>
-              </div>
-            );
-          })}
+      <div className='content'>
+        <div className="info-container promotion">
+          <div className="title">{t('title_promotion_info')}</div>
+          <div className="info-list">
+            {promotionInformation.map(({ header, description }, index) => {
+              return (
+                <div className="info-item" key={index}>
+                  <div className='item-description-header'>{header}</div>
+                  <p className='item-description-content'>{description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="info-container participation">
+          <div className="title">{t('title_participant_steps')}</div>
+          <div className="info-list">
+            {participantSteps.map(({ header, description }, index) => {
+              return (
+                <div className="info-item" key={index}>
+                  <div className='item-description-header'>{header}</div>
+                  <p className='item-description-content'>{description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="info-container prize">
+          <div className="title">{t('title_prize_categories')}</div>
+          <div className="info-list  ">
+            {data?.winningPrizes.map((prize, index) => (
+              <Prize key={index} prize={prize} />
+            ))}
+          </div>
+        </div>
+
+        <div className="info-container">
+          <div className="title">{t('title_terms_conditions')}</div>
+          <ul>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
+              const key = `terms_conditions_para_${item}`;
+              return (
+                <li className='term' key={key}>
+                  {item === 6
+                    ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat()
+                    : t(key)}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="leader-board ">
+          <div>
+            <button className="btn btn-primary" onClick={handleLeaderBoard}>
+              {t('leaderboard')}
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="info-container participation">
-        <div className="title">{t('title_participant_steps')}</div>
-        <div className="info-list">
-          {participantSteps.map(({ header, description }, index) => {
-            return (
-              <div className="info-item" key={index}>
-                <div className='item-description-header'>{header}</div>
-                <p>{description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="info-container prize">
-        <div className="title">{t('title_prize_categories')}</div>
-        <div className="info-list  ">
-          {data.winningPrizes.map((prize, index) => (
-            <Prize key={index} prize={prize} />
-          ))}
-        </div>
-      </div>
-
-      <div className="info-container">
-        <div className="title">{t('title_terms_conditions')}</div>
-        <ul>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
-            const key = `terms_conditions_para_${item}`;
-            return (
-              <li className='term' key={key}>
-                {item === 6
-                  ? t(key, { counttotalprize: data.numerousPrize }).replaceTolgeeFormat()
-                  : t(key)}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="leader-board ">
-        <div>
-          <button className="btn btn-primary" onClick={handleLeaderBoard}>
-            {t('leaderboard')}
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

@@ -25,7 +25,7 @@ const getPrizeDescription = ({ prize }) => {
       }
     default:
       return {
-        text: t('other_places', { from: prize.from, to: prize.to }).replaceTolgeeFormat(),
+        text: t('other_places', { from: prize?.from, to: prize?.to }).replaceTolgeeFormat(),
         image: `4-10-prize.png`
       }
   }
@@ -38,7 +38,7 @@ const Prize = ({ prize }) => {
     <img src={`${imagePath}/${image}`} alt="" />
     <div>
       <div className='item-description-header'>{text}</div>
-      <p>{formatNumberWithComma(prize.value)}</p>
+      <p className='item-description-content'>{formatNumberWithComma(prize?.value)}</p>
     </div>
   </div>);
 }
