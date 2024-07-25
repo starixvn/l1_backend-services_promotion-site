@@ -8,13 +8,17 @@ import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { UserSession } from '../users/schemas';
 import { LeaderBoardItemViewModel, LeaderBoardViewModel, topUserRank, you } from './models/leader-board-response';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from './schemas';
+import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
+import { PROMOTION_STATUSES } from '../promotion-configs/schemas';
+
+const RECALCULATE_SECRET = 'key3z4cjfn';
 
 @Injectable()
 export class LeaderBoardService {
     constructor(
         @InjectModel(PromotionLeaderBoards.name) private readonly model: Model<PromotionLeaderBoardsDocument>,
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
-
+        @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
@@ -114,7 +118,7 @@ export class LeaderBoardService {
     }
 
     async bulkWrite(leaderBoards: PromotionLeaderBoards[]): Promise<Result<any>> {
-        console.log('bulkWrite', leaderBoards.length, new Date().toISOString());
+        console.log('bulkWrite', leaderBoards, new Date().toISOString());
         const operations = [];
         for (const data of leaderBoards) {
             const filter = {
@@ -153,5 +157,18 @@ export class LeaderBoardService {
         }
 
         return this.dataHandler.bulkWrite(this.model, operations);
+    }
+
+    async clearToRecalculate(promotionId: number, secret: string) {
+        if (secret === RECALCULATE_SECRET) {
+            const promotionConfig = (await this.promotionConfigService.getByPromotionId(promotionId)).data;
+            if (
+                promotionConfig &&
+                promotionConfig.status === PROMOTION_STATUSES.running &&
+                (promotionConfig.endDateTime.getTime() - new Date().getTime()) / (1000 * 60) > 10
+            ) {
+                await this.dataHandler.deleteMany(this.model, { promotionId });
+            }
+        }
     }
 }

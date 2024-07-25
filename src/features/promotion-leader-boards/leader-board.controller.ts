@@ -1,4 +1,4 @@
-import { Body, Controller, Headers, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Inject, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../../src/_shared/common/models/result';
 import { UserService } from '../users/services/user.service';
@@ -11,7 +11,7 @@ export class LeaderBoardController {
     constructor(
         private readonly service: LeaderBoardService,
         @Inject(UserService) private readonly userClientService: UserService,
-    ) { }
+    ) {}
 
     @Post('/:promotionId')
     @ApiOperation({ operationId: 'getLeaderBoard' })
@@ -38,5 +38,15 @@ export class LeaderBoardController {
     @Post('/getLeaderboardFake')
     async getPromotionDetailsFake() {
         return new Result(0, '', GetFakeDataUserTop());
+    }
+
+    @Post('/clearToRecalculate/:promotionId')
+    @ApiOperation({ operationId: 'clearToRecalculate' })
+    @ApiOkResponse({ type: LeaderBoardResponse })
+    async clearToRecalculate(@Param('promotionId') promotionId: number, @Query('secret') secret: string): Promise<Result<void>> {
+        console.log('clearToRecalculate', promotionId, secret);
+        const result = await this.service.clearToRecalculate(promotionId, secret);
+
+        return new Result(ErrorCodes.Success, '', result);
     }
 }

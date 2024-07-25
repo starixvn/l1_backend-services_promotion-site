@@ -45,6 +45,15 @@ export class PromotionConfigService {
         return new Result(ErrorCodes.Failed, '');
     }
 
+    async getByPromotionId(promotionId: number): Promise<Result<PromotionConfigs>> {
+        const filter = {
+            promotionId,
+        };
+        const execution = this.model.findOne(filter).lean().exec();
+
+        return await this.dataHandler.getData(execution);
+    }
+
     async getBySession(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {
         const filter = {
             operators: {
