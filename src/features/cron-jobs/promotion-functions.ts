@@ -5,8 +5,8 @@ import { PromotionBets } from '../promotion-bets/schemas';
 import { ConfigByCurrencyGroup, PromotionConfigs } from '../promotion-configs/schemas';
 import { PromotionLeaderBoards } from '../promotion-leader-boards/schemas';
 
-export const roundNumber = (value: number) => {
-    return +value.toFixed(10);
+export const roundNumber = (value: number, fractionDigits = 10) => {
+    return +value.toFixed(fractionDigits);
 };
 
 export const calculatePoint = (bet: PromotionBets) => {
@@ -65,7 +65,7 @@ export const convertWinningAmountToPlayerCurrency = (
     multiplier: number,
     exchangeRate: ExchangeRates,
 ) => {
-    return roundNumber(amount / (exchangeRate.code[currencyCode] * multiplier));
+    return roundNumber(amount / (exchangeRate.code[currencyCode] * multiplier), 0);
 };
 
 export const sortLeaderBoards = (leaderBoardsObj: { [key: string]: PromotionLeaderBoards }) => {

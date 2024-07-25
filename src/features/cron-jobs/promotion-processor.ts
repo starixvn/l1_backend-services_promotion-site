@@ -107,7 +107,7 @@ export class PromotionProcessor {
                 leaderBoard.multiplier,
                 exchangeRate.data,
             );
-            this.leaderBoardService.updateAwardAmount(leaderBoard, awards[i], awardedInPlayerCurrency);
+            this.leaderBoardService.updateAwardAmount(leaderBoard, roundNumber(awards[i], 0), awardedInPlayerCurrency);
         }
     }
 
