@@ -51,7 +51,7 @@ export class PromotionConfigService {
         };
         const execution = this.model.findOne(filter).lean().exec();
 
-        return await this.dataHandler.getData(execution);
+        return this.dataHandler.getData(execution);
     }
 
     async getBySession(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {
