@@ -1,0 +1,181 @@
+.leader-board-container {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 140rem;
+
+    background-size: cover;
+    background-attachment: fixed;
+    background-image: url(../images/home_bg.jpg);
+
+    .header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 5.6rem;
+
+        @media screen and (min-width: 768px) {
+            height: 8rem;
+        }
+
+        .text {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--color-primary);
+
+            @media screen and (min-width: 768px) {
+                font-size: 3.2rem;
+            }
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -2.5rem;
+            height: 4.4rem;
+            width: 100%;
+            background: url('../images/header-line.png') no-repeat center;
+        }
+    }
+
+    .board-table-container {
+        margin-bottom: 3rem;
+        margin-top: 5rem;
+
+        .board-table-header {
+            max-width: 100rem;
+            height: auto;
+            overflow: hidden;
+            margin: 0 auto;
+            border-radius: 1.5rem 1.5rem 0 0;
+            background-color: #350960;
+            color: var(--color-primary);
+            border: 1px solid #833ED5;
+            text-transform: uppercase;
+
+            .board-header {
+                width: 90%;
+                display: grid;
+                grid-template-columns: 20% 60% 20%;
+                padding: 0.5rem;
+                text-align: center;
+                color: var(--color-primary);
+                margin-right: auto;
+                margin-left: auto;
+                font-size: 2.1rem;
+
+                @media screen and (min-width: 768px) {
+                    font-size: 2.8rem;
+                }
+            }
+        }
+
+        .board-table {
+            max-width: 100rem;
+            height: auto;
+            overflow: hidden;
+            margin: 0 auto;
+            border-left: 1px solid #833ED5;
+            border-right: 1px solid #833ED5;
+            border-bottom: 1px solid #833ED5;
+            background-color: #24174D;
+            max-height: 55vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .board-row {
+                width: 90%;
+                display: grid;
+                grid-template-columns: 20% 60% 20%;
+                text-align: center;
+                height: 5rem;
+                align-items: center;
+                border-radius: 1rem;
+                background: #2B0443;
+                margin: 1rem 0 1rem 0;
+                margin-right: auto;
+                margin-left: auto;
+                color: var(--color-primary-text);
+                font-size: 1.8rem;
+
+                @media screen and (min-width: 768px) {
+                    font-size: 2.4rem;
+                }
+            }
+
+            .top-3 {
+                color: var(--color-primary);
+            }
+
+            .place-first {
+                color: var(--color-primary);
+                font-weight: 700;
+                border: 1px solid var(--color-primary);
+                border-radius: 30%;
+            }
+        }
+
+        .board-table-player {
+            max-width: 100rem;
+            height: auto;
+            overflow: hidden;
+            margin: 0 auto;
+            background-color: #521155;
+            border-radius: 0 0 1.5rem 1.5rem;
+            border-left: 1px solid #833ED5;
+            border-right: 1px solid #833ED5;
+            border-bottom: 1px solid #d3c973;
+
+            .board-row-player {
+                width: 90%;
+                display: grid;
+                grid-template-columns: 20% 60% 20%;
+                text-align: center;
+                height: 5rem;
+                align-items: center;
+                border-radius: 1rem;
+                margin-right: auto;
+                margin-left: auto;
+                color: var(--color-primary-text);
+                background: #521155;
+                font-size: 1.8rem;
+
+                @media screen and (min-width: 768px) {
+                    font-size: 2.4rem;
+                }
+            }
+
+            .player {
+                color: var(--color-primary);
+            }
+        }
+
+
+        .ranking-place {
+            display: inline-flex;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--color-primary-text);
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .place-first {
+            color: var(--color-primary);
+            font-weight: 700;
+            border: 1px solid var(--color-primary);
+            border-radius: 30%;
+        }
+    }
+
+}

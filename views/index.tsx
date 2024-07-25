@@ -86,10 +86,7 @@ if (window.AppInitialState?.results.isSuccessful) {
     }
 
     return <>
-      <div>
-        {!appState.isShowPromotions && <div onClick={handleBackButton} className="back-icon">&larr;</div>}
-      </div>
-
+      {!appState.isShowPromotions && <div onClick={handleBackButton} className="back-icon">&larr;</div>}
       {result}
     </>;
   };

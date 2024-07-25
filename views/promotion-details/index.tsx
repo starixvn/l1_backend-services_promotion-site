@@ -1,6 +1,6 @@
 import { useTranslate } from '@tolgee/react';
 import React from 'react';
-import '../../public/static/css/style.scss';
+import '../../public/static/css/promotion-details.scss';
 import LoadingSpinner from '../components/loading-spinner';
 import '../helpers/string-helper';
 import { convertToBrowserLocale, formatDate, formatNumberWithComma } from '../helpers/common-helper';

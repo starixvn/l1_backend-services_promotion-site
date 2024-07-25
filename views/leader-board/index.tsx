@@ -1,6 +1,6 @@
 import { useTranslate } from '@tolgee/react';
 import React from 'react';
-import '../../public/static/css/style.scss';
+import '../../public/static/css/leader-board.scss';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
@@ -14,7 +14,7 @@ export const PlayerBoard = ({ player, index }) => {
         <div>
             <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
                 <div>
-                    <span className={`ranking-place ${isTop3 ? 'place-third' : ''} `}>{index + 1}</span>
+                    <span className={`ranking-place ${isTop3 ? 'place-first' : ''} `}>{index + 1}</span>
                 </div>
                 <div>{isOtherPlayer ? player.nickName : t('you')}</div>
                 <div>{formatNumberWithComma(player.point)}</div>
@@ -37,33 +37,37 @@ const LeaderBoard = ({ promotionId }) => {
             <div className='header'>
                 <div className="text">{t('leaderboard')}</div>
             </div>
-
-            <div className="board-table">
-                <div>
-                    <div className="board-header">
-                        <div className="place">{t('ranking')}</div>
-                        <div className="name">{t('nickname')}</div>
-                        <div className="points">{t('total_points')}</div>
-                    </div>
-                </div>
-                <div className="board-body">
-                    {data.leadBoardItems.map((player, index) => (
-                        <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
-                    ))}
-                </div>
-                <div className="board-body">
+            <div className="board-table-container">
+                <div className="board-table-header">
                     <div>
-                        <div className="board-row player">
-                            <div>
-                                <span className="ranking-place place-third">{rank}</span>
-                            </div>
-                            <div>{t('you')}</div>
-                            <div>{formatNumberWithComma(data.currentUser.point)}</div>
+                        <div className="board-header">
+                            <div className="place">{t('ranking')}</div>
+                            <div className="name">{t('nickname')}</div>
+                            <div className="points">{t('total_points')}</div>
                         </div>
                     </div>
                 </div>
+
+                <div className="board-table">
+                    <div className="board-body">
+                        {data.leadBoardItems.map((player, index) => (
+                            <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="board-table-player">
+                    <div className="board-row-player">
+                        <div>
+                            <span className={`ranking-place ${rank < 3 ? 'place-first' : ''}`}>{rank}</span>
+                        </div>
+                        <div className='player'>{t('you')}</div>
+                        <div className='player'>{formatNumberWithComma(data.currentUser.point)}</div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+        </div >
     );
 };
 
