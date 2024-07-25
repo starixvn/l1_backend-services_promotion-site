@@ -100,10 +100,9 @@ p {
     min-height: 100vh;
 }
 
-
 .back-icon {
     position: absolute;
-    top: 1.5rem;
+    top: 0;
     left: 1.5rem;
     color: white;
     font-size: 4em;
@@ -146,7 +145,7 @@ p {
 .promotion-container {
     padding: 1rem;
     margin: 0;
-    display: grid;
+    display: table-column-group;
     place-items: center;
     width: 85rem;
 
@@ -276,52 +275,6 @@ p {
             height: auto;
         }
 
-        .back-icon {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            color: white;
-            font-size: 4em;
-            font-family: Arial, sans-serif;
-            text-decoration: none;
-            background: none;
-            padding: 2rem;
-            border-radius: 50%;
-            text-align: center;
-            width: 8rem;
-            height: 8rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .back-icon:hover {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        .back-button-wrapper {
-            position: relative;
-            height: 100%;
-            width: 10rem;
-            display: flex;
-
-            .back-button {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                background-image: url(../images/back-arrow.png);
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                background-color: #43083E;
-                border: none;
-                cursor: pointer;
-            }
-        }
 
         .text-overlay {
             text-transform: uppercase;
@@ -419,21 +372,6 @@ p {
         justify-content: space-between;
         margin: 3rem;
 
-        .back-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-image: url(../images/back-arrow.png);
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-color: #43083E;
-            border: none;
-            cursor: pointer;
-        }
-
         .text {
             width: 100%;
             text-align: center;
@@ -448,14 +386,20 @@ p {
         height: auto;
         overflow: hidden;
         margin: 0 auto;
+        border: 1px solid #320A6B;
+        border-radius: 1.5rem;
+        background-color: #24174D;
 
         .board-header {
+            width: 90%;
             display: grid;
             grid-template-columns: 7rem 1fr 1fr;
             // border-bottom: 1px solid #ddd;
             padding: 0.5rem;
             text-align: center;
             color: var(--color-primary);
+            margin-right: auto;
+            margin-left: auto;
         }
 
         .board-body {
@@ -464,6 +408,7 @@ p {
         }
 
         .board-row {
+            width: 90%;
             display: grid;
             grid-template-columns: 7rem 1fr 1fr;
             text-align: center;
@@ -473,11 +418,13 @@ p {
             border-radius: 1rem;
             background: #521155;
             margin-bottom: 1.5rem;
+            margin-right: auto;
+            margin-left: auto;
             color: var(--color-primary-text);
         }
 
         .board-row.player {
-            background: #24174D;
+            background: #521155;
             color: var(--color-primary);
             border: 1px solid var(--color-primary);
         }

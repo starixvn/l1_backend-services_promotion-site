@@ -11,12 +11,14 @@ export const PlayerBoard = ({ player, index }) => {
     const isOtherPlayer = player.nickName.includes('***');
 
     return (
-        <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
-            <div>
-                <span className={`ranking-place ${isTop3 ? 'place-third' : ''} `}>{index + 1}</span>
+        <div>
+            <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
+                <div>
+                    <span className={`ranking-place ${isTop3 ? 'place-third' : ''} `}>{index + 1}</span>
+                </div>
+                <div>{isOtherPlayer ? player.nickName : t('you')}</div>
+                <div>{formatNumberWithComma(player.point)}</div>
             </div>
-            <div>{isOtherPlayer ? player.nickName : t('you')}</div>
-            <div>{formatNumberWithComma(player.point)}</div>
         </div>
     );
 };
@@ -37,17 +39,20 @@ const LeaderBoard = ({ promotionId }) => {
             </div>
 
             <div className="board-table">
-                <div className="board-header">
-                    <div className="place">{t('ranking')}</div>
-                    <div className="name">{t('nickname')}</div>
-                    <div className="points">{t('total_points')}</div>
+                <div>
+                    <div className="board-header">
+                        <div className="place">{t('ranking')}</div>
+                        <div className="name">{t('nickname')}</div>
+                        <div className="points">{t('total_points')}</div>
+                    </div>
                 </div>
                 <div className="board-body">
                     {data.leadBoardItems.map((player, index) => (
                         <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
                     ))}
-
-                    <div className="board-body">
+                </div>
+                <div className="board-body">
+                    <div>
                         <div className="board-row player">
                             <div>
                                 <span className="ranking-place place-third">{rank}</span>
@@ -58,11 +63,6 @@ const LeaderBoard = ({ promotionId }) => {
                     </div>
                 </div>
             </div>
-            {/* <div className="leader-board  ">
-                <button className="btn btn-primary" onClick={() => handleMoreInfo(promotionId)}>
-                    Back
-                </button>
-            </div> */}
         </div>
     );
 };
