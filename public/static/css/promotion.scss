@@ -50,7 +50,7 @@
         margin-top: 5rem;
 
         @media screen and (min-width: 768px) {
-            gap: 8rem;
+            gap: 5.5rem;
             margin-top: 7rem;
         }
 
@@ -88,6 +88,7 @@
 
                 @media screen and (max-width: 768px) {
                     align-items: center;
+                    text-align: center;
                 }
             }
 
@@ -145,6 +146,7 @@
                 background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
                 border: 1px solid #fff9a1;
                 cursor: pointer;
+                font-family: inherit;
 
                 @media screen and (min-width: 768px) {
                     font-size: 1.8rem;
