@@ -65,7 +65,7 @@ export const convertWinningAmountToPlayerCurrency = (
     multiplier: number,
     exchangeRate: ExchangeRates,
 ) => {
-    return roundNumber(amount / (exchangeRate.code[currencyCode] * multiplier), 0);
+    return Math.trunc(amount / (exchangeRate.code[currencyCode] * multiplier));
 };
 
 export const sortLeaderBoards = (leaderBoardsObj: { [key: string]: PromotionLeaderBoards }) => {
