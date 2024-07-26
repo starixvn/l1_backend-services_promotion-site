@@ -241,6 +241,15 @@ p {
             }
         }
 
+        &:before {
+            content: '';
+            position: absolute;
+            bottom: -2.5rem;
+            height: 11rem;
+            width: 100%;
+            background: url('../images/header-drop-line.png') repeat center;
+        }
+
         &:after {
             content: '';
             position: absolute;
@@ -248,6 +257,71 @@ p {
             height: 4.4rem;
             width: 100%;
             background: url('../images/header-line.png') no-repeat center;
+        }
+    }
+}
+
+.table {
+    .bg {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        display: grid;
+        grid-template-columns: 86px 1fr 86px;
+    }
+
+    .header-bg .bg {
+        .left {
+            background: url('../images/leader-board/tbl-top-left.png') no-repeat center;
+            height: 86px;
+        }
+
+        .middle {
+            background: url('../images/leader-board/tbl-top-middle.png') repeat-x center;
+            height: 86px;
+        }
+
+        .right {
+            background: url('../images/leader-board/tbl-top-right.png') no-repeat center;
+            height: 86px;
+        }
+    }
+
+    .main-bg .bg {
+        top: 0;
+        bottom: 0;
+
+        .left {
+            background: url('../images/leader-board/tbl-middle-left.png') repeat center;
+        }
+
+        .middle {
+            background: url('../images/leader-board/tbl-middle-middle.png?v=2') repeat center;
+        }
+
+        .right {
+            background: url('../images/leader-board/tbl-middle-right.png') repeat center;
+        }
+    }
+
+    .footer-bg .bg {
+        .left {
+            background: url('../images/leader-board/tbl-bottom-left.png') repeat center;
+            width: 86px;
+            height: 86px;
+        }
+
+        .middle {
+            background: url('../images/leader-board/tbl-bottom-middle.png') repeat-x center;
+            width: 86px;
+            height: 86px;
+        }
+
+        .right {
+            background: url('../images/leader-board/tbl-bottom-right.png') no-repeat center;
+            width: 86px;
+            height: 86px;
         }
     }
 }

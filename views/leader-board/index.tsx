@@ -13,14 +13,12 @@ export const PlayerBoard = ({ player, index }) => {
     const isOtherPlayer = player.nickName.includes('***');
 
     return (
-        <div>
-            <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
-                <div>
-                    <span className={`ranking-place ${isTop3 ? 'place-first' : ''} `}>{index + 1}</span>
-                </div>
-                <div>{isOtherPlayer ? player.nickName : t('you')}</div>
-                <div>{formatNumberWithComma(player.point)}</div>
+        <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
+            <div>
+                <span className={`ranking-place ${isTop3 ? 'place-first' : ''} `}>{index + 1}</span>
             </div>
+            <div>{isOtherPlayer ? player.nickName : t('you')}</div>
+            <div>{formatNumberWithComma(player.point)}</div>
         </div>
     );
 };
@@ -39,19 +37,27 @@ const LeaderBoard = ({ promotionId }) => {
             <div className="header">
                 <div className="text">{t('leaderboard')}</div>
             </div>
-            <div className="board-table-container">
-                <div className="board-table-header">
-                    <div>
-                        <div className="board-header">
-                            <div className="place">{t('ranking')}</div>
-                            <div className="name">{t('nickname')}</div>
-                            <div className="points">{t('total_points')}</div>
-                        </div>
+            <div className="board-table-container table">
+                <div className="board-table-header header-bg">
+                    <div className="bg">
+                        <div className="left"></div>
+                        <div className="middle"></div>
+                        <div className="right"></div>
+                    </div>
+                    <div className="board-header">
+                        <div className="place">{t('ranking')}</div>
+                        <div className="name">{t('nickname')}</div>
+                        <div className="points">{t('total_points')}</div>
                     </div>
                 </div>
 
-                <div className="board-table">
+                <div className="board-table main-bg">
                     <div className="board-body">
+                        <div className="bg">
+                            <div className="left"></div>
+                            <div className="middle"></div>
+                            <div className="right"></div>
+                        </div>
                         {data.leadBoardItems.map((player, index) => (
                             <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
                         ))}

@@ -3,45 +3,40 @@
     margin-top: 5rem;
 
     .board-table-header {
+        position: relative;
         max-width: 100rem;
-        height: auto;
-        overflow: hidden;
+        height: 4.7rem;
+        padding: 0 3rem;
         margin: 0 auto;
-        border-radius: 1.5rem 1.5rem 0 0;
-        background-color: #350960;
         color: var(--color-primary);
-        border: 1px solid #833ed5;
         text-transform: uppercase;
 
         .board-header {
-            width: 90%;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
             display: grid;
             grid-template-columns: 20% 60% 20%;
-            padding: 0.5rem;
+            align-items: center;
             text-align: center;
             color: var(--color-primary);
-            margin-right: auto;
-            margin-left: auto;
-            font-size: 2.1rem;
+            font-size: 1.4rem;
 
             @media screen and (min-width: 768px) {
-                font-size: 2.8rem;
+                font-size: 1.8rem;
             }
         }
     }
 
     .board-table {
+        position: relative;
         max-width: 100rem;
         height: auto;
         overflow: hidden;
         margin: 0 auto;
-        border-left: 1px solid #833ed5;
-        border-right: 1px solid #833ed5;
-        border-bottom: 1px solid #833ed5;
-        background-color: #24174d;
         max-height: 55vh;
         overflow-y: auto;
-        box-sizing: border-box;
         -ms-overflow-style: none;
         scrollbar-width: none;
 
@@ -50,22 +45,26 @@
         }
 
         .board-row {
-            width: 90%;
+            position: relative;
+            z-index: 2;
+            width: 100%;
             display: grid;
+            align-items: center;
             grid-template-columns: 20% 60% 20%;
             text-align: center;
-            height: 5rem;
-            align-items: center;
-            border-radius: 1rem;
-            background: #2b0443;
-            margin: 1rem 0 1rem 0;
-            margin-right: auto;
-            margin-left: auto;
+            height: 4.7rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background: linear-gradient(87deg, rgba(43, 4, 67, 1) 24%, rgba(50, 12, 82, 1) 100%);
             color: var(--color-primary-text);
-            font-size: 1.8rem;
+            font-size: 1.4rem;
 
             @media screen and (min-width: 768px) {
-                font-size: 2.4rem;
+                font-size: 1.8rem;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
             }
         }
 
@@ -81,33 +80,33 @@
         }
     }
 
+    .board-body {
+        position: relative;
+        z-index: 2;
+        padding: 1rem 3rem;
+    }
+
     .board-table-player {
+        border: 1px solid #ffc700;
+        border-radius: 8px;
+        background: linear-gradient(87deg, rgba(69, 10, 63, 1) 24%, rgba(103, 13, 95, 1) 100%);
         max-width: 100rem;
-        height: auto;
-        overflow: hidden;
+        height: 4.7rem;
         margin: 0 auto;
-        background-color: #521155;
-        border-radius: 0 0 1.5rem 1.5rem;
-        border-left: 1px solid #833ed5;
-        border-right: 1px solid #833ed5;
-        border-bottom: 1px solid #d3c973;
 
         .board-row-player {
-            width: 90%;
             display: grid;
+            align-items: center;
             grid-template-columns: 20% 60% 20%;
             text-align: center;
-            height: 5rem;
-            align-items: center;
-            border-radius: 1rem;
-            margin-right: auto;
-            margin-left: auto;
+            width: 100%;
+            height: 100%;
+            padding: 0 3rem;
             color: var(--color-primary-text);
-            background: #521155;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
 
             @media screen and (min-width: 768px) {
-                font-size: 2.4rem;
+                font-size: 1.8rem;
             }
         }
 
