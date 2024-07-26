@@ -28,8 +28,8 @@ export class NotificationService {
                 displayKind: 4,
                 enabled: true,
                 promotionId: { $in: promotionIds },
-                startTime: { $gte: now },
-                endTime: { $lt: now },
+                startTime: { $lte: now },
+                endTime: { $gte: now },
             });
             return this.dataHandler.getData(execution);
         }
