@@ -6,7 +6,8 @@ RUN npm run reg \
 COPY . .
 RUN npm run build
 RUN rm -rf ./node_modules
-RUN yarn install --production 
+RUN yarn install --production \
+    && npx mod-pruner prune --force 
 
 FROM hub.lumigame.com/base/node:20.9.0-alpine
 ARG NODE_ENV=production
