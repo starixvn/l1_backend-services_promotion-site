@@ -1,9 +1,11 @@
-import { useTranslate } from '@tolgee/react';
-import React from 'react';
-import '../../public/static/css/leader-board.scss';
-import LoadingSpinner from '../components/loading-spinner';
-import { formatNumberWithComma } from '../helpers/common-helper';
-import useFetchData from '../hooks/use-fetch-data';
+import "../../public/static/css/leader-board.scss";
+
+import { useTranslate } from "@tolgee/react";
+import React from "react";
+
+import LoadingSpinner from "../components/loading-spinner";
+import { formatNumberWithComma } from "../helpers/common-helper";
+import useFetchData from "../hooks/use-fetch-data";
 
 export const PlayerBoard = ({ player, index }) => {
     const { t } = useTranslate();
@@ -33,8 +35,8 @@ const LeaderBoard = ({ promotionId }) => {
     const rank =
         data.currentUser.point === 0 || (data.currentUser.rank === 0 && data.currentUser.point !== 0) ? '-' : data.currentUser.rank;
     return (
-        <div className="leader-board-container">
-            <div className='header'>
+        <div className="promotion-container">
+            <div className="header">
                 <div className="text">{t('leaderboard')}</div>
             </div>
             <div className="board-table-container">
@@ -61,13 +63,12 @@ const LeaderBoard = ({ promotionId }) => {
                         <div>
                             <span className={`ranking-place ${rank < 3 ? 'place-first' : ''}`}>{rank}</span>
                         </div>
-                        <div className='player'>{t('you')}</div>
-                        <div className='player'>{formatNumberWithComma(data.currentUser.point)}</div>
+                        <div className="player">{t('you')}</div>
+                        <div className="player">{formatNumberWithComma(data.currentUser.point)}</div>
                     </div>
                 </div>
             </div>
-
-        </div >
+        </div>
     );
 };
 

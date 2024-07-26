@@ -1,158 +1,129 @@
-.promotion-container {
-    margin: 0;
+.promotion-container .header {
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: -2.5rem;
+        height: 11rem;
+        width: 100%;
+        background: url('../images/header-drop-line.png') repeat center;
+    }
+
+    &:after {
+        display: none;
+    }
+}
+
+.promotion-list {
     display: flex;
-    flex-direction: column;
-    width: 140rem;
+    flex-wrap: wrap;
+    gap: 5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    margin-top: 5rem;
 
-    background-size: cover;
-    background-attachment: fixed;
-    background-image: url(../images/home_bg.jpg);
+    @media screen and (min-width: 768px) {
+        gap: 5.5rem;
+        margin-top: 7rem;
+    }
 
-    .header {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 5.6rem;
+    .promotion-item {
+        display: grid;
+        width: 100%;
 
         @media screen and (min-width: 768px) {
-            height: 8rem;
+            padding-left: 3rem;
+            padding-right: 3rem;
+            grid-template-columns: 28rem 1fr;
+            align-items: center;
+            gap: 3rem;
         }
 
-        .text {
-            text-align: center;
-            font-size: 2.4rem;
-            font-weight: bold;
-            text-transform: uppercase;
+        @media screen and (min-width: 1170px) {
+            grid-template-columns: 40.4rem 1fr;
+            width: 117rem;
+        }
+
+        .image-container {
+            width: 100%;
+
+            @media screen and (max-width: 768px) {
+                max-width: 28.6rem;
+                height: auto;
+                margin: auto;
+            }
+        }
+
+        .item-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media screen and (max-width: 768px) {
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        .item-title {
+            font-style: italic;
+            font-size: 2.1rem;
             color: var(--color-primary);
 
             @media screen and (min-width: 768px) {
-                font-size: 3.2rem;
+                font-size: 2.8rem;
             }
         }
 
-        &:after {
-            content: '';
-            position: absolute;
-            bottom: -2.5rem;
-            height: 4.4rem;
-            width: 100%;
-            background: url('../images/header-line.png') no-repeat center;
-        }
-    }
-
-    .promotion-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5rem;
-        justify-content: center;
-        margin-bottom: 3rem;
-        margin-top: 5rem;
-
-        @media screen and (min-width: 768px) {
-            gap: 5.5rem;
-            margin-top: 7rem;
-        }
-
-        .promotion-item {
-            display: grid;
-            width: 100%;
+        .item-content {
+            color: var(--color-primary-text);
+            font-size: 1.8rem;
 
             @media screen and (min-width: 768px) {
-                padding-left: 3rem;
-                padding-right: 3rem;
-                grid-template-columns: 28rem 1fr;
-                align-items: center;
-                gap: 3rem;
+                font-size: 2.4rem;
+            }
+        }
+
+        .item-more-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+
+            @media screen and (min-width: 768px) {
+                align-items: start;
             }
 
-            @media screen and (min-width: 1170px) {
-                grid-template-columns: 40.4rem 1fr;
-                width: 117rem;
+            @media screen and (min-width: 992px) {
+                margin-top: 2rem;
+                flex-direction: row;
             }
+        }
 
-            .image-container {
-                width: 100%;
+        .duration {
+            font-style: italic;
+            font-size: 1.5rem;
 
-                @media screen and (max-width: 768px) {
-                    max-width: 28.6rem;
-                    height: auto;
-                    margin: auto;
-                }
+            @media screen and (min-width: 768px) {
+                font-size: 2rem;
             }
+        }
 
-            .item-container {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
+        button {
+            border-radius: 1.2rem;
+            font-weight: bold;
+            font-size: 1.4rem;
+            width: 13rem;
+            height: 3.6rem;
+            line-height: 3.6rem;
+            background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
+            border: 1px solid #fff9a1;
+            cursor: pointer;
+            font-family: inherit;
 
-                @media screen and (max-width: 768px) {
-                    align-items: center;
-                    text-align: center;
-                }
-            }
-
-            .item-title {
-                font-style: italic;
-                font-size: 2.1rem;
-                color: var(--color-primary);
-
-                @media screen and (min-width: 768px) {
-                    font-size: 2.8rem;
-                }
-            }
-
-            .item-content {
-                color: var(--color-primary-text);
+            @media screen and (min-width: 768px) {
                 font-size: 1.8rem;
-
-                @media screen and (min-width: 768px) {
-                    font-size: 2.4rem;
-                }
-            }
-
-            .item-more-info {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                flex-direction: column;
-
-                @media screen and (min-width: 768px) {
-                    align-items: start;
-                }
-
-                @media screen and (min-width: 992px) {
-                    margin-top: 2rem;
-                    flex-direction: row;
-                }
-            }
-
-            .duration {
-                font-style: italic;
-                font-size: 1.5rem;
-
-                @media screen and (min-width: 768px) {
-                    font-size: 2rem;
-                }
-            }
-
-            button {
-                border-radius: 1.2rem;
-                font-weight: bold;
-                font-size: 1.4rem;
-                width: 13rem;
-                height: 3.6rem;
-                line-height: 3.6rem;
-                background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
-                border: 1px solid #fff9a1;
-                cursor: pointer;
-                font-family: inherit;
-
-                @media screen and (min-width: 768px) {
-                    font-size: 1.8rem;
-                    height: 4.8rem;
-                    line-height: 4.8rem;
-                }
+                height: 4.8rem;
+                line-height: 4.8rem;
             }
         }
     }
