@@ -11,22 +11,22 @@ const getPrizeDescription = ({ prize }) => {
     case 1:
       return {
         text: t('first_place'),
-        image: `first-prize.png`
+        image: "first-prize.png"
       };
     case 2:
       return {
         text: t('second_place'),
-        image: `second-prize.png`
+        image: "second-prize.png"
       }
     case 3:
       return {
         text: t('third_place'),
-        image: `third-prize.png`
+        image: "third-prize.png"
       }
     default:
       return {
         text: t('other_places', { from: prize?.from, to: prize?.to }).replaceTolgeeFormat(),
-        image: `4-10-prize.png`
+        image: "other-prize.png"
       }
   }
 }
