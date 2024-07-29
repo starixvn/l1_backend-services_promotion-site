@@ -3,20 +3,21 @@ import React from 'react';
 import '../../public/static/css/promotion-details.scss';
 import LoadingSpinner from '../components/loading-spinner';
 import '../helpers/string-helper';
-import { convertToBrowserLocale, formatDate, formatNumberWithComma } from '../helpers/common-helper';
+import { formatNumberWithComma } from '../helpers/common-helper';
 import Prize from './prize';
 import useFetchData from '../hooks/use-fetch-data';
+import moment from 'moment';
 
-const PromotionDetail = ({ handleLeaderBoard, promotionId, handleBackToHome }) => {
+const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
   const { t } = useTranslate();
   const { data, loading, error } = useFetchData(`promotions/${promotionId}`);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error.message}</div>;
 
-  const template = 'hh:mm MM/dd/yyyy';
-  const startdate = formatDate(convertToBrowserLocale(data?.startDateTime), template);
-  const enddate = formatDate(convertToBrowserLocale(data?.endDateTime), template);
+  const template = 'hh:mm MM/DD/yyyy';
+  const startdate = moment.utc(data?.startDateTime).local().format(template);
+  const enddate = moment.utc(data?.endDateTime).local().format(template);
 
   const promotionInformation = [
     {

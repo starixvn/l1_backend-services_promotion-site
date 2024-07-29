@@ -78,7 +78,7 @@ if (window.AppInitialState?.results.isSuccessful) {
     let result = <Promotions handleMoreInfo={handleMoreInfo} />;
 
     if (appState.isShowPromotionDetail) {
-      result = <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} handleBackToHome={handleBackButton} />;
+      result = <PromotionDetail handleLeaderBoard={handleLeaderBoard} promotionId={activedPromotionId} />;
     }
 
     if (appState.isShowLeaderBoard) {

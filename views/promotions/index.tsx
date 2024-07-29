@@ -1,13 +1,13 @@
-import '../../public/static/css/promotion.scss';
-import '../helpers/string-helper';
+import "../../public/static/css/promotion.scss";
+import "../helpers/string-helper";
 
-import React from 'react';
+import React from "react";
 
-import { PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
-import LoadingSpinner from '../components/loading-spinner';
-import { convertToBrowserLocale, formatDate } from '../helpers';
-import useFetchData from '../hooks/use-fetch-data';
-import { useTranslator } from '../hooks/use-translator';
+import { PromotionViewModel } from "../../src/features/promotion-configs/models/promotion-configs-response";
+import LoadingSpinner from "../components/loading-spinner";
+import useFetchData from "../hooks/use-fetch-data";
+import { useTranslator } from "../hooks/use-translator";
+import moment from "moment";
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
@@ -17,8 +17,8 @@ const PromotionContent = ({ promotion }) => {
     }
 
     const template = 'MM/dd/yyyy';
-    const startdate = formatDate(convertToBrowserLocale(promotion.startDateTime), template);
-    const enddate = formatDate(convertToBrowserLocale(promotion.endDateTime), template);
+    const startdate = moment.utc(promotion?.startDateTime).local().format(template);
+    const enddate = moment.utc(promotion?.endDateTime).local().format(template);
     return <p className="duration">{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
 };
 
@@ -56,7 +56,7 @@ const Promotions = ({ handleMoreInfo }) => {
                 <div className="text">{t('promotions')}</div>
             </div>
 
-            <div className="main-content promotion-list">
+            <div className="promotion-list">
                 {data &&
                     data.map((promotion: PromotionViewModel, index: number) => (
                         <Promotion key={index} promotion={promotion} handleMoreInfo={handleMoreInfo} />
