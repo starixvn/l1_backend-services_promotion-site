@@ -80,10 +80,12 @@
             @media screen and (min-width: 992px) {
                 margin-top: 2rem;
                 flex-direction: row;
+                align-items: center;
             }
         }
 
         .duration {
+            margin-bottom: 0;
             font-style: italic;
             font-size: 1.5rem;
 

@@ -13,7 +13,7 @@ const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
 
     if (promotion.isCompleted) {
-        return <p className="text-red">{t('completed')}</p>;
+        return <p className="duration text-red">{t('completed')}</p>;
     }
 
     const template = 'MM/dd/yyyy';
