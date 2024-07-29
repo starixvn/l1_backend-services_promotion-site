@@ -1,11 +1,11 @@
-import "../../public/static/css/leader-board.scss";
+import '../../public/static/css/leader-board.scss';
 
-import { useTranslate } from "@tolgee/react";
-import React from "react";
+import { useTranslate } from '@tolgee/react';
+import React from 'react';
 
-import LoadingSpinner from "../components/loading-spinner";
-import { formatNumberWithComma } from "../helpers/common-helper";
-import useFetchData from "../hooks/use-fetch-data";
+import LoadingSpinner from '../components/loading-spinner';
+import { formatNumberWithComma } from '../helpers/common-helper';
+import useFetchData from '../hooks/use-fetch-data';
 
 export const PlayerBoard = ({ player, index }) => {
     const { t } = useTranslate();
@@ -13,12 +13,12 @@ export const PlayerBoard = ({ player, index }) => {
     const isOtherPlayer = player.nickName.includes('***');
 
     return (
-        <div className={`board-row ${isTop3 ? 'top-3' : ''} ${isOtherPlayer ? '' : 'player'} `}>
+        <div className={`table-row ${isOtherPlayer ? '' : 'player'} `}>
             <div>
-                <span className={`ranking-place ${isTop3 ? 'place-first' : ''} `}>{index + 1}</span>
+                <span className={`rank ${isTop3 ? `rank-${index + 1}` : ''} `}>{isTop3 ? '' : index + 1}</span>
             </div>
-            <div>{isOtherPlayer ? player.nickName : t('you')}</div>
-            <div>{formatNumberWithComma(player.point)}</div>
+            <div className={`${isTop3 ? 'txt-special' : ''}`}>{isOtherPlayer ? player.nickName : t('you')}</div>
+            <div className={`${isTop3 ? 'txt-special' : ''}`}>{formatNumberWithComma(player.point)}</div>
         </div>
     );
 };
@@ -37,22 +37,22 @@ const LeaderBoard = ({ promotionId }) => {
             <div className="header">
                 <div className="text">{t('leaderboard')}</div>
             </div>
-            <div className="board-table-container table">
-                <div className="board-table-header header-bg">
+            <div className="leader-board-container table">
+                <div className="table-header-container header-bg">
                     <div className="bg">
                         <div className="left"></div>
                         <div className="middle"></div>
                         <div className="right"></div>
                     </div>
-                    <div className="board-header">
+                    <div className="header-content">
                         <div className="place">{t('ranking')}</div>
                         <div className="name">{t('nickname')}</div>
                         <div className="points">{t('total_points')}</div>
                     </div>
                 </div>
 
-                <div className="board-table main-bg">
-                    <div className="board-body">
+                <div className="table-body-container main-bg">
+                    <div className="table-body">
                         <div className="bg">
                             <div className="left"></div>
                             <div className="middle"></div>
@@ -64,13 +64,13 @@ const LeaderBoard = ({ promotionId }) => {
                     </div>
                 </div>
 
-                <div className="board-table-player">
-                    <div className="board-row-player">
+                <div className="table-body-container player-container">
+                    <div className="table-row">
                         <div>
-                            <span className={`ranking-place ${rank < 3 ? 'place-first' : ''}`}>{rank}</span>
+                            <span className={`rank ${rank < 3 ? `rank-${rank}` : ''}`}>{rank < 3 ? '' : rank}</span>
                         </div>
-                        <div className="player">{t('you')}</div>
-                        <div className="player">{formatNumberWithComma(data.currentUser.point)}</div>
+                        <div className="txt-special">{t('you')}</div>
+                        <div className="txt-special">{formatNumberWithComma(data.currentUser.point)}</div>
                     </div>
                 </div>
             </div>
