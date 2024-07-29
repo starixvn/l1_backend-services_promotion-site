@@ -56,7 +56,7 @@ const Promotions = ({ handleMoreInfo }) => {
                 <div className="text">{t('promotions')}</div>
             </div>
 
-            <div className="promotion-list">
+            <div className="main-content promotion-list">
                 {data &&
                     data.map((promotion: PromotionViewModel, index: number) => (
                         <Promotion key={index} promotion={promotion} handleMoreInfo={handleMoreInfo} />
