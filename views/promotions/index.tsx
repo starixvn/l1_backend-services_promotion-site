@@ -16,7 +16,7 @@ const PromotionContent = ({ promotion }) => {
         return <p className="duration text-red">{t('completed')}</p>;
     }
 
-    const template = 'MM/dd/yyyy';
+    const template = 'MM/DD/yyyy';
     const startdate = moment.utc(promotion?.startDateTime).local().format(template);
     const enddate = moment.utc(promotion?.endDateTime).local().format(template);
     return <p className="duration">{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
