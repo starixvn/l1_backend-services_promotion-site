@@ -25,23 +25,22 @@
         }
     }
 
-    .table-body {
-        position: relative;
-        z-index: 2;
-        padding: 1rem 3rem 1.4rem;
-    }
-
     .player-container {
         position: relative;
-        top: -5px;
+        top: -0.5rem;
         z-index: 2;
         border: 1px solid #ffc700;
-        border-radius: 8px;
+        border-radius: 0.8rem;
         background: linear-gradient(87deg, rgba(69, 10, 63, 1) 24%, rgba(103, 13, 95, 1) 100%);
 
         .table-row {
-            padding-left: 3rem;
-            padding-right: 3rem;
+            padding-left: 1.2rem;
+            padding-right: 1.2rem;
+
+            @media screen and (min-width: 768px) {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
         }
     }
 
@@ -53,8 +52,8 @@
 .rank {
     display: flex;
     justify-content: center;
-    width: 30px;
-    height: 32px;
+    width: 3rem;
+    height: 3.2rem;
     margin: auto;
 }
 

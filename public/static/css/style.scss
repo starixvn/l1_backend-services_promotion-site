@@ -268,23 +268,27 @@ p {
         left: 0;
         right: 0;
         display: grid;
-        grid-template-columns: 86px 1fr 86px;
+        grid-template-columns: 8.6rem 1fr 8.6rem;
     }
 
     .header-bg .bg {
+        %cell {
+            height: 8.6rem;
+        }
+
         .left {
+            @extend %cell;
             background: url('../images/leader-board/tbl-top-left.png') no-repeat center;
-            height: 86px;
         }
 
         .middle {
+            @extend %cell;
             background: url('../images/leader-board/tbl-top-middle.png') repeat-x center;
-            height: 86px;
         }
 
         .right {
+            @extend %cell;
             background: url('../images/leader-board/tbl-top-right.png') no-repeat center;
-            height: 86px;
         }
     }
 
@@ -306,22 +310,23 @@ p {
     }
 
     .footer-bg .bg {
+        %cell {
+            height: 8.6rem;
+        }
+
         .left {
+            @extend %cell;
             background: url('../images/leader-board/tbl-bottom-left.png') repeat center;
-            width: 86px;
-            height: 86px;
         }
 
         .middle {
+            @extend %cell;
             background: url('../images/leader-board/tbl-bottom-middle.png') repeat-x center;
-            width: 86px;
-            height: 86px;
         }
 
         .right {
+            @extend %cell;
             background: url('../images/leader-board/tbl-bottom-right.png') no-repeat center;
-            width: 86px;
-            height: 86px;
         }
     }
 
@@ -356,6 +361,16 @@ p {
         max-width: 100rem;
         margin: 0 auto;
 
+        .table-body {
+            position: relative;
+            z-index: 2;
+            padding: 1rem 1.2rem 1.4rem;
+
+            @media screen and (min-width: 768px) {
+                padding: 1rem 3rem 1.4rem;
+            }
+        }
+
         .table-row {
             position: relative;
             z-index: 2;
@@ -365,7 +380,7 @@ p {
             text-align: center;
             min-height: 4.7rem;
             margin-bottom: 1rem;
-            border-radius: 8px;
+            border-radius: 0.8rem;
             background: linear-gradient(87deg, rgba(43, 4, 67, 1) 24%, rgba(50, 12, 82, 1) 100%);
             color: var(--color-primary-text);
             font-size: 1.4rem;
