@@ -127,6 +127,7 @@
             background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
             border: 1px solid #fff9a1;
             cursor: pointer;
+            color: var(--color-secondary-header);
             font-size: 1.8rem;
 
             @media screen and (min-width: 768px) {
