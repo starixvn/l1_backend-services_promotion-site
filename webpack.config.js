@@ -46,7 +46,7 @@ module.exports = (env, argv) => {
         },
         watch: isDevelopment,
         cache: false,
-        devtool: isDevelopment ? 'source-map' : false,
+        devtool:  isDevelopment ? 'source-map' : 'source-map' ,
         plugins
     }
 };
