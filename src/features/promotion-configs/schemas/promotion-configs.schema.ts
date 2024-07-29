@@ -10,6 +10,7 @@ export const PROMOTION_STATUSES = {
     running: 'running',
     completed: 'completed',
     paid: 'paid',
+    deleted: 'deleted',
 };
 
 export class CurrencyGroup {

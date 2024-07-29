@@ -9,7 +9,7 @@ import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
 import { isIncludedSite } from './helpers/promotion-helper';
 import { PromotionDetailViewModel, PromotionViewModel } from './models/promotion-configs-response';
-import { CurrencyGroup, PromotionConfigs, PromotionConfigsDocument, WinningPrize } from './schemas';
+import { CurrencyGroup, PROMOTION_STATUSES, PromotionConfigs, PromotionConfigsDocument, WinningPrize } from './schemas';
 
 @Injectable()
 export class PromotionConfigService {
@@ -62,6 +62,7 @@ export class PromotionConfigService {
                     currencyGroups: { $elemMatch: { enabled: true, currencyGroupId: session.currencyGroupId } },
                 },
             },
+            status: { $ne: PROMOTION_STATUSES.deleted },
         };
         const execution = this.model
             .find(filter)
