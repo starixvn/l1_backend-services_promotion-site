@@ -1,14 +1,13 @@
 .leader-board-container {
-    margin-bottom: 3rem;
-    margin-top: 2rem;
+    padding-bottom: 3rem;
+    padding-top: 2rem;
 
     @media screen and (min-width: 576px) {
-        margin-top: 3rem;
-        padding: 0 2rem;
+        padding: 3rem 0 2rem;
     }
 
     @media screen and (min-width: 992px) {
-        margin-top: 5rem;
+        padding-top: 5rem;
     }
 
     .table-header-container .header-content {

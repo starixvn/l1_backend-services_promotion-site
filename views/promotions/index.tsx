@@ -1,13 +1,13 @@
-import "../../public/static/css/promotion.scss";
-import "../helpers/string-helper";
+import '../../public/static/css/promotion.scss';
+import '../helpers/string-helper';
 
-import React from "react";
+import React from 'react';
 
-import { PromotionViewModel } from "../../src/features/promotion-configs/models/promotion-configs-response";
-import LoadingSpinner from "../components/loading-spinner";
-import { convertToBrowserLocale, formatDate } from "../helpers";
-import useFetchData from "../hooks/use-fetch-data";
-import { useTranslator } from "../hooks/use-translator";
+import { PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
+import LoadingSpinner from '../components/loading-spinner';
+import { convertToBrowserLocale, formatDate } from '../helpers';
+import useFetchData from '../hooks/use-fetch-data';
+import { useTranslator } from '../hooks/use-translator';
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
@@ -56,7 +56,7 @@ const Promotions = ({ handleMoreInfo }) => {
                 <div className="text">{t('promotions')}</div>
             </div>
 
-            <div className="promotion-list">
+            <div className="main-content promotion-list">
                 {data &&
                     data.map((promotion: PromotionViewModel, index: number) => (
                         <Promotion key={index} promotion={promotion} handleMoreInfo={handleMoreInfo} />

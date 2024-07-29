@@ -37,7 +37,7 @@ const LeaderBoard = ({ promotionId }) => {
             <div className="header">
                 <div className="text">{t('leaderboard')}</div>
             </div>
-            <div className="leader-board-container table">
+            <div className="main-content leader-board-container table">
                 <div className="table-header-container header-bg">
                     <div className="bg">
                         <div className="left"></div>

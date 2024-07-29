@@ -20,6 +20,9 @@ html {
 
     --color-primary-text: #ffffff;
     --color-secondary-header: #0f0e0f;
+
+    --scrollbar-background: #5a422d;
+    --scrollbar-thumb-background: #bd7e48;
 }
 
 html,
@@ -34,8 +37,22 @@ body {
     background: linear-gradient(0deg, rgba(21, 15, 15, 1) 23%, rgba(59, 43, 43, 1) 88%);
     font: 2rem/1.5 var(--font-family, arial, sans-serif);
     color: var(--color-primary-text, #fff);
-    overscroll-behavior: contain;
-    touch-action: pan-y;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar {
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: var(--scrollbar-thumb-background);
 }
 
 h1,
@@ -219,11 +236,14 @@ p {
     background: url(../images/home_bg.jpg?v=2) repeat-y center top fixed;
 
     .header {
-        position: relative;
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: 5.6rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 5.6rem;
+        z-index: 100;
 
         @media screen and (min-width: 768px) {
             height: 8rem;
@@ -257,6 +277,21 @@ p {
             height: 4.4rem;
             width: 100%;
             background: url('../images/header-line.png') no-repeat center;
+        }
+    }
+
+    .main-content {
+        position: absolute;
+        top: 5.9rem;
+        width: 100%;
+        bottom: 0;
+        z-index: 90;
+        overflow: auto;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+
+        @media screen and (min-width: 768px) {
+            top: 8.3rem;
         }
     }
 }
