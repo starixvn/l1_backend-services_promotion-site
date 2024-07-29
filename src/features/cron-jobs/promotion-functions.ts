@@ -102,5 +102,5 @@ export const formatFinishNotification = (title: string, startTime: Date, endTime
 };
 
 export const formatDateTime = (dateTime: Date) => {
-    return `${dateTime.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' })} GMT+7`;
+    return `${dateTime.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' })} GMT%2B7`;
 };
