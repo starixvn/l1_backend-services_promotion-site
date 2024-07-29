@@ -3,12 +3,11 @@
     flex-wrap: wrap;
     gap: 5rem;
     justify-content: center;
-    padding-bottom: 3rem;
-    padding-top: 5rem;
+    padding: 3rem 1rem 5rem;
 
     @media screen and (min-width: 768px) {
         gap: 5.5rem;
-        padding-top: 7rem;
+        padding: 7rem 0 5rem;
     }
 
     .promotion-item {
