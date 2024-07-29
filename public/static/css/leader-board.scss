@@ -1,6 +1,15 @@
 .leader-board-container {
     margin-bottom: 3rem;
-    margin-top: 5rem;
+    margin-top: 2rem;
+
+    @media screen and (min-width: 576px) {
+        margin-top: 3rem;
+        padding: 0 2rem;
+    }
+
+    @media screen and (min-width: 992px) {
+        margin-top: 5rem;
+    }
 
     .table-header-container .header-content {
         grid-template-columns: 20% 60% 20%;
