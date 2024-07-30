@@ -10,8 +10,14 @@
         padding-top: 5rem;
     }
 
-    .table-header-container .header-content {
-        grid-template-columns: 20% 60% 20%;
+    .table-header-container {
+        @media screen and (max-width: 576px) {
+            padding: 0 1rem;
+        }
+
+        .header-content {
+            grid-template-columns: 25% 50% 25%;
+        }
     }
 
     .table-body-container {
@@ -29,7 +35,7 @@
         }
 
         .table-row {
-            grid-template-columns: 20% 60% 20%;
+            grid-template-columns: 25% 50% 25%;
         }
     }
 
