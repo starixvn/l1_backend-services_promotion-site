@@ -1,11 +1,12 @@
 .banner {
     position: relative;
-    background: url(../images/banner/background-banner.png) no-repeat center center;
+    background: url(../images/banner/mobile/background-banner.png) no-repeat center;
+    height: 36.8rem;
     width: 100%;
-    height: 41rem;
 
     @media screen and (min-width: 409px) {
         height: calc(41rem * 0.6);
+        background: url(../images/banner/background-banner.png) no-repeat center center;
     }
 
     @media screen and (min-width: 577px) {
@@ -21,7 +22,7 @@
     }
 
     @media screen and (min-width: 1200px) {
-        transform: none;
+        height: 41rem;
     }
 
     .center {
@@ -117,10 +118,6 @@
 
 @media screen and (max-width: 408px) {
     .banner {
-        background: url(../images/banner/mobile/background-banner.png) no-repeat center;
-        height: 40.8rem;
-        width: 100%;
-
         .dealer {
             top: -21px;
             margin-left: -141px;
@@ -150,49 +147,37 @@
 }
 
 .tournament-container {
-    display: grid;
-    place-items: center;
-    width: 140rem;
-    background-size: cover;
-    background-attachment: fixed;
-    background-image: url(../images/home_bg.jpg);
+    padding-top: 55px;
 
-    .content {
-        max-width: 120rem;
+    @media screen and (min-width: 576px) {
+        padding-top: 0;
     }
 
-    .header {
-        width: 100%;
-        position: relative;
-        display: inline-block;
+    .content {
+        top: calc(368px + 55px);
 
-        img {
-            display: block;
-            width: 100%;
-            height: auto;
+        @media screen and (min-width: 409px) {
+            top: calc(41rem * 0.6 + 55px);
         }
 
-        .text-overlay {
-            text-transform: uppercase;
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 10px;
+        @media screen and (min-width: 577px) {
+            top: calc(41rem * 0.7);
+        }
 
-            font-size: 2.2rem;
+        @media screen and (min-width: 768px) {
+            top: calc(41rem * 0.8);
+        }
 
-            @media screen and (min-width: 768px) {
-                font-size: 3rem;
-            }
+        @media screen and (min-width: 992px) {
+            top: calc(41rem * 0.9);
+        }
+
+        @media screen and (min-width: 1200px) {
+            top: 41rem;
         }
     }
 
     .info-container {
-        max-width: 120rem;
         background-color: var(--color-secondary);
         margin: 3rem;
         color: var(--color-primary-text);

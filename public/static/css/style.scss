@@ -104,10 +104,25 @@ p {
     min-height: 100vh;
 }
 
+.top-menu {
+    position: fixed;
+    background-color: #463233;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 55px;
+    z-index: 100;
+
+    @media screen and (min-width: 576px) {
+        top: 10px;
+        width: auto;
+    }
+}
+
 .back-icon {
     position: absolute;
-    top: 20px;
-    left: 3.6rem;
+    top: 12px;
+    left: 2rem;
     width: 44px;
     height: 32px;
     cursor: pointer;
@@ -117,6 +132,7 @@ p {
 
     @media screen and (max-width: 404px) {
         top: 10px;
+        left: 4rem;
     }
 
     &::before {

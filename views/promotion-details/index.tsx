@@ -55,22 +55,21 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     ];
 
     return (
-        <div className="tournament-container">
-            <div className="header">
-                <div className="banner">
-                    <div className="center">
-                        <div className="dealer"></div>
-                        <div className="text-event"></div>
-                        <div className="text-slogan"></div>
-                        <div className="winning-prize">
-                            <div className="left"></div>
-                            <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
-                            <div className="right"></div>
-                        </div>
+        <div className="promotion-container tournament-container">
+            <div className="banner">
+                <div className="center">
+                    <div className="dealer"></div>
+                    <div className="text-event"></div>
+                    <div className="text-slogan"></div>
+                    <div className="winning-prize">
+                        <div className="left"></div>
+                        <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
+                        <div className="right"></div>
                     </div>
                 </div>
             </div>
-            <div className="content">
+            <div className="main-content content">
+                <div className="page-title"></div>
                 <div className="info-container promotion">
                     <div className="title">{t('title_promotion_info')}</div>
                     <div className="info-list">

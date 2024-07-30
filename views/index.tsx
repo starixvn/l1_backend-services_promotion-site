@@ -1,3 +1,5 @@
+import '../public/static/css/style.scss';
+
 import { FormatIcu } from '@tolgee/format-icu';
 import { BackendFetch, Tolgee, TolgeeProvider } from '@tolgee/react';
 import { InContextTools } from '@tolgee/web/tools';
@@ -86,7 +88,11 @@ if (window.AppInitialState?.results.isSuccessful) {
 
         return (
             <>
-                {!appState.isShowPromotions && <div onClick={handleBackButton} className="back-icon"></div>}
+                {!appState.isShowPromotions && (
+                    <div className="top-menu">
+                        <div onClick={handleBackButton} className="back-icon"></div>
+                    </div>
+                )}
                 {result}
             </>
         );
