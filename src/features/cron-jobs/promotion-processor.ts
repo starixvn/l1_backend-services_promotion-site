@@ -139,7 +139,7 @@ export class PromotionProcessor {
             latestDataSourceTimeStamp,
         );
 
-        console.log('bets', betResult.data.length, new Date().toISOString());
+        console.log('-> bets', betResult.data.length, new Date().toISOString());
         const configsByCurrencyGroup = getConfigsByCurrencyGroup(promotionConfig);
         const leaderBoardsObj: { [key: string]: PromotionLeaderBoards } = {};
         for (const bet of betResult.data) {

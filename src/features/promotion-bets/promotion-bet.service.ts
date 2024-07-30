@@ -54,6 +54,7 @@ export class PromotionBetService {
                 return this.createTempLogItem(item);
             });
         await this.tempLogEndGameService.deleteAll();
+        console.log('-> syncEndGameLog', tempLogData.length);
         await this.tempLogEndGameService.insertMany(tempLogData);
         await this.tempLogEndGameService.syncToPromotionBet();
     }

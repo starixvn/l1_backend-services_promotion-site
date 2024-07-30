@@ -119,7 +119,7 @@ export class LeaderBoardService {
     }
 
     async bulkWrite(leaderBoards: PromotionLeaderBoards[]): Promise<Result<any>> {
-        console.log('bulkWrite', leaderBoards.length, new Date().toISOString());
+        console.log('-> bulkWrite', leaderBoards.length, new Date().toISOString());
         const operations = [];
         for (const data of leaderBoards) {
             const filter = {
