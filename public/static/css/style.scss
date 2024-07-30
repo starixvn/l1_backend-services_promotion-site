@@ -106,41 +106,28 @@ p {
 
 .back-icon {
     position: absolute;
-    top: 0;
-    left: 1.5rem;
-    color: white;
-    font-size: 4em;
-    font-family: Arial, sans-serif;
-    text-decoration: none;
-    background: none;
-    padding: 2rem;
-    text-align: center;
-    width: 8rem;
-    height: 8rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 20px;
+    left: 3.6rem;
+    width: 44px;
+    height: 32px;
     cursor: pointer;
     z-index: 9999;
-}
+    background: url(../images/icon-back.png);
+    background-size: 44px 32px;
 
-.back-icon:hover {
-    color: darkblue;
-}
+    @media screen and (max-width: 404px) {
+        top: 10px;
+    }
 
-.back-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-image: url(../images/back-arrow.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: rgb(57, 41, 41);
-    border: none;
-    cursor: pointer;
+    &::before {
+        content: '';
+        height: 60px;
+        width: 100px;
+        display: block;
+        position: absolute;
+        left: -33px;
+        top: -13px;
+    }
 }
 
 .float-left {
@@ -235,6 +222,7 @@ p {
     display: flex;
     flex-direction: column;
     width: 140rem;
+    min-width: 33rem;
     background: url(../images/home_bg.jpg?v=2) repeat-y center top fixed;
 
     .header {
