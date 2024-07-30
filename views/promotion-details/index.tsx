@@ -69,7 +69,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                 </div>
             </div>
             <div className="main-content content">
-                <div className="page-title"></div>
+                <div className="page-title">Weekly Tournament</div>
+
                 <div className="info-container promotion">
                     <div className="title">{t('title_promotion_info')}</div>
                     <div className="info-list">

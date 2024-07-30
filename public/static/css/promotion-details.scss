@@ -146,6 +146,49 @@
     }
 }
 
+.page-title {
+    position: relative;
+    display: table;
+    background: url(../images/label-title-middle.png) no-repeat;
+    background-size: 100vw 72px;
+    height: 7.2rem;
+    line-height: 52px;
+    margin: 20px auto;
+    font-size: 22px;
+    color: #ffe800;
+    text-shadow:
+        -2px -2px 0 #48020e,
+        2px -2px 0 #48020e,
+        -2px 2px 0 #48020e,
+        2px 2px 0 #48020e;
+    font-weight: bold;
+    text-align: center;
+
+    @media screen and (min-width: 576px) {
+        font-size: 30px;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -6.7rem;
+        background: url(../images/label-title-left.png) no-repeat;
+        width: 6.7rem;
+        height: 7.2rem;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -6.7rem;
+        background: url(../images/label-title-right.png) no-repeat;
+        width: 6.7rem;
+        height: 7.2rem;
+    }
+}
+
 .tournament-container {
     padding-top: 55px;
 
