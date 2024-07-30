@@ -1,6 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
+import { Notifications } from 'src/features/notifications/schemas';
 import { validSession } from '../../../__test__/integration-tests/_stubs/helper';
 import { Result } from '../../../src/_shared/common/models/result';
 import { DataHandler } from '../../../src/_shared/common/providers';
@@ -13,6 +14,7 @@ describe('PromotionConfigService', () => {
     let model: Model<PromotionConfigsDocument>;
     const exchangeRateService = {
         getAll: jest.fn(),
+        getLastExchangeRate: jest.fn(),
     };
     const dataHandler = {
         getData: jest.fn(),
@@ -74,7 +76,7 @@ describe('PromotionConfigService', () => {
     });
 
     describe('getById', () => {
-        it('result is successful when get data success', async () => {
+        it('should return successful when get data success', async () => {
             // Arrange
             const id = 1,
                 currencyGroupId = '123';
@@ -90,12 +92,12 @@ describe('PromotionConfigService', () => {
             } as any);
             jest.spyOn(dataHandler, 'getData').mockReturnValue(new Result(0, '', []));
             // Act
-            const result = await promotionConfigService.getById(id, currencyGroupId);
+            const actual = await promotionConfigService.getById(id, currencyGroupId);
             // Assert
-            expect(result.isSuccessful).toBeTruthy();
+            expect(actual.isSuccessful).toBeTruthy();
         });
 
-        it('result is not successful when get data fail', async () => {
+        it('should not return successful when get data fail', async () => {
             // Arrange
             const id = 1,
                 currencyGroupId = '123';
@@ -111,15 +113,15 @@ describe('PromotionConfigService', () => {
             } as any);
             jest.spyOn(dataHandler, 'getData').mockReturnValue(new Result(1, ''));
             // Act
-            const result = await promotionConfigService.getById(id, currencyGroupId);
+            const actual = await promotionConfigService.getById(id, currencyGroupId);
             // Assert
-            expect(result.isSuccessful).toBeFalsy();
-            expect(result.data).toBeNull();
+            expect(actual.isSuccessful).toBeFalsy();
+            expect(actual.data).toBeNull();
         });
     });
 
     describe('getBySession', () => {
-        it('result has promotions which site name is included ', async () => {
+        it('should return promotions when user site name is included ', async () => {
             // Arrange
 
             jest.spyOn(model, 'find').mockReturnValue({
@@ -142,12 +144,12 @@ describe('PromotionConfigService', () => {
             ];
             jest.spyOn(dataHandler, 'getData').mockReturnValue(new Result(0, '', promotions));
             // Act
-            const result = await promotionConfigService.getBySession(validSession.session);
+            const actual = await promotionConfigService.getBySession(validSession.session);
             // Assert
-            expect(result.data.length).toBe(2);
+            expect(actual.data.length).toBe(2);
         });
 
-        it('result has all promotions which included site name empty', async () => {
+        it('should return all promotions when operator included site names is empty', async () => {
             // Arrange
 
             jest.spyOn(model, 'find').mockReturnValue({
@@ -170,9 +172,151 @@ describe('PromotionConfigService', () => {
             ];
             jest.spyOn(dataHandler, 'getData').mockReturnValue(new Result(0, '', promotions));
             // Act
-            const result = await promotionConfigService.getBySession(validSession.session);
+            const actual = await promotionConfigService.getBySession(validSession.session);
             // Assert
-            expect(result.data.length).toBe(3);
+            expect(actual.data.length).toBe(3);
+        });
+    });
+
+    describe('getPromotionsByNotifications', () => {
+        it('should return promotions when promotion has notification', async () => {
+            // Arrange
+
+            jest.spyOn(model, 'find').mockReturnValue({
+                sort: function (): any {
+                    return {
+                        lean: function (): any {
+                            return {
+                                exec: async function () {
+                                    return jest.fn();
+                                },
+                            };
+                        },
+                    };
+                },
+            } as any);
+
+            const promotions = [
+                {
+                    _id: '1',
+                    promotionId: 1,
+                    name: 'promotion 1',
+                    operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi1', currencyGroups: [] }],
+                    startDateTime: new Date(),
+                    endDateTime: new Date(),
+                    winningPrizes: [],
+                    updatedTime: new Date(),
+                    status: '',
+                },
+                {
+                    _id: '2',
+                    promotionId: 2,
+                    name: 'promotion 2',
+                    operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi1', currencyGroups: [] }],
+                    startDateTime: new Date(),
+                    endDateTime: new Date(),
+                    winningPrizes: [],
+                    updatedTime: new Date(),
+                    status: '',
+                },
+                {
+                    _id: '3',
+                    promotionId: 3,
+                    name: 'promotion 3',
+                    operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi2', currencyGroups: [] }],
+                    startDateTime: new Date(),
+                    endDateTime: new Date(),
+                    winningPrizes: [],
+                    updatedTime: new Date(),
+                    status: '',
+                },
+            ];
+
+            const notifications: Notifications[] = [
+                {
+                    promotionId: '1',
+                    title: { 'en-US': 'message promotion 1', 'vi-VN': '', 'zh-CN': '', 'zh-TW': '', 'th-TH': '', 'id-ID': '' },
+                    messages: { 'en-US': 'message promotion 1', 'vi-VN': '', 'zh-CN': '', 'zh-TW': '', 'th-TH': '', 'id-ID': '' },
+                    time: new Date(),
+                    displayKind: 4,
+                    enabled: true,
+                    startTime: new Date(),
+                    endTime: new Date(),
+                },
+                {
+                    promotionId: '2',
+                    title: { 'en-US': 'message promotion 1', 'vi-VN': '', 'zh-CN': '', 'zh-TW': '', 'th-TH': '', 'id-ID': '' },
+                    messages: { 'en-US': 'message promotion 1', 'vi-VN': '', 'zh-CN': '', 'zh-TW': '', 'th-TH': '', 'id-ID': '' },
+                    time: new Date(),
+                    displayKind: 4,
+                    enabled: true,
+                    startTime: new Date(),
+                    endTime: new Date(),
+                },
+            ];
+
+            // Act
+            const actual = promotionConfigService.getPromotionsByNotifications(promotions, notifications);
+
+            // Assert
+            expect(actual.length).toBe(2);
+        });
+    });
+
+    describe('getPromotionDetail', () => {
+        it('should return view model has correct data', async () => {
+            // Arrange
+
+            const exchangeRates = {
+                time: new Date(),
+                exDate: new Date(),
+                code: {
+                    VND: 1,
+                    USD: 23000,
+                },
+            };
+            jest.spyOn(exchangeRateService, 'getLastExchangeRate').mockReturnValue(Promise.resolve(new Result(0, '', exchangeRates)));
+            const promotion = {
+                _id: '1',
+                promotionId: 1,
+                name: 'promotion 1',
+                operators: [
+                    {
+                        operatorId: 'ONEworksVGCash',
+                        includedSiteNames: 'lumi1',
+                        currencyGroups: [
+                            {
+                                currencyGroupId: '61765beed2b6510001f18bd6',
+                                otherGameMinBet: 2,
+                                slotGameMinBet: 0.2,
+                                enabled: true,
+                            },
+                        ],
+                    },
+                ],
+                startDateTime: new Date(),
+                endDateTime: new Date(),
+                winningPrizes: [
+                    { ranking: '1', value: 20000000 },
+                    { ranking: '2', value: 10000000 },
+                    { ranking: '3', value: 5000000 },
+                    { ranking: '4-6', value: 2000000 },
+                ],
+                updatedTime: new Date(),
+                status: '',
+            };
+            const title = 'promotion test';
+
+            // Act
+            const actual = await promotionConfigService.getPromotionDetail(promotion, validSession.session, title);
+
+            // Assert
+            expect(actual.title).toBe(title);
+            expect(actual.totalPrize).toBe(41000);
+            expect(actual.winningPrizes[3].from).toBe(4);
+            expect(actual.winningPrizes[3].to).toBe(6);
+            expect(actual.winningPrizes[2].value).toBe(5000);
+            expect(actual.numerousPrize).toBe(6);
         });
     });
 });

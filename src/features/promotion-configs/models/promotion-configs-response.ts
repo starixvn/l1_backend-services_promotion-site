@@ -95,7 +95,7 @@ export class PromotionDetailViewModel {
         this.numerousPrize = this.calculateNumerousPrize(this.winningPrizes);
     }
 
-    calculateTotalPrize(winningPrizes: WinningPrizeViewModel[]): number {
+    private calculateTotalPrize(winningPrizes: WinningPrizeViewModel[]): number {
         return winningPrizes.reduce((total, prize) => {
             const ranks = Math.max(1, (prize.to ?? prize.from) - prize.from + 1);
             const rankingTotalPrize = prize.value * ranks;
