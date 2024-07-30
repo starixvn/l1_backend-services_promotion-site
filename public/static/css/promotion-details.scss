@@ -64,9 +64,6 @@
         top: 7.3rem;
         left: 50%;
         transform: translateX(-50%);
-        background: url(../images/banner/text-event.png) no-repeat;
-        width: 47.2rem;
-        height: 14rem;
     }
 
     .text-slogan {
@@ -74,9 +71,6 @@
         top: 23rem;
         left: 50%;
         transform: translateX(-50%);
-        background: url(../images/banner/text-slogan.png) no-repeat;
-        width: 41.6rem;
-        height: 3.4rem;
     }
 
     .winning-prize {
@@ -127,16 +121,10 @@
         .text-event {
             top: 111px;
             margin-left: 22px;
-            background: url(../images/banner/mobile/text-event.png) no-repeat;
-            width: 36.4rem;
-            height: 16.3rem;
         }
 
         .text-slogan {
             top: 292px;
-            background: url(../images/banner/mobile/text-slogan.png) no-repeat;
-            width: 31.2rem;
-            height: 2.2rem;
         }
 
         .winning-prize {
@@ -189,40 +177,34 @@
     }
 }
 
-.tournament-container {
-    padding-top: 55px;
+.table .table-header-container .header-content {
+    font-size: 1.8rem;
 
+    @media screen and (min-width: 577px) {
+        font-size: 2.4rem;
+    }
+}
+
+.table + .table {
+    margin-top: 4.5rem;
+}
+
+.tournament-container {
     @media screen and (min-width: 576px) {
         padding-top: 0;
     }
 
     .content {
-        top: calc(368px + 55px);
-
-        @media screen and (min-width: 409px) {
-            top: calc(41rem * 0.6 + 55px);
-        }
+        top: 55px;
 
         @media screen and (min-width: 577px) {
-            top: calc(41rem * 0.7);
-        }
-
-        @media screen and (min-width: 768px) {
-            top: calc(41rem * 0.8);
-        }
-
-        @media screen and (min-width: 992px) {
-            top: calc(41rem * 0.9);
-        }
-
-        @media screen and (min-width: 1200px) {
-            top: 41rem;
+            top: 0;
         }
     }
 
     .info-container {
         background-color: var(--color-secondary);
-        margin: 3rem;
+        margin: 3rem 8rem;
         color: var(--color-primary-text);
         border: 1px solid #320a6b;
         border-radius: 1.5rem;
@@ -245,6 +227,8 @@
     }
 
     .info-list {
+        position: relative;
+        z-index: 2;
         display: flex;
         flex-wrap: wrap;
     }
@@ -273,7 +257,8 @@
 
     .item-description-content {
         font-size: 1.6rem;
-        line-height: 3rem;
+        line-height: 1.5;
+        margin-top: 1rem;
 
         @media screen and (min-width: 768px) {
             font-size: 1.8rem;
@@ -288,6 +273,7 @@
         padding: 1rem;
         background-color: #43083e;
         width: 100%;
+        z-index: 10;
 
         div {
             display: inline-block;
@@ -314,10 +300,18 @@
         }
     }
 
+    .term-list {
+        position: relative;
+        z-index: 2;
+        margin: 0;
+        padding: 1rem;
+    }
+
     .term {
         margin-left: 1rem;
         font-size: 1.6rem;
-        line-height: 3rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
 
         @media screen and (min-width: 768px) {
             font-size: 1.8rem;

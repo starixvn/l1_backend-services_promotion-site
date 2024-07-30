@@ -56,67 +56,169 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
 
     return (
         <div className="promotion-container tournament-container">
-            <div className="banner">
-                <div className="center">
-                    <div className="dealer"></div>
-                    <div className="text-event"></div>
-                    <div className="text-slogan"></div>
-                    <div className="winning-prize">
+            <div className="main-content content">
+                <div className="banner">
+                    <div className="center">
+                        <div className="dealer"></div>
+                        <div className="text-event">
+                            <picture>
+                                <source media="(min-width: 409px)" srcSet="static/images/banner/text-event.png"></source>
+                                <img src="static/images/banner/mobile/text-event.png" />
+                            </picture>
+                        </div>
+                        <div className="text-slogan">
+                            <picture>
+                                <source media="(min-width: 409px)" srcSet="static/images/banner/text-slogan.png"></source>
+                                <img src="static/images/banner/mobile/text-slogan.png" />
+                            </picture>
+                        </div>
+                        <div className="winning-prize">
+                            <div className="left"></div>
+                            <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
+                            <div className="right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="page-title">Weekly Tournament</div>
+
+                <div className="table">
+                    <div className="table-header-container header-bg">
+                        <div className="bg">
+                            <div className="left"></div>
+                            <div className="middle"></div>
+                            <div className="right"></div>
+                        </div>
+                        <div className="header-content">{t('title_promotion_info')}</div>
+                    </div>
+
+                    <div className="table-body-container main-bg">
+                        <div className="table-body">
+                            <div className="bg">
+                                <div className="left"></div>
+                                <div className="middle"></div>
+                                <div className="right"></div>
+                            </div>
+                            <div className="info-list">
+                                {promotionInformation.map(({ header, description }, index) => {
+                                    return (
+                                        <div className="info-item" key={index}>
+                                            <div className="item-description-header">{header}</div>
+                                            <p className="item-description-content">{description}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="footer-bg">
                         <div className="left"></div>
-                        <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
+                        <div className="middle"></div>
                         <div className="right"></div>
                     </div>
                 </div>
-            </div>
-            <div className="main-content content">
-                <div className="page-title">Weekly Tournament</div>
 
-                <div className="info-container promotion">
-                    <div className="title">{t('title_promotion_info')}</div>
-                    <div className="info-list">
-                        {promotionInformation.map(({ header, description }, index) => {
-                            return (
-                                <div className="info-item" key={index}>
-                                    <div className="item-description-header">{header}</div>
-                                    <p className="item-description-content">{description}</p>
-                                </div>
-                            );
-                        })}
+                <div className="table">
+                    <div className="table-header-container header-bg">
+                        <div className="bg">
+                            <div className="left"></div>
+                            <div className="middle"></div>
+                            <div className="right"></div>
+                        </div>
+                        <div className="header-content">{t('title_participant_steps')}</div>
+                    </div>
+
+                    <div className="table-body-container main-bg">
+                        <div className="table-body">
+                            <div className="bg">
+                                <div className="left"></div>
+                                <div className="middle"></div>
+                                <div className="right"></div>
+                            </div>
+                            <div className="info-list">
+                                {participantSteps.map(({ header, description }, index) => {
+                                    return (
+                                        <div className="info-item" key={index}>
+                                            <div className="item-description-header">{header}</div>
+                                            <p className="item-description-content">{description}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="footer-bg">
+                        <div className="left"></div>
+                        <div className="middle"></div>
+                        <div className="right"></div>
                     </div>
                 </div>
 
-                <div className="info-container participation">
-                    <div className="title">{t('title_participant_steps')}</div>
-                    <div className="info-list">
-                        {participantSteps.map(({ header, description }, index) => {
-                            return (
-                                <div className="info-item" key={index}>
-                                    <div className="item-description-header">{header}</div>
-                                    <p className="item-description-content">{description}</p>
-                                </div>
-                            );
-                        })}
+                <div className="table">
+                    <div className="table-header-container header-bg">
+                        <div className="bg">
+                            <div className="left"></div>
+                            <div className="middle"></div>
+                            <div className="right"></div>
+                        </div>
+                        <div className="header-content">{t('title_prize_categories')}</div>
+                    </div>
+
+                    <div className="table-body-container main-bg">
+                        <div className="table-body">
+                            <div className="bg">
+                                <div className="left"></div>
+                                <div className="middle"></div>
+                                <div className="right"></div>
+                            </div>
+                            <div className="info-list">
+                                {data?.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="footer-bg">
+                        <div className="left"></div>
+                        <div className="middle"></div>
+                        <div className="right"></div>
                     </div>
                 </div>
 
-                <div className="info-container prize">
-                    <div className="title">{t('title_prize_categories')}</div>
-                    <div className="info-list  ">{data?.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)}</div>
+                <div className="table">
+                    <div className="table-header-container header-bg">
+                        <div className="bg">
+                            <div className="left"></div>
+                            <div className="middle"></div>
+                            <div className="right"></div>
+                        </div>
+                        <div className="header-content">{t('title_terms_conditions')}</div>
+                    </div>
+
+                    <div className="table-body-container main-bg">
+                        <div className="table-body">
+                            <div className="bg">
+                                <div className="left"></div>
+                                <div className="middle"></div>
+                                <div className="right"></div>
+                            </div>
+                            <ul className="term-list">
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
+                                    const key = `terms_conditions_para_${item}`;
+                                    return (
+                                        <li className="term" key={key}>
+                                            {item === 6 ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat() : t(key)}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="footer-bg">
+                        <div className="left"></div>
+                        <div className="middle"></div>
+                        <div className="right"></div>
+                    </div>
                 </div>
 
-                <div className="info-container">
-                    <div className="title">{t('title_terms_conditions')}</div>
-                    <ul>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
-                            const key = `terms_conditions_para_${item}`;
-                            return (
-                                <li className="term" key={key}>
-                                    {item === 6 ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat() : t(key)}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
                 <div className="leader-board ">
                     <div>
                         <button className="btn btn-primary" onClick={handleLeaderBoard}>

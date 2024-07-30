@@ -351,14 +351,19 @@ p {
         }
     }
 
-    .footer-bg .bg {
+    .footer-bg {
+        @extend .bg;
+        position: relative;
+        max-width: 100rem;
+        margin: auto;
+
         %cell {
             height: 8.6rem;
         }
 
         .left {
             @extend %cell;
-            background: url('../images/leader-board/tbl-bottom-left.png') repeat center;
+            background: url('../images/leader-board/tbl-bottom-left.png') no-repeat center;
         }
 
         .middle {
