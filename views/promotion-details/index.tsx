@@ -220,7 +220,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                 </div>
             </div>
             <div className="leader-board ">
-                <button className="btn btn-primary" onClick={handleLeaderBoard}>
+                <button className="btn btn-leader-board" onClick={handleLeaderBoard}>
                     {t('leaderboard')}
                 </button>
             </div>

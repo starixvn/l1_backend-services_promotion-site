@@ -98,19 +98,12 @@
             }
         }
 
-        button {
-            border-radius: 1.2rem;
-            font-weight: bold;
+        .btn-more-info {
             font-size: 1.4rem;
             min-width: 13rem;
             height: 3.6rem;
             line-height: 3.6rem;
             padding: 0 1rem;
-            background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
-            border: 1px solid #fff9a1;
-            color: var(--color-secondary-header);
-            font-family: inherit;
-            cursor: pointer;
 
             @media screen and (min-width: 768px) {
                 font-size: 1.8rem;

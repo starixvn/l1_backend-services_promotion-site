@@ -34,7 +34,7 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
                 <p className="item-content">{promotion.content}</p>
                 <div className="item-more-info">
                     <PromotionContent promotion={promotion} />
-                    <button className="button" onClick={() => handleMoreInfo(promotion.promotionId)}>
+                    <button className="btn btn-more-info" onClick={() => handleMoreInfo(promotion.promotionId)}>
                         {t('more_info')}
                     </button>
                 </div>
