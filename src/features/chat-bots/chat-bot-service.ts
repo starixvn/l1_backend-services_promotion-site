@@ -6,6 +6,13 @@ import Axios, { AxiosRequestConfig } from 'axios';
 export class ChatBotService {
     constructor(@Inject(SentryLogger) private readonly logger: SentryLogger) {}
 
+    buildProxyConfig() {
+        const protocol = process.env.PROXY.includes('http://') ? 'http' : 'https';
+        const urlWithoutProtocol = process.env.PROXY.replace(/^(https?):\/\//, '');
+
+        return { protocol: protocol, host: urlWithoutProtocol.split(':')[0], port: +urlWithoutProtocol.split(':')[1] };
+    }
+
     async sendMessage(conversationId, message, options = null) {
         try {
             const url = process.env.CHAT_BOT_URL;
@@ -14,7 +21,7 @@ export class ChatBotService {
             const requestConfigs: AxiosRequestConfig = {
                 timeout: options?.requestTimeout || defaultRequestTimeout,
                 headers: {},
-                proxy: process.env.PROXY ? { host: process.env.PROXY.split(':')[0], port: +process.env.PROXY.split(':')[1] } : false,
+                proxy: process.env.PROXY ? this.buildProxyConfig() : false,
             };
 
             await Axios.post(
