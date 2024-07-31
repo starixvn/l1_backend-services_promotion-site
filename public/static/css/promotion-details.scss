@@ -122,7 +122,7 @@
     position: relative;
     display: table;
     background: url(../images/label-title-middle.png) no-repeat;
-    background-size: 100vw 7.2rem;
+    background-size: 100% 7.2rem;
     height: 7.2rem;
     line-height: 5.2rem;
     transform: scale(0.8);
@@ -162,7 +162,6 @@
     }
 
     &::after {
-        right: -6.7em;
         background: url(../images/label-title-right.png) no-repeat;
     }
 }
@@ -251,7 +250,11 @@
             .item-description-header {
                 position: absolute;
                 left: 15.5rem;
-                top: 1.8rem;
+                top: 0;
+                display: flex;
+                align-items: center;
+                height: 6.4rem;
+                text-align: left;
             }
 
             .item-description-content {
