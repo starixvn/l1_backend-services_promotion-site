@@ -59,7 +59,7 @@ const LeaderBoard = ({ promotionId }) => {
                             <div className="right"></div>
                         </div>
                         {data.leadBoardItems.map((player, index) => (
-                            <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
+                            player && <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
                         ))}
                     </div>
                 </div>
