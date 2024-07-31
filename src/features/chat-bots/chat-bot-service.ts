@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SentryLogger } from '../../_shared/common/providers';
-import Axios from 'axios';
+import Axios, { AxiosRequestConfig } from 'axios';
 
 @Injectable()
 export class ChatBotService {
@@ -11,9 +11,10 @@ export class ChatBotService {
             const url = process.env.CHAT_BOT_URL;
             const token = process.env.CHAT_BOT_TOKEN;
             const defaultRequestTimeout = 5000;
-            const requestConfigs = {
+            const requestConfigs: AxiosRequestConfig = {
                 timeout: options?.requestTimeout || defaultRequestTimeout,
                 headers: {},
+                proxy: process.env.PROXY ? { host: process.env.PROXY.split(':')[0], port: +process.env.PROXY.split(':')[1] } : false,
             };
 
             await Axios.post(
