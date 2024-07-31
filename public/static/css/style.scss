@@ -101,7 +101,7 @@ p {
 .main {
     display: flex;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
 }
 
 .top-menu {
@@ -111,7 +111,7 @@ p {
     left: 0;
     top: 0;
     height: 5.5rem;
-    z-index: 100;
+    z-index: 101;
 
     @media screen and (min-width: 576px) {
         top: 1rem;
@@ -126,7 +126,7 @@ p {
     width: 4.4rem;
     height: 3.2rem;
     cursor: pointer;
-    z-index: 9999;
+
     background: url(../images/icon-back.png);
     background-size: 4.4rem 3.2rem;
 
