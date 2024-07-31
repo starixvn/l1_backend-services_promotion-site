@@ -5,11 +5,11 @@ import { Model } from 'mongoose';
 import { Result } from '../../_shared/common/models/result';
 import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
+import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
+import { PROMOTION_STATUSES } from '../promotion-configs/schemas';
 import { UserSession } from '../users/schemas';
 import { LeaderBoardItemViewModel, LeaderBoardViewModel, topUserRank, you } from './models/leader-board-response';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from './schemas';
-import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
-import { PROMOTION_STATUSES } from '../promotion-configs/schemas';
 
 const RECALCULATE_SECRET = 'key3z4cjfn';
 
@@ -59,19 +59,21 @@ export class LeaderBoardService {
         }
     > {
         const playerLeaderBoard = await this.model.findOne({ promotionId, playerId: session.playerId }).lean().exec();
-        if (!playerLeaderBoard) {
-            return { rank: 0, ...new LeaderBoardItemViewModel(you, 0) };
+        if (!playerLeaderBoard || playerLeaderBoard.isTestCurrency) {
+            return { rank: 0, ...new LeaderBoardItemViewModel(you, playerLeaderBoard?.point ?? 0) };
         }
+
         const rankBeforeUser = await this.model
             .find({
                 promotionId,
                 pointInBaseCurrency: { $gt: playerLeaderBoard.pointInBaseCurrency },
+                isTestCurrency: false,
             })
             .sort({ pointInBaseCurrency: -1 })
             .lean()
             .count()
             .exec();
-        const rank = !playerLeaderBoard.isTestCurrency ? rankBeforeUser + 1 : 0;
+        const rank = rankBeforeUser + 1;
         return { rank, ...new LeaderBoardItemViewModel(you, playerLeaderBoard.point) };
     }
 
