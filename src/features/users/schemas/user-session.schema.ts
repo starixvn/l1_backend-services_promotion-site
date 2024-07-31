@@ -39,6 +39,9 @@ export class UserSession {
     playerName: string;
 
     @Prop()
+    isTestCurrency: boolean;
+
+    @Prop()
     operatorToken: string;
 
     @Prop()

@@ -2,7 +2,7 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
 import { Notifications } from 'src/features/notifications/schemas';
-import { validSession } from '../../../__test__/integration-tests/_stubs/helper';
+import { exchangeRates, validSession } from '../../../__test__/integration-tests/_stubs/helper';
 import { Result } from '../../../src/_shared/common/models/result';
 import { DataHandler } from '../../../src/_shared/common/providers';
 import { ExchangeRateService } from '../../../src/features/exchange-rates/exchange-rate.service';
@@ -267,14 +267,6 @@ describe('PromotionConfigService', () => {
         it('should return view model has correct data', async () => {
             // Arrange
 
-            const exchangeRates = {
-                time: new Date(),
-                exDate: new Date(),
-                code: {
-                    VND: 1,
-                    USD: 23000,
-                },
-            };
             jest.spyOn(exchangeRateService, 'getLastExchangeRate').mockReturnValue(Promise.resolve(new Result(0, '', exchangeRates)));
             const promotion = {
                 _id: '1',

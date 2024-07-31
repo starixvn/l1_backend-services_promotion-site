@@ -30,7 +30,7 @@ export class LeaderBoardService {
         );
     }
 
-    private async getTopLeaderBoardByPromotionId(promotionId: number, session, top = 10): Promise<LeaderBoardItemViewModel[]> {
+    async getTopLeaderBoardByPromotionId(promotionId: number, session, top = 10): Promise<LeaderBoardItemViewModel[]> {
         const topLeaderBoard = await this.model
             .find({ promotionId, isTestCurrency: false })
             .sort({ pointInBaseCurrency: -1, dataSourceTimeStamp: 1 })
@@ -50,7 +50,7 @@ export class LeaderBoardService {
         return leaderBoardItems;
     }
 
-    private async getPlayerLeaderBoardByPromotionId(
+    async getPlayerLeaderBoardByPromotionId(
         promotionId: number,
         session: UserSession,
     ): Promise<
