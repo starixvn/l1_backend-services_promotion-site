@@ -36,12 +36,10 @@ const Prize = ({ prize }) => {
     const { text, image } = getPrizeDescription({ prize });
     const imagePath = 'static/images';
     return (
-        <div className="info-item  ">
-            <img src={`${imagePath}/${image}`} alt="" />
-            <div>
-                <div className="item-description-header">{text}</div>
-                <p className="item-description-content">{formatNumberWithComma(prize?.value)}</p>
-            </div>
+        <div className="info-item">
+            <img className="icon" src={`${imagePath}/${image}`} alt="" />
+            <div className="item-description-header">{text}</div>
+            <p className="item-description-content">{formatNumberWithComma(prize?.value)}</p>
         </div>
     );
 };

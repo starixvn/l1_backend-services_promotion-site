@@ -101,7 +101,7 @@ p {
 .main {
     display: flex;
     justify-content: center;
-    min-height: 100vh;
+    height: 100vh;
 }
 
 .top-menu {
@@ -110,39 +110,38 @@ p {
     width: 100%;
     left: 0;
     top: 0;
-    height: 55px;
+    height: 5.5rem;
     z-index: 100;
 
     @media screen and (min-width: 576px) {
-        top: 10px;
+        top: 1rem;
         width: auto;
     }
 }
 
 .back-icon {
     position: absolute;
-    top: 12px;
+    top: 1.2rem;
     left: 2rem;
-    width: 44px;
-    height: 32px;
+    width: 4.4rem;
+    height: 3.2rem;
     cursor: pointer;
     z-index: 9999;
     background: url(../images/icon-back.png);
-    background-size: 44px 32px;
+    background-size: 4.4rem 3.2rem;
 
-    @media screen and (max-width: 404px) {
-        top: 10px;
-        left: 4rem;
+    @media screen and (min-width: 577px) {
+        top: 1rem;
     }
 
     &::before {
         content: '';
-        height: 60px;
-        width: 100px;
+        height: 6rem;
+        width: 10rem;
         display: block;
         position: absolute;
-        left: -33px;
-        top: -13px;
+        left: -3.3rem;
+        top: -1.3rem;
     }
 }
 
@@ -358,7 +357,7 @@ p {
         margin: auto;
 
         %cell {
-            height: 8.6rem;
+            height: 2.4rem;
         }
 
         .left {

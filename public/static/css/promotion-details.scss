@@ -1,28 +1,12 @@
 .banner {
     position: relative;
     background: url(../images/banner/mobile/background-banner.png) no-repeat center;
-    height: 36.8rem;
+    height: 35.8rem;
     width: 100%;
 
     @media screen and (min-width: 409px) {
-        height: calc(41rem * 0.6);
+        height: 32.4rem;
         background: url(../images/banner/background-banner.png) no-repeat center center;
-    }
-
-    @media screen and (min-width: 577px) {
-        height: calc(41rem * 0.7);
-    }
-
-    @media screen and (min-width: 768px) {
-        height: calc(41rem * 0.8);
-    }
-
-    @media screen and (min-width: 992px) {
-        height: calc(41rem * 0.9);
-    }
-
-    @media screen and (min-width: 1200px) {
-        height: 41rem;
     }
 
     .center {
@@ -32,15 +16,15 @@
         transform-origin: center bottom;
 
         @media screen and (min-width: 409px) {
-            transform: scale(0.6) translateY(-133px);
+            transform: scale(0.68) translate(73px, -8.2rem);
         }
 
         @media screen and (min-width: 577px) {
-            transform: scale(0.7) translateY(-74px);
+            transform: scale(0.8) translate(84px, -2.4rem);
         }
 
         @media screen and (min-width: 768px) {
-            transform: scale(0.8) translateY(-40px);
+            transform: scale(0.9) translateY(-1rem);
         }
 
         @media screen and (min-width: 992px) {
@@ -50,32 +34,32 @@
 
     .dealer {
         position: absolute;
-        top: 97px;
+        top: 3rem;
         left: 50%;
         transform: translateX(-50%);
         background: url(../images/banner/dealer.png) no-repeat;
         width: 19.5rem;
         height: 27.9rem;
-        margin-left: -337px;
+        margin-left: -33.7rem;
     }
 
     .text-event {
         position: absolute;
-        top: 7.3rem;
+        top: 0.2rem;
         left: 50%;
         transform: translateX(-50%);
     }
 
     .text-slogan {
         position: absolute;
-        top: 23rem;
+        top: 16.6rem;
         left: 50%;
         transform: translateX(-50%);
     }
 
     .winning-prize {
         position: absolute;
-        top: 26.5rem;
+        top: 20rem;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -84,7 +68,7 @@
 
         .left {
             position: relative;
-            right: -1px;
+            right: -0.1rem;
             background: url(../images/banner/frame-amount-left.png) no-repeat;
             width: 4.8rem;
             height: 7.2rem;
@@ -102,7 +86,7 @@
 
         .right {
             position: relative;
-            left: -1px;
+            left: -0.1rem;
             background: url(../images/banner/frame-amount-right.png) no-repeat;
             width: 4.8rem;
             height: 7.2rem;
@@ -113,22 +97,22 @@
 @media screen and (max-width: 408px) {
     .banner {
         .dealer {
-            top: -21px;
-            margin-left: -141px;
+            top: -6.5rem;
+            margin-left: -14.1rem;
             transform: translateX(-50%) scale(0.52);
         }
 
         .text-event {
-            top: 111px;
-            margin-left: 22px;
+            top: 6.5rem;
+            margin-left: 2rem;
         }
 
         .text-slogan {
-            top: 292px;
+            top: 25.2rem;
         }
 
         .winning-prize {
-            top: 308px;
+            top: 26.8rem;
             transform: translateX(-50%) scale(0.7);
         }
     }
@@ -138,11 +122,12 @@
     position: relative;
     display: table;
     background: url(../images/label-title-middle.png) no-repeat;
-    background-size: 100vw 72px;
+    background-size: 100vw 7.2rem;
     height: 7.2rem;
-    line-height: 52px;
-    margin: 20px auto;
-    font-size: 22px;
+    line-height: 5.2rem;
+    transform: scale(0.8);
+    margin: 0 auto 2rem;
+    font-size: 3rem;
     color: #ffe800;
     text-shadow:
         -2px -2px 0 #48020e,
@@ -152,28 +137,33 @@
     font-weight: bold;
     text-align: center;
 
-    @media screen and (min-width: 576px) {
-        font-size: 30px;
+    @media screen and (min-width: 409px) {
+        margin-top: -3.4rem;
+        margin-bottom: 1rem;
     }
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -6.7rem;
-        background: url(../images/label-title-left.png) no-repeat;
-        width: 6.7rem;
-        height: 7.2rem;
+    @media screen and (min-width: 577px) {
+        transform: scale(1);
+        margin-top: 0;
     }
 
+    &::before,
     &::after {
         content: '';
         position: absolute;
         top: 0;
-        right: -6.7rem;
-        background: url(../images/label-title-right.png) no-repeat;
         width: 6.7rem;
         height: 7.2rem;
+    }
+
+    &::before {
+        left: -6.6rem;
+        background: url(../images/label-title-left.png) no-repeat;
+    }
+
+    &::after {
+        right: -6.6rem;
+        background: url(../images/label-title-right.png) no-repeat;
     }
 }
 
@@ -185,17 +175,29 @@
     }
 }
 
-.table + .table {
-    margin-top: 4.5rem;
-}
-
 .tournament-container {
-    @media screen and (min-width: 576px) {
-        padding-top: 0;
+    .table {
+        margin: 0 1rem;
+
+        @media screen and (min-width: 576px) {
+            margin: 0 7rem;
+        }
+
+        @media screen and (min-width: 768px) {
+            .table-body-container .table-body {
+                padding: 1rem 1rem 1.4rem;
+            }
+        }
+    }
+
+    .table + .table {
+        margin-top: 4.5rem;
     }
 
     .content {
-        top: 55px;
+        top: 5.5rem;
+        bottom: 7.8rem;
+        padding-bottom: 2rem;
 
         @media screen and (min-width: 577px) {
             top: 0;
@@ -210,38 +212,61 @@
         border-radius: 1.5rem;
     }
 
-    .title {
-        color: var(--color-primary);
-        text-align: center;
-        text-transform: uppercase;
-        background: #380a64;
-        border: 1px solid #320a6b;
-        border-top-left-radius: 1.5rem;
-        border-top-right-radius: 1.5rem;
-
-        font-size: 1.8rem;
-
-        @media screen and (min-width: 768px) {
-            font-size: 2.4rem;
-        }
-    }
-
     .info-list {
         position: relative;
         z-index: 2;
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     .info-item {
+        position: relative;
         width: 30rem;
         padding: 0.5rem;
         text-align: center;
-        border-radius: 0.5rem;
+        border-radius: 2rem;
         flex: 1 1 calc(33.333% - 20px);
 
         @media (max-width: 768px) {
-            flex: 1 1 100% !important;
+            flex: 1 1 100%;
+        }
+    }
+
+    .prizes {
+        padding-top: 3rem;
+
+        .info-item {
+            flex: none;
+            width: 27.2rem;
+            height: 9.6rem;
+            margin: 3.5rem 2.3rem;
+            border: 2px solid #9820aa;
+            background: url(../images/place-frame-bg.png) no-repeat;
+
+            @media (max-width: 768px) {
+                flex: none;
+            }
+
+            .item-description-header {
+                position: absolute;
+                left: 15.5rem;
+                top: 1.8rem;
+            }
+
+            .item-description-content {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0.2rem;
+                margin: 0;
+            }
+
+            .icon {
+                position: absolute;
+                left: 0;
+                top: -2.3rem;
+            }
         }
     }
 
@@ -266,13 +291,13 @@
     }
 
     .leader-board {
-        text-align: center;
-        position: -webkit-sticky;
-        position: sticky;
+        position: fixed;
         bottom: 0;
+        height: 7.8rem;
         padding: 1rem;
-        background-color: #43083e;
+        background-color: #150f0f;
         width: 100%;
+        text-align: center;
         z-index: 10;
 
         div {
@@ -283,8 +308,8 @@
         button {
             border-radius: 1.2rem;
             font-weight: bold;
-            width: 23rem;
-            height: 3.6rem;
+            width: 21rem;
+            height: 5.2rem;
             line-height: 3.6rem;
             background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
             border: 1px solid #fff9a1;
@@ -303,18 +328,21 @@
     .term-list {
         position: relative;
         z-index: 2;
-        margin: 0;
-        padding: 1rem;
+        margin: 0 0 0 2rem;
+        padding: 1rem 1rem 0 2rem;
     }
 
     .term {
-        margin-left: 1rem;
         font-size: 1.6rem;
         line-height: 1.5;
         margin-bottom: 1rem;
 
         @media screen and (min-width: 768px) {
             font-size: 1.8rem;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
         }
     }
 }

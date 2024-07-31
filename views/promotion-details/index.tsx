@@ -171,7 +171,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                                 <div className="middle"></div>
                                 <div className="right"></div>
                             </div>
-                            <div className="info-list">
+                            <div className="info-list prizes">
                                 {data?.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)}
                             </div>
                         </div>
@@ -218,14 +218,11 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                         <div className="right"></div>
                     </div>
                 </div>
-
-                <div className="leader-board ">
-                    <div>
-                        <button className="btn btn-primary" onClick={handleLeaderBoard}>
-                            {t('leaderboard')}
-                        </button>
-                    </div>
-                </div>
+            </div>
+            <div className="leader-board ">
+                <button className="btn btn-primary" onClick={handleLeaderBoard}>
+                    {t('leaderboard')}
+                </button>
             </div>
         </div>
     );
