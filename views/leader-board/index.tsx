@@ -33,11 +33,11 @@ const LeaderBoard = ({ promotionId }) => {
     const rank =
         data.currentUser.point === 0 || (data.currentUser.rank === 0 && data.currentUser.point !== 0) ? '-' : data.currentUser.rank;
     return (
-        <div className="promotion-container">
+        <div className="promotion-container leader-board">
             <div className="header">
                 <div className="text">{t('leaderboard')}</div>
             </div>
-            <div className="main-content leader-board-container table">
+            <div className="main-content leader-board-table table">
                 <div className="table-header-container header-bg">
                     <div className="bg">
                         <div className="left"></div>
@@ -58,9 +58,12 @@ const LeaderBoard = ({ promotionId }) => {
                             <div className="middle"></div>
                             <div className="right"></div>
                         </div>
-                        {data.leadBoardItems.map((player, index) => (
-                            player && <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
-                        ))}
+                        {data.leadBoardItems.map(
+                            (player, index) =>
+                                player && (
+                                    <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
+                                ),
+                        )}
                     </div>
                 </div>
 

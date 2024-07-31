@@ -131,6 +131,10 @@ p {
     background-size: 4.4rem 3.2rem;
 
     @media screen and (min-width: 577px) {
+        top: 0.4rem;
+    }
+
+    @media screen and (min-width: 768px) {
         top: 1rem;
     }
 
@@ -281,6 +285,7 @@ p {
             bottom: -2.5rem;
             height: 11rem;
             width: 100%;
+            z-index: -1;
             background: url('../images/header-drop-line.png') repeat center;
         }
 

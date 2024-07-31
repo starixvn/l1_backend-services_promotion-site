@@ -376,5 +376,10 @@
         &:last-child {
             margin-bottom: 0;
         }
+
+        &.term-2 {
+            padding-left: 2rem;
+            list-style: none;
+        }
     }
 }

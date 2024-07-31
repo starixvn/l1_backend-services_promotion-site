@@ -2,6 +2,7 @@ import '../../public/static/css/promotion-details.scss';
 import '../helpers/string-helper';
 
 import { useTranslate } from '@tolgee/react';
+import { Markup } from 'interweave';
 import moment from 'moment';
 import React from 'react';
 
@@ -204,8 +205,14 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
                                     const key = `terms_conditions_para_${item}`;
                                     return (
-                                        <li className="term" key={key}>
-                                            {item === 6 ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat() : t(key)}
+                                        <li className={`term term-${item}`} key={key}>
+                                            <Markup
+                                                content={
+                                                    item === 6
+                                                        ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat()
+                                                        : t(key)
+                                                }
+                                            ></Markup>
                                         </li>
                                     );
                                 })}
