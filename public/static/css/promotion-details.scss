@@ -257,16 +257,16 @@
         padding: 0.5rem;
         text-align: center;
         border-radius: 2rem;
-        flex: 1 1 calc(33.333% - 20px);
+        flex: 1 1 100%;
 
-        @media screen and (max-width: 768px) {
-            flex: 1 1 100%;
+        @media screen and (min-width: 768px) {
+            flex: 1 1 calc(33.333% - 20px);
         }
     }
 
     .prizes {
         @media screen and (min-width: 768px) {
-            padding-top: 3rem;
+            padding-top: 1rem;
         }
 
         .info-item {
@@ -278,7 +278,7 @@
 
             @media screen and (min-width: 768px) {
                 flex: none;
-                margin: 3.5rem 2.3rem;
+                margin: 2rem 2.3rem;
             }
 
             .item-description-header {
