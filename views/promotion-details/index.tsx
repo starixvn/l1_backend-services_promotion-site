@@ -63,13 +63,13 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                         <div className="dealer"></div>
                         <div className="text-event">
                             <picture>
-                                <source media="(min-width: 409px)" srcSet="static/images/banner/text-event.png"></source>
+                                <source media="(min-width: 577px)" srcSet="static/images/banner/text-event.png"></source>
                                 <img src="static/images/banner/mobile/text-event.png" />
                             </picture>
                         </div>
                         <div className="text-slogan">
                             <picture>
-                                <source media="(min-width: 409px)" srcSet="static/images/banner/text-slogan.png"></source>
+                                <source media="(min-width: 577px)" srcSet="static/images/banner/text-slogan.png"></source>
                                 <img src="static/images/banner/mobile/text-slogan.png" />
                             </picture>
                         </div>

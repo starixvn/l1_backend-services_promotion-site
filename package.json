@@ -55,6 +55,7 @@
         "class-validator": "^0.14.0",
         "dotenv": "^16.3.1",
         "hbs": "^4.2.0",
+        "interweave": "^13.1.0",
         "jest-extended": "^4.0.2",
         "jest-sonar-reporter": "^2.0.0",
         "jwks-rsa": "^3.1.0",
