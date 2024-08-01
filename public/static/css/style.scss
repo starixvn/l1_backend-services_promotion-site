@@ -334,7 +334,6 @@ p {
         z-index: 90;
         overflow: auto;
         overscroll-behavior: contain;
-        touch-action: pan-y;
 
         @media screen and (min-width: 768px) {
             top: 8.3rem;
