@@ -4,7 +4,7 @@ import { UserService } from './features/users/services/user.service';
 
 @Controller()
 export class AppController {
-    constructor(@Inject(UserService) private readonly userClientService: UserService) { }
+    constructor(@Inject(UserService) private readonly userClientService: UserService) {}
 
     @Get()
     @Render('index')
@@ -20,7 +20,7 @@ export class AppController {
             return unauthorizedResult;
         }
 
-        const { isSuccessful } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
+        const { isSuccessful, data } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
         if (!isSuccessful) {
             return unauthorizedResult;
         }
@@ -32,10 +32,11 @@ export class AppController {
                 process.env.USE_TOLGEE_STATIC === 'true'
                     ? {}
                     : {
-                        apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
-                        apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
-                        projectId: '5',
-                    },
+                          apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
+                          apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
+                          projectId: '5',
+                      },
+            system: data?.system,
         };
 
         return { jsonObject: JSON.stringify(jsonObject) };

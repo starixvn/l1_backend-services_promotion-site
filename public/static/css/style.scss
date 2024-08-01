@@ -186,6 +186,33 @@ p {
         spin-2 1.2s infinite linear;
 }
 
+.close-button-container {
+    .icon-close {
+        display: -moz-box;
+        display: flex;
+        -moz-box-align: center;
+        align-items: center;
+        -moz-box-pack: center;
+        justify-content: center;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 50%;
+        position: absolute;
+        top: 1.6rem;
+        right: 1.7rem;
+        z-index: 99;
+        background: #1b081d !important;
+        color: #716873 !important;
+        cursor: pointer;
+    }
+
+    .icon-close:before {
+        font-size: 1.2rem;
+        color: #89898b;
+        content: '\2716';
+    }
+}
+
 @keyframes spin-1 {
     0% {
         clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);

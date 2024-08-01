@@ -6,6 +6,7 @@ import React from 'react';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
+import CloseButton from '../components/close-button';
 
 export const PlayerBoard = ({ player, index }) => {
     const { t } = useTranslate();
@@ -36,6 +37,7 @@ const LeaderBoard = ({ promotionId }) => {
         <div className="promotion-container leader-board">
             <div className="header">
                 <div className="text">{t('leaderboard')}</div>
+                <CloseButton />
             </div>
             <div className="main-content">
                 <div className="leader-board-table table">
