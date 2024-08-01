@@ -105,8 +105,8 @@
         }
 
         @media screen and (min-width: 576px) {
-            margin-left: auto;
-            margin-right: auto;
+            padding: 0;
+            margin: 0 auto;
             border: 1px solid #ffc700;
             border-radius: 0.8rem;
             background: linear-gradient(336deg, rgba(102, 13, 95, 1) 44%, rgba(69, 10, 64, 1) 65%);
