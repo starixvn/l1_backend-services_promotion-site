@@ -241,6 +241,8 @@
         }
 
         .info-item {
+            display: flex;
+            align-items: center;
             flex: none;
             width: 28rem;
             height: 14.7rem;
@@ -252,14 +254,20 @@
                 margin: 2rem 2.3rem;
             }
 
-            .item-description-header {
-                position: absolute;
-                left: 15.5rem;
-                top: 4rem;
-                display: flex;
-                align-items: center;
-                height: 6.4rem;
-                text-align: left;
+            .left,
+            .right {
+                flex: 1 0 50%;
+
+                .item-description-header {
+                    display: flex;
+                    align-items: center;
+                    height: 6.4rem;
+                    text-align: center;
+                    padding-left: 2rem;
+                }
+
+                .icon {
+                }
             }
 
             .item-description-content {
@@ -268,12 +276,6 @@
                 right: 0;
                 bottom: 1.4rem;
                 margin: 0;
-            }
-
-            .icon {
-                position: absolute;
-                left: 0;
-                bottom: 3.7rem;
             }
         }
     }
