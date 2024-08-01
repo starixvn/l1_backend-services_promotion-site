@@ -194,11 +194,11 @@ p {
         align-items: center;
         -moz-box-pack: center;
         justify-content: center;
-        height: 3rem;
-        width: 3rem;
+        height: 4rem;
+        width: 4rem;
         border-radius: 50%;
         position: absolute;
-        top: 1.6rem;
+        top: 1.7rem;
         right: 1.7rem;
         z-index: 99;
         background: #1b081d !important;
@@ -207,9 +207,9 @@ p {
     }
 
     .icon-close:before {
-        font-size: 1.2rem;
-        color: #89898b;
-        content: '\2716';
+        font-size: 2.4rem;
+        color: lightgray;
+        content: '\2715';
     }
 }
 
