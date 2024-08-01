@@ -226,7 +226,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                     </div>
                 </div>
             </div>
-            <div className="leader-board ">
+            <div className="promotion-detail-footer">
                 <button className="btn btn-leader-board" onClick={handleLeaderBoard}>
                     {t('leaderboard')}
                 </button>
