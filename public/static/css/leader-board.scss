@@ -69,7 +69,6 @@
         overflow: hidden;
         margin: 0 auto;
         max-height: 55vh;
-        min-height: 4rem;
         overflow-y: auto;
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -78,10 +77,20 @@
             display: none;
         }
 
+        .table-body {
+            min-height: 4rem;
+        }
+
         .table-row {
             grid-template-columns: 25% 50% 25%;
+        }
 
-            @media screen and (max-width: 576px) {
+        @media screen and (max-width: 576px) {
+            .table-body {
+                min-height: 0;
+            }
+
+            .table-row {
                 min-height: 3rem;
                 grid-template-columns: 30% 40% 30%;
             }
