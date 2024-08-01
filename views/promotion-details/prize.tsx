@@ -25,10 +25,17 @@ const getPrizeDescription = ({ prize }) => {
                 image: 'third-prize.png',
             };
         default:
-            return {
-                text: t('other_places', { from: prize?.from, to: prize?.to }).replaceTolgeeFormat(),
-                image: 'other-prize.png',
-            };
+            if (prize.from && prize.to) {
+                return {
+                    text: t('other_places', { from: prize?.from, to: prize?.to }).replaceTolgeeFormat(),
+                    image: 'other-prize.png',
+                };
+            } else {
+                return {
+                    text: t('other_places_single_value', { place: prize?.from }).replaceTolgeeFormat(),
+                    image: 'other-prize.png',
+                };
+            }
     }
 };
 
