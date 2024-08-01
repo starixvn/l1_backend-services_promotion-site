@@ -24,12 +24,8 @@ function useFetchData(url: string) {
                     }),
                 });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
                 const data = await response.json();
-                setData(data.data);
+                setData(data?.data);
             } catch (error) {
                 setError(error);
             } finally {
