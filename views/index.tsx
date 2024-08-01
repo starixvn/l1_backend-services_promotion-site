@@ -16,6 +16,7 @@ import Unauthorized from './unauthorized';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
+export const isIframe = window.top != window.self;
 
 if (window.AppInitialState?.results.isSuccessful) {
     const tolgee = Tolgee()

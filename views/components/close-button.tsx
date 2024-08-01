@@ -1,12 +1,12 @@
 import React from 'react';
-import { AppTypes } from '../constants';
+import { isIframe } from '../index';
 
 const CloseButton = () => {
     const handleClose = () => {
         parent?.postMessage('closePromotionPopup', '*');
     };
 
-    return window?.AppInitialState?.system === AppTypes.SabaClub ? (
+    return isIframe ? (
         <span className="close-button-container">
             <span className="icon-close" onClick={handleClose}></span>
         </span>
