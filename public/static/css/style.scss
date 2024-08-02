@@ -333,7 +333,6 @@ p {
         bottom: 0;
         z-index: 90;
         overflow: auto;
-        overscroll-behavior: contain;
 
         @media screen and (min-width: 768px) {
             top: 8.3rem;
