@@ -7,16 +7,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import LoadingSpinner from './components/loading-spinner';
-import { LanguageMapper } from './constants';
+import { AppTypes, LanguageMapper } from './constants';
 import { ParamsHelper } from './helpers';
 import LeaderBoard from './leader-board';
 import PromotionDetail from './promotion-details';
 import Promotions from './promotions';
 import Unauthorized from './unauthorized';
+import { isAppType } from './helpers';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
-export const isIframe = window.top != window.self;
 
 if (window.AppInitialState?.results.isSuccessful) {
     const tolgee = Tolgee()
@@ -87,14 +87,12 @@ if (window.AppInitialState?.results.isSuccessful) {
             result = <LeaderBoard promotionId={activedPromotionId} />;
         }
 
-        const isIframe = window.top != window.self;
-
         const loadBackIcon = () => {
             return <div onClick={handleBackButton} className="back-icon"></div>;
         };
 
         const showHeader = () => {
-            if (!isIframe) {
+            if (isAppType(AppTypes.MiniSabaClub)) {
                 return (
                     <div className="header">
                         {!appState.isShowPromotions && loadBackIcon()}
