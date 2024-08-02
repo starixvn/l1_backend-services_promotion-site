@@ -314,8 +314,9 @@
         }
 
         .btn-leader-board {
-            width: 21rem;
+            min-width: 21rem;
             height: 5.2rem;
+            padding: 0 1rem;
             line-height: 1;
             font-size: 1.8rem;
 
