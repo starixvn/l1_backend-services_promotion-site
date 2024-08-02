@@ -87,12 +87,30 @@ if (window.AppInitialState?.results.isSuccessful) {
             result = <LeaderBoard promotionId={activedPromotionId} />;
         }
 
+        const isIframe = window.top != window.self;
+
+        const loadBackIcon = () => {
+            return <div onClick={handleBackButton} className="back-icon"></div>;
+        };
+
+        const showHeader = () => {
+            if (!isIframe) {
+                return (
+                    <div className="header">
+                        {!appState.isShowPromotions && loadBackIcon()}
+                        <img src={`static/images/logo.png`} alt="Logo" className="logo" />
+                    </div>
+                );
+            } else {
+                if (!appState.isShowPromotions) {
+                    return <div className="header">{loadBackIcon()}</div>;
+                }
+            }
+        };
+
         return (
             <>
-                <div className="header">
-                    {!appState.isShowPromotions && <div onClick={handleBackButton} className="back-icon"></div>}
-                    <img src={`static/images/logo.png`} alt="Logo" className="logo" />
-                </div>
+                {showHeader()}
                 {result}
             </>
         );

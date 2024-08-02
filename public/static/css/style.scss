@@ -286,18 +286,13 @@ p {
 .promotion-container {
     position: relative;
     width: calc(100% - 2rem);
-    height: calc(100% - 7rem);
-    margin: 6rem 1rem 1rem;
+    height: 100%;
+    margin: 0 1rem 1rem;
     background: url(../images/home_bg.jpg?v=2) repeat-y center top fixed;
     overflow: auto;
     overscroll-behavior: contain;
 
-    @media screen and (min-width: 768px) {
-        margin-top: 8.6rem;
-        height: calc(100% - 9.6rem);
-    }
-
-    @media screen and (min-width: 1400px) {
+    @media screen and (min-width: 1398px) {
         width: 100%;
         padding-left: 1rem;
         padding-right: 1rem;
@@ -318,8 +313,8 @@ p {
             height: 8rem;
         }
 
-        @media screen and (min-width: 1400px) {
-            width: 140rem;
+        @media screen and (min-width: 1398px) {
+            width: 139.8rem;
             margin: 0 auto;
         }
 
@@ -354,6 +349,16 @@ p {
             width: 100%;
             background: url('../images/header-line.png') no-repeat center;
         }
+    }
+}
+
+.header + .promotion-container {
+    height: calc(100% - 7rem);
+    margin: 6rem 1rem 1rem;
+
+    @media screen and (min-width: 768px) {
+        margin-top: 8.6rem;
+        height: calc(100% - 9.6rem);
     }
 }
 
