@@ -3,10 +3,10 @@ import '../../public/static/css/leader-board.scss';
 import { useTranslate } from '@tolgee/react';
 import React from 'react';
 
+import CloseButton from '../components/close-button';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
-import CloseButton from '../components/close-button';
 
 export const PlayerBoard = ({ player, index }) => {
     const { t } = useTranslate();
@@ -35,7 +35,7 @@ const LeaderBoard = ({ promotionId }) => {
         data.currentUser.point === 0 || (data.currentUser.rank === 0 && data.currentUser.point !== 0) ? '-' : data.currentUser.rank;
     return (
         <div className="promotion-container leader-board">
-            <div className="header">
+            <div className="page-title">
                 <div className="text">{t('leaderboard')}</div>
                 <CloseButton />
             </div>

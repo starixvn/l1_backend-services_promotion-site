@@ -3,6 +3,7 @@
     background: url(../images/banner/mobile/background-banner.png) no-repeat center;
     height: 36.8rem;
     width: 100%;
+    overflow: hidden;
 
     @media screen and (min-width: 577px) {
         height: 32.4rem;
@@ -125,7 +126,7 @@
     }
 }
 
-.page-title {
+.weekly-tournament {
     position: relative;
     display: table;
     background: url(../images/label-title-middle.png) no-repeat;
@@ -197,13 +198,7 @@
     }
 
     .content {
-        top: 5.5rem;
-        bottom: 7.8rem;
-        padding-bottom: 2rem;
-
-        @media screen and (min-width: 577px) {
-            top: 0;
-        }
+        padding-bottom: 8rem;
     }
 
     .info-container {
@@ -327,7 +322,6 @@
             @media screen and (min-width: 768px) {
                 font-size: 2.4rem;
                 height: 4.8rem;
-                line-height: 4.8rem;
             }
         }
     }

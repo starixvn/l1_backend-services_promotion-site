@@ -89,11 +89,10 @@ if (window.AppInitialState?.results.isSuccessful) {
 
         return (
             <>
-                {!appState.isShowPromotions && (
-                    <div className="top-menu">
-                        <div onClick={handleBackButton} className="back-icon"></div>
-                    </div>
-                )}
+                <div className="header">
+                    {!appState.isShowPromotions && <div onClick={handleBackButton} className="back-icon"></div>}
+                    <img src={`static/images/logo.png`} alt="Logo" className="logo" />
+                </div>
                 {result}
             </>
         );

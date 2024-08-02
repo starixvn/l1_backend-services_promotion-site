@@ -6,11 +6,11 @@ import { Markup } from 'interweave';
 import moment from 'moment';
 import React from 'react';
 
+import CloseButton from '../components/close-button';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
 import Prize from './prize';
-import CloseButton from '../components/close-button';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const { t } = useTranslate();
@@ -83,7 +83,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                     </div>
                 </div>
 
-                <div className="page-title">Weekly Tournament</div>
+                <div className="weekly-tournament">Weekly Tournament</div>
 
                 <div className="table">
                     <div className="table-header-container header-bg">
