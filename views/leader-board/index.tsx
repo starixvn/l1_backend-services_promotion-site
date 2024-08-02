@@ -3,7 +3,6 @@ import '../../public/static/css/leader-board.scss';
 import { useTranslate } from '@tolgee/react';
 import React from 'react';
 
-import CloseButton from '../components/close-button';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
@@ -37,7 +36,6 @@ const LeaderBoard = ({ promotionId }) => {
         <div className="promotion-container leader-board">
             <div className="page-title">
                 <div className="text">{t('leaderboard')}</div>
-                <CloseButton />
             </div>
             <div className="main-content">
                 <div className="leader-board-table table">

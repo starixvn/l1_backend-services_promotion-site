@@ -6,7 +6,6 @@ import { Markup } from 'interweave';
 import moment from 'moment';
 import React from 'react';
 
-import CloseButton from '../components/close-button';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
@@ -58,7 +57,6 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
 
     return (
         <div className="promotion-container tournament-container">
-            <CloseButton />
             <div className="main-content content">
                 <div className="banner">
                     <div className="center">

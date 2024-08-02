@@ -14,6 +14,7 @@ import PromotionDetail from './promotion-details';
 import Promotions from './promotions';
 import Unauthorized from './unauthorized';
 import { isAppType } from './helpers';
+import CloseButton from './components/close-button';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
@@ -101,7 +102,12 @@ if (window.AppInitialState?.results.isSuccessful) {
                 );
             } else {
                 if (!appState.isShowPromotions) {
-                    return <div className="header">{loadBackIcon()}</div>;
+                    return (
+                        <div className="header">
+                            <CloseButton />
+                            {loadBackIcon()}
+                        </div>
+                    );
                 }
             }
         };
