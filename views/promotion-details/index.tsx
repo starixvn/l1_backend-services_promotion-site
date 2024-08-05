@@ -18,7 +18,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error.message}</div>;
 
-    const template = 'hh:mm MM/DD/yyyy';
+    const template = 'HH:mm MM/DD/yyyy';
     const startdate = moment.utc(data?.startDateTime).local().format(template);
     const enddate = moment.utc(data?.endDateTime).local().format(template);
 
