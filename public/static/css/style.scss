@@ -21,7 +21,7 @@ html {
     --color-primary-text: #ffffff;
     --color-secondary-header: #0f0e0f;
 
-    --scrollbar-background: #5a422d;
+    --scrollbar-background: #663556;
     --scrollbar-thumb-background: #bd7e48;
 }
 
@@ -34,8 +34,8 @@ body {
 body {
     padding: 0;
     margin: 0;
-    background: rgb(21, 15, 15);
-    background: linear-gradient(0deg, rgba(21, 15, 15, 1) 23%, rgba(71, 51, 51, 1) 88%);
+    background: #4c0a48 url(../images/bg.jpg);
+
     font: 2rem/1.5 var(--font-family, arial, sans-serif);
     color: var(--color-primary-text, #fff);
 }
@@ -46,8 +46,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 1rem;
+    height: 1rem;
     background-color: var(--scrollbar-background);
 }
 
@@ -228,11 +228,11 @@ p {
 
 .header {
     position: fixed;
-    background-color: #150f0f;
+    background-color: #0f0e0f;
     width: 100%;
     left: 0;
     top: 0;
-    height: 4.6rem;
+    height: 5.8rem;
     z-index: 101;
     display: flex;
     align-items: center;
@@ -253,29 +253,34 @@ p {
 
 .back-icon {
     position: absolute;
-    top: 0.6rem;
+    top: 0.8rem;
     left: 0.4rem;
-    width: 4.4rem;
-    height: 3.2rem;
-    transform: scale(0.65);
-    background: url(../images/icon-back.png);
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url(../images/icon-back.svg) no-repeat center;
     background-size: 4.4rem 3.2rem;
     cursor: pointer;
 
     @media screen and (min-width: 768px) {
-        top: 2.1rem;
+        width: 5.5rem;
+        height: 5.5rem;
+        top: 1rem;
         transform: none;
         left: 2rem;
     }
 
     &::before {
         content: '';
-        height: 6rem;
-        width: 10rem;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
         display: block;
         position: absolute;
-        left: -3.3rem;
-        top: -1.3rem;
+        background-color: #4d5357;
+        z-index: -1;
     }
 }
 
@@ -283,7 +288,6 @@ p {
     position: relative;
     width: 100%;
     height: 100%;
-    background: url(../images/home_bg.jpg?v=2) repeat-y center top fixed;
     overflow: auto;
     overscroll-behavior: contain;
 
@@ -296,204 +300,72 @@ p {
     }
 
     .page-title {
-        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        height: 5.6rem;
-        overflow: hidden;
-
-        @media screen and (min-width: 768px) {
-            height: 8rem;
-        }
-
-        @media screen and (min-width: 1398px) {
-            width: 139.8rem;
-            margin: 0 auto;
-        }
+        margin-top: 2.5rem;
 
         .text {
             position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 4rem;
+            line-height: 1.2;
+            max-width: 78%;
             z-index: 1;
+            padding: 0.4rem 4rem;
+            background-color: #2e062c;
+            border: 2px solid #8f4587;
+            border-width: 2px 0;
             text-align: center;
-            font-size: 2.4rem;
+            font-size: 2rem;
             font-weight: bold;
             text-transform: uppercase;
             color: var(--color-primary);
 
             @media screen and (min-width: 768px) {
-                font-size: 3.2rem;
+                min-height: 5rem;
+                font-size: 2.8rem;
             }
-        }
 
-        &:before {
-            content: '';
-            position: absolute;
-            bottom: -2.5rem;
-            height: 11rem;
-            width: 100%;
-            background: url('../images/header-drop-line.png') repeat center;
-        }
+            &::before,
+            &::after {
+                content: '';
+                display: flex;
+                position: absolute;
+                top: 50%;
+                transform: scale(0.9) translateY(-50%);
+                background: url(../images/promotion-icon.png) no-repeat center;
+                width: 5.9rem;
+                height: 6.9rem;
+            }
 
-        &:after {
-            content: '';
-            position: absolute;
-            bottom: -2.5rem;
-            height: 4.4rem;
-            width: 100%;
-            background: url('../images/header-line.png') no-repeat center;
+            &::before {
+                left: -3.4rem;
+
+                @media screen and (min-width: 768px) {
+                    transform: scale(1) translateY(-50%);
+                }
+            }
+
+            &::after {
+                right: -3.4rem;
+                transform: scale(-0.9, 0.9) translateY(-50%);
+
+                @media screen and (min-width: 768px) {
+                    transform: scaleX(-1) translateY(-50%);
+                }
+            }
         }
     }
 }
 
 .header + .promotion-container {
-    height: calc(100% - 6rem);
-    margin: 6rem 0 1rem;
+    height: calc(100% - 5.8rem);
+    margin: 5.8rem 0 1rem;
 
     @media screen and (min-width: 768px) {
-        margin-top: 8.6rem;
-        height: calc(100% - 8.6rem);
-    }
-}
-
-.table {
-    .bg {
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        right: 0;
-        display: grid;
-        grid-template-columns: 8.6rem 1fr 8.6rem;
-    }
-
-    .header-bg .bg {
-        %cell {
-            height: 5.2rem;
-        }
-
-        .left {
-            @extend %cell;
-            background: url('../images/leader-board/tbl-top-left.png') no-repeat center;
-        }
-
-        .middle {
-            @extend %cell;
-            background: url('../images/leader-board/tbl-top-middle.png') repeat-x center;
-        }
-
-        .right {
-            @extend %cell;
-            background: url('../images/leader-board/tbl-top-right.png') no-repeat center;
-        }
-    }
-
-    .main-bg .bg {
-        top: 0;
-        bottom: 0;
-        height: 100%;
-
-        .left {
-            background: url('../images/leader-board/tbl-middle-left.png') repeat center;
-        }
-
-        .middle {
-            background: url('../images/leader-board/tbl-middle-middle.png?v=2') repeat center;
-        }
-
-        .right {
-            background: url('../images/leader-board/tbl-middle-right.png') repeat center;
-        }
-    }
-
-    .footer-bg {
-        @extend .bg;
-        position: relative;
-        max-width: 100rem;
-        margin: auto;
-
-        %cell {
-            height: 2.4rem;
-        }
-
-        .left {
-            @extend %cell;
-            background: url('../images/leader-board/tbl-bottom-left.png') no-repeat center;
-        }
-
-        .middle {
-            @extend %cell;
-            background: url('../images/leader-board/tbl-bottom-middle.png') repeat-x center;
-        }
-
-        .right {
-            @extend %cell;
-            background: url('../images/leader-board/tbl-bottom-right.png') no-repeat center;
-        }
-    }
-
-    .table-header-container {
-        position: relative;
-        max-width: 100rem;
-        height: 4.7rem;
-        padding: 0 3rem;
-        margin: 0 auto;
-        color: var(--color-primary);
-        text-transform: uppercase;
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            display: grid;
-            align-items: center;
-            text-align: center;
-            color: var(--color-primary);
-            font-size: 1.4rem;
-
-            @media screen and (min-width: 768px) {
-                font-size: 1.8rem;
-            }
-        }
-    }
-
-    .table-body-container {
-        position: relative;
-        max-width: 100rem;
-        margin: 0 auto;
-
-        .table-body {
-            position: relative;
-            z-index: 2;
-            padding: 1rem 1.2rem 1.4rem;
-
-            @media screen and (min-width: 768px) {
-                padding: 1rem 3rem 1.4rem;
-            }
-        }
-
-        .table-row {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            display: grid;
-            align-items: center;
-            text-align: center;
-            min-height: 4.7rem;
-            margin-bottom: 1rem;
-            border-radius: 0.8rem;
-            background: linear-gradient(87deg, rgba(43, 4, 67, 1) 24%, rgba(50, 12, 82, 1) 100%);
-            color: var(--color-primary-text);
-            font-size: 1.4rem;
-
-            @media screen and (min-width: 768px) {
-                font-size: 1.8rem;
-            }
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
+        margin-top: 7.6rem;
+        height: calc(100% - 7.6rem);
     }
 }

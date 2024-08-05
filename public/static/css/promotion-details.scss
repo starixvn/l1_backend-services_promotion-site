@@ -6,7 +6,7 @@
     overflow: hidden;
 
     @media screen and (min-width: 577px) {
-        height: 32.4rem;
+        height: 33.2rem;
         background: url(../images/banner/background-banner.png) no-repeat center center;
     }
 
@@ -126,79 +126,52 @@
     }
 }
 
-.weekly-tournament {
-    position: relative;
-    display: table;
-    background: url(../images/label-title-middle.png) no-repeat;
-    background-size: 100% 7.2rem;
-    height: 7.2rem;
-    line-height: 5.2rem;
-    transform: scale(0.8);
-    margin: 0 auto 2rem;
-    font-size: 3rem;
-    color: #ffe800;
-    text-shadow:
-        -2px -2px 0 #48020e,
-        2px -2px 0 #48020e,
-        -2px 2px 0 #48020e,
-        2px 2px 0 #48020e;
-    font-weight: bold;
-    text-align: center;
-
-    @media screen and (min-width: 577px) {
-        transform: scale(1);
-        margin-top: 0;
-    }
-
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        width: 6.7rem;
-        height: 7.2rem;
-        z-index: -1;
-    }
-
-    &::before {
-        left: -6.7rem;
-        background: url(../images/label-title-left.png) no-repeat;
-    }
-
-    &::after {
-        background: url(../images/label-title-right.png) no-repeat;
-    }
-}
-
 .tournament-container {
-    .table {
-        margin: 0 1rem;
-
-        @media screen and (min-width: 576px) {
-            margin: 0 7rem;
-        }
-
-        @media screen and (min-width: 768px) {
-            .table-body-container .table-body {
-                padding: 1rem 1rem 1.4rem;
-            }
-        }
-
-        .table-header-container .header-content {
-            font-size: 1.8rem;
-
-            @media screen and (min-width: 577px) {
-                font-size: 2.4rem;
-            }
-        }
-    }
-
-    .table + .table {
-        margin-top: 4.5rem;
+    .page-title {
+        margin-top: 0;
+        margin-bottom: 3.6rem;
     }
 
     .content {
-        padding-bottom: 8rem;
+        padding-bottom: 8.6rem;
+    }
+
+    .group {
+        border-radius: 1.8rem;
+        border: 2px solid #8f4587;
+        width: calc(100% - 4rem);
+        margin: 0 2rem;
+
+        @media screen and (min-width: 1200px) {
+            width: 102.8rem;
+            margin: auto;
+        }
+
+        .group-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 5.5rem;
+            padding: 0 2rem;
+            border-radius: 1.8rem 1.8rem 0 0;
+            background-color: #230720;
+            border-bottom: 1px solid #432942;
+            color: #ffe800;
+            font-weight: bold;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .group-body {
+            background-color: #2b0627;
+            padding: 1.6rem 1rem;
+            border-radius: 0 0 1.8rem 1.8rem;
+        }
+    }
+
+    .group + .group {
+        margin-top: 6rem;
     }
 
     .info-container {
@@ -231,18 +204,27 @@
     }
 
     .prizes {
-        @media screen and (min-width: 768px) {
-            padding-top: 1rem;
+        .group-body {
+            padding: 0 1rem;
         }
 
         .info-item {
             display: flex;
-            align-items: center;
             flex: none;
+            align-items: center;
             width: 28rem;
             height: 14.7rem;
             margin: 1rem 2.3rem;
+            transform: scale(0.6);
             background: url(../images/place-frame-bg.png) no-repeat;
+
+            @media screen and (min-width: 300px) {
+                transform: scale(0.8);
+            }
+
+            @media screen and (min-width: 340px) {
+                transform: scale(1);
+            }
 
             @media screen and (min-width: 768px) {
                 flex: none;

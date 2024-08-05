@@ -38,34 +38,20 @@ const LeaderBoard = ({ promotionId }) => {
                 <div className="text">{t('leaderboard')}</div>
             </div>
             <div className="main-content">
-                <div className="leader-board-table table">
-                    <div className="table-header-container header-bg">
-                        <div className="bg">
-                            <div className="left"></div>
-                            <div className="middle"></div>
-                            <div className="right"></div>
-                        </div>
-                        <div className="header-content">
-                            <div className="place">{t('ranking')}</div>
-                            <div className="name">{t('nickname')}</div>
-                            <div className="points">{t('total_points')}</div>
-                        </div>
+                <div className="leader-board-table">
+                    <div className="table-header-container">
+                        <div className="place">{t('ranking')}</div>
+                        <div className="name">{t('nickname')}</div>
+                        <div className="points">{t('total_points')}</div>
                     </div>
 
-                    <div className="table-body-container main-bg">
-                        <div className="table-body">
-                            <div className="bg">
-                                <div className="left"></div>
-                                <div className="middle"></div>
-                                <div className="right"></div>
-                            </div>
-                            {data.leadBoardItems.map(
-                                (player, index) =>
-                                    player && (
-                                        <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
-                                    ),
-                            )}
-                        </div>
+                    <div className="table-body-container">
+                        {data.leadBoardItems.map(
+                            (player, index) =>
+                                player && (
+                                    <PlayerBoard key={index} {...{ player, index, currentUserNickName: data.currentUser.nickName }} />
+                                ),
+                        )}
                     </div>
 
                     <div className="table-body-container player-container">

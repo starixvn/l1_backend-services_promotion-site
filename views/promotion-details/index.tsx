@@ -81,151 +81,66 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                     </div>
                 </div>
 
-                <div className="weekly-tournament">Weekly Tournament</div>
+                <div className="page-title">
+                    <div className="text">Weekly Tournament</div>
+                </div>
 
-                <div className="table">
-                    <div className="table-header-container header-bg">
-                        <div className="bg">
-                            <div className="left"></div>
-                            <div className="middle"></div>
-                            <div className="right"></div>
-                        </div>
-                        <div className="header-content">{t('title_promotion_info')}</div>
-                    </div>
-
-                    <div className="table-body-container main-bg">
-                        <div className="table-body">
-                            <div className="bg">
-                                <div className="left"></div>
-                                <div className="middle"></div>
-                                <div className="right"></div>
-                            </div>
-                            <div className="info-list">
-                                {promotionInformation.map(({ header, description }, index) => {
-                                    return (
-                                        <div className="info-item" key={index}>
-                                            <div className="item-description-header">{header}</div>
-                                            <p className="item-description-content">{description}</p>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="footer-bg">
-                        <div className="left"></div>
-                        <div className="middle"></div>
-                        <div className="right"></div>
+                <div className="group">
+                    <div className="group-header">{t('title_promotion_info')}</div>
+                    <div className="group-body info-list">
+                        {promotionInformation.map(({ header, description }, index) => {
+                            return (
+                                <div className="info-item" key={index}>
+                                    <div className="item-description-header">{header}</div>
+                                    <p className="item-description-content">{description}</p>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
-                <div className="table">
-                    <div className="table-header-container header-bg">
-                        <div className="bg">
-                            <div className="left"></div>
-                            <div className="middle"></div>
-                            <div className="right"></div>
-                        </div>
-                        <div className="header-content">{t('title_participant_steps')}</div>
-                    </div>
-
-                    <div className="table-body-container main-bg">
-                        <div className="table-body">
-                            <div className="bg">
-                                <div className="left"></div>
-                                <div className="middle"></div>
-                                <div className="right"></div>
-                            </div>
-                            <div className="info-list">
-                                {participantSteps.map(({ header, description }, index) => {
-                                    return (
-                                        <div className="info-item" key={index}>
-                                            <div className="item-description-header">{header}</div>
-                                            <p className="item-description-content">{description}</p>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="footer-bg">
-                        <div className="left"></div>
-                        <div className="middle"></div>
-                        <div className="right"></div>
+                <div className="group">
+                    <div className="group-header">{t('title_participant_steps')}</div>
+                    <div className="group-body info-list">
+                        {participantSteps.map(({ header, description }, index) => {
+                            return (
+                                <div className="info-item" key={index}>
+                                    <div className="item-description-header">{header}</div>
+                                    <p className="item-description-content">{description}</p>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
-                <div className="table">
-                    <div className="table-header-container header-bg">
-                        <div className="bg">
-                            <div className="left"></div>
-                            <div className="middle"></div>
-                            <div className="right"></div>
-                        </div>
-                        <div className="header-content">{t('title_prize_categories')}</div>
-                    </div>
-
-                    <div className="table-body-container main-bg">
-                        <div className="table-body">
-                            <div className="bg">
-                                <div className="left"></div>
-                                <div className="middle"></div>
-                                <div className="right"></div>
-                            </div>
-                            <div className="info-list prizes">
-                                {data?.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="footer-bg">
-                        <div className="left"></div>
-                        <div className="middle"></div>
-                        <div className="right"></div>
+                <div className="group prizes">
+                    <div className="group-header">{t('title_prize_categories')}</div>
+                    <div className="group-body info-list">
+                        {data?.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)}
                     </div>
                 </div>
 
-                <div className="table">
-                    <div className="table-header-container header-bg">
-                        <div className="bg">
-                            <div className="left"></div>
-                            <div className="middle"></div>
-                            <div className="right"></div>
-                        </div>
-                        <div className="header-content">{t('title_terms_conditions')}</div>
-                    </div>
-
-                    <div className="table-body-container main-bg">
-                        <div className="table-body">
-                            <div className="bg">
-                                <div className="left"></div>
-                                <div className="middle"></div>
-                                <div className="right"></div>
-                            </div>
-                            <ul className="term-list">
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
-                                    const key = `terms_conditions_para_${item}`;
-                                    return (
-                                        <li className={`term term-${item}`} key={key}>
-                                            <Markup
-                                                content={
-                                                    item === 6
-                                                        ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat()
-                                                        : t(key)
-                                                }
-                                            ></Markup>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="footer-bg">
-                        <div className="left"></div>
-                        <div className="middle"></div>
-                        <div className="right"></div>
+                <div className="group">
+                    <div className="group-header">{t('title_terms_conditions')}</div>
+                    <div className="group-body info-list">
+                        <ul className="term-list">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
+                                const key = `terms_conditions_para_${item}`;
+                                return (
+                                    <li className={`term term-${item}`} key={key}>
+                                        <Markup
+                                            content={
+                                                item === 6 ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat() : t(key)
+                                            }
+                                        ></Markup>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
                 </div>
             </div>
+
             <div className="promotion-detail-footer">
                 <button className="btn btn-leader-board" onClick={handleLeaderBoard}>
                     {t('leaderboard')}
