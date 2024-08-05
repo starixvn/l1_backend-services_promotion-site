@@ -24,6 +24,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/yarn.lock ./
 
-HEALTHCHECK  --interval=10s CMD curl --fail http://localhost:5000 || exit 1
+HEALTHCHECK  --interval=10s CMD curl --fail http://localhost:5001 || exit 1
 
 CMD [ "node", "./dist/src/main.js" ]
