@@ -23,7 +23,6 @@ async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ caseSensitive: false }));
 
     app.useLogger(app.get(SentryLogger));
-    app.register(helmet, { contentSecurityPolicy: false, frameguard: false });
     app.useStaticAssets({
         root: join(__dirname, '..', 'public'),
     });
