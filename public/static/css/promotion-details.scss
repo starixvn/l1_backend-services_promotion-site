@@ -334,6 +334,11 @@
             list-style: none;
         }
     }
+    @media screen and (max-width: 767px) {
+        .term {
+            font-size: 1.6rem !important; /* Ensure font size for smaller screens */
+        }
+    }
 }
 
 .saba-club,
