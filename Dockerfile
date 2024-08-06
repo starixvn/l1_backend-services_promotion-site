@@ -4,7 +4,7 @@ COPY package.json yarn.lock .modprunerrc ./
 RUN npm run reg \
     && yarn install
 COPY . .
-RUN npm run build
+RUN npm run build:nest
 RUN rm -rf ./node_modules
 RUN yarn install --production \
     && npx mod-pruner prune --force 
