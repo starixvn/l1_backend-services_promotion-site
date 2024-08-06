@@ -1,14 +1,14 @@
-import '../../public/static/css/promotion.scss';
-import '../helpers/string-helper';
+import "../../public/static/css/promotion.scss";
+import "../helpers/string-helper";
 
-import moment from 'moment';
-import React from 'react';
+import moment from "moment";
+import React from "react";
 
-import { PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
-import CloseButton from '../components/close-button';
-import LoadingSpinner from '../components/loading-spinner';
-import useFetchData from '../hooks/use-fetch-data';
-import { useTranslator } from '../hooks/use-translator';
+import { PromotionViewModel } from "../../src/features/promotion-configs/models/promotion-configs-response";
+import CloseButton from "../components/close-button";
+import LoadingSpinner from "../components/loading-spinner";
+import useFetchData from "../hooks/use-fetch-data";
+import { useTranslator } from "../hooks/use-translator";
 
 const PromotionContent = ({ promotion }) => {
     const { t } = useTranslator();
@@ -52,7 +52,7 @@ const Promotions = ({ handleMoreInfo }) => {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className="promotion-container">
+        <div className="promotion-container promotion-list-container">
             <div className="page-title">
                 <div className="text">{t('promotions')}</div>
                 <CloseButton />

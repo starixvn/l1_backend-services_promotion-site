@@ -19,7 +19,8 @@
         <script type='module' src='bundle/index.js'></script>
 
         <script type='text/javascript'>
-            if(window?.AppInitialState?.system === 1) { document.body.className ="saba-club"; }
+            if(window?.AppInitialState?.system === 1) { document.body.className ="saba-club"; } else if(window?.AppInitialState?.system ===
+            4) { document.body.className ="mega-keno"; } else { document.body.className ="others"; }
         </script>
     </body>
 

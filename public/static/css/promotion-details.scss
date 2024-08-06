@@ -335,3 +335,22 @@
         }
     }
 }
+
+.saba-club,
+.mega-keno {
+    .tournament-container {
+        .group {
+            width: calc(100% - 16rem);
+            margin-left: 8rem;
+            margin-right: 8rem;
+        }
+
+        .promotion-detail-footer {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .content {
+            padding-bottom: 2rem;
+        }
+    }
+}

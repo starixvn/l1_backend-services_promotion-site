@@ -378,3 +378,35 @@ p {
         height: calc(100% - 7.6rem);
     }
 }
+
+// For each system
+.saba-club,
+.mega-keno {
+    .back-icon {
+        width: 5rem;
+        height: 5rem;
+        top: 2rem;
+    }
+
+    .close-button-container .icon-close {
+        width: 5rem;
+        height: 5rem;
+        top: 2rem;
+    }
+
+    .header {
+        background-color: transparent;
+
+        .back-icon::before {
+            background: rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .close-button-container .icon-close {
+        background: rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .header + .promotion-container {
+        margin-top: 0;
+    }
+}

@@ -126,3 +126,28 @@
         }
     }
 }
+
+// For each system
+.saba-club,
+.mega-keno {
+    .promotion-list-container {
+        overflow: initial;
+        overscroll-behavior: initial;
+    }
+
+    .promotion-list-container .page-title {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        top: 4rem;
+        margin-top: 0;
+    }
+
+    .promotion-list {
+        margin-top: 10.5rem;
+        overflow: auto;
+        overscroll-behavior: contain;
+        height: calc(100% - 10.5rem);
+        padding-top: 3rem;
+    }
+}
