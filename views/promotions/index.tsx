@@ -28,7 +28,7 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
     return (
         <div className="promotion-item">
             <div className="image-container">
-                <img src={`static/images/promotion.png?v=2`} alt="promotion 1" className="img-fluid" />
+                <img alt="promotion 1" className="img-fluid" />
             </div>
             <div className="item-container">
                 <div className="item-title">{promotion.title}</div>

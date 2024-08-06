@@ -39,6 +39,16 @@
                 height: auto;
                 margin: auto;
             }
+
+            .img-fluid {
+                content: url('../images/promotion-2x.png?v=2');
+            }
+
+            @media screen and (max-width: 1170px) {
+                .img-fluid {
+                    content: url('../images/promotion-1x.png?v=2');
+                }
+            }
         }
 
         .item-container {
