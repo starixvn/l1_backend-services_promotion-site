@@ -4,7 +4,7 @@
 
     @media screen and (min-width: 576px) {
         border-radius: 1.8rem;
-        border: 2px solid #fee800;
+        border: 2px solid #ffe800;
         background-color: #2b0627;
     }
 
@@ -21,7 +21,6 @@
         grid-template-columns: 30% 40% 30%;
         min-height: 5rem;
         line-height: 1.2;
-
         border-radius: 1.8rem 1.8rem 0 0;
         background-color: transparent;
         color: #ffe800;
@@ -50,10 +49,6 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
 
-        @media screen and (min-width: 576px) {
-            padding: 1rem 3rem 0;
-        }
-
         &::-webkit-scrollbar {
             display: none;
         }
@@ -65,26 +60,20 @@
             display: grid;
             align-items: center;
             text-align: center;
-            min-height: 3rem;
-            margin-bottom: 1rem;
+            min-height: 6rem;
             border-radius: 0.8rem;
-            background: #2b0627;
+            border-bottom: 1px solid #381535;
             color: var(--color-primary-text);
             font-size: 1.4rem;
             grid-template-columns: 30% 40% 30%;
 
-            @media screen and (min-width: 576px) {
-                background: #3d1a38;
-            }
-
             @media screen and (min-width: 768px) {
                 grid-template-columns: 25% 50% 25%;
-                min-height: 4rem;
                 font-size: 1.8rem;
             }
 
             &:last-child {
-                margin-bottom: 0;
+                border-bottom: none;
             }
         }
     }
@@ -92,24 +81,13 @@
     .player-container {
         display: flex;
         align-items: center;
-        height: 6rem;
-        background-color: transparent;
-        border-radius: 0 0 1.8rem 1.8rem;
-
-        @media screen and (min-width: 576px) {
-            padding: 0 3rem;
-            height: 9rem;
-            background-color: #2b0627;
-        }
-
-        .table-row {
-            border: 1px solid #ff85f2;
-            background-color: #260822;
-        }
+        height: 6.2rem;
+        background: url(../images/leader-board/user-highlight.png);
+        margin-bottom: 2rem;
     }
 
     .txt-special {
-        color: #ffe900;
+        color: #ffe800;
     }
 }
 
@@ -144,4 +122,13 @@
 .rank-3 {
     @extend %rank;
     background-image: url(../images/leader-board/rank-3.png);
+}
+
+.saba-club,
+.mega-keno {
+    .leader-board-table {
+        width: calc(100% - 22rem);
+        margin: 3rem 11rem 0;
+        border-color: #bd7e49;
+    }
 }
