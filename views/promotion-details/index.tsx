@@ -6,6 +6,8 @@ import { Markup } from 'interweave';
 import moment from 'moment';
 import React from 'react';
 
+import { LanguageMapper } from '../../views/constants';
+import { ParamsHelper } from '../../views/helpers';
 import LoadingSpinner from '../components/loading-spinner';
 import { formatNumberWithComma } from '../helpers/common-helper';
 import useFetchData from '../hooks/use-fetch-data';
@@ -21,6 +23,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const template = 'HH:mm MM/DD/yyyy';
     const startdate = moment.utc(data?.startDateTime).local().format(template);
     const enddate = moment.utc(data?.endDateTime).local().format(template);
+    const language = LanguageMapper[ParamsHelper.getParams().language] || 'en';
 
     const promotionInformation = [
         {
@@ -63,14 +66,14 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                         <div className="dealer"></div>
                         <div className="text-event">
                             <picture>
-                                <source media="(min-width: 577px)" srcSet="static/images/banner/text-event.png"></source>
-                                <img src="static/images/banner/mobile/text-event.png" />
+                                <source media="(min-width: 577px)" srcSet={`static/images/banner/text-event/${language}.png`}></source>
+                                <img src={`static/images/banner/mobile/text-event/${language}.png`} />
                             </picture>
                         </div>
                         <div className="text-slogan">
                             <picture>
-                                <source media="(min-width: 577px)" srcSet="static/images/banner/text-slogan.png"></source>
-                                <img src="static/images/banner/mobile/text-slogan.png" />
+                                <source media="(min-width: 577px)" srcSet={`static/images/banner/text-slogan/${language}.png`}></source>
+                                <img src={`static/images/banner/mobile/text-slogan/${language}.png`} />
                             </picture>
                         </div>
                         <div className="winning-prize">
