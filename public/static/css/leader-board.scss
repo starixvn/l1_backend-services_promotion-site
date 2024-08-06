@@ -35,7 +35,7 @@
             border-bottom: 1px solid #432942;
         }
 
-        @media screen and (min-width: 768px) {
+        @media screen and (min-width: 992px) {
             font-size: 2rem;
         }
     }
@@ -67,7 +67,7 @@
             font-size: 1.4rem;
             grid-template-columns: 30% 40% 30%;
 
-            @media screen and (min-width: 768px) {
+            @media screen and (min-width: 992px) {
                 grid-template-columns: 25% 50% 25%;
                 font-size: 1.8rem;
             }

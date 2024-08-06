@@ -67,7 +67,7 @@
             font-size: 2rem;
             color: var(--color-primary);
 
-            @media screen and (min-width: 768px) {
+            @media screen and (min-width: 992px) {
                 font-size: 2.8rem;
             }
         }
@@ -76,7 +76,7 @@
             color: var(--color-primary-text);
             font-size: 1.8rem;
 
-            @media screen and (min-width: 768px) {
+            @media screen and (min-width: 992px) {
                 font-size: 2.4rem;
             }
         }
@@ -103,12 +103,9 @@
             font-style: italic;
             font-size: 1.5rem;
 
-            @media screen and (min-width: 768px) {
-                font-size: 2rem;
-            }
-
             @media screen and (min-width: 992px) {
                 margin-bottom: 0;
+                font-size: 2rem;
             }
         }
 
@@ -119,7 +116,7 @@
             line-height: 1;
             padding: 0 1rem;
 
-            @media screen and (min-width: 768px) {
+            @media screen and (min-width: 992px) {
                 font-size: 1.8rem;
                 height: 4.8rem;
             }
