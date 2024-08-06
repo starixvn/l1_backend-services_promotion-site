@@ -18,15 +18,17 @@
         max-height: 50rem;
 
         @media screen and (min-width: 768px) {
-            padding-left: 3rem;
-            padding-right: 3rem;
             grid-template-columns: 28rem 1fr;
             gap: 3rem;
+            padding-left: 6rem;
+            padding-right: 6rem;
         }
 
         @media screen and (min-width: 1170px) {
             grid-template-columns: 40.4rem 1fr;
             width: 117rem;
+            padding-left: 3rem;
+            padding-right: 3rem;
         }
 
         .image-container {
