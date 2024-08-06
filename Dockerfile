@@ -26,4 +26,4 @@ COPY --from=builder /app/yarn.lock ./
 
 HEALTHCHECK  --interval=10s CMD curl --fail http://localhost:5001 || exit 1
 
-CMD [ "node", "./dist/src/main.js" ]
+CMD [ "node", "./dist/main.js" ]
