@@ -82,7 +82,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                 </div>
 
                 <div className="page-title">
-                    <div className="text">Weekly Tournament</div>
+                    <div className="text">{data?.title}</div>
                 </div>
 
                 <div className="group">
