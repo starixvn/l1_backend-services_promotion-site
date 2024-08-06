@@ -9,20 +9,7 @@ import configuration from './_shared/config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DomainModule } from './domain/domain.module';
-import { CronService } from './features/cron-jobs/cron-service';
-import { PromotionProcessor } from './features/cron-jobs/promotion-processor';
-import { ExchangeRateModule } from './features/exchange-rates/exchange-rate.module';
-import { GameConfigModule } from './features/game-configs/game-config.module';
-import { NotificationModule } from './features/notifications/notification.module';
-import { PromotionBetModule } from './features/promotion-bets/promotion-bet.module';
-import { PromotionConfigModule } from './features/promotion-configs/promotion-config.module';
-import { LeaderBoardModule } from './features/promotion-leader-boards/leader-board.module';
-import { PromotionRunModule } from './features/promotion-runs/promotion-run.module';
-import { UserClientServiceModule } from './features/users/user-service.module';
 import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middleware';
-import { TempLogEndGameModule } from './features/end-games/temp-log-end-game.module';
-import { UserInfoModule } from './features/users/user-info.module';
-import { ChatBotService } from './features/chat-bots/chat-bot-service';
 
 @Module({
     imports: [
@@ -39,22 +26,12 @@ import { ChatBotService } from './features/chat-bots/chat-bot-service';
         }),
         JwtModule.register({}),
         CommonModule,
-        LeaderBoardModule,
-        PromotionConfigModule,
-        PromotionBetModule,
-        PromotionRunModule,
-        NotificationModule,
-        UserClientServiceModule,
-        DomainModule,
-        ExchangeRateModule,
-        GameConfigModule,
-        TempLogEndGameModule,
-        UserInfoModule,
+        DomainModule,        
         CacheModule.register(),
         ScheduleModule.forRoot(),
     ],
     controllers: [AppController],
-    providers: [AppService, CronService, PromotionProcessor, ChatBotService],
+    providers: [AppService],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
