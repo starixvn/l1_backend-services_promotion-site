@@ -47,10 +47,26 @@
     .table-body-container {
         height: auto;
         margin: 0 auto;
-        max-height: 55vh;
+        max-height: 10vh;
         overflow-y: auto;
         -ms-overflow-style: none;
         scrollbar-width: none;
+
+        @media screen and (min-height: 320px) {
+            max-height: 20vh;
+        }
+
+        @media screen and (min-height: 400px) {
+            max-height: 30vh;
+        }
+
+        @media screen and (min-height: 576px) {
+            max-height: 45vh;
+        }
+
+        @media screen and (min-height: 720px) {
+            max-height: 55vh;
+        }
 
         &::-webkit-scrollbar {
             display: none;
