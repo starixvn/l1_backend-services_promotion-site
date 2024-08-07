@@ -8,8 +8,10 @@
 
     <body class='icon-container'>
         <a id='icon' target='_blank' rel='noopener noreferrer'>
-            <img id='icon-button' src='static/images/icons/button.png' alt='' />
-            <img id='icon-label' src='static/images/icons/icon-en.gif' alt='' />
+            <img id='icon-button' src='static/images/icons/instant/button.png' alt='' />
+            <img id='icon-button-highlight' src='static/images/icons/instant/button-highlight.png' alt='' />
+            <img id='icon-label' src='static/images/icons/instant/icon-en.png' alt='' />
+            <img id='icon-glow' src='static/images/icons/instant/glow.png' alt='' />
         </a>
 
         <script type='text/javascript'>
@@ -17,7 +19,7 @@
             searchParams.toString(); a.setAttribute('href', `./?${queryString}`);const dict = { "vi-VN": "en", "en-US": "en", "en-UK": "en",
             "th-TH": "th", "id-ID": "id", "zh-CN": "zh_cn", "zh-TW": "zh_tw" }; const languageFromQueryString = searchParams.get('language');
             const language = dict[languageFromQueryString] || "en"; const image = document.getElementById('icon-label');
-            image.setAttribute('src',`static/images/icons/icon-${language}.gif`); image.classList.add(language);
+            image.setAttribute('src',`static/images/icons/instant/icon-${language}.png`); image.classList.add(language);
         </script>
     </body>
 </html>

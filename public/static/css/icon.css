@@ -8,20 +8,103 @@ a#icon {
     height: inherit;
     width: 100%;
 }
-
-img#icon-button {
+img#icon-glow,
+img#icon-button,
+img#icon-button-highlight {
     position: absolute;
     bottom: 0;
     height: 76%;
 }
 
-img#icon-label {
-    height: 38%;
-    position: absolute;
-    left: 35%;
-    top: 0;
+img#icon-glow {
+    z-index: -1;
+    animation: scale 5s infinite ease-in;
 }
+
+@keyframes scale {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    10% {
+        transform: scale(1.8) rotate(10deg);
+    }
+    20% {
+        transform: scale(1) rotate(20deg);
+    }
+    30% {
+        transform: scale(1.8) rotate(30deg);
+    }
+    40% {
+        transform: scale(1) rotate(40deg);
+    }
+    50% {
+        transform: scale(1.8) rotate(50deg);
+    }
+    60% {
+        transform: scale(1) rotate(60deg);
+    }
+    70% {
+        transform: scale(1.8) rotate(70deg);
+    }
+    80% {
+        transform: scale(1) rotate(80deg);
+    }
+}
+
+img#icon-button-highlight {
+    opacity: 0;
+    animation: hide-show 5s infinite ease-in;
+}
+
+@keyframes hide-show {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 0;
+    }
+    70% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+    }
+}
+
 img#icon-label.th,
 img#icon-label.id {
     left: 25%;
+}
+
+img#icon-label {
+    height: 38%;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    animation: float-up-down 1s ease-in-out infinite both;
+}
+
+@keyframes float-up-down {
+    50% {
+        transform: translateY(-15%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
