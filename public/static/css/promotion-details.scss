@@ -232,7 +232,7 @@
                 transform: scale(0.8);
             }
 
-            @media screen and (min-width: 340px) {
+            @media screen and (min-width: 566px) {
                 transform: scale(1);
             }
 
@@ -350,12 +350,14 @@
     }
 }
 
-.saba-club {
-    .tournament-container {
-        .group {
-            width: calc(100% - 16rem);
-            margin-left: 8rem;
-            margin-right: 8rem;
-        }
-    }
+.saba-club .tournament-container.group {
+    width: calc(100% - 16rem);
+    margin-left: 8rem;
+    margin-right: 8rem;
+}
+
+.mega-keno .tournament-container.group {
+    width: calc(100% - 12rem);
+    margin-left: 6rem;
+    margin-right: 6rem;
 }
