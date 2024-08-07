@@ -15,7 +15,7 @@
         <script type='text/javascript'>
             const a = document.getElementById('icon'); const searchParams = new URLSearchParams(window.location.search); const queryString =
             searchParams.toString(); a.setAttribute('href', `./?${queryString}`);const dict = { "vi-VN": "en", "en-US": "en", "en-UK": "en",
-            "th-TH": "th", "id-ID": "id", "zh-CN": "cn", "zh-TW": "tw" }; const languageFromQueryString = searchParams.get('language');
+            "th-TH": "th", "id-ID": "id", "zh-CN": "zh_cn", "zh-TW": "zh_tw" }; const languageFromQueryString = searchParams.get('language');
             const language = dict[languageFromQueryString] || "en"; const image = document.getElementById('icon-label');
             image.setAttribute('src',`static/images/icons/icon-${language}.gif`); image.classList.add(language);
         </script>
