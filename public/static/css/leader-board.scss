@@ -28,7 +28,7 @@
         line-height: 1.2;
         border-bottom: 1px solid #432942;
         border-radius: 1.8rem 1.8rem 0 0;
-        background-color: transparent;
+        background-color: #230720;
         color: #ffe800;
         font-weight: bold;
         text-transform: uppercase;
@@ -36,7 +36,6 @@
 
         @media screen and (min-width: 576px) {
             padding: 0 3rem;
-            background-color: #230720;
             grid-template-columns: 25% 50% 25%;
         }
 
@@ -138,18 +137,17 @@
 .mega-keno {
     .leader-board-table {
         width: 100%;
-        border-color: #bd7e49;
+
+        @media screen and (min-width: 576px) {
+            width: calc(100% - 4rem);
+        }
     }
 }
 
 .saba-club,
 .mega-keno {
     .leader-board-table {
-        border-color: #bd7e49;
-
-        @media screen and (min-width: 576px) {
-            width: calc(100% - 4rem);
-        }
+        border-color: #934486;
 
         @media screen and (min-width: 1200px) {
             width: 948px;
