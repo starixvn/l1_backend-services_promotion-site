@@ -2,7 +2,6 @@ import * as dotenv from 'dotenv';
 import { addIdentifiers, initializer, initSpanProcessor } from 'sc-instrument';
 dotenv.config();
 
-import helmet from '@fastify/helmet';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
