@@ -1,17 +1,17 @@
-import '../../public/static/css/promotion-details.scss';
-import '../helpers/string-helper';
+import "../../public/static/css/promotion-details.scss";
+import "../helpers/string-helper";
 
-import { useTranslate } from '@tolgee/react';
-import { Markup } from 'interweave';
-import moment from 'moment';
-import React from 'react';
+import { useTranslate } from "@tolgee/react";
+import { Markup } from "interweave";
+import moment from "moment";
+import React from "react";
 
-import { LanguageMapper } from '../../views/constants';
-import { ParamsHelper } from '../../views/helpers';
-import LoadingSpinner from '../components/loading-spinner';
-import { formatNumberWithComma } from '../helpers/common-helper';
-import useFetchData from '../hooks/use-fetch-data';
-import Prize from './prize';
+import { LanguageMapper } from "../../views/constants";
+import { ParamsHelper } from "../../views/helpers";
+import LoadingSpinner from "../components/loading-spinner";
+import { formatNumberWithComma } from "../helpers/common-helper";
+import useFetchData from "../hooks/use-fetch-data";
+import Prize from "./prize";
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const { t } = useTranslate();
@@ -63,7 +63,6 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
             <div className="main-content content">
                 <div className="banner">
                     <div className="center">
-                        <div className="dealer"></div>
                         <div className="text-event">
                             <picture>
                                 <source media="(min-width: 577px)" srcSet={`static/images/banner/text-event/${language}.png`}></source>
@@ -81,6 +80,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                             <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
                             <div className="right"></div>
                         </div>
+                        <div className="dealer"></div>
                     </div>
                 </div>
 

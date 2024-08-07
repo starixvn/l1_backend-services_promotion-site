@@ -9,9 +9,7 @@ const CloseButton = () => {
     };
 
     return isAppType(AppTypes.SabaClub) || isAppType(AppTypes.MegaKeno) || isAppType(AppTypes.SabaMobi) ? (
-        <span className="close-button-container">
-            <span className="icon-close" onClick={handleClose}></span>
-        </span>
+        <span className="icon-close" onClick={handleClose}></span>
     ) : null;
 };
 

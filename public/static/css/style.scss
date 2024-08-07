@@ -143,27 +143,25 @@ p {
         spin-2 1.2s infinite linear;
 }
 
-.close-button-container {
-    .icon-close {
-        display: -moz-box;
-        display: flex;
-        -moz-box-align: center;
-        align-items: center;
-        -moz-box-pack: center;
-        justify-content: center;
-        height: 4rem;
-        width: 4rem;
-        border-radius: 50%;
-        position: fixed;
-        top: 1.7rem;
-        right: 1.7rem;
-        z-index: 99;
-        background: #1b081d !important;
-        color: #716873 !important;
-        cursor: pointer;
-    }
+.icon-close {
+    display: -moz-box;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 1.7rem;
+    right: 1.7rem;
+    z-index: 99;
+    background: #1b081d !important;
+    color: #716873 !important;
+    cursor: pointer;
 
-    .icon-close:before {
+    &:before {
         font-size: 2.4rem;
         color: lightgray;
         content: '\2715';
@@ -219,13 +217,22 @@ p {
 }
 
 .btn {
+    height: 3.6rem;
+    line-height: 1;
+    padding: 0 1rem;
     border-radius: 0.8rem;
-    font-weight: bold;
     background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
     border: 1px solid #fff9a1;
     color: var(--color-secondary-header);
     font-family: inherit;
+    font-weight: bold;
+    font-size: 1.4rem;
     cursor: pointer;
+
+    @media screen and (min-width: 992px) {
+        font-size: 1.8rem;
+        height: 4.8rem;
+    }
 }
 
 .main {
@@ -383,12 +390,24 @@ p {
         width: 5rem;
         height: 5rem;
         top: 2rem;
+
+        @media screen and (max-width: 576px) {
+            top: 1rem;
+            left: 1rem;
+            transform: scale(0.8);
+        }
     }
 
-    .close-button-container .icon-close {
+    .icon-close {
         width: 5rem;
         height: 5rem;
         top: 2rem;
+
+        @media screen and (max-width: 576px) {
+            top: 1rem;
+            right: 1rem;
+            transform: scale(0.8);
+        }
     }
 
     .header {
@@ -399,7 +418,7 @@ p {
         }
     }
 
-    .close-button-container .icon-close {
+    .icon-close {
         background: rgba(0, 0, 0, 0.4) !important;
     }
 

@@ -110,16 +110,7 @@
         }
 
         .btn-more-info {
-            font-size: 1.4rem;
             min-width: 13rem;
-            height: 3.6rem;
-            line-height: 1;
-            padding: 0 1rem;
-
-            @media screen and (min-width: 992px) {
-                font-size: 1.8rem;
-                height: 4.8rem;
-            }
         }
     }
 }
