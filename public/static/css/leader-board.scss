@@ -26,6 +26,7 @@
         grid-template-columns: 30% 40% 30%;
         min-height: 5rem;
         line-height: 1.2;
+        border-bottom: 1px solid #432942;
         border-radius: 1.8rem 1.8rem 0 0;
         background-color: transparent;
         color: #ffe800;
@@ -37,7 +38,6 @@
             padding: 0 3rem;
             background-color: #230720;
             grid-template-columns: 25% 50% 25%;
-            border-bottom: 1px solid #432942;
         }
 
         @media screen and (min-width: 992px) {
@@ -128,11 +128,31 @@
     background-image: url(../images/leader-board/rank-3.png);
 }
 
-.saba-club,
-.mega-keno {
+.saba-club {
     .leader-board-table {
         width: calc(100% - 22rem);
         margin: 3rem 11rem 0;
+    }
+}
+
+.mega-keno {
+    .leader-board-table {
+        width: 100%;
         border-color: #bd7e49;
+    }
+}
+
+.saba-club,
+.mega-keno {
+    .leader-board-table {
+        border-color: #bd7e49;
+
+        @media screen and (min-width: 576px) {
+            width: calc(100% - 4rem);
+        }
+
+        @media screen and (min-width: 1200px) {
+            width: 948px;
+        }
     }
 }
