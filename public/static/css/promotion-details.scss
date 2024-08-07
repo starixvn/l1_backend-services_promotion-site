@@ -134,10 +134,6 @@
         margin-bottom: 3.6rem;
     }
 
-    .content {
-        padding-bottom: 8.6rem;
-    }
-
     .group {
         border-radius: 1.8rem;
         border: 2px solid #8f4587;
@@ -293,7 +289,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 0 0 3rem 3rem;
         background: url(../images/promotion-detail-footer.png);
         z-index: 10;
 
@@ -351,21 +346,39 @@
                 margin-right: auto;
             }
         }
-
-        .content {
-            padding-bottom: 0;
-        }
     }
 }
 
-.saba-club .tournament-container .group {
-    width: calc(100% - 16rem);
-    margin-left: 8rem;
-    margin-right: 8rem;
+.saba-club .tournament-container {
+    .promotion-detail-footer {
+        border-radius: 0 0 3rem 3rem;
+    }
+
+    .group {
+        width: calc(100% - 16rem);
+        margin-left: 8rem;
+        margin-right: 8rem;
+    }
 }
 
-.mega-keno .tournament-container .group {
-    width: calc(100% - 12rem);
-    margin-left: 6rem;
-    margin-right: 6rem;
+.mega-keno .tournament-container {
+    .promotion-detail-footer {
+        border-radius: 0 0 0.5rem 0.5rem;
+    }
+
+    .group {
+        width: calc(100% - 12rem);
+        margin-left: 6rem;
+        margin-right: 6rem;
+    }
+}
+
+.others {
+    .tournament-container {
+        height: calc(100% - 14.2rem);
+
+        @media screen and (min-width: 768px) {
+            height: calc(100% - 15.2rem);
+        }
+    }
 }
