@@ -50,6 +50,12 @@
         transform: translateX(-50%);
         margin-left: 2rem;
 
+        @media screen and (max-width: 577px) {
+            > picture > img {
+                height: 164px;
+            }
+        }
+
         @media screen and (min-width: 577px) {
             top: 0.2rem;
             margin-left: 0;
@@ -64,10 +70,10 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        top: 25.2rem;
+        top: 23.5rem;
 
         @media screen and (min-width: 577px) {
-            top: 16.6rem;
+            top: 15rem;
         }
 
         @media screen and (min-width: 992px) {
