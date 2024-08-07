@@ -336,6 +336,10 @@ p {
             text-transform: uppercase;
             color: var(--color-primary);
 
+            @media screen and (max-width: 400px) {
+                max-width: 200px;
+            }
+
             @media screen and (min-width: 992px) {
                 min-height: 5rem;
                 font-size: 2.8rem;
