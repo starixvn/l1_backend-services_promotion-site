@@ -28,7 +28,7 @@
 
     .dealer {
         position: absolute;
-        top: -1.5rem;
+        top: -5.5rem;
         left: 50%;
         transform: translateX(-50%) scale(0.52);
         background: url(../images/banner/dealer.png) no-repeat;
@@ -41,6 +41,10 @@
             transform: translateX(-50%);
             top: 3rem;
         }
+
+        @media screen and (max-width: 577px) {
+            left: 45%;
+        }
     }
 
     .text-event {
@@ -48,7 +52,7 @@
         top: 6.5rem;
         left: 50%;
         transform: translateX(-50%);
-        margin-left: 2rem;
+        z-index: 1;
 
         @media screen and (max-width: 577px) {
             > picture > img {
