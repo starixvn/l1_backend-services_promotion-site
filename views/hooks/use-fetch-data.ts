@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { GameUtils, ParamsHelper } from '../helpers';
 import axios, { AxiosError } from 'axios';
 
@@ -8,28 +8,28 @@ const useFetchData = <T,>(url: string) => {
     const [error, setError] = useState<AxiosError | null>(null);
     const { sessionId, username } = ParamsHelper.getParams();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.post<T>(url, {
-                    sessionId: GameUtils.base64Decode(sessionId),
-                    username,
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                setResult(response.data);
-            } catch (error) {
-                setError(error as AxiosError);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
+    const fetchData = useCallback(async () => {
+        try {
+            setLoading(true);
+            const response = await axios.post<T>(url, {
+                sessionId: GameUtils.base64Decode(sessionId),
+                username,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            setResult(response.data);
+        } catch (error) {
+            setError(error as AxiosError);
+        } finally {
+            setLoading(false);
+        }
     }, [url]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     return { result, loading, error };
 }
