@@ -344,12 +344,8 @@
 .saba-club,
 .mega-keno {
     .tournament-container {
-        .group {
-            width: calc(100% - 16rem);
-            margin-left: 8rem;
-            margin-right: 8rem;
-
-            @media screen and (min-width: 1200px) {
+        @media screen and (min-width: 1200px) {
+            .group {
                 width: 102.8rem;
                 margin-left: auto;
                 margin-right: auto;
@@ -362,6 +358,16 @@
 
         .content {
             padding-bottom: 2rem;
+        }
+    }
+}
+
+.saba-club {
+    .tournament-container {
+        .group {
+            width: calc(100% - 16rem);
+            margin-left: 8rem;
+            margin-right: 8rem;
         }
     }
 }
