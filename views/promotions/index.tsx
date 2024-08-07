@@ -4,7 +4,7 @@ import '../helpers/string-helper';
 import moment from 'moment';
 import React from 'react';
 
-import { PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
+import { PromotionConfigsResponse, PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
 import CloseButton from '../components/close-button';
 import LoadingSpinner from '../components/loading-spinner';
 import useFetchData from '../hooks/use-fetch-data';
@@ -45,11 +45,11 @@ const Promotion = ({ promotion, handleMoreInfo }) => {
 };
 
 const Promotions = ({ handleMoreInfo }) => {
-    const { data, loading, error } = useFetchData('promotions');
+    const { result, loading, error } = useFetchData<PromotionConfigsResponse>('promotions');
     const { t } = useTranslator();
 
     if (loading) return <LoadingSpinner />;
-    if (error) return <div>Error: {error.message}</div>;
+    if (error || !result.isSuccessful) return <div>Network Error.</div>;
 
     return (
         <div className="promotion-container promotion-list-container">
@@ -59,8 +59,8 @@ const Promotions = ({ handleMoreInfo }) => {
             </div>
 
             <div className="main-content promotion-list">
-                {data &&
-                    data.map((promotion: PromotionViewModel, index: number) => (
+                {result?.data &&
+                    result?.data.map((promotion: PromotionViewModel, index: number) => (
                         <Promotion key={index} promotion={promotion} handleMoreInfo={handleMoreInfo} />
                     ))}
             </div>

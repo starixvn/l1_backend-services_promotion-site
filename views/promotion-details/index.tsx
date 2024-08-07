@@ -12,16 +12,18 @@ import LoadingSpinner from "../components/loading-spinner";
 import { formatNumberWithComma } from "../helpers/common-helper";
 import useFetchData from "../hooks/use-fetch-data";
 import Prize from "./prize";
+import { PromotionConfigResponse } from '../../src/features/promotion-configs/models/promotion-configs-response';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const { t } = useTranslate();
-    const { data, loading, error } = useFetchData(`promotions/${promotionId}`);
+    const { result, loading, error } = useFetchData<PromotionConfigResponse>(`promotions/${promotionId}`);
+    const data = result?.data;
 
     if (loading) return <LoadingSpinner />;
-    if (error) return <div>Error: {error.message}</div>;
+    if (error || !result.isSuccessful) return <div>Network Error.</div>;
 
     const template = 'HH:mm MM/DD/yyyy';
-    const startdate = moment.utc(data?.startDateTime).local().format(template);
+    const startdate = moment.utc(result?.data.startDateTime).local().format(template);
     const enddate = moment.utc(data?.endDateTime).local().format(template);
     const language = LanguageMapper[ParamsHelper.getParams().language] || 'en';
 
