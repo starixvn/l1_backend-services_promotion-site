@@ -263,7 +263,7 @@ p {
 .back-icon {
     position: absolute;
     top: 0.8rem;
-    left: 0.4rem;
+    left: 2rem;
     height: 4rem;
     width: 4rem;
     display: flex;
@@ -278,7 +278,6 @@ p {
         height: 5.5rem;
         top: 1rem;
         transform: none;
-        left: 2rem;
     }
 
     &::before {

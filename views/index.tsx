@@ -1,20 +1,19 @@
-import '../public/static/css/style.scss';
+import "../public/static/css/style.scss";
 
-import { FormatIcu } from '@tolgee/format-icu';
-import { BackendFetch, Tolgee, TolgeeProvider } from '@tolgee/react';
-import { InContextTools } from '@tolgee/web/tools';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { FormatIcu } from "@tolgee/format-icu";
+import { BackendFetch, Tolgee, TolgeeProvider } from "@tolgee/react";
+import { InContextTools } from "@tolgee/web/tools";
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import LoadingSpinner from './components/loading-spinner';
-import { AppTypes, LanguageMapper } from './constants';
-import { ParamsHelper } from './helpers';
-import LeaderBoard from './leader-board';
-import PromotionDetail from './promotion-details';
-import Promotions from './promotions';
-import Unauthorized from './unauthorized';
-import { isAppType } from './helpers';
-import CloseButton from './components/close-button';
+import CloseButton from "./components/close-button";
+import LoadingSpinner from "./components/loading-spinner";
+import { AppTypes, LanguageMapper } from "./constants";
+import { isAppType, ParamsHelper } from "./helpers";
+import LeaderBoard from "./leader-board";
+import PromotionDetail from "./promotion-details";
+import Promotions from "./promotions";
+import Unauthorized from "./unauthorized";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
@@ -97,7 +96,7 @@ if (window.AppInitialState?.results.isSuccessful) {
                 return (
                     <div className="header">
                         {!appState.isShowPromotions && loadBackIcon()}
-                        <img src={`static/images/logo.png`} alt="Logo" className="logo" />
+                        <img src={`static/images/logo.png`} width="221" height="58" alt="Logo" className="logo" />
                     </div>
                 );
             } else {
