@@ -96,7 +96,7 @@ if (window.AppInitialState?.results.isSuccessful) {
                 return (
                     <div className="header">
                         {!appState.isShowPromotions && loadBackIcon()}
-                        <img src={`static/images/logo.png`} width="221" height="58" alt="Logo" className="logo" />
+                        <img src={`static/images/logo.webp`} width="221" height="58" alt="Logo" className="logo" />
                     </div>
                 );
             } else {

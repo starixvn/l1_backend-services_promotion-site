@@ -1,9 +1,9 @@
-import '../helpers/string-helper';
+import "../helpers/string-helper";
 
-import { useTranslate } from '@tolgee/react';
-import React from 'react';
+import { useTranslate } from "@tolgee/react";
+import React from "react";
 
-import { formatNumberWithComma } from '../helpers/common-helper';
+import { formatNumberWithComma } from "../helpers/common-helper";
 
 const getPrizeDescription = ({ prize }) => {
     const { t } = useTranslate();
@@ -12,28 +12,28 @@ const getPrizeDescription = ({ prize }) => {
         case 1:
             return {
                 text: t('first_place'),
-                image: 'first-prize.png',
+                image: 'first-prize.webp',
             };
         case 2:
             return {
                 text: t('second_place'),
-                image: 'second-prize.png',
+                image: 'second-prize.webp',
             };
         case 3:
             return {
                 text: t('third_place'),
-                image: 'third-prize.png',
+                image: 'third-prize.webp',
             };
         default:
             if (prize.from && prize.to) {
                 return {
                     text: t('other_places', { from: prize?.from, to: prize?.to }).replaceTolgeeFormat(),
-                    image: 'other-prize.png',
+                    image: 'other-prize.webp',
                 };
             } else {
                 return {
                     text: t('other_places_single_value', { place: prize?.from }).replaceTolgeeFormat(),
-                    image: 'other-prize.png',
+                    image: 'other-prize.webp',
                 };
             }
     }

@@ -1,13 +1,13 @@
 .banner {
     position: relative;
-    background: url(../images/banner/mobile/background-banner.png) no-repeat center;
+    background: url(../images/banner/mobile/background-banner.webp) no-repeat center;
     height: 36.8rem;
     width: 100%;
     overflow: hidden;
 
     @media screen and (min-width: 577px) {
         height: 33.2rem;
-        background: url(../images/banner/background-banner.png) no-repeat center center;
+        background: url(../images/banner/background-banner.webp) no-repeat center center;
     }
 
     .center {
@@ -31,7 +31,7 @@
         top: -1.5rem;
         left: 50%;
         transform: translateX(-50%) scale(0.52);
-        background: url(../images/banner/dealer.png) no-repeat;
+        background: url(../images/banner/dealer.webp) no-repeat;
         width: 19.5rem;
         height: 27.9rem;
         margin-left: -14.1rem;
@@ -108,13 +108,13 @@
         .left {
             position: relative;
             right: -0.1rem;
-            background: url(../images/banner/frame-amount-left.png) no-repeat;
+            background: url(../images/banner/frame-amount-left.webp) no-repeat;
             width: 4.8rem;
             height: 7.2rem;
         }
 
         .middle {
-            background: url(../images/banner/frame-amount-middle.png) repeat-x;
+            background: url(../images/banner/frame-amount-middle.webp) repeat-x;
             height: 7.2rem;
             line-height: 67px;
             min-width: 140px;
@@ -126,7 +126,7 @@
         .right {
             position: relative;
             left: -0.1rem;
-            background: url(../images/banner/frame-amount-right.png) no-repeat;
+            background: url(../images/banner/frame-amount-right.webp) no-repeat;
             width: 4.8rem;
             height: 7.2rem;
         }
@@ -234,7 +234,7 @@
             height: 14.7rem;
             margin: 1rem 2rem;
             transform: scale(0.8);
-            background: url(../images/place-frame-bg.png) no-repeat;
+            background: url(../images/place-frame-bg.webp) no-repeat;
 
             @media screen and (min-width: 380px) {
                 transform: scale(1);
@@ -292,7 +292,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: url(../images/promotion-detail-footer.png);
+        background: url(../images/promotion-detail-footer.webp);
         z-index: 10;
 
         div {
@@ -379,10 +379,10 @@
 
 .others {
     .tournament-container {
-        height: calc(100% - 14.2rem);
+        height: calc(100% - 12.2rem);
 
         @media screen and (min-width: 768px) {
-            height: calc(100% - 15.2rem);
+            height: calc(100% - 14rem);
         }
     }
 }

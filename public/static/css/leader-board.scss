@@ -83,7 +83,7 @@
             display: grid;
             align-items: center;
             text-align: center;
-            min-height: 6rem;
+            min-height: 5.2rem;
             border-radius: 0.8rem;
             border-bottom: 1px solid #381535;
             color: var(--color-primary-text);
@@ -104,8 +104,8 @@
     .player-container {
         display: flex;
         align-items: center;
-        height: 6.2rem;
-        background: url(../images/leader-board/user-highlight.png);
+        height: 5.2rem;
+        background: url(../images/leader-board/user-highlight.webp);
         margin-bottom: 2rem;
     }
 
@@ -134,17 +134,17 @@
 
 .rank-1 {
     @extend %rank;
-    background-image: url(../images/leader-board/rank-1.png);
+    background-image: url(../images/leader-board/rank-1.webp);
 }
 
 .rank-2 {
     @extend %rank;
-    background-image: url(../images/leader-board/rank-2.png);
+    background-image: url(../images/leader-board/rank-2.webp);
 }
 
 .rank-3 {
     @extend %rank;
-    background-image: url(../images/leader-board/rank-3.png);
+    background-image: url(../images/leader-board/rank-3.webp);
 }
 
 .saba-club {
