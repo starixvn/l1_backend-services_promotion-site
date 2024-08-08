@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { GameUtils, ParamsHelper } from '../helpers';
 import axios, { AxiosError } from 'axios';
+import axiosRetry from 'axios-retry';
+
 
 const useFetchData = <T,>(url: string) => {
     const [result, setResult] = useState<T | null>(null);
@@ -11,6 +13,7 @@ const useFetchData = <T,>(url: string) => {
     const fetchData = useCallback(async () => {
         try {
             setLoading(true);
+            axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay });
             const response = await axios.post<T>(url, {
                 sessionId: GameUtils.base64Decode(sessionId),
                 username,
@@ -21,6 +24,7 @@ const useFetchData = <T,>(url: string) => {
             });
             setResult(response.data);
         } catch (error) {
+            console.log(error);
             setError(error as AxiosError);
         } finally {
             setLoading(false);
