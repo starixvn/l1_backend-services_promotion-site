@@ -12,9 +12,9 @@ img#icon-glow,
 img#icon-button,
 img#icon-button-highlight {
     position: absolute;
-    bottom: 5;
-    left: 5;
-    height: 76%;
+    bottom: 8px;
+    left: 8;
+    height: 72%;
 }
 
 img#icon-glow {
@@ -93,16 +93,16 @@ img#icon-label.id {
 }
 
 img#icon-label {
-    height: 38%;
+    height: 35%;
     position: absolute;
-    left: 35%;
-    top: 10%;
+    left: 45%;
+    top: 6%;
     animation: float-up-down 1s ease-in-out infinite both;
 }
 
 @keyframes float-up-down {
     50% {
-        transform: translateY(-15%);
+        transform: translateY(-20%);
     }
 
     100% {
