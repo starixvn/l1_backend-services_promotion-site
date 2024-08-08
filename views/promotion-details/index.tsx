@@ -65,6 +65,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
             <div className="main-content content">
                 <div className="banner">
                     <div className="center">
+                        <div className="dealer"></div>
                         <div className="text-event">
                             <picture>
                                 <source media="(min-width: 577px)" srcSet={`static/images/banner/text-event/${language}.webp`}></source>
@@ -82,7 +83,6 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                             <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
                             <div className="right"></div>
                         </div>
-                        <div className="dealer"></div>
                     </div>
                 </div>
 

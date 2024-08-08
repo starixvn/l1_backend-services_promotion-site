@@ -355,8 +355,9 @@ p {
                 top: 50%;
                 transform: scale(0.9) translateY(-50%);
                 background: url(../images/promotion-icon.webp) no-repeat center;
-                width: 5.9rem;
-                height: 6.9rem;
+                background-size: 5.4rem 5.9rem;
+                width: 5.4rem;
+                height: 6.3rem;
             }
 
             &::before {
