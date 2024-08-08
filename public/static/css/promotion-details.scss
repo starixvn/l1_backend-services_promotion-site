@@ -232,21 +232,18 @@
             align-items: center;
             width: 28rem;
             height: 14.7rem;
-            margin: 1rem 2.3rem;
-            transform: scale(0.6);
+            margin: 1rem 2rem;
+            transform: scale(0.8);
             background: url(../images/place-frame-bg.png) no-repeat;
 
-            @media screen and (min-width: 300px) {
-                transform: scale(0.8);
-            }
-
-            @media screen and (min-width: 566px) {
+            @media screen and (min-width: 380px) {
                 transform: scale(1);
             }
 
             @media screen and (min-width: 768px) {
                 flex: none;
-                margin: 2rem 2.3rem;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
             }
 
             .left,
