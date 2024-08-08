@@ -1,8 +1,10 @@
 import '../../public/static/css/promotion.scss';
 import '../helpers/string-helper';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import React from 'react';
+dayjs.extend(utc);
 
 import { PromotionConfigsResponse, PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
 import CloseButton from '../components/close-button';
@@ -18,8 +20,8 @@ const PromotionContent = ({ promotion }) => {
     }
 
     const template = 'MM/DD/yyyy';
-    const startdate = moment.utc(promotion?.startDateTime).local().format(template);
-    const enddate = moment.utc(promotion?.endDateTime).local().format(template);
+    const startdate = dayjs().utc(promotion?.startDateTime).local().format(template);
+    const enddate = dayjs().utc(promotion?.endDateTime).local().format(template);
     return <p className="duration">{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
 };
 

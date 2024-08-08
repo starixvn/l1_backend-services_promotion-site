@@ -1,18 +1,20 @@
-import "../../public/static/css/promotion-details.scss";
-import "../helpers/string-helper";
+import '../../public/static/css/promotion-details.scss';
+import '../helpers/string-helper';
 
-import { useTranslate } from "@tolgee/react";
-import { Markup } from "interweave";
-import moment from "moment";
-import React from "react";
+import { useTranslate } from '@tolgee/react';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import { Markup } from 'interweave';
+import React from 'react';
+dayjs.extend(utc);
 
-import { PromotionConfigResponse } from "../../src/features/promotion-configs/models/promotion-configs-response";
-import { LanguageMapper } from "../../views/constants";
-import { ParamsHelper } from "../../views/helpers";
-import LoadingSpinner from "../components/loading-spinner";
-import { formatNumberWithComma } from "../helpers/common-helper";
-import useFetchData from "../hooks/use-fetch-data";
-import Prize from "./prize";
+import { PromotionConfigResponse } from '../../src/features/promotion-configs/models/promotion-configs-response';
+import { LanguageMapper } from '../../views/constants';
+import { ParamsHelper } from '../../views/helpers';
+import LoadingSpinner from '../components/loading-spinner';
+import { formatNumberWithComma } from '../helpers/common-helper';
+import useFetchData from '../hooks/use-fetch-data';
+import Prize from './prize';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const { t } = useTranslate();
@@ -23,8 +25,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     if (error || !result.isSuccessful) return <div>Network Error.</div>;
 
     const template = 'HH:mm MM/DD/yyyy';
-    const startdate = moment.utc(result?.data.startDateTime).local().format(template);
-    const enddate = moment.utc(data?.endDateTime).local().format(template);
+    const startdate = dayjs.utc(result?.data.startDateTime).local().format(template);
+    const enddate = dayjs.utc(data?.endDateTime).local().format(template);
     const language = LanguageMapper[ParamsHelper.getParams().language] || 'en';
 
     const promotionInformation = [
