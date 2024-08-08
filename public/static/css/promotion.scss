@@ -141,9 +141,11 @@
 }
 
 .saba-club .promotion-list {
+    height: calc(100% - 11rem);
     border-bottom-right-radius: 1.8rem;
 }
 
 .mega-keno .promotion-list {
+    height: calc(100% - 10.4rem);
     border-bottom-right-radius: 0.5rem;
 }
