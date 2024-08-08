@@ -132,11 +132,18 @@
     }
 
     .promotion-list {
-        height: calc(100% - 13.5rem);
+        height: calc(100% - 11rem);
         padding-top: 3rem;
-        padding-bottom: 3rem;
         margin-top: 10.5rem;
         overflow: auto;
         overscroll-behavior: contain;
     }
+}
+
+.saba-club .promotion-list {
+    border-bottom-right-radius: 1.8rem;
+}
+
+.mega-keno .promotion-list {
+    border-bottom-right-radius: 0.5rem;
 }
