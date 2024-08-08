@@ -132,10 +132,11 @@
     }
 
     .promotion-list {
+        height: calc(100% - 13.5rem);
+        padding-top: 3rem;
+        padding-bottom: 3rem;
         margin-top: 10.5rem;
         overflow: auto;
         overscroll-behavior: contain;
-        height: calc(100% - 10.5rem);
-        padding-top: 3rem;
     }
 }

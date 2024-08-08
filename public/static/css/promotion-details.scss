@@ -28,13 +28,14 @@
 
     .dealer {
         position: absolute;
-        top: -5.5rem;
+        top: -1.5rem;
         left: 50%;
         transform: translateX(-50%) scale(0.52);
         background: url(../images/banner/dealer.png) no-repeat;
         width: 19.5rem;
         height: 27.9rem;
         margin-left: -14.1rem;
+        z-index: 2;
 
         @media screen and (min-width: 577px) {
             margin-left: -33.7rem;
@@ -154,6 +155,7 @@
             align-items: center;
             justify-content: center;
             height: 5.5rem;
+            line-height: 1.2;
             padding: 0 1rem;
             border-radius: 1.8rem 1.8rem 0 0;
             background-color: #230720;
@@ -309,8 +311,12 @@
     .term-list {
         position: relative;
         z-index: 2;
-        margin: 0 0 0 2rem;
+        margin: 0;
         padding: 1rem 1rem 0 2rem;
+
+        @media screen and (min-width: 576px) {
+            margin-left: 2rem;
+        }
     }
 
     .term {
@@ -354,6 +360,8 @@
 }
 
 .saba-club .tournament-container {
+    border-radius: 3rem;
+
     .promotion-detail-footer {
         bottom: 0.2rem;
         left: 0.2rem;
@@ -368,16 +376,8 @@
     }
 }
 
-.mega-keno .tournament-container {
-    .promotion-detail-footer {
-        border-radius: 0 0 0.5rem 0.5rem;
-    }
-
-    .group {
-        width: calc(100% - 12rem);
-        margin-left: 6rem;
-        margin-right: 6rem;
-    }
+.mega-keno .tournament-container .promotion-detail-footer {
+    border-radius: 0 0 0.5rem 0.5rem;
 }
 
 .others {
