@@ -10,10 +10,11 @@ import CloseButton from "./components/close-button";
 import LoadingSpinner from "./components/loading-spinner";
 import { AppTypes, LanguageMapper } from "./constants";
 import { isAppType, ParamsHelper } from "./helpers";
-import LeaderBoard from "./leader-board";
-import PromotionDetail from "./promotion-details";
-import Promotions from "./promotions";
-import Unauthorized from "./unauthorized";
+
+const Promotions = React.lazy(() => import('./promotions'));
+const PromotionDetail = React.lazy(() => import('./promotion-details'));
+const LeaderBoard = React.lazy(() => import('./leader-board'));
+const Unauthorized = React.lazy(() => import('./unauthorized'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
