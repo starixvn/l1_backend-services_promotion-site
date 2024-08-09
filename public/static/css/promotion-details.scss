@@ -50,9 +50,14 @@
     .text-event {
         position: absolute;
         top: 6.5rem;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 56%;
+        transform: translateX(-50%) scale(0.88);
         z-index: 1;
+
+        @media screen and (min-width: 400px) {
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
         @media screen and (max-width: 577px) {
             > picture > img {
