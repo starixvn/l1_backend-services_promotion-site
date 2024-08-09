@@ -31,9 +31,9 @@ const LeaderBoard = ({ promotionId }) => {
     if (loading) return <LoadingSpinner />;
     if (error || !result.isSuccessful) return <div>Network Error.</div>;
 
-    const { rank, point } = result?.data.currentUser;
+    const { rank } = result?.data.currentUser;
 
-    const displayedRank = point === 0 || (rank === 0 && point === 0) ? '-' : rank;
+    const displayedRank = rank === 0 ? '-' : rank;
 
     return (
         <div className="promotion-container leader-board">
@@ -64,7 +64,7 @@ const LeaderBoard = ({ promotionId }) => {
                         <div className="table-row">
                             <div>
                                 <span className={`rank ${rank < 3 ? `rank-${rank}` : ''}`}>
-                                    {rank < 3 && point !== 0 ? '' : displayedRank}
+                                    {rank < 4 && rank > 0 ? '' : displayedRank}
                                 </span>
                             </div>
                             <div className="txt-special">{t('you')}</div>
