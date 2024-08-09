@@ -24,7 +24,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     if (loading) return <LoadingSpinner />;
     if (error || !result.isSuccessful) return <div>Network Error.</div>;
 
-    const template = 'HH:mm MM/DD/yyyy';
+    const template = 'HH:mm MM/DD/YYYY';
     const startdate = dayjs.utc(result?.data.startDateTime).local().format(template);
     const enddate = dayjs.utc(data?.endDateTime).local().format(template);
     const language = LanguageMapper[ParamsHelper.getParams().language] || 'en';
