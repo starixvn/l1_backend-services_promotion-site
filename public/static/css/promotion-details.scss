@@ -50,12 +50,11 @@
     .text-event {
         position: absolute;
         top: 6.5rem;
-        left: 56%;
-        transform: translateX(-50%) scale(0.88);
+        left: 50%;
+        transform: translateX(-50%) scale(0.8);
         z-index: 1;
 
         @media screen and (min-width: 400px) {
-            left: 50%;
             transform: translateX(-50%);
         }
 
