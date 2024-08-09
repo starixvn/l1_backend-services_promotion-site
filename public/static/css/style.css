@@ -1,4 +1,4 @@
-.game-over-layer {
+#game-over-layer {
     display: none;
     position: fixed;
     top: 0;

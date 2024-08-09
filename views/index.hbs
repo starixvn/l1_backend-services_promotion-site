@@ -20,8 +20,9 @@
         <script type='text/javascript'>
             var AppInitialState = JSON.parse('{{{jsonObject}}}'); 
             setTimeout(function(){
-                document.getElementById('game-over-layer').style.display = 'block'; 
-            }, 300);
+                const iconLoadingStyle = document.getElementById('game-over-layer').style.display;
+                document.getElementById('game-over-layer').style.display = 'block';
+            }, 100);
         </script>
         <script type='module' src='bundle/index.js'></script>
 
