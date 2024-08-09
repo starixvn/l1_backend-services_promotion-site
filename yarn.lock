@@ -2384,19 +2384,19 @@
   resolved "https://npm.lumigame.com/@tolgee/core/-/core-5.28.6.tgz#1dbbf9eed58c20a50f45688aeb4d5e2b8562e4b4"
   integrity sha512-L74YuSmd3dogKj13ks/j/qRORrdK/tx8eCmLlQPnvS512rRLxaBmu5k91ZxgUFy+ZnwWGDkOqezgqWkFXrcuRQ==
 
-"@tolgee/format-icu@^5.28.5":
+"@tolgee/format-icu@5.28.6":
   version "5.28.6"
-  resolved "https://npm.lumigame.com/@tolgee/format-icu/-/format-icu-5.28.6.tgz#afa5fc928f64e75c2c31c50dc010b311a653b7b5"
+  resolved "http://npm.lumigame.com/@tolgee/format-icu/-/format-icu-5.28.6.tgz#afa5fc928f64e75c2c31c50dc010b311a653b7b5"
   integrity sha512-2bSQW4UUl6ts3A9quooGDIMR2yqpMnpXIZEwmEg5KZDroMEFnMWKLGCIv3pt4SpTR3gtVqheWHSHezv816UR0A==
 
-"@tolgee/react@^5.28.5":
+"@tolgee/react@5.28.6":
   version "5.28.6"
-  resolved "https://npm.lumigame.com/@tolgee/react/-/react-5.28.6.tgz#0108396d4581f4df2b679d0ab8747f4d19f5a99d"
+  resolved "http://npm.lumigame.com/@tolgee/react/-/react-5.28.6.tgz#0108396d4581f4df2b679d0ab8747f4d19f5a99d"
   integrity sha512-UorHj4eCWO2Nl5VR8+H+pMxLEHNsElUNP3hmCY1oJAgCm6IFjg+xT25WIvM3wJyRl/JvgvioA52moAA6uBa/cw==
   dependencies:
     "@tolgee/web" "5.28.6"
 
-"@tolgee/web@5.28.6", "@tolgee/web@^5.28.5":
+"@tolgee/web@5.28.6":
   version "5.28.6"
   resolved "https://npm.lumigame.com/@tolgee/web/-/web-5.28.6.tgz#b7cb60bdc3277fcddfafadb9db85b79a0deb6dcb"
   integrity sha512-9+FrXhYHryp2/WXSOiY9n9XAjeZxIixx9FBjx8z2GBsUhIM9VFDAA4/9bb884Gk5fmk3shQ+tehSSAvLLnihgQ==
@@ -9750,9 +9750,9 @@ ts-loader@^9.4.3:
     semver "^7.3.4"
     source-map "^0.7.4"
 
-ts-node@^10.9.1:
+ts-node@^10.9.2:
   version "10.9.2"
-  resolved "https://npm.lumigame.com/ts-node/-/ts-node-10.9.2.tgz#70f021c9e185bccdca820e26dc413805c101c71f"
+  resolved "http://npm.lumigame.com/ts-node/-/ts-node-10.9.2.tgz#70f021c9e185bccdca820e26dc413805c101c71f"
   integrity sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==
   dependencies:
     "@cspotcode/source-map-support" "^0.8.0"

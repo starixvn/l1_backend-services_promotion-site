@@ -2,7 +2,6 @@ import '../public/static/css/style.scss';
 
 import { FormatIcu } from '@tolgee/format-icu';
 import { BackendFetch, Tolgee, TolgeeProvider } from '@tolgee/react';
-import { InContextTools } from '@tolgee/web/tools';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -16,11 +15,10 @@ const PromotionDetail = React.lazy(() => import('./promotion-details'));
 const LeaderBoard = React.lazy(() => import('./leader-board'));
 const Unauthorized = React.lazy(() => import('./unauthorized'));
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
-
-if (window.AppInitialState?.results.isSuccessful) {
-    const tolgee = Tolgee()
+const tolgee = Tolgee()
         .use(FormatIcu())
         .use(BackendFetch())
         .init({
@@ -29,14 +27,14 @@ if (window.AppInitialState?.results.isSuccessful) {
             defaultLanguage: LanguageMapper[ParamsHelper.getParams().language] || 'en' || ParamsHelper.getParams().language || 'en',
             ns: ['PromotionCampaign'],
             defaultNs: 'PromotionCampaign',
-            projectId: '5',
+            projectId: '5',            
         });
 
-    tolgee.addPlugin(
-        InContextTools({
-            credentials: window.AppInitialState?.tolgeeInContextTools,
-        }),
-    );
+       
+
+
+if (window.AppInitialState?.results.isSuccessful ) {
+    
     const App = () => {
         document.getElementById('game-over-layer').style.display = 'none';
         const [activedPromotionId, setActivedPromotionId] = React.useState(0);
@@ -121,11 +119,12 @@ if (window.AppInitialState?.results.isSuccessful) {
         );
     };
 
-    initialComponent = (
-        <TolgeeProvider tolgee={tolgee} fallback={<LoadingSpinner />}>
+    initialComponent =  (
+        <TolgeeProvider tolgee={tolgee}         
+        fallback={<LoadingSpinner />}>
             <App />
         </TolgeeProvider>
-    );
+    ) ;
 }
 
 root.render(initialComponent);
