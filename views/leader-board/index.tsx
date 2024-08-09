@@ -1,12 +1,12 @@
-import '../../public/static/css/leader-board.scss';
+import "../../public/static/css/leader-board.scss";
 
-import { useTranslate } from '@tolgee/react';
-import React from 'react';
+import { useTranslate } from "@tolgee/react";
+import React from "react";
 
-import LoadingSpinner from '../components/loading-spinner';
-import { formatNumberWithComma } from '../helpers/common-helper';
-import useFetchData from '../hooks/use-fetch-data';
-import { LeaderBoardResponse } from '../../src/features/promotion-leader-boards/models/leader-board-response';
+import { LeaderBoardResponse } from "../../src/features/promotion-leader-boards/models/leader-board-response";
+import LoadingSpinner from "../components/loading-spinner";
+import { formatNumberWithComma } from "../helpers/common-helper";
+import useFetchData from "../hooks/use-fetch-data";
 
 export const PlayerBoard = ({ player, index }) => {
     const { t } = useTranslate();
@@ -33,7 +33,7 @@ const LeaderBoard = ({ promotionId }) => {
 
     const { rank, point } = result?.data.currentUser;
 
-    const displayedRank = point === 0 || (rank === 0 && point !== 0) ? '-' : rank;
+    const displayedRank = point === 0 || (rank === 0 && point === 0) ? '-' : rank;
 
     return (
         <div className="promotion-container leader-board">
@@ -52,7 +52,10 @@ const LeaderBoard = ({ promotionId }) => {
                         {result?.data.leadBoardItems.map(
                             (player, index) =>
                                 player && (
-                                    <PlayerBoard key={index} {...{ player, index, currentUserNickName: result?.data.currentUser.nickName }} />
+                                    <PlayerBoard
+                                        key={index}
+                                        {...{ player, index, currentUserNickName: result?.data.currentUser.nickName }}
+                                    />
                                 ),
                         )}
                     </div>
@@ -60,7 +63,9 @@ const LeaderBoard = ({ promotionId }) => {
                     <div className="table-body-container player-container">
                         <div className="table-row">
                             <div>
-                                <span className={`rank ${rank < 3 ? `rank-${rank}` : ''}`}>{rank < 3 ? '' : displayedRank}</span>
+                                <span className={`rank ${rank < 3 ? `rank-${rank}` : ''}`}>
+                                    {rank < 3 && point !== 0 ? '' : displayedRank}
+                                </span>
                             </div>
                             <div className="txt-special">{t('you')}</div>
                             <div className="txt-special">{formatNumberWithComma(result?.data.currentUser.point)}</div>

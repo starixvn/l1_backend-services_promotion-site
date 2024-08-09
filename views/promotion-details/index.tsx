@@ -1,20 +1,21 @@
-import '../../public/static/css/promotion-details.scss';
-import '../helpers/string-helper';
+import "../../public/static/css/promotion-details.scss";
+import "../helpers/string-helper";
 
-import { useTranslate } from '@tolgee/react';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import { Markup } from 'interweave';
-import React from 'react';
+import { useTranslate } from "@tolgee/react";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { Markup } from "interweave";
+import React from "react";
+
+import { PromotionConfigResponse } from "../../src/features/promotion-configs/models/promotion-configs-response";
+import { LanguageMapper } from "../../views/constants";
+import { ParamsHelper } from "../../views/helpers";
+import LoadingSpinner from "../components/loading-spinner";
+import { formatNumberWithComma } from "../helpers/common-helper";
+import useFetchData from "../hooks/use-fetch-data";
+import Prize from "./prize";
+
 dayjs.extend(utc);
-
-import { PromotionConfigResponse } from '../../src/features/promotion-configs/models/promotion-configs-response';
-import { LanguageMapper } from '../../views/constants';
-import { ParamsHelper } from '../../views/helpers';
-import LoadingSpinner from '../components/loading-spinner';
-import { formatNumberWithComma } from '../helpers/common-helper';
-import useFetchData from '../hooks/use-fetch-data';
-import Prize from './prize';
 
 const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const { t } = useTranslate();
@@ -71,14 +72,12 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                         <div className="text-event">
                             <picture>
                                 <source media="(min-width: 577px)" srcSet={`static/images/banner/text-event/${language}.webp`}></source>
-                                <img src={`static/images/banner/mobile/text-event/${language}.webp`} />
+                                <img className="event-img" src={`static/images/banner/mobile/text-event/${language}.webp`} />
                             </picture>
                         </div>
+
                         <div className="text-slogan">
-                            <picture>
-                                <source media="(min-width: 577px)" srcSet={`static/images/banner/text-slogan/${language}.webp`}></source>
-                                <img src={`static/images/banner/mobile/text-slogan/${language}.webp`} />
-                            </picture>
+                            <img className="slogan-img" src={`static/images/banner/text-slogan/${language}.webp`} />
                         </div>
                         <div className="winning-prize">
                             <div className="left"></div>

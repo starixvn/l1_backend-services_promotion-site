@@ -58,9 +58,9 @@
             transform: translateX(-50%);
         }
 
-        @media screen and (max-width: 577px) {
-            > picture > img {
-                height: 164px;
+        @media screen and (max-width: 576px) {
+            .event-img {
+                height: 16.4rem;
             }
         }
 
@@ -79,6 +79,12 @@
         left: 50%;
         transform: translateX(-50%);
         top: 23.5rem;
+
+        @media screen and (max-width: 576px) {
+            .slogan-img {
+                height: 4rem;
+            }
+        }
 
         @media screen and (min-width: 577px) {
             top: 15rem;
