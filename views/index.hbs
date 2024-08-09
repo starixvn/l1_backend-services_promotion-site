@@ -18,7 +18,10 @@
             </div>
         </div>
         <script type='text/javascript'>
-            var AppInitialState = JSON.parse('{{{jsonObject}}}');
+            var AppInitialState = JSON.parse('{{{jsonObject}}}'); 
+            setTimeout(function(){
+                document.getElementById('game-over-layer').style.display = 'block'; 
+            }, 300);
         </script>
         <script type='module' src='bundle/index.js'></script>
 
