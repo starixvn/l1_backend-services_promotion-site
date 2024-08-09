@@ -44,6 +44,9 @@ module.exports = (env, argv) => {
         resolve: {
             extensions: ['.ts', '.tsx', '.js', '.jsx'],
         },
+        optimization:{
+            minimize: !isDevelopment
+        },
         watch: isDevelopment,
         cache: false,
         devtool:  isDevelopment ? 'source-map' : false ,
