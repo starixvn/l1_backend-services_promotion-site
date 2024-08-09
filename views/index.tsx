@@ -1,15 +1,15 @@
-import "../public/static/css/style.scss";
+import '../public/static/css/style.scss';
 
-import { FormatIcu } from "@tolgee/format-icu";
-import { BackendFetch, Tolgee, TolgeeProvider } from "@tolgee/react";
-import { InContextTools } from "@tolgee/web/tools";
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { FormatIcu } from '@tolgee/format-icu';
+import { BackendFetch, Tolgee, TolgeeProvider } from '@tolgee/react';
+import { InContextTools } from '@tolgee/web/tools';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-import CloseButton from "./components/close-button";
-import LoadingSpinner from "./components/loading-spinner";
-import { AppTypes, LanguageMapper } from "./constants";
-import { isAppType, ParamsHelper } from "./helpers";
+import CloseButton from './components/close-button';
+import LoadingSpinner from './components/loading-spinner';
+import { AppTypes, LanguageMapper } from './constants';
+import { isAppType, ParamsHelper } from './helpers';
 
 const Promotions = React.lazy(() => import('./promotions'));
 const PromotionDetail = React.lazy(() => import('./promotion-details'));
@@ -38,6 +38,7 @@ if (window.AppInitialState?.results.isSuccessful) {
         }),
     );
     const App = () => {
+        document.getElementById('game-over-layer').style.display = 'none';
         const [activedPromotionId, setActivedPromotionId] = React.useState(0);
         const [appState, setAppState] = React.useState({
             isShowPromotions: true,
