@@ -36,7 +36,6 @@ const tolgee = Tolgee()
 if (window.AppInitialState?.results.isSuccessful ) {
     
     const App = () => {
-        document.getElementById('game-over-layer').style.display = 'none';
         const [activedPromotionId, setActivedPromotionId] = React.useState(0);
         const [appState, setAppState] = React.useState({
             isShowPromotions: true,
