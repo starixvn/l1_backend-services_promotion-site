@@ -6,7 +6,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import CloseButton from './components/close-button';
-import LoadingSpinner from './components/loading-spinner';
 import { AppTypes, LanguageMapper } from './constants';
 import { isAppType, ParamsHelper } from './helpers';
 
@@ -15,25 +14,20 @@ const PromotionDetail = React.lazy(() => import('./promotion-details'));
 const LeaderBoard = React.lazy(() => import('./leader-board'));
 const Unauthorized = React.lazy(() => import('./unauthorized'));
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let initialComponent = <Unauthorized />;
 const tolgee = Tolgee()
-        .use(FormatIcu())
-        .use(BackendFetch())
-        .init({
-            availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
-            fallbackLanguage: 'en',
-            defaultLanguage: LanguageMapper[ParamsHelper.getParams().language] || 'en' || ParamsHelper.getParams().language || 'en',
-            ns: ['PromotionCampaign'],
-            defaultNs: 'PromotionCampaign',
-            projectId: '5',            
-        });
-
-       
-
-
-if (window.AppInitialState?.results.isSuccessful ) {
+    .use(FormatIcu())
+    .use(BackendFetch())
+    .init({
+        availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
+        fallbackLanguage: 'en',
+        defaultLanguage: LanguageMapper[ParamsHelper.getParams().language] || 'en' || ParamsHelper.getParams().language || 'en',
+        ns: ['PromotionCampaign'],
+        defaultNs: 'PromotionCampaign',
+        projectId: '5',
+    });
+if (window.AppInitialState?.results.isSuccessful) {
     
     const App = () => {
         const [activedPromotionId, setActivedPromotionId] = React.useState(0);
@@ -118,12 +112,11 @@ if (window.AppInitialState?.results.isSuccessful ) {
         );
     };
 
-    initialComponent =  (
-        <TolgeeProvider tolgee={tolgee}         
-        fallback={<LoadingSpinner />}>
+    initialComponent = (
+        <TolgeeProvider tolgee={tolgee}>
             <App />
         </TolgeeProvider>
-    ) ;
+    );
 }
 
 root.render(initialComponent);
