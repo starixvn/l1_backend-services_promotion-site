@@ -1,6 +1,8 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    ecmaVersion: 2021, 
+    sourceType: 'module', 
     ecmaFeatures: {
       "jsx": true
   },
@@ -10,9 +12,11 @@ module.exports = {
   },
   plugins: ['@typescript-eslint/eslint-plugin', "eslint:recommended", "react"],
   extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    "plugin:react/recommended"
+    'plugin:jsx-a11y/recommended',
+    'plugin:prettier/recommended', 
   ],
   root: true,
   env: {
@@ -25,5 +29,10 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+  },
+  settings: {
+    react: {
+      version: 'detect', // Automatically detects the React version
+    },
   },
 };

@@ -1,0 +1,159 @@
+import "../../public/static/css/promotion-details.scss";
+import "../helpers/string-helper";
+
+import { useTranslate } from "@tolgee/react";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { Markup } from "interweave";
+import React from "react";
+
+import { PromotionConfigResponse } from "../../src/features/promotion-configs/models/promotion-configs-response";
+import { LanguageMapper } from "../../views/constants";
+import { ParamsHelper } from "../../views/helpers";
+import LoadingSpinner from "../components/loading-spinner";
+import { formatNumberWithComma } from "../helpers/common-helper";
+import useFetchData from "../hooks/use-fetch-data";
+import Prize from "./prize";
+
+dayjs.extend(utc);
+
+const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
+    const { t } = useTranslate();
+    const { result, loading, error } = useFetchData<PromotionConfigResponse>(`promotions/${promotionId}`);
+    const data = result?.data;
+
+    if (loading) return <LoadingSpinner />;
+    if (error || !result.isSuccessful) return <div>Network Error.</div>;
+
+    const template = 'HH:mm MM/DD/YYYY';
+    const startdate = dayjs.utc(result?.data.startDateTime).local().format(template);
+    const enddate = dayjs.utc(data?.endDateTime).local().format(template);
+    const language = LanguageMapper[ParamsHelper.getParams().language] || 'en';
+
+    const promotionInformation = [
+        {
+            header: t('duration'),
+            description: t('take_place_from', { startdate, enddate }).replaceTolgeeFormat(),
+        },
+        {
+            header: t('eligible_games'),
+            description: t('all_games'),
+        },
+        {
+            header: t('total_prize'),
+            description: formatNumberWithComma(data?.totalPrize),
+        },
+    ];
+
+    const participantSteps = [
+        {
+            header: t('step1'),
+            description: t('step1_para_1', {
+                minstakeforslotgame: formatNumberWithComma(data?.slotGameMinBet),
+                minstakeforothers: formatNumberWithComma(data?.otherGameMinBet),
+            }).replaceTolgeeFormat(),
+        },
+        {
+            header: t('step2'),
+            description: t('step2_para_1'),
+        },
+        {
+            header: t('step3'),
+            description: t('step3_para_1', { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat(),
+        },
+    ];
+
+    return (
+        <div className="promotion-container tournament-container">
+            <div className="main-content content">
+                <div className="banner">
+                    <div className="center">
+                        <div className="dealer"></div>
+                        <div className="text-event">
+                            <picture>
+                                <source media="(min-width: 577px)" srcSet={`static/images/banner/text-event/${language}.webp`}></source>
+                                <img className="event-img" src={`static/images/banner/mobile/text-event/${language}.webp`} />
+                            </picture>
+                        </div>
+
+                        <div className="text-slogan">
+                            <img className="slogan-img" src={`static/images/banner/text-slogan/${language}.webp`} />
+                        </div>
+                        <div className="winning-prize">
+                            <div className="left"></div>
+                            <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
+                            <div className="right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="page-title">
+                    <div className="text">{data?.title}</div>
+                </div>
+
+                <div className="group">
+                    <div className="group-header">{t('title_promotion_info')}</div>
+                    <div className="group-body info-list">
+                        {promotionInformation.map(({ header, description }, index) => {
+                            return (
+                                <div className="info-item" key={index}>
+                                    <div className="item-description-header">{header}</div>
+                                    <p className="item-description-content">{description}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="group">
+                    <div className="group-header">{t('title_participant_steps')}</div>
+                    <div className="group-body info-list">
+                        {participantSteps.map(({ header, description }, index) => {
+                            return (
+                                <div className="info-item" key={index}>
+                                    <div className="item-description-header">{header}</div>
+                                    <p className="item-description-content">{description}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="group prizes">
+                    <div className="group-header">{t('title_prize_categories')}</div>
+                    <div className="group-body info-list">
+                        {data?.winningPrizes.map((prize, index) => <Prize key={index} prize={prize} />)}
+                    </div>
+                </div>
+
+                <div className="group">
+                    <div className="group-header">{t('title_terms_conditions')}</div>
+                    <div className="group-body info-list">
+                        <ul className="term-list">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
+                                const key = `terms_conditions_para_${item}`;
+                                return (
+                                    <li className={`term term-${item}`} key={key}>
+                                        <Markup
+                                            content={
+                                                item === 6 ? t(key, { counttotalprize: data?.numerousPrize }).replaceTolgeeFormat() : t(key)
+                                            }
+                                        ></Markup>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div className="promotion-detail-footer">
+                <button className="btn btn-leader-board" onClick={handleLeaderBoard}>
+                    {t('leaderboard')}
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default PromotionDetail;

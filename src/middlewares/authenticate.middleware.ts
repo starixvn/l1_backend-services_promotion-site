@@ -1,11 +1,11 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
-import { NextFunction, Request, Response } from 'express';
-import { SentryLogger } from '../common/providers';
 import { Cache } from 'cache-manager';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { NextFunction, Request, Response } from 'express';
 import * as jwksClient from 'jwks-rsa';
+import { SentryLogger } from '../_shared/common/providers';
 
 @Injectable()
 export class AuthenticateMiddleware implements NestMiddleware {
@@ -21,7 +21,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
     async use(req: Request, res: Response, next: NextFunction) {
         try {
             const token = this.getBearerToken(req);
-            if (token == null) {
+            if (token === null) {
                 this.sendError(res, this.UnauthorizedCode);
                 return;
             }

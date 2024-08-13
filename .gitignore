@@ -39,3 +39,6 @@ OpenCover/
 coverage/
 reports/
 test-report.xml
+
+/public/bundle
+/public/i18n

@@ -1,15 +1,16 @@
-import { initializer, initSpanProcessor, addIdentifiers } from 'sc-instrument';
 import * as dotenv from 'dotenv';
+import { addIdentifiers, initializer, initSpanProcessor } from 'sc-instrument';
 dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import helmet from '@fastify/helmet';
 import { join } from 'path';
 
+import { SentryLogger } from './_shared/common/providers/logger.service';
+import { UserServiceClient } from './_shared/services/user-service';
 import { AppModule } from './app.module';
-import { SentryLogger } from './common/providers/logger.service';
+import { DomainService } from './domain/domain.service';
 
 async function bootstrap() {
     if (process.env.ENABLE_OTEL) {
@@ -21,7 +22,6 @@ async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ caseSensitive: false }));
 
     app.useLogger(app.get(SentryLogger));
-    app.register(helmet, { contentSecurityPolicy: false, frameguard: false });
     app.useStaticAssets({
         root: join(__dirname, '..', 'public'),
     });
@@ -32,7 +32,20 @@ async function bootstrap() {
         templates: join(__dirname, '..', 'views'),
     });
 
+    const domain = app.get(DomainService);
+
+    app.enableCors({
+        origin: (origin, callback) => {
+            if (domain.isAllowAccess(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error(`Not allowed by CORS ${origin}`));
+            }
+        },
+    });
+
     await app.init();
+    UserServiceClient.init();
     const config = new DocumentBuilder()
         .addBearerAuth()
         .setTitle('Promotion Site')

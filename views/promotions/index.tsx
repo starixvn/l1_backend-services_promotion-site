@@ -1,0 +1,73 @@
+import '../../public/static/css/promotion.scss';
+import '../helpers/string-helper';
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import React from 'react';
+dayjs.extend(utc);
+
+import { PromotionConfigsResponse, PromotionViewModel } from '../../src/features/promotion-configs/models/promotion-configs-response';
+import CloseButton from '../components/close-button';
+import LoadingSpinner from '../components/loading-spinner';
+import useFetchData from '../hooks/use-fetch-data';
+import { useTranslator } from '../hooks/use-translator';
+
+const PromotionContent = ({ promotion }) => {
+    const { t } = useTranslator();
+
+    if (promotion.isCompleted) {
+        return <p className="duration text-red">{t('completed')}</p>;
+    }
+
+    const template = 'MM/DD/YYYY';
+    const startdate = dayjs.utc(promotion?.startDateTime).local().format(template);
+    const enddate = dayjs.utc(promotion?.endDateTime).local().format(template);
+    return <p className="duration">{t('take_place_from', { startdate, enddate }).replaceTolgeeFormat()} </p>;
+};
+
+const Promotion = ({ promotion, handleMoreInfo }) => {
+    const { t } = useTranslator();
+    return (
+        <div className="promotion-item">
+            <div className="image-container">
+                <div className="img-fluid" />
+            </div>
+            <div className="item-container">
+                <div className="item-title">{promotion.title}</div>
+                <p className="item-content">{promotion.content}</p>
+                <div className="item-more-info">
+                    <PromotionContent promotion={promotion} />
+                    <button className="btn btn-more-info" onClick={() => handleMoreInfo(promotion.promotionId)}>
+                        {t('more_info')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const Promotions = ({ handleMoreInfo }) => {
+    const { result, loading, error } = useFetchData<PromotionConfigsResponse>('promotions');
+    const { t } = useTranslator();
+
+    if (loading) return <LoadingSpinner />;
+    if (error || !result.isSuccessful) return <div>Network Error.</div>;
+
+    return (
+        <div className="promotion-container promotion-list-container">
+            <div className="page-title">
+                <div className="text">{t('promotions')}</div>
+                <CloseButton />
+            </div>
+
+            <div className="main-content promotion-list">
+                {result?.data &&
+                    result?.data.map((promotion: PromotionViewModel, index: number) => (
+                        <Promotion key={index} promotion={promotion} handleMoreInfo={handleMoreInfo} />
+                    ))}
+            </div>
+        </div>
+    );
+};
+
+export default Promotions;

@@ -1,0 +1,431 @@
+@import url('_fonts.scss');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px !important;
+    overscroll-behavior: none;
+    -ms-overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+
+    --font-family: 'NotoSerif', -apple-system, arial, sans-serif;
+    --page-background-color: #43083e;
+
+    --color-primary: #ffe800;
+    --color-secondary: #1c033a;
+
+    --color-primary-text: #ffffff;
+    --color-secondary-header: #0f0e0f;
+
+    --scrollbar-background: #663556;
+    --scrollbar-thumb-background: #bd7e48;
+}
+
+html,
+body {
+    height: 100%;
+    scrollbar-width: none;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+
+    font: 2rem/1.5 var(--font-family, arial, sans-serif);
+    color: var(--color-primary-text, #fff);
+
+    &.saba-club {
+        border-radius: 3rem;
+        border: 2px solid #ffc000;
+
+        .main {
+            border-radius: 3rem;
+        }
+    }
+
+    -webkit-text-size-adjust: 100%;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--scrollbar-background);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: var(--scrollbar-thumb-background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+img,
+svg {
+    vertical-align: middle;
+}
+
+img {
+    border-style: none;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+}
+
+.float-left {
+    float: left;
+}
+
+.title {
+    padding-left: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.game-over-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: var(--modal-index);
+}
+
+.spinner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.loader {
+    width: 5rem;
+    height: 5rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 0.5rem solid #7d7777;
+    animation:
+        spin-1 0.6s infinite linear alternate,
+        spin-2 1.2s infinite linear;
+}
+
+.icon-close {
+    display: -moz-box;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 1.7rem;
+    right: 1.7rem;
+    z-index: 99;
+    background: #1b081d !important;
+    color: #716873 !important;
+    cursor: pointer;
+
+    &:before {
+        font-size: 2.4rem;
+        color: lightgray;
+        content: '\2715';
+    }
+}
+
+@keyframes spin-1 {
+    0% {
+        clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+    }
+
+    12.5% {
+        clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 0%, 100% 0%, 100% 0%);
+    }
+
+    25% {
+        clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
+    }
+
+    50% {
+        clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+    }
+
+    62.5% {
+        clip-path: polygon(50% 50%, 100% 0, 100% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+    }
+
+    75% {
+        clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
+    }
+
+    100% {
+        clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
+    }
+}
+
+@keyframes spin-2 {
+    0% {
+        transform: scaleY(1) rotate(0deg);
+    }
+
+    49.99% {
+        transform: scaleY(1) rotate(135deg);
+    }
+
+    50% {
+        transform: scaleY(-1) rotate(0deg);
+    }
+
+    100% {
+        transform: scaleY(-1) rotate(-135deg);
+    }
+}
+
+.btn {
+    height: 3.6rem;
+    line-height: 1;
+    padding: 0 1rem;
+    border-radius: 0.8rem;
+    background: linear-gradient(180deg, rgba(255, 232, 0, 1) 25%, rgba(255, 193, 0, 1) 100%);
+    border: 1px solid #fff9a1;
+    color: var(--color-secondary-header);
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1.4rem;
+    cursor: pointer;
+
+    @media screen and (min-width: 992px) {
+        font-size: 1.8rem;
+        height: 4.8rem;
+    }
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    background: #4c0a48 url(../images/bg.webp);
+    overflow: hidden;
+}
+
+.header {
+    position: fixed;
+    background-color: #0f0e0f;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 5.8rem;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .logo {
+        transform: scale(0.65);
+    }
+
+    @media screen and (min-width: 768px) {
+        height: 7.6rem;
+
+        .logo {
+            transform: none;
+        }
+    }
+}
+
+.back-icon {
+    position: absolute;
+    top: 0.8rem;
+    left: 2rem;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url(../images/icon-back.svg) no-repeat center;
+    background-size: 4.4rem 3.2rem;
+    cursor: pointer;
+
+    @media screen and (min-width: 768px) {
+        width: 5.5rem;
+        height: 5.5rem;
+        top: 1rem;
+        transform: none;
+    }
+
+    &::before {
+        content: '';
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        display: block;
+        position: absolute;
+        background-color: #4d5357;
+        z-index: -1;
+    }
+}
+
+.promotion-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+
+    @media screen and (min-width: 1398px) {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .page-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2.5rem;
+
+        .text {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 4rem;
+            line-height: 1;
+            max-width: 76%;
+            z-index: 1;
+            padding: 0.4rem 4rem;
+            background-color: #2e062c;
+            border: 2px solid #8f4587;
+            border-width: 2px 0;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--color-primary);
+
+            @media screen and (min-width: 992px) {
+                min-height: 5rem;
+                font-size: 2.8rem;
+            }
+
+            &::before,
+            &::after {
+                content: '';
+                display: flex;
+                position: absolute;
+                top: 50%;
+                transform: scale(0.96) translateY(-50%);
+                background: url(../images/promotion-icon.webp) no-repeat center;
+                background-size: 5.4rem 5.9rem;
+                width: 5.4rem;
+                height: 6.3rem;
+            }
+
+            &::before {
+                left: -3rem;
+
+                @media screen and (min-width: 768px) {
+                    transform: scale(1) translateY(-50%);
+                }
+            }
+
+            &::after {
+                right: -3rem;
+                transform: scale(-0.96, 0.96) translateY(-50%);
+
+                @media screen and (min-width: 768px) {
+                    transform: scaleX(-1) translateY(-50%);
+                }
+            }
+        }
+    }
+}
+
+.header + .promotion-container {
+    height: calc(100% - 5.8rem);
+    margin: 5.8rem 0 1rem;
+
+    @media screen and (min-width: 768px) {
+        margin-top: 7.6rem;
+        height: calc(100% - 7.6rem);
+    }
+}
+
+// For each system
+.saba-club,
+.mega-keno {
+    .back-icon {
+        width: 5rem;
+        height: 5rem;
+        top: 2rem;
+
+        @media screen and (max-width: 576px) {
+            top: 1rem;
+            left: 1rem;
+            transform: scale(0.8);
+        }
+    }
+
+    .icon-close {
+        width: 5rem;
+        height: 5rem;
+        top: 2rem;
+
+        @media screen and (max-width: 576px) {
+            top: 1rem;
+            right: 1rem;
+            transform: scale(0.8);
+        }
+    }
+
+    .header {
+        background-color: transparent;
+
+        .back-icon::before {
+            background: rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .icon-close {
+        background: rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .header + .promotion-container {
+        margin-top: 0;
+    }
+}
