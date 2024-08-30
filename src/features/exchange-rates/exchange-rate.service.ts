@@ -11,10 +11,10 @@ export class ExchangeRateService {
     constructor(
         @InjectModel(ExchangeRates.name) private readonly model: Model<ExchangeRatesDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
-    ) {}
+    ) { }
 
-    async getLastExchangeRate(): Promise<Result<ExchangeRates>> {
-        const execution = this.model.findOne({}).sort({ exDate: -1 }).lean().exec();
+    async getExchangeRateById(exId: number): Promise<Result<ExchangeRates>> {
+        const execution = this.model.findOne({ exId }).lean().exec();
         return this.dataHandler.getData(execution);
     }
 }

@@ -17,7 +17,7 @@ export class PromotionConfigService {
         @InjectModel(PromotionConfigs.name) private readonly model: Model<PromotionConfigsDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
-    ) {}
+    ) { }
 
     async getPromotionsByStatus(status: string): Promise<Result<PromotionConfigs[]>> {
         const execution = this.model.find({ status }).lean().exec();
@@ -39,6 +39,7 @@ export class PromotionConfigService {
         const execution = this.model.findOne(filter).lean().exec();
 
         const promotion = await this.dataHandler.getData(execution);
+        console.log(promotion)
         if (promotion?.data) {
             return new Result(ErrorCodes.Success, '', promotion?.data);
         }
@@ -122,7 +123,7 @@ export class PromotionConfigService {
                 }
             });
         });
-        const exchangeRate = (await this.exchangeRateService.getLastExchangeRate()).data;
+        const exchangeRate = (await this.exchangeRateService.getExchangeRateById(promotion.exId)).data;
         const convertValueToUserCurrency = (value) => (1 / (exchangeRate.code[session.currencyCode] * session.multiplier)) * value;
 
         winningPrizes.forEach((winningPrize) => {

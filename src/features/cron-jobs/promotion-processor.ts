@@ -37,7 +37,7 @@ export class PromotionProcessor {
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
         @Inject(GameConfigService) private readonly gameConfigService: GameConfigService,
         @Inject(ChatBotService) private readonly chatBotService: ChatBotService,
-    ) {}
+    ) { }
 
     async proceed() {
         try {
@@ -97,7 +97,7 @@ export class PromotionProcessor {
 
     async updateAwardedAmount(promotionConfigs: PromotionConfigs) {
         const awards = getAwards(promotionConfigs);
-        const exchangeRate = await this.exchangeRateService.getLastExchangeRate();
+        const exchangeRate = await this.exchangeRateService.getExchangeRateById(promotionConfigs.exId);
         const topLeaderBoard = await this.leaderBoardService.getTopLeaderBoard(promotionConfigs.promotionId, awards.length);
         for (let i = 0; i < topLeaderBoard.data.length; i++) {
             const leaderBoard = topLeaderBoard.data[i];
@@ -118,10 +118,11 @@ export class PromotionProcessor {
 
     async processRunningPromotions() {
         const result = await this.promotionConfigService.getPromotionsByStatus(PROMOTION_STATUSES.running);
-        const exchangeRate = await this.exchangeRateService.getLastExchangeRate();
+
         const gameConfigs = await this.gameConfigService.getAll();
         for (const promotion of result.data) {
             try {
+                const exchangeRate = await this.exchangeRateService.getExchangeRateById(promotion.exId);
                 await this.processRunningPromotion(promotion, gameConfigs.data, exchangeRate.data);
                 await this.promotionRunService.updateLatestRunTime(promotion.promotionId);
             } catch (e) {
