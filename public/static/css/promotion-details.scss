@@ -156,6 +156,24 @@
             height: 7.2rem;
         }
     }
+
+    .count-down {
+        position: absolute;
+        top: 27rem;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+        .count-down-title {
+            margin-right: 2rem;
+            text-align: center;
+        }
+
+        .time-container {
+            width: 10rem;
+            text-align: center;
+        }
+    }
 }
 
 .tournament-container {
@@ -208,7 +226,7 @@
         }
     }
 
-    .group + .group {
+    .group+.group {
         margin-top: 6rem;
     }
 
@@ -359,9 +377,11 @@
             list-style: none;
         }
     }
+
     @media screen and (max-width: 767px) {
         .term {
-            font-size: 1.6rem !important; /* Ensure font size for smaller screens */
+            font-size: 1.6rem !important;
+            /* Ensure font size for smaller screens */
         }
     }
 }

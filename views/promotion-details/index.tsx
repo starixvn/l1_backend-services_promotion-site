@@ -14,6 +14,7 @@ import LoadingSpinner from "../components/loading-spinner";
 import { formatNumberWithComma } from "../helpers/common-helper";
 import useFetchData from "../hooks/use-fetch-data";
 import Prize from "./prize";
+import CountdownTimer from "./count-down-timer";
 
 dayjs.extend(utc);
 
@@ -29,6 +30,8 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
     const startdate = dayjs.utc(result?.data.startDateTime).local().format(template);
     const enddate = dayjs.utc(data?.endDateTime).local().format(template);
     const language = LanguageMapper[ParamsHelper.getParams().language] || 'en';
+
+    // const currentUtcTime = dayjs.utc();
 
     const promotionInformation = [
         {
@@ -84,6 +87,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                             <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
                             <div className="right"></div>
                         </div>
+                        <CountdownTimer targetDate={dayjs.utc(data?.endDateTime).local().format()} />
                     </div>
                 </div>
 
