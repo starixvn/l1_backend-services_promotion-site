@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import utc from 'dayjs/plugin/utc';
+import { formatDateTimePadStart } from "../helpers/common-helper";
 
 dayjs.extend(duration);
 dayjs.extend(utc);
 
 const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
-    const [daysLeft, setDaysLeft] = useState<string>("");
-    const [oursLeft, setOursLeft] = useState<string>("");
-    const [minutesLeft, setMinutesLeft] = useState<string>("");
-    const [secondsLeft, setSecondsLeft] = useState<string>("");
+    const [timeLeft, setTimeLeft] = useState<object>({
+        "DAYS": "",
+        "HOURS": "",
+        "MINS": "",
+        "SECS": ""
+    });
 
     const [isFinishedCountDown, setIsFinishedCountDown] = useState<boolean>(false);
 
@@ -27,10 +30,12 @@ const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
             }
 
             const remainingTime = dayjs.duration(diff);
-            setDaysLeft(Math.floor(remainingTime.asDays()).toString());
-            setOursLeft(remainingTime.hours().toString());
-            setMinutesLeft(remainingTime.minutes().toString());
-            setSecondsLeft(remainingTime.seconds().toString());
+            setTimeLeft({
+                "DAYS": formatDateTimePadStart(Math.floor(remainingTime.asDays())),
+                "HOURS": formatDateTimePadStart(remainingTime.hours()),
+                "MINS": formatDateTimePadStart(remainingTime.minutes()),
+                "SECS": formatDateTimePadStart(remainingTime.seconds())
+            });
         };
 
         const intervalId = setInterval(updateTimer, 1000);
@@ -46,22 +51,14 @@ const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
     return (
         <div className="count-down">
             <div className="count-down-title"> ENDS IN </div>
-            <div className="time-container">
-                <div className="time-value">{daysLeft}</div>
-                <div className="time-text">DAYS</div>
-            </div>
-            <div className="time-container">
-                <div className="time-value">{oursLeft}</div>
-                <div className="time-text">HOURS</div>
-            </div>
-            <div className="time-container">
-                <div className="time-value">{minutesLeft}</div>
-                <div className="time-text">MINS</div>
-            </div>
-            <div className="time-container">
-                <div className="time-value">{secondsLeft}</div>
-                <div className="time-text">SECS</div>
-            </div>
+            {
+                Object.entries(timeLeft).map(([key, value], index) => {
+                    return (<div key={index} className="time-container">
+                        <div className="time-value">{value}</div>
+                        <div className="time-text">{key}</div>
+                    </div>)
+                })
+            }
         </div>
     )
 };
