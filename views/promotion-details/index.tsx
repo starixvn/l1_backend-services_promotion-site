@@ -87,10 +87,11 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                             <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
                             <div className="right"></div>
                         </div>
-                        {/* <CountdownTimer targetDate={dayjs.utc(data?.startDateTime).local().format()} /> */}
+
                     </div>
                 </div>
 
+                <CountdownTimer targetDate={dayjs.utc(data?.startDateTime).local().format()} />
                 <div className="page-title">
                     <div className="text">{data?.title}</div>
                 </div>

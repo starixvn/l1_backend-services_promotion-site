@@ -1,3 +1,9 @@
+html {
+    --color-bg: #22262E;
+    --color-heading: #798EB0;
+    --color-counter: #8973FD;
+}
+
 .banner {
     position: relative;
     background: url(../images/banner/mobile/background-banner.webp) no-repeat center;
@@ -172,6 +178,58 @@
         .time-container {
             width: 10rem;
             text-align: center;
+        }
+    }
+}
+
+.count-down-timer {
+    background-image: linear-gradient(15deg, #1a1a1a, var(--color-bg));
+    color: var(--color-text);
+    display: flex;
+    margin-bottom: 2rem !important;
+
+
+    .container {
+        margin: auto;
+        padding: 1rem;
+    }
+
+    .counter-wrapper {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0 2rem;
+
+        :first-child {
+            background: none;
+        }
+    }
+
+    .counter {
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: 1rem;
+        color: var(--color-counter);
+        display: flex;
+        flex-direction: column;
+        font-size: 3.6rem;
+        font-weight: 100;
+        line-height: 1;
+        padding: 1vw;
+        text-align: center;
+
+
+        h2 {
+            color: var(--color-heading);
+            font-family: var(--font-family-heading);
+            font-size: clamp(1rem, 2vw, 99rem);
+            font-weight: 300;
+            letter-spacing: .1875em;
+            margin: 1.25rem 0 0;
+            order: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+            white-space: nowrap;
+            width: 100%;
         }
     }
 }

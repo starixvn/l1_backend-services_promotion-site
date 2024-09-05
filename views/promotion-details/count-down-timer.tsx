@@ -7,6 +7,19 @@ import { formatDateTimePadStart } from "../helpers/common-helper";
 dayjs.extend(duration);
 dayjs.extend(utc);
 
+interface CounterType {
+    displayValue?: number;
+    label: string;
+}
+
+const Counter = ({ displayValue, label }: CounterType) => (
+    <div className="counter">
+        <h2>{label}</h2>
+        <div>{displayValue}</div>
+    </div>
+);
+
+
 const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
     const [timeLeft, setTimeLeft] = useState<object>({
         "DAYS": "",
@@ -48,19 +61,18 @@ const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
         return <></>;
     }
 
-    return (
-        <div className="count-down">
-            <div className="count-down-title"> ENDS IN </div>
-            {
-                Object.entries(timeLeft).map(([key, value], index) => {
-                    return (<div key={index} className="time-container">
-                        <div className="time-value">{value}</div>
-                        <div className="time-text">{key}</div>
-                    </div>)
-                })
-            }
+    return (<div className="count-down-timer">
+        <div className="container">
+            <div className="counter-wrapper">
+                <Counter label={"ENDS IN"} />
+                {
+                    Object.entries(timeLeft).map(([key, value], index) => {
+                        return <Counter key={index} displayValue={value} label={key} />
+                    })
+                }
+            </div>
         </div>
-    )
+    </div>);
 };
 
 export default CountdownTimer;
