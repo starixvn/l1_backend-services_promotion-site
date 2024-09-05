@@ -8,7 +8,7 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 
 interface CounterType {
-    displayValue?: number;
+    displayValue?: string;
     label: string;
 }
 

@@ -1,5 +1,5 @@
 html {
-    --color-bg: #22262E;
+    --color-bg: #230720;
     --color-heading: #798EB0;
     --color-counter: #8973FD;
 }
@@ -160,24 +160,6 @@ html {
             background: url(../images/banner/frame-amount-right.webp) no-repeat;
             width: 4.8rem;
             height: 7.2rem;
-        }
-    }
-
-    .count-down {
-        position: absolute;
-        top: 27rem;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-
-        .count-down-title {
-            margin-right: 2rem;
-            text-align: center;
-        }
-
-        .time-container {
-            width: 10rem;
-            text-align: center;
         }
     }
 }
