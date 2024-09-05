@@ -91,7 +91,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                     </div>
                 </div>
 
-                <CountdownTimer targetDate={dayjs.utc(data?.startDateTime).local().format()} />
+                <CountdownTimer targetDate={dayjs.utc(data?.endDateTime).local().format()} />
                 <div className="page-title">
                     <div className="text">{data?.title}</div>
                 </div>
