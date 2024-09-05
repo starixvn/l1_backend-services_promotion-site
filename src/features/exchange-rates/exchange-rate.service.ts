@@ -14,7 +14,10 @@ export class ExchangeRateService {
     ) { }
 
     async getExchangeRateById(exId: number): Promise<Result<ExchangeRates>> {
-        const execution = this.model.findOne({ exId }).lean().exec();
+        const execution = exId > 0 ?
+            this.model.findOne({ exId }).lean().exec() :
+            this.model.findOne({}).sort({ exDate: -1 }).lean().exec();
+
         return this.dataHandler.getData(execution);
     }
 }

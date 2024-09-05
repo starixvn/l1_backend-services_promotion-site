@@ -21,7 +21,6 @@ export class ExchangeRates {
     @Prop({ type: Object })
     code: object;
 
-
     @IsNumber()
     @ApiProperty()
     @Prop({ required: true })
