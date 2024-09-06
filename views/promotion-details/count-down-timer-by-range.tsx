@@ -15,23 +15,25 @@ interface CountdownTimerByRangeProps {
 export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ startDate, endDate }) => {
     const [targetDate, setTargetDate] = useState<Dayjs>(startDate);
     const [countDownText, setCountDownText] = useState<string>("STARTS IN");
-    const [isFinishedCountDown, setIsFinishedCountDown] = useState<boolean>(false);
+    const [isHideCountDownTimer, setIsHideCountDownTimer] = useState<boolean>(true);
 
     useEffect(() => {
         const updateTimer = () => {
             const now = dayjs.utc();
 
-            if (now.diff(startDate, "s") < 0) {
+            if (now.diff(startDate, "s") < 0 && !targetDate.isSame(startDate)) {
+                setIsHideCountDownTimer(false);
                 return;
             }
 
-            if (now.diff(endDate, "s") < 0) {
-                !targetDate.isSame(endDate) && setTargetDate(endDate);
-                setCountDownText("ENDS IN");
+            if (now.diff(endDate, "s") < 0 && !targetDate.isSame(endDate)) {
+                setIsHideCountDownTimer(false);
+                setTargetDate(endDate);
+                setCountDownText("ENDS IN")
                 return;
             }
 
-            setIsFinishedCountDown(true);
+            setIsHideCountDownTimer(true);
             clearInterval(intervalId);
         };
 
@@ -41,7 +43,7 @@ export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ st
         return () => clearInterval(intervalId);
     }, [startDate, endDate]);
 
-    if (isFinishedCountDown) return null;
+    if (isHideCountDownTimer) return null;
 
     return <CountdownTimer targetDate={targetDate} countDownText={countDownText} />;
 };
