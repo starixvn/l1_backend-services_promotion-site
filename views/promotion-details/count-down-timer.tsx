@@ -8,8 +8,9 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 
 interface CounterType {
-    displayValue?: string;
-    label: string;
+    displayValue: string;
+    timePart?: string;
+    extraClass?: string;
 }
 
 interface CountdownTimerProps {
@@ -17,10 +18,10 @@ interface CountdownTimerProps {
     countDownText?: string;
 }
 
-const Counter = ({ displayValue, label }: CounterType) => (
-    <div className="counter">
-        <h2>{label}</h2>
-        <div>{displayValue}</div>
+const Counter = ({ displayValue, timePart, extraClass }: CounterType) => (
+    <div className={`counter ${extraClass}`} >
+        <div className='displayValue'>{displayValue}</div>
+        <div className='timePart'>{timePart}</div>
     </div>
 );
 
@@ -60,9 +61,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, countDownTe
         <div className="count-down-timer">
             <div className="container">
                 <div className="counter-wrapper">
-                    <Counter label={countDownText} />
+                    <Counter displayValue={countDownText} extraClass='end-in' />
                     {Object.entries(timeLeft).map(([unit, value], index) => (
-                        <Counter key={index} displayValue={value} label={unit} />
+                        <Counter key={index} displayValue={value} timePart={unit} />
                     ))}
                 </div>
             </div>
