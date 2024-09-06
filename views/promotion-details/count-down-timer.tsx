@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import utc from 'dayjs/plugin/utc';
 import { formatDateTimePadStart } from "../helpers/common-helper";
@@ -12,6 +12,11 @@ interface CounterType {
     label: string;
 }
 
+interface CountdownTimerProps {
+    targetDate: Dayjs;
+    countDownText?: string;
+}
+
 const Counter = ({ displayValue, label }: CounterType) => (
     <div className="counter">
         <h2>{label}</h2>
@@ -19,35 +24,29 @@ const Counter = ({ displayValue, label }: CounterType) => (
     </div>
 );
 
-
-const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
-    const [timeLeft, setTimeLeft] = useState<object>({
-        "DAYS": "",
-        "HOURS": "",
-        "MINS": "",
-        "SECS": ""
+const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, countDownText = "COUNTDOWN" }) => {
+    const [timeLeft, setTimeLeft] = useState({
+        DAYS: "00",
+        HOURS: "00",
+        MINS: "00",
+        SECS: "00",
     });
 
-    const [isFinishedCountDown, setIsFinishedCountDown] = useState<boolean>(false);
-
     useEffect(() => {
-        const target = dayjs.utc(targetDate);
-
         const updateTimer = () => {
             const now = dayjs.utc();
-            const diff = target.diff(now);
 
-            if (diff <= 0) {
-                setIsFinishedCountDown(true);
+            if (targetDate.diff(now, "s") <= 0) {
+                clearInterval(intervalId);
                 return;
             }
 
-            const remainingTime = dayjs.duration(diff);
+            const remainingTime = dayjs.duration(targetDate.diff(now));
             setTimeLeft({
-                "DAYS": formatDateTimePadStart(Math.floor(remainingTime.asDays())),
-                "HOURS": formatDateTimePadStart(remainingTime.hours()),
-                "MINS": formatDateTimePadStart(remainingTime.minutes()),
-                "SECS": formatDateTimePadStart(remainingTime.seconds())
+                DAYS: formatDateTimePadStart(Math.floor(remainingTime.asDays())),
+                HOURS: formatDateTimePadStart(remainingTime.hours()),
+                MINS: formatDateTimePadStart(remainingTime.minutes()),
+                SECS: formatDateTimePadStart(remainingTime.seconds()),
             });
         };
 
@@ -57,22 +56,18 @@ const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
         return () => clearInterval(intervalId);
     }, [targetDate]);
 
-    if (isFinishedCountDown) {
-        return <></>;
-    }
-
-    return (<div className="count-down-timer">
-        <div className="container">
-            <div className="counter-wrapper">
-                <Counter label={"ENDS IN"} />
-                {
-                    Object.entries(timeLeft).map(([key, value], index) => {
-                        return <Counter key={index} displayValue={value} label={key} />
-                    })
-                }
+    return (
+        <div className="count-down-timer">
+            <div className="container">
+                <div className="counter-wrapper">
+                    <Counter label={countDownText} />
+                    {Object.entries(timeLeft).map(([unit, value], index) => (
+                        <Counter key={index} displayValue={value} label={unit} />
+                    ))}
+                </div>
             </div>
         </div>
-    </div>);
+    );
 };
 
 export default CountdownTimer;
