@@ -3,14 +3,14 @@ import dayjs, { Dayjs } from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import utc from 'dayjs/plugin/utc';
 import { formatDateTimePadStart } from "../helpers/common-helper";
+import { useTranslate } from "@tolgee/react";
 
 dayjs.extend(duration);
 dayjs.extend(utc);
 
 interface CounterType {
     displayValue: string;
-    timePart?: string;
-    extraClass?: string;
+    text: string;
 }
 
 interface CountdownTimerProps {
@@ -18,20 +18,30 @@ interface CountdownTimerProps {
     countDownText?: string;
 }
 
-const Counter = ({ displayValue, timePart, extraClass }: CounterType) => (
-    <div className={`counter ${extraClass}`} >
+const Counter = ({ displayValue, text: timePart }: CounterType) => (
+    <div className='counter' >
         <div className='displayValue'>{displayValue}</div>
         <div className='timePart'>{timePart}</div>
     </div>
 );
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, countDownText = "COUNTDOWN" }) => {
-    const [timeLeft, setTimeLeft] = useState({
-        DAYS: "00",
-        HOURS: "00",
-        MINS: "00",
-        SECS: "00",
-    });
+    const { t } = useTranslate();
+    const [timeLeft, setTimeLeft] = useState([{
+        text: t('days'),
+        value: "00",
+    }, {
+        text: t('hours'),
+        value: "00",
+    },
+    {
+        text: t('mins'),
+        value: "00",
+    },
+    {
+        text: t('secs'),
+        value: "00",
+    }]);
 
     useEffect(() => {
         const updateTimer = () => {
@@ -43,12 +53,23 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, countDownTe
             }
 
             const remainingTime = dayjs.duration(targetDate.diff(now));
-            setTimeLeft({
-                DAYS: formatDateTimePadStart(Math.floor(remainingTime.asDays())),
-                HOURS: formatDateTimePadStart(remainingTime.hours()),
-                MINS: formatDateTimePadStart(remainingTime.minutes()),
-                SECS: formatDateTimePadStart(remainingTime.seconds()),
-            });
+            setTimeLeft(
+                [{
+                    text: t('days'),
+                    value: formatDateTimePadStart(Math.floor(remainingTime.asDays())),
+                }, {
+                    text: t('hours'),
+                    value: formatDateTimePadStart(remainingTime.hours()),
+                },
+                {
+                    text: t('mins'),
+                    value: formatDateTimePadStart(remainingTime.minutes()),
+                },
+                {
+                    text: t('secs'),
+                    value: formatDateTimePadStart(remainingTime.seconds()),
+                }]
+            );
         };
 
         const intervalId = setInterval(updateTimer, 1000);
@@ -60,10 +81,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, countDownTe
     return (
         <div className="count-down-timer">
             <div className="container">
+                <div className='count-down-text'>{countDownText}</div>
                 <div className="counter-wrapper">
-                    <Counter displayValue={countDownText} extraClass='end-in' />
-                    {Object.entries(timeLeft).map(([unit, value], index) => (
-                        <Counter key={index} displayValue={value} timePart={unit} />
+                    {timeLeft.map(({ text, value }, index) => (
+                        <Counter key={index} displayValue={value} text={text} />
                     ))}
                 </div>
             </div>

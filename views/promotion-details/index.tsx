@@ -92,6 +92,7 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                 <CountdownTimerByRange
                     startDate={dayjs.utc(data?.startDateTime)}
                     endDate={dayjs.utc(data?.endDateTime)}
+                    wrapperStyle="count-down-timer-wrapper"
                 />
 
                 <div className="page-title">

@@ -3,6 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import utc from 'dayjs/plugin/utc';
 import CountdownTimer from './count-down-timer';
+import { useTranslate } from "@tolgee/react";
 
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -10,11 +11,13 @@ dayjs.extend(utc);
 interface CountdownTimerByRangeProps {
     startDate: Dayjs;
     endDate: Dayjs;
+    wrapperStyle?: string;
 }
 
-export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ startDate, endDate }) => {
+export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ startDate, endDate, wrapperStyle }) => {
+    const { t } = useTranslate();
     const [targetDate, setTargetDate] = useState<Dayjs>(startDate);
-    const [countDownText, setCountDownText] = useState<string>("STARTS IN");
+    const [countDownText, setCountDownText] = useState<string>(t('starts_in'));
     const [isHideCountDownTimer, setIsHideCountDownTimer] = useState<boolean>(true);
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ st
             if (now.diff(endDate, "s") < 0 && !targetDate.isSame(endDate)) {
                 setIsHideCountDownTimer(false);
                 setTargetDate(endDate);
-                setCountDownText("ENDS IN")
+                setCountDownText(t('ends_in'))
                 return;
             }
 
@@ -45,7 +48,7 @@ export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ st
 
     if (isHideCountDownTimer) return null;
 
-    return <CountdownTimer targetDate={targetDate} countDownText={countDownText} />;
+    return <div className={wrapperStyle}><CountdownTimer targetDate={targetDate} countDownText={countDownText} /></div>;
 };
 
 export default CountdownTimerByRange;
