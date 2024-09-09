@@ -180,16 +180,13 @@ html {
     top: 28rem;
     width: 100%;
     justify-items: center;
-    left: -7.3rem;
 
     @media screen and (max-width: 768px) {
         top: 28rem;
-        left: 0px;
     }
 
     @media screen and (max-width: 577px) {
         top: 33rem;
-        left: 0px;
     }
 
     .container {
@@ -208,6 +205,32 @@ html {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 0 2rem;
+        width: 35rem;
+        justify-items: center;
+        align-items: center;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    .count-down-text {
+        font-size: 1.8rem;
+        color: #ffe800;
+        font-weight: bold;
+        height: 5.7rem;
+        display: flex;
+        padding: 0.5rem 2rem 0 0;
+        text-transform: uppercase;
+        justify-content: right;
+        position: absolute;
+        right: calc(50% + 18rem);
+
+        @media screen and (max-width: 768px) {
+            height: 4.7rem;
+            justify-content: center;
+            position: static;
+        }
     }
 
     .counter {
@@ -221,7 +244,8 @@ html {
 
         .timePart {
             color: var(--color-counter);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            line-height: 1.5;
             overflow: hidden;
             text-overflow: ellipsis;
             text-transform: uppercase;
@@ -240,23 +264,6 @@ html {
             justify-content: center;
             align-items: center;
             text-transform: uppercase;
-        }
-    }
-
-    .count-down-text {
-        font-size: 1.6rem;
-        color: #ffe800;
-        font-weight: bold;
-        height: 5.7rem;
-        width: 14rem;
-        display: flex;
-        padding: 0.5rem 2rem 0 0;
-        text-transform: uppercase;
-        justify-content: right;
-
-        @media screen and (max-width: 768px) {
-            height: 4.7rem;
-            justify-content: center;
         }
     }
 }
