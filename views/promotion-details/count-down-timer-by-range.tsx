@@ -24,12 +24,12 @@ export const CountdownTimerByRange: React.FC<CountdownTimerByRangeProps> = ({ st
         const updateTimer = () => {
             const now = dayjs.utc();
 
-            if (now.diff(startDate, "s") < 0 && !targetDate.isSame(startDate)) {
+            if (now.diff(startDate, "s") < 0) {
                 setIsHideCountDownTimer(false);
                 return;
             }
 
-            if (now.diff(endDate, "s") < 0 && !targetDate.isSame(endDate)) {
+            if (now.diff(endDate, "s") < 0) {
                 setIsHideCountDownTimer(false);
                 setTargetDate(endDate);
                 setCountDownText(t('ends_in'))

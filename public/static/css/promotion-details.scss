@@ -167,7 +167,7 @@ html {
 .count-down-timer-wrapper {
     margin-bottom: 6.5rem;
 
-    @media screen and (max-width: 577px) {
+    @media screen and (max-width: 768px) {
         margin-bottom: 12.5rem;
     }
 }
@@ -178,18 +178,19 @@ html {
     margin-bottom: 2rem !important;
     position: absolute;
     top: 28rem;
-
     width: 100%;
     justify-items: center;
+    left: -7.3rem;
+
+    @media screen and (max-width: 768px) {
+        top: 28rem;
+        left: 0px;
+    }
 
     @media screen and (max-width: 577px) {
         top: 33rem;
+        left: 0px;
     }
-
-    @media screen and (min-width: 768px) {
-        left: -7.3rem;
-    }
-
 
     .container {
         margin: auto;
@@ -198,7 +199,7 @@ html {
         justify-items: center;
         align-items: center;
 
-        @media screen and (max-width: 577px) {
+        @media screen and (max-width: 768px) {
             display: grid;
         }
     }
@@ -247,12 +248,15 @@ html {
         color: #ffe800;
         font-weight: bold;
         height: 5.7rem;
+        width: 14rem;
         display: flex;
         padding: 0.5rem 2rem 0 0;
         text-transform: uppercase;
+        justify-content: right;
 
-        @media screen and (max-width: 577px) {
+        @media screen and (max-width: 768px) {
             height: 4.7rem;
+            justify-content: center;
         }
     }
 }
