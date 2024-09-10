@@ -10,11 +10,14 @@ import { ExchangeRates, ExchangeRatesDocument } from './schemas';
 export class ExchangeRateService {
     constructor(
         @InjectModel(ExchangeRates.name) private readonly model: Model<ExchangeRatesDocument>,
-        @Inject(DataHandler) private readonly dataHandler: DataHandler,
-    ) {}
+        @Inject(DataHandler) private readonly dataHandler: DataHandler
+    ) { }
 
-    async getLastExchangeRate(): Promise<Result<ExchangeRates>> {
-        const execution = this.model.findOne({}).sort({ exDate: -1 }).lean().exec();
+    async getExchangeRateById(exId: number): Promise<Result<ExchangeRates>> {
+        const execution = exId > 0 ?
+            this.model.findOne({ exId }).lean().exec() :
+            this.model.findOne({}).sort({ exDate: -1 }).lean().exec();
+
         return this.dataHandler.getData(execution);
     }
 }

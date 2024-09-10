@@ -125,6 +125,7 @@ const initExchangeRate = async (moduleFixture: TestingModule) => {
         item.time = new Date();
         item.exDate = new Date();
         item.code = code;
+        item.exId = 111;
         return item;
     };
 
@@ -218,6 +219,7 @@ const initPromotionConfig = async (moduleFixture: TestingModule) => {
     item.winningPrizes = [winningPrize1];
     item.updatedTime = new Date();
     item.status = 'new';
+    item.exId = 111;
 
     await model.insertMany([item]);
 };

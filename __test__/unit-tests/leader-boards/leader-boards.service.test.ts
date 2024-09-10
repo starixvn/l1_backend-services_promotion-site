@@ -9,13 +9,15 @@ import { PromotionConfigService } from '../../../src/features/promotion-configs/
 import { LeaderBoardService } from '../../../src/features/promotion-leader-boards/leader-board.service';
 import { LeaderBoardItemViewModel, you } from '../../../src/features/promotion-leader-boards/models/leader-board-response';
 import { PromotionLeaderBoards, PromotionLeaderBoardsDocument } from '../../../src/features/promotion-leader-boards/schemas';
+import { PromotionConfigsDocument } from 'src/features/promotion-configs/schemas';
 
 describe('LeaderBoardService', () => {
     let leaderBoardService: LeaderBoardService;
+    let promotionConfigModel: Model<PromotionConfigsDocument>;
     let model: Model<PromotionLeaderBoardsDocument>;
     const exchangeRateService = {
         getAll: jest.fn(),
-        getLastExchangeRate: jest.fn(),
+        getExchangeRateById: jest.fn(),
     };
     const sentryLogger = {
         warn: jest.fn(),
@@ -23,7 +25,8 @@ describe('LeaderBoardService', () => {
 
     const promotionConfigService = {
         getAll: jest.fn(),
-        getLastExchangeRate: jest.fn(),
+        getExchangeRateById: jest.fn(),
+        getByPromotionId: jest.fn(),
     };
 
     const dataHandler = {
@@ -120,7 +123,19 @@ describe('LeaderBoardService', () => {
                 },
             } as any);
 
-            jest.spyOn(exchangeRateService, 'getLastExchangeRate').mockReturnValue(Promise.resolve(new Result(0, '', exchangeRates)));
+            jest.spyOn(promotionConfigService, 'getByPromotionId').mockReturnValue(Promise.resolve(new Result(0, '', {
+                _id: '1',
+                promotionId: 1,
+                name: 'promotion 1',
+                operators: [{ operatorId: 'ONEworksVGCash', includedSiteNames: 'lumi1', currencyGroups: [] }],
+                startDateTime: new Date(),
+                endDateTime: new Date(),
+                winningPrizes: [],
+                updatedTime: new Date(),
+                status: '',
+                exId: 1
+            })));
+            jest.spyOn(exchangeRateService, 'getExchangeRateById').mockReturnValue(Promise.resolve(new Result(0, '', exchangeRates)));
             jest.spyOn(leaderBoardService, 'getPlayerLeaderBoardByPromotionId').mockReturnValue(
                 Promise.resolve({ rank: 2, ...new LeaderBoardItemViewModel(you, 50) }),
             );

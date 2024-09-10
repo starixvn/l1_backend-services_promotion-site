@@ -14,6 +14,7 @@ import LoadingSpinner from "../components/loading-spinner";
 import { formatNumberWithComma } from "../helpers/common-helper";
 import useFetchData from "../hooks/use-fetch-data";
 import Prize from "./prize";
+import CountdownTimerByRange from "./count-down-timer-by-range";
 
 dayjs.extend(utc);
 
@@ -84,8 +85,15 @@ const PromotionDetail = ({ handleLeaderBoard, promotionId }) => {
                             <div className="middle">{formatNumberWithComma(data?.winningPrizes[0]?.value)}</div>
                             <div className="right"></div>
                         </div>
+
                     </div>
                 </div>
+
+                <CountdownTimerByRange
+                    startDate={dayjs.utc(data?.startDateTime)}
+                    endDate={dayjs.utc(data?.endDateTime)}
+                    wrapperStyle="count-down-timer-wrapper"
+                />
 
                 <div className="page-title">
                     <div className="text">{data?.title}</div>

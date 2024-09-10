@@ -77,6 +77,11 @@ export class PromotionConfigs {
     @ApiProperty()
     @Prop({ required: true })
     status: string;
+
+    @IsNumber()
+    @ApiProperty()
+    @Prop({ required: true })
+    exId: number;
 }
 
 export const PromotionConfigsSchema = SchemaFactory.createForClass(PromotionConfigs);

@@ -14,7 +14,7 @@ describe('PromotionConfigService', () => {
     let model: Model<PromotionConfigsDocument>;
     const exchangeRateService = {
         getAll: jest.fn(),
-        getLastExchangeRate: jest.fn(),
+        getExchangeRateById: jest.fn(),
     };
     const dataHandler = {
         getData: jest.fn(),
@@ -207,6 +207,7 @@ describe('PromotionConfigService', () => {
                     winningPrizes: [],
                     updatedTime: new Date(),
                     status: '',
+                    exId: 1
                 },
                 {
                     _id: '2',
@@ -218,6 +219,7 @@ describe('PromotionConfigService', () => {
                     winningPrizes: [],
                     updatedTime: new Date(),
                     status: '',
+                    exId: 2
                 },
                 {
                     _id: '3',
@@ -229,6 +231,7 @@ describe('PromotionConfigService', () => {
                     winningPrizes: [],
                     updatedTime: new Date(),
                     status: '',
+                    exId: 3
                 },
             ];
 
@@ -267,7 +270,7 @@ describe('PromotionConfigService', () => {
         it('should return view model has correct data', async () => {
             // Arrange
 
-            jest.spyOn(exchangeRateService, 'getLastExchangeRate').mockReturnValue(Promise.resolve(new Result(0, '', exchangeRates)));
+            jest.spyOn(exchangeRateService, 'getExchangeRateById').mockReturnValue(Promise.resolve(new Result(0, '', exchangeRates)));
             const promotion = {
                 _id: '1',
                 promotionId: 1,
@@ -296,6 +299,7 @@ describe('PromotionConfigService', () => {
                 ],
                 updatedTime: new Date(),
                 status: '',
+                exId: 1
             };
             const title = 'promotion test';
 

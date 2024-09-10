@@ -21,7 +21,7 @@ export class LeaderBoardService {
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
         @Inject(SentryLogger) private readonly logger: SentryLogger,
-    ) {}
+    ) { }
 
     async getLeaderBoard(promotionId: number, session: UserSession): Promise<LeaderBoardViewModel> {
         return new LeaderBoardViewModel(
@@ -38,7 +38,8 @@ export class LeaderBoardService {
             .lean()
             .exec();
 
-        const exchangeRate = (await this.exchangeRateService.getLastExchangeRate()).data;
+        const promotionConfig = (await this.promotionConfigService.getByPromotionId(promotionId)).data;
+        const exchangeRate = (await this.exchangeRateService.getExchangeRateById(promotionConfig.exId)).data;
         const convertValueToUserCurrency = (value: number) => value / exchangeRate.code[session.currencyCode] / session.multiplier;
 
         const leaderBoardItems: LeaderBoardItemViewModel[] = [];

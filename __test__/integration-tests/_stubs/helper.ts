@@ -127,4 +127,5 @@ export const exchangeRates = {
         VND: 1,
         USD: 23000,
     },
+    exId: 111
 };
