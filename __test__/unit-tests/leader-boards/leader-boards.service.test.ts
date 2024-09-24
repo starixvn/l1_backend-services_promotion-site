@@ -80,7 +80,7 @@ describe('LeaderBoardService', () => {
             // Arrange
 
             jest.spyOn(leaderBoardService, 'getTopLeaderBoardByPromotionId').mockReturnValue(
-                Promise.resolve([new LeaderBoardItemViewModel('member1', 100), new LeaderBoardItemViewModel('member2', 50)]),
+                Promise.resolve([new LeaderBoardItemViewModel('member1', 100.12), new LeaderBoardItemViewModel('member2', 50.123)]),
             );
             jest.spyOn(leaderBoardService, 'getPlayerLeaderBoardByPromotionId').mockReturnValue(
                 Promise.resolve({ rank: 0, ...new LeaderBoardItemViewModel(you, 100) }),
@@ -92,9 +92,9 @@ describe('LeaderBoardService', () => {
             const actual = await leaderBoardService.getLeaderBoard(promotionId, { ...validSession.session, isTestCurrency: true });
             // Assert
 
-            expect(actual.leadBoardItems[0].point).toStrictEqual(100);
+            expect(actual.leadBoardItems[0].point).toStrictEqual(100.12);
             expect(actual.leadBoardItems[0].nickName).toStrictEqual('m***er1');
-            expect(actual.leadBoardItems[1].point).toStrictEqual(50);
+            expect(actual.leadBoardItems[1].point).toStrictEqual(50.13);
             expect(actual.leadBoardItems[1].nickName).toStrictEqual('m***er2');
             expect(actual.currentUser.nickName).toStrictEqual(you);
             expect(actual.currentUser.rank).toStrictEqual(0);

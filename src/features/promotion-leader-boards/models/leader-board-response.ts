@@ -1,6 +1,6 @@
 import { Result } from '../../../_shared/common/models/result';
-
-export class LeaderBoardResponse extends Result<LeaderBoardViewModel> { }
+import { roundUpToTwoDecimals } from '../../../_shared/helpers';
+export class LeaderBoardResponse extends Result<LeaderBoardViewModel> {}
 export const you = 'you';
 export const topUserRank = 10;
 
@@ -24,9 +24,7 @@ export class LeaderBoardItemViewModel {
         public nickName: string,
         public point: number,
     ) {
-        let tempPoint = +point.toFixed(2);
-        point - tempPoint > 0 && (tempPoint += 0.01);
-        this.point = +tempPoint.toFixed(2);
+        this.point = roundUpToTwoDecimals(point);
         this.nickName =
             nickName !== you ? `${nickName.substring(0, 1)}***${nickName.substring(nickName.length - 3, nickName.length)}` : you;
     }
