@@ -24,3 +24,33 @@ describe('Utils Helper', () => {
         expect(roundUpToTwoDecimals(-2.3456)).toBe(-2.34);
     });
 });
+
+describe('isSiteNameIncluded', () => {
+    test('should return true when includedSiteNames is an empty string', () => {
+        expect(isSiteNameIncluded('', 'lumigame.com')).toBe(true);
+    });
+
+    test('should return true when siteName is included in includedSiteNames', () => {
+        expect(isSiteNameIncluded('lumigame.com;sabagame.com', 'lumigame.com')).toBe(true);
+    });
+
+    test('should return false when siteName is not included in includedSiteNames', () => {
+        expect(isSiteNameIncluded('lumigame.com;sabagame.com', 'numbergame.com')).toBe(false);
+    });
+
+    test('should handle case insensitivity for siteName', () => {
+        expect(isSiteNameIncluded('lumigame.com;sabagame.com', 'sabagame.com')).toBe(true);
+    });
+
+    test('should ignore spaces around site names', () => {
+        expect(isSiteNameIncluded(' lumigame.com ; sabagame.com ', 'sabagame.com')).toBe(true);
+    });
+
+    test('should return false if includedSiteNames is a string but siteName is an empty string', () => {
+        expect(isSiteNameIncluded('lumigame.com;sabagame.com', '')).toBe(false);
+    });
+
+    test('should return true when includedSiteNames contains only one siteName', () => {
+        expect(isSiteNameIncluded('lumigame.com', 'lumigame.com')).toBe(true);
+    });
+});
