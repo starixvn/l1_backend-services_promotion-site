@@ -5,7 +5,7 @@ import React from "react";
 
 import { LeaderBoardResponse } from "../../src/features/promotion-leader-boards/models/leader-board-response";
 import LoadingSpinner from "../components/loading-spinner";
-import { formatNumberWithComma, formatRoundUpNumberWithComma } from "../helpers/common-helper";
+import { formatNumberWithComma } from "../helpers/common-helper";
 import useFetchData from "../hooks/use-fetch-data";
 
 export const PlayerBoard = ({ player, index }) => {
@@ -19,7 +19,7 @@ export const PlayerBoard = ({ player, index }) => {
                 <span className={`rank ${isTop3 ? `rank-${index + 1}` : ''} `}>{isTop3 ? '' : index + 1}</span>
             </div>
             <div className={`${isTop3 ? 'txt-special' : ''}`}>{isOtherPlayer ? player.nickName : t('you')}</div>
-            <div className={`${isTop3 ? 'txt-special' : ''}`}>{formatRoundUpNumberWithComma(player.point, 2)}</div>
+            <div className={`${isTop3 ? 'txt-special' : ''}`}>{formatNumberWithComma(player.point, 2)}</div>
         </div>
     );
 };
@@ -68,7 +68,7 @@ const LeaderBoard = ({ promotionId }) => {
                                 </span>
                             </div>
                             <div className="txt-special">{t('you')}</div>
-                            <div className="txt-special">{formatRoundUpNumberWithComma(result?.data.currentUser.point, 2)}</div>
+                            <div className="txt-special">{formatNumberWithComma(result?.data.currentUser.point, 2)}</div>
                         </div>
                     </div>
                 </div>
