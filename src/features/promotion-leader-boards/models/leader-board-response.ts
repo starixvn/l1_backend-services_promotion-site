@@ -45,7 +45,7 @@ export const GetFakeDataUserTop = () => {
     leaderBoardItems.push(new LeaderBoardItemViewModel('K***123', 200));
     leaderBoardItems.push(new LeaderBoardItemViewModel('J***123', 100));
 
-    return new LeaderBoardViewModel(leaderBoardItems, { rank: 1, ...new LeaderBoardItemViewModel(you, 1000) });
+    return new LeaderBoardViewModel(leaderBoardItems, { rank: 1, ...new LeaderBoardItemViewModel(you, 1000.368) });
 };
 
 export const GetFakeData = () => {
