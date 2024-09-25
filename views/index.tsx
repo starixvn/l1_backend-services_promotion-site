@@ -30,10 +30,11 @@ const tolgee = Tolgee()
 if (window.AppInitialState?.results.isSuccessful) {
     
     const App = () => {
-        const [activedPromotionId, setActivedPromotionId] = React.useState(0);
+        const [activedPromotionId, setActivedPromotionId] = React.useState(window.AppInitialState.promotionDetailEntryId);
+        const isRediectToPromotionDetailPage = activedPromotionId > 0;
         const [appState, setAppState] = React.useState({
-            isShowPromotions: true,
-            isShowPromotionDetail: false,
+            isShowPromotions: !isRediectToPromotionDetailPage,
+            isShowPromotionDetail: isRediectToPromotionDetailPage,
             isShowLeaderBoard: false,
         });
 

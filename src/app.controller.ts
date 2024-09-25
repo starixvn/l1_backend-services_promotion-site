@@ -1,10 +1,14 @@
 import { Controller, Get, Headers, Inject, Query, Render } from '@nestjs/common';
 import { ErrorCodes, Result } from './_shared/common/models/result';
 import { UserService } from './features/users/services/user.service';
+import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
 
 @Controller()
 export class AppController {
-    constructor(@Inject(UserService) private readonly userClientService: UserService) {}
+    constructor(
+        @Inject(UserService) private readonly userClientService: UserService,
+        @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
+    ) { }
 
     @Get()
     @Render('index')
@@ -25,6 +29,8 @@ export class AppController {
             return unauthorizedResult;
         }
 
+        const promotionDetailEntryId = await this.promotionConfigService.getPromotionDetailEntry(data);
+
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -32,11 +38,12 @@ export class AppController {
                 process.env.USE_TOLGEE_STATIC === 'true'
                     ? {}
                     : {
-                          apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
-                          apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
-                          projectId: '5',
-                      },
+                        apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
+                        apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
+                        projectId: '5',
+                    },
             system: data?.system,
+            promotionDetailEntryId: promotionDetailEntryId
         };
 
         return { jsonObject: JSON.stringify(jsonObject) };
