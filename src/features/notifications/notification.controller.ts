@@ -4,7 +4,6 @@ import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
 import { UserService } from '../users/services/user.service';
 import { NotificationService } from './notification.service';
-
 @ApiTags('notification')
 @Controller('notification')
 export class NotificationController {
@@ -12,23 +11,41 @@ export class NotificationController {
         private readonly notificationService: NotificationService,
         private readonly promotionConfigService: PromotionConfigService,
         private readonly userClientService: UserService,
-    ) {}
+    ) { }
 
-    @Get('/exist-promotion-tournament')
-    @ApiOperation({ operationId: 'existPromotionTournament' })
-    @ApiOkResponse({ type: Result<boolean> })
-    async existPromotionTournament(
+    @Get('/exist-promotion-tournament-notification')
+    @ApiOperation({ operationId: 'existPromotionTournamentNotification' })
+    @ApiOkResponse({ type: Boolean })
+    async existPromotionTournamentNotification(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
-    ): Promise<Result<boolean>> {
+    ): Promise<Boolean> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
         if (!isSuccessful) {
-            return new Result(ErrorCodes.Success, '', false);
+            return false;
         }
         const promotionsResult = await this.promotionConfigService.getBySession(session);
-        return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
+        const isExistedNotification = await this.notificationService.existPromotionTournamentNotification(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
+        return isExistedNotification;
+    }
+
+    @Get('/exist-new-or-running-promotion-tournament')
+    @ApiOperation({ operationId: 'existNewOrRunningPromotionTournament' })
+    @ApiOkResponse({ type: Boolean })
+    async getNewOrRunningPromotionTournament(
+        @Query('sessionId') sessionId: string,
+        @Query('username') username: string,
+        @Headers('user-agent') browserUserAgent: string,
+    ): Promise<Boolean> {
+        const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
+
+        if (!isSuccessful) {
+            return false;
+        }
+        const numerousNewOrRunningTournament = await this.promotionConfigService.getNewOrRunningPromotionDetail(session);
+        return numerousNewOrRunningTournament > 0;
     }
 
     @Get('/exist-running-promotion-tournament')

@@ -11,14 +11,14 @@ export class NotificationService {
     constructor(
         @InjectModel(Notifications.name) private readonly model: Model<NotificationsDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
-    ) {}
+    ) { }
 
-    async existPromotionTournament(promotionIds: string[]): Promise<Result<boolean>> {
+    async existPromotionTournamentNotification(promotionIds: string[]): Promise<boolean> {
         if (promotionIds?.length > 0) {
-            const execution = this.model.exists({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
-            return this.dataHandler.getData(execution);
+            return this.model.exists({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
         }
-        return new Result(ErrorCodes.Success, '', false);
+
+        return false;
     }
 
     async existValidNotificationInTournament(promotionIds: string[]): Promise<Result<boolean>> {
