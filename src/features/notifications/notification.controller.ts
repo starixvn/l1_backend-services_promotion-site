@@ -4,6 +4,7 @@ import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
 import { UserService } from '../users/services/user.service';
 import { NotificationService } from './notification.service';
+
 @ApiTags('notification')
 @Controller('notification')
 export class NotificationController {
@@ -20,15 +21,14 @@ export class NotificationController {
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
-    ): Promise<Boolean> {
+    ): Promise<boolean> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
         if (!isSuccessful) {
             return false;
         }
         const promotionsResult = await this.promotionConfigService.getBySession(session);
-        const isExistedNotification = await this.notificationService.existPromotionTournamentNotification(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
-        return isExistedNotification;
+        return this.notificationService.existPromotionTournamentNotification(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
     }
 
     @Get('/exist-new-or-running-promotion-tournament')
@@ -38,15 +38,14 @@ export class NotificationController {
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
-    ): Promise<Boolean> {
+    ): Promise<boolean> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
         if (!isSuccessful) {
             return false;
         }
 
-        const result = await this.promotionConfigService.isExistedNewOrRunningPromotionTournament(session);
-        return result;
+        return this.promotionConfigService.isExistedNewOrRunningPromotionTournament(session);
     }
 
     @Get('/exist-running-promotion-tournament')

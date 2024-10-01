@@ -176,7 +176,6 @@ export class PromotionConfigService {
             .lean()
             .exec();
 
-        const promotions = await this.dataHandler.getData(execution);
-        return promotions;
+        return this.dataHandler.getData(execution);
     }
 }

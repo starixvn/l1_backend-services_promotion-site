@@ -19,7 +19,7 @@ export class PromotionConfigController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserService) private readonly userClientService: UserService,
-    ) {}
+    ) { }
 
     @Post('/')
     @ApiOperation({ operationId: 'getByUserSession' })
