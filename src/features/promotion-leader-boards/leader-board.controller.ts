@@ -1,9 +1,10 @@
-import { Body, Controller, Headers, Inject, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Inject, Param, Post, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../../src/_shared/common/models/result';
 import { UserService } from '../users/services/user.service';
 import { LeaderBoardService } from './leader-board.service';
-import { GetFakeDataUserTop, LeaderBoardResponse } from './models/leader-board-response';
+import { LeaderBoardResponse } from './models/leader-board-response';
+import { UserAgent } from '../decorator/user-agent.decorator';
 
 @ApiTags('leader-board')
 @Controller('leader-board')
@@ -11,7 +12,7 @@ export class LeaderBoardController {
     constructor(
         private readonly service: LeaderBoardService,
         @Inject(UserService) private readonly userClientService: UserService,
-    ) {}
+    ) { }
 
     @Post('/:promotionId')
     @ApiOperation({ operationId: 'getLeaderBoard' })
@@ -20,7 +21,7 @@ export class LeaderBoardController {
         @Param('promotionId') promotionId: number,
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @UserAgent() browserUserAgent: string,
     ): Promise<LeaderBoardResponse> {
         const verifySession = await this.userClientService.getUserSession({
             sessionId,
@@ -33,11 +34,6 @@ export class LeaderBoardController {
         }
 
         return new Result(ErrorCodes.Success, '', await this.service.getLeaderBoard(promotionId, verifySession.data));
-    }
-
-    @Post('/getLeaderboardFake')
-    async getPromotionDetailsFake() {
-        return new Result(0, '', GetFakeDataUserTop());
     }
 
     @Post('/clearToRecalculate/:promotionId')
