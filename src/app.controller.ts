@@ -29,7 +29,7 @@ export class AppController {
             return unauthorizedResult;
         }
 
-        const promotionDetailEntryId = await this.promotionConfigService.getPromotionDetailEntry(data);
+        const promotionDetailEntryId = await this.promotionConfigService.getPromotionDetailIdEntry(data);
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),

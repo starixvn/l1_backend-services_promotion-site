@@ -140,47 +140,17 @@ export class PromotionConfigService {
         );
     }
 
-    async getNewOrRunningPromotionDetail(session: UserSession): Promise<number> {
-        const filter = {
-            operators: {
-                $elemMatch: {
-                    operatorId: session.operatorId,
-                    currencyGroups: { $elemMatch: { enabled: true, currencyGroupId: session.currencyGroupId } },
-                },
-            },
-            status: { $in: [PROMOTION_STATUSES.new, PROMOTION_STATUSES.running] },
-        };
-        const execution = this.model
-            .find(filter)
-            .sort([['startDateTime', -1]])
-            .lean()
-            .exec();
-
-        const promotions = await this.dataHandler.getData(execution);
+    async isExistedNewOrRunningPromotionTournament(session: UserSession): Promise<boolean> {
+        const promotions = await this.getNewOrRunningPromotion(session);
         if (promotions?.data?.length > 0) {
-            return promotions?.data.filter((promotion) => isIncludedSite(promotion, session)).length;
+            return promotions?.data.filter((promotion) => isIncludedSite(promotion, session)).length > 0;
         }
 
-        return 0;
+        return false;
     }
 
-    async getPromotionDetailEntry(session: UserSession): Promise<number> {
-        const filter = {
-            operators: {
-                $elemMatch: {
-                    operatorId: session.operatorId,
-                    currencyGroups: { $elemMatch: { enabled: true, currencyGroupId: session.currencyGroupId } },
-                },
-            },
-            status: { $in: [PROMOTION_STATUSES.new, PROMOTION_STATUSES.running] },
-        };
-        const execution = this.model
-            .find(filter)
-            .sort([['startDateTime', -1]])
-            .lean()
-            .exec();
-
-        const promotions = await this.dataHandler.getData(execution);
+    async getPromotionDetailIdEntry(session: UserSession): Promise<number> {
+        const promotions = await this.getNewOrRunningPromotion(session);
 
         if (promotions?.data?.length > 0) {
             const data = promotions?.data.filter((promotion) => isIncludedSite(promotion, session));
@@ -188,5 +158,25 @@ export class PromotionConfigService {
         }
 
         return 0;
+    }
+
+    private async getNewOrRunningPromotion(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {
+        const filter = {
+            operators: {
+                $elemMatch: {
+                    operatorId: session.operatorId,
+                    currencyGroups: { $elemMatch: { enabled: true, currencyGroupId: session.currencyGroupId } },
+                },
+            },
+            status: { $in: [PROMOTION_STATUSES.new, PROMOTION_STATUSES.running] },
+        };
+        const execution = this.model
+            .find(filter)
+            .sort([['startDateTime', -1]])
+            .lean()
+            .exec();
+
+        const promotions = await this.dataHandler.getData(execution);
+        return promotions;
     }
 }

@@ -44,8 +44,9 @@ export class NotificationController {
         if (!isSuccessful) {
             return false;
         }
-        const numerousNewOrRunningTournament = await this.promotionConfigService.getNewOrRunningPromotionDetail(session);
-        return numerousNewOrRunningTournament > 0;
+
+        const result = await this.promotionConfigService.isExistedNewOrRunningPromotionTournament(session);
+        return result;
     }
 
     @Get('/exist-running-promotion-tournament')
