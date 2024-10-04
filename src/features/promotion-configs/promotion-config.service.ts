@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { LeanDocument, Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
-import { DataHandler } from '../../_shared/common/providers';
+import { DataHandler, SentryLogger } from '../../_shared/common/providers';
 import { ExchangeRateService } from '../exchange-rates/exchange-rate.service';
 import { Notifications } from '../notifications/schemas';
 import { UserSession } from '../users/schemas';
@@ -17,6 +17,7 @@ export class PromotionConfigService {
         @InjectModel(PromotionConfigs.name) private readonly model: Model<PromotionConfigsDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
         @Inject(ExchangeRateService) private readonly exchangeRateService: ExchangeRateService,
+        @Inject(SentryLogger) private readonly logger: SentryLogger
     ) { }
 
     async getPromotionsByStatus(status: string): Promise<Result<PromotionConfigs[]>> {
@@ -141,7 +142,13 @@ export class PromotionConfigService {
     }
 
     async isExistedNewOrRunningPromotionTournament(session: UserSession): Promise<boolean> {
+        this.logger.log(`session: ${JSON.stringify(session)}`);
+        console.log(`session: ${JSON.stringify(session)}`);
+
         const promotions = await this.getNewOrRunningPromotion(session);
+        this.logger.log(`promotions count: ${JSON.stringify(promotions?.data?.length)}`);
+        console.log(`promotions count: ${JSON.stringify(promotions?.data?.length)}`);
+
         if (promotions?.data?.length > 0) {
             return promotions?.data.filter((promotion) => isIncludedSite(promotion, session)).length > 0;
         }

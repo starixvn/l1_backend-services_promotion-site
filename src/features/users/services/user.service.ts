@@ -12,10 +12,14 @@ export class UserService {
             request.username,
             request.browserUserAgent,
         );
+        console.log(`getSession isAuthenticated: ${isAuthenticated}`);
+
+
         if (!isAuthenticated) {
             return new Result(ErrorCodes.Failed, 'Session invalid');
         }
 
+        console.log(`getSession session.disableAward: ${session.disableAward}`);
         if (session.disableAward) {
             return new Result(ErrorCodes.Failed, 'User is disable award');
         }
