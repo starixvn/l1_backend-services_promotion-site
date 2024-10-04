@@ -1,6 +1,6 @@
 import { Result } from '../../../_shared/common/models/result';
 import { roundUpToTwoDecimals } from '../../../_shared/helpers';
-export class LeaderBoardResponse extends Result<LeaderBoardViewModel> {}
+export class LeaderBoardResponse extends Result<LeaderBoardViewModel> { }
 export const you = 'you';
 export const topUserRank = 10;
 
@@ -29,36 +29,3 @@ export class LeaderBoardItemViewModel {
             nickName !== you ? `${nickName.substring(0, 1)}***${nickName.substring(nickName.length - 3, nickName.length)}` : you;
     }
 }
-export const GetFakeDataUserTop = () => {
-    const leaderBoardItems: LeaderBoardItemViewModel[] = [];
-
-    leaderBoardItems.push(new LeaderBoardItemViewModel(you, 1000.368));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('A***666', 900.231));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('C***123', 800.1));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('D***123', 700.69));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('E***123', 600.635));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('F***123', 500.2));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('G***123', 400.6));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('H***123', 300.5654));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('K***123', 200));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('J***123', 0.78));
-
-    return new LeaderBoardViewModel(leaderBoardItems, { rank: 1, ...new LeaderBoardItemViewModel(you, 1000.368) });
-};
-
-export const GetFakeData = () => {
-    const leaderBoardItems: LeaderBoardItemViewModel[] = [];
-
-    leaderBoardItems.push(new LeaderBoardItemViewModel('X***666', 1000.693));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('A***666', 900.231));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('C***123', 800.1));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('D***123', 700.69));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('E***123', 600.635));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('F***123', 500.2));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('G***123', 400));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('H***123', 300));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('K***123', 200));
-    leaderBoardItems.push(new LeaderBoardItemViewModel('J***123', 100));
-
-    return new LeaderBoardViewModel(leaderBoardItems, { ...new LeaderBoardItemViewModel(you, 10), rank: 15 });
-};

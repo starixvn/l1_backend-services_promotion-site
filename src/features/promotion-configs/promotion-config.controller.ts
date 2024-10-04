@@ -1,4 +1,4 @@
-import { Body, Controller, Headers, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Param, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { NotificationService } from '../notifications/notification.service';
@@ -9,8 +9,9 @@ import {
     PromotionConfigsResponse,
     PromotionDetailViewModel
 } from './models/promotion-configs-response';
-import { fakePromotionDetails, fakePromotions } from './models/promotion-configs-response-fake';
+
 import { PromotionConfigService } from './promotion-config.service';
+import { UserAgent } from '../decorator/user-agent.decorator';
 
 @ApiTags('promotions')
 @Controller('promotions')
@@ -19,7 +20,7 @@ export class PromotionConfigController {
         private readonly service: PromotionConfigService,
         @Inject(NotificationService) private readonly notificationService: NotificationService,
         @Inject(UserService) private readonly userClientService: UserService,
-    ) {}
+    ) { }
 
     @Post('/')
     @ApiOperation({ operationId: 'getByUserSession' })
@@ -27,7 +28,7 @@ export class PromotionConfigController {
     async getByUserSession(
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @UserAgent() browserUserAgent: string,
     ): Promise<PromotionConfigsResponse> {
         const {
             isSuccessful,
@@ -64,7 +65,7 @@ export class PromotionConfigController {
         @Param('id') id: number,
         @Body('sessionId') sessionId: string,
         @Body('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @UserAgent() browserUserAgent: string,
     ): Promise<PromotionConfigResponse> {
         const {
             isSuccessful,
@@ -96,15 +97,5 @@ export class PromotionConfigController {
         const title = notification.data.title[session.language];
         const result: PromotionDetailViewModel = await this.service.getPromotionDetail(promotion, session, title);
         return new Result(ErrorCodes.Success, '', result);
-    }
-
-    @Post('/getPromotionsFake')
-    async getPromotionsFake() {
-        return new Result(0, '', fakePromotions);
-    }
-
-    @Post('/getPromotionDetailsFake')
-    async getPromotionDetailsFake() {
-        return new Result(0, '', fakePromotionDetails);
     }
 }

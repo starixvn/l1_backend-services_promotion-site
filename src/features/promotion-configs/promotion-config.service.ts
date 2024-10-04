@@ -139,4 +139,43 @@ export class PromotionConfigService {
             winningPrizes as WinningPrize[],
         );
     }
+
+    async isExistedNewOrRunningPromotionTournament(session: UserSession): Promise<boolean> {
+        const promotions = await this.getNewOrRunningPromotion(session);
+        if (promotions?.data?.length > 0) {
+            return promotions?.data.filter((promotion) => isIncludedSite(promotion, session)).length > 0;
+        }
+
+        return false;
+    }
+
+    async getPromotionDetailIdEntry(session: UserSession): Promise<number> {
+        const promotions = await this.getNewOrRunningPromotion(session);
+
+        if (promotions?.data?.length > 0) {
+            const data = promotions?.data.filter((promotion) => isIncludedSite(promotion, session));
+            return data.length === 1 ? data[0].promotionId : 0;
+        }
+
+        return 0;
+    }
+
+    private async getNewOrRunningPromotion(session: UserSession): Promise<Result<LeanDocument<PromotionConfigsDocument>[]>> {
+        const filter = {
+            operators: {
+                $elemMatch: {
+                    operatorId: session.operatorId,
+                    currencyGroups: { $elemMatch: { enabled: true, currencyGroupId: session.currencyGroupId } },
+                },
+            },
+            status: { $in: [PROMOTION_STATUSES.new, PROMOTION_STATUSES.running] },
+        };
+        const execution = this.model
+            .find(filter)
+            .sort([['startDateTime', -1]])
+            .lean()
+            .exec();
+
+        return this.dataHandler.getData(execution);
+    }
 }

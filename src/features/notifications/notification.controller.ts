@@ -1,9 +1,10 @@
-import { Controller, Get, Headers, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { PromotionConfigService } from '../promotion-configs/promotion-config.service';
 import { UserService } from '../users/services/user.service';
 import { NotificationService } from './notification.service';
+import { UserAgent } from '../decorator/user-agent.decorator';
 
 @ApiTags('notification')
 @Controller('notification')
@@ -12,23 +13,40 @@ export class NotificationController {
         private readonly notificationService: NotificationService,
         private readonly promotionConfigService: PromotionConfigService,
         private readonly userClientService: UserService,
-    ) {}
+    ) { }
 
-    @Get('/exist-promotion-tournament')
-    @ApiOperation({ operationId: 'existPromotionTournament' })
-    @ApiOkResponse({ type: Result<boolean> })
-    async existPromotionTournament(
+    @Get('/exist-promotion-tournament-notification')
+    @ApiOperation({ operationId: 'existPromotionTournamentNotification' })
+    @ApiOkResponse({ type: Boolean })
+    async existPromotionTournamentNotification(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
-    ): Promise<Result<boolean>> {
+        @UserAgent() browserUserAgent: string,
+    ): Promise<boolean> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
         if (!isSuccessful) {
-            return new Result(ErrorCodes.Success, '', false);
+            return false;
         }
         const promotionsResult = await this.promotionConfigService.getBySession(session);
-        return this.notificationService.existPromotionTournament(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
+        return this.notificationService.existPromotionTournamentNotification(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
+    }
+
+    @Get('/exist-new-or-running-promotion-tournament')
+    @ApiOperation({ operationId: 'existNewOrRunningPromotionTournament' })
+    @ApiOkResponse({ type: Boolean })
+    async getNewOrRunningPromotionTournament(
+        @Query('sessionId') sessionId: string,
+        @Query('username') username: string,
+        @UserAgent() browserUserAgent: string,
+    ): Promise<boolean> {
+        const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
+
+        if (!isSuccessful) {
+            return false;
+        }
+
+        return this.promotionConfigService.isExistedNewOrRunningPromotionTournament(session);
     }
 
     @Get('/exist-running-promotion-tournament')
@@ -37,7 +55,7 @@ export class NotificationController {
     async existRunningPromotionTournament(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @UserAgent() browserUserAgent: string,
     ): Promise<Result<boolean>> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
@@ -49,4 +67,5 @@ export class NotificationController {
             promotionsResult.data?.map((promotion) => promotion._id?.toString()),
         );
     }
+
 }
