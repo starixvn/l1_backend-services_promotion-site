@@ -15,7 +15,6 @@ export class UserServiceClient {
 
     public static async getSession(session: string, username: string, browserUserAgent: string) {
         const path = `users/session?session=${session}&username=${username}&browserUserAgent=${browserUserAgent}`;
-        console.log(`getSession: ${path}`);
         const response = await this.instance.get<VerifySessionResult>(path);
 
         return response.data;

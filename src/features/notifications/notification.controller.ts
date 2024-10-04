@@ -41,7 +41,7 @@ export class NotificationController {
         @UserAgent() browserUserAgent: string,
     ): Promise<boolean> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
-        console.log(`existNewOrRunningPromotionTournament isSuccessful: ${isSuccessful}`)
+
         if (!isSuccessful) {
             return false;
         }
