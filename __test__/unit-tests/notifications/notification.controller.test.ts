@@ -70,7 +70,7 @@ describe('NotificationController', () => {
         it('should return false if user session is not successful', async () => {
             jest.spyOn(userService, 'getUserSession').mockResolvedValue({ isSuccessful: false } as any);
 
-            const result = await controller.getNewOrRunningPromotionTournament('session1', 'user1', 'agent');
+            const result = await controller.getNewOrRunningPromotionTournament('session1', 'user1', false, 'agent');
 
             expect(result).toBe(false);
         });
@@ -79,7 +79,7 @@ describe('NotificationController', () => {
             jest.spyOn(userService, 'getUserSession').mockResolvedValue({ isSuccessful: true, data: {} } as any);
             jest.spyOn(promotionConfigService, 'isExistedNewOrRunningPromotionTournament').mockResolvedValue(true);
 
-            const result = await controller.getNewOrRunningPromotionTournament('session1', 'user1', 'agent');
+            const result = await controller.getNewOrRunningPromotionTournament('session1', 'user1', false, 'agent');
 
             expect(result).toBe(true);
             expect(promotionConfigService.isExistedNewOrRunningPromotionTournament).toHaveBeenCalled();

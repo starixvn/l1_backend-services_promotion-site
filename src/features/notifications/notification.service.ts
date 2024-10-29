@@ -1,15 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { LeanDocument, Model } from 'mongoose';
 
 import { ErrorCodes, Result } from '../../_shared/common/models/result';
 import { DataHandler } from '../../_shared/common/providers';
 import { Notifications, NotificationsDocument } from './schemas';
+import { User, UserDocument, UserInfos, UserInfosDocument } from '../users/schemas';
 
 @Injectable()
 export class NotificationService {
     constructor(
         @InjectModel(Notifications.name) private readonly model: Model<NotificationsDocument>,
+        @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+        @InjectModel(UserInfos.name) private readonly userinfosModel: Model<UserInfosDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) { }
 
@@ -47,5 +50,12 @@ export class NotificationService {
     async getPromotionById(promotionId: string): Promise<Result<Notifications>> {
         const execution = this.model.findOne({ displayKind: 4, enabled: true, promotionId }).lean().exec();
         return this.dataHandler.getData(execution);
+    }
+
+    async checkExistedNickname(username: string) {
+        const result = await this.userModel.findOne({ 'local.username': username }).lean().exec();
+        const relatedUserInfosWithUser = await this.userinfosModel.findOne({ id: result._id }).lean().exec();
+
+        return relatedUserInfosWithUser;
     }
 }

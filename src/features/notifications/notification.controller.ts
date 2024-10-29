@@ -28,6 +28,7 @@ export class NotificationController {
         if (!isSuccessful) {
             return false;
         }
+
         const promotionsResult = await this.promotionConfigService.getBySession(session);
         return this.notificationService.existPromotionTournamentNotification(promotionsResult.data?.map((promotion) => promotion._id?.toString()));
     }
@@ -38,12 +39,20 @@ export class NotificationController {
     async getNewOrRunningPromotionTournament(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
+        @Query('checkExistedNickname') checkExistedNickname: boolean,
         @UserAgent() browserUserAgent: string,
     ): Promise<boolean> {
         const { isSuccessful, data: session } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
 
         if (!isSuccessful) {
             return false;
+        }
+
+        if (checkExistedNickname) {
+            const user = await this.notificationService.checkExistedNickname(session.username);
+            if (!user) {
+                return false;
+            }
         }
 
         return this.promotionConfigService.isExistedNewOrRunningPromotionTournament(session);
