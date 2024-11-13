@@ -319,7 +319,7 @@ html {
     }
 
     .group+.group {
-        margin-top: 6rem;
+        margin-top: 3.6rem;
     }
 
     .info-container {
@@ -358,7 +358,7 @@ html {
 
     .prizes {
         .group-body {
-            padding: 0 1rem 1rem;
+            padding: 0 1rem 2rem;
         }
 
         .info-item {
@@ -377,8 +377,7 @@ html {
 
             @media screen and (min-width: 768px) {
                 flex: none;
-                margin-top: 2rem;
-                margin-bottom: 2rem;
+                margin-bottom: 0;
             }
 
             .left,
