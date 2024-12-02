@@ -72,6 +72,12 @@ export class TempLogEndGameService {
                     siteId: { $arrayElemAt: ['$result.siteId', 0] },
                     multiplier: { $arrayElemAt: ['$result.multiplier', 0] },
                     userId: { $arrayElemAt: ['$result.userId', 0] },
+                    disableAward: { $arrayElemAt: ['$result.disableAward', 0] },
+                },
+            },
+            {
+                $match: {
+                    disableAward: false,
                 },
             },
             {
