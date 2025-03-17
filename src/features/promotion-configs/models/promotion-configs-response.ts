@@ -51,7 +51,8 @@ export class WinningPrizeViewModel {
     public to?: number;
 
     constructor(value: number, ranking: string) {
-        this.value = Math.trunc(value);
+        const rounded = Math.round(value * 1e6) / 1e6;
+        this.value = Math.trunc(rounded);
         this.ranking = ranking;
         this.parseRanking(ranking);
     }

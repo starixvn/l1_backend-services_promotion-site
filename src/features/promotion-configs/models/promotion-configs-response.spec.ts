@@ -43,10 +43,10 @@ describe('PromotionConfigResponse', () => {
         });
 
         it('should set from and to correctly for a range ranking', () => {
-            const prize = new WinningPrizeViewModel(200, '1-3');
+            const prize = new WinningPrizeViewModel(49999.99999999999, '1-3');
             expect(prize.from).toBe(1);
             expect(prize.to).toBe(3);
-            expect(prize.value).toBe(200);
+            expect(prize.value).toBe(50000);
             expect(prize.ranking).toBe('1-3');
         });
 
