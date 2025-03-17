@@ -64,14 +64,16 @@ describe('PromotionConfigService', () => {
     describe('updatePromotionStatus', () => {
         it('should call update model', async () => {
             // Arrange
+            const fixedDate = new Date('2025-03-17T03:30:42.500Z');
+            jest.spyOn(global, 'Date').mockImplementation(() => fixedDate as any);
             const filter = { promotionId: 1 };
-            const updates = { status: 'running', updatedTime: new Date() };
-
+            const updates = { status: 'running', updatedTime: fixedDate };
             // Act
 
             await promotionConfigService.updatePromotionStatus(filter.promotionId, updates.status);
             // Assert
             expect(dataHandler.updateData).toHaveBeenCalledWith(model, filter, updates);
+            jest.restoreAllMocks();
         });
     });
 
