@@ -11,7 +11,7 @@ export class TempLogEndGameService {
     constructor(
         @InjectModel(TempLogEndGames.name) private readonly model: Model<TempLogEndGamesDocument>,
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
-    ) {}
+    ) { }
 
     async deleteAll(): Promise<Result<TempLogEndGames[]>> {
         return this.dataHandler.deleteMany(this.model, {});
@@ -22,6 +22,9 @@ export class TempLogEndGameService {
     }
 
     async syncToPromotionBet() {
+        console.log('[syncToPromotionBet] Starting synchronization of temp logs to promotion bets');
+        console.log('[syncToPromotionBet] Building aggregation pipeline');
+
         const query = [
             {
                 $lookup: {
@@ -121,7 +124,61 @@ export class TempLogEndGameService {
             },
         ];
 
+        console.log('[syncToPromotionBet] Pipeline steps:');
+        console.log('[syncToPromotionBet] Step 1: Lookup user sessions for player and operator IDs');
+
+        // Create a sample pipeline to log data after step 1
+        const step1Pipeline = [...query.slice(0, 1)];
+        this.model.aggregate(step1Pipeline).exec().then(data => {
+            console.log(`[syncToPromotionBet] Step 1 data sample (${data.length} records):`,
+                data.length > 0 ? JSON.stringify(data[0], null, 2) : 'No records');
+        }).catch(err => console.error('[syncToPromotionBet] Error logging step 1 data:', err));
+
+        console.log('[syncToPromotionBet] Step 2: Project fields and extract session data');
+
+        // Create a sample pipeline to log data after step 2
+        const step2Pipeline = [...query.slice(0, 2)];
+        this.model.aggregate(step2Pipeline).exec().then(data => {
+            console.log(`[syncToPromotionBet] Step 2 data sample (${data.length} records):`,
+                data.length > 0 ? JSON.stringify(data[0], null, 2) : 'No records');
+        }).catch(err => console.error('[syncToPromotionBet] Error logging step 2 data:', err));
+
+        console.log('[syncToPromotionBet] Step 3: Filter out records with disableAward flag');
+
+        // Create a sample pipeline to log data after step 3
+        const step3Pipeline = [...query.slice(0, 3)];
+        this.model.aggregate(step3Pipeline).exec().then(data => {
+            console.log(`[syncToPromotionBet] Step 3 data sample (${data.length} records):`,
+                data.length > 0 ? JSON.stringify(data[0], null, 2) : 'No records');
+        }).catch(err => console.error('[syncToPromotionBet] Error logging step 3 data:', err));
+
+        console.log('[syncToPromotionBet] Step 4: Lookup user info to get player nicknames');
+
+        // Create a sample pipeline to log data after step 4
+        const step4Pipeline = [...query.slice(0, 4)];
+        this.model.aggregate(step4Pipeline).exec().then(data => {
+            console.log(`[syncToPromotionBet] Step 4 data sample (${data.length} records):`,
+                data.length > 0 ? JSON.stringify(data[0], null, 2) : 'No records');
+        }).catch(err => console.error('[syncToPromotionBet] Error logging step 4 data:', err));
+
+        console.log('[syncToPromotionBet] Step 5: Final projection with all required promotion bet fields');
+
+        // Create a sample pipeline to log data after step 5
+        const step5Pipeline = [...query.slice(0, 5)];
+        this.model.aggregate(step5Pipeline).exec().then(data => {
+            console.log(`[syncToPromotionBet] Step 5 data sample (${data.length} records):`,
+                data.length > 0 ? JSON.stringify(data[0], null, 2) : 'No records');
+        }).catch(err => console.error('[syncToPromotionBet] Error logging step 5 data:', err));
+
+        console.log('[syncToPromotionBet] Step 6: Merge results into promotion_bets collection');
+
+        console.log('[syncToPromotionBet] Executing aggregation pipeline with lookup to usersessions and userinfos');
         const execution = this.model.aggregate(query).exec();
-        return this.dataHandler.getData(execution);
+        console.log('[syncToPromotionBet] Aggregation pipeline executed, processing results');
+
+        const result = await this.dataHandler.getData(execution);
+        console.log(`[syncToPromotionBet] Synchronization completed, affected documents: ${result?.data || 0}`);
+
+        return result;
     }
 }
