@@ -32,6 +32,7 @@ export class TempLogEndGameService {
                     let: {
                         playerId: '$playerId',
                         operatorId: '$operatorId',
+                        siteId: '$siteId',
                     },
                     pipeline: [
                         {
@@ -39,7 +40,11 @@ export class TempLogEndGameService {
                                 $expr: {
                                     $and: [
                                         {
-                                            $eq: ['$playerId', '$$playerId'],
+                                            $cond: {
+                                                if: { $eq: ['$$operatorId', 'SabaPlay'] },
+                                                then: { $eq: ['$playerId', { $concat: ['$$siteId', '~', '$$playerId'] }] },
+                                                else: { $eq: ['$playerId', '$$playerId'] }
+                                            },
                                         },
                                         {
                                             $eq: ['$operatorId', '$$operatorId'],
