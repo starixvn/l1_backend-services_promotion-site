@@ -59,7 +59,11 @@ export class LeaderBoardService {
             rank: number;
         }
     > {
-        const playerLeaderBoard = await this.model.findOne({ promotionId, playerId: session.playerId }).lean().exec();
+        const playerId = session.operatorId === 'SabaPlay'
+            ? session.playerId.split('~')[1] || session.playerId
+            : session.playerId;
+
+        const playerLeaderBoard = await this.model.findOne({ promotionId, playerId }).lean().exec();
         if (!playerLeaderBoard || playerLeaderBoard.isTestCurrency) {
             return { rank: 0, ...new LeaderBoardItemViewModel(you, playerLeaderBoard?.point ?? 0) };
         }
