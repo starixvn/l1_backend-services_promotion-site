@@ -10,6 +10,7 @@ module.exports = (env, argv) => {
         mode: argv.mode || 'development',
         entry: {
             index: './views/index.tsx',
+            'banner-promotion-entry': './views/banner-promotion/banner-promotion-entry.tsx',
         },
         output: {
             filename: '[name].js',
