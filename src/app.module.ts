@@ -23,6 +23,7 @@ import { DecodeSessionIdMiddleware } from './middlewares/decode-session-id.middl
 import { TempLogEndGameModule } from './features/end-games/temp-log-end-game.module';
 import { UserInfoModule } from './features/users/user-info.module';
 import { ChatBotService } from './features/chat-bots/chat-bot-service';
+import { PromotionFreeSpinsService } from './features/promotion-free-spins/promotion-free-spins.service';
 
 @Module({
     imports: [
@@ -54,7 +55,7 @@ import { ChatBotService } from './features/chat-bots/chat-bot-service';
         ScheduleModule.forRoot(),
     ],
     controllers: [AppController],
-    providers: [AppService, CronService, PromotionProcessor, ChatBotService],
+    providers: [AppService, CronService, PromotionProcessor, ChatBotService, PromotionFreeSpinsService],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

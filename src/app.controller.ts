@@ -2,13 +2,15 @@ import { Controller, Get, Headers, Inject, Query, Render } from '@nestjs/common'
 import { ErrorCodes, Result } from './_shared/common/models/result';
 import { UserService } from './features/users/services/user.service';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
+import { PromotionFreeSpinsService } from './features/promotion-free-spins/promotion-free-spins.service';
 
 @Controller()
 export class AppController {
     constructor(
         @Inject(UserService) private readonly userClientService: UserService,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
-) {}
+        @Inject(PromotionFreeSpinsService) private readonly promotionFreeSpinsService: PromotionFreeSpinsService,
+    ) {}
 
     @Get()
     @Render('index')
@@ -62,6 +64,7 @@ export class AppController {
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
         @Query('language') language: string,
+        @Query('promotionId') promotionId: string
     ) {
         const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
 
@@ -73,7 +76,8 @@ export class AppController {
         if (!isSuccessful) {
             return unauthorizedResult;
         }
-
+        const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -85,9 +89,80 @@ export class AppController {
                           apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
                           projectId: '5',
                       },
-            system: data?.system
+            system: data?.system,
+            promotionFreeSpins: promotionFreeSpins,
+            announcementFreeSpins: announcementFreeSpins,
+            configs: {
+                apiConfigurationUrl: process.env.NEXT_PUBLIC_API_CONFIGURATION_URL
+            }
         };
 
+        return { jsonObject: JSON.stringify(jsonObject) };
+    }
+
+    @Get('/announcement-detail')
+    @Render('announcement-detail')
+    async announcementDetail(
+        @Query('sessionId') sessionId: string,
+        @Query('username') username: string,
+        @Headers('user-agent') browserUserAgent: string,
+        @Query('language') language: string,
+        @Query('promotionId') promotionId: string
+    ) {
+        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
+
+        if (!sessionId || !username || !username) {
+            return unauthorizedResult;
+        }
+
+        const { isSuccessful, data } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
+        if (!isSuccessful) {
+            return unauthorizedResult;
+        }
+        const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);
+
+        const announcementTittle =
+            announcementFreeSpins?.promotionTitle?.[language] ||
+            announcementFreeSpins?.promotionTitle?.['en-US'] ||
+            '';
+
+        const terms =
+            announcementFreeSpins?.termsAndConditions?.[language] ||
+            announcementFreeSpins?.termsAndConditions?.['en-US'] ||
+            [];
+
+        const startDate = promotionFreeSpins?.startDate;
+        const endDate = promotionFreeSpins?.endDate;
+        const duration = startDate && endDate
+            ? `From ${new Date(startDate).toLocaleString()} to ${new Date(endDate).toLocaleString()}`
+            : '';
+
+        const eligibleGames = Array.isArray(promotionFreeSpins?.gameIds)
+            ? promotionFreeSpins.gameIds.join(', ')
+            : '';
+
+        const freeSpinReward = promotionFreeSpins?.bonusItemCount || '';
+
+        const betLevelObj = promotionFreeSpins.betLevels.find(
+            // (item) => item.currencyGroup === data?.currencyGroupId
+            (item) => item.currencyGroup ==="651f88ef53015fd9ed9a501b"
+        );
+        console.log("betLevelObj", betLevelObj);
+        console.log("promotionFreeSpins", promotionFreeSpins);
+        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj.betLevel, promotionFreeSpins?.gameConfigType);
+
+        const jsonObject = {
+            results: new Result(ErrorCodes.Success, ''),
+            language,
+            announcementTittle,
+            terms,
+            duration,
+            eligibleGames,
+            freeSpinReward,
+            totalBetPerSpin
+        };
+        console.log("jsonObject", jsonObject);
         return { jsonObject: JSON.stringify(jsonObject) };
     }
 }

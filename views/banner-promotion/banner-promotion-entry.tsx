@@ -30,7 +30,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
 
     root.render(
         <TolgeeProvider tolgee={tolgee}>
-            <BannerPromotion />
+            <BannerPromotion data={window.AppInitialState} />
         </TolgeeProvider>,
     );
 }

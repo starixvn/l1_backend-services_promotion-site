@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslate } from '@tolgee/react';
 
+interface BannerPromotionProps {
+  data: {
+    promotionFreeSpins: any;
+    announcementFreeSpins: any;
+    language: string;
+    configs: { apiConfigurationUrl: string };
+  };
+}
+
 function getQueryParam(name: string) {
   const url = new URL(window.location.href);
   let value = url.searchParams.get(name);
@@ -16,8 +25,7 @@ function getQueryParam(name: string) {
 
 function getTimeLeft(endDate: string) {
   if (!endDate) return { days: 0, hours: 0, mins: 0, secs: 0 };
-  const normalized = endDate.replace(/ ([-+]?\d{2}:?\d{2}|00:00)$/, '+$1');
-  const end = new Date(normalized);
+  const end = new Date(endDate);
   if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
   const endMs = end.getTime();
   const now = Date.now();
@@ -32,14 +40,17 @@ function getTimeLeft(endDate: string) {
   return { days, hours, mins, secs };
 }
 
-const BannerPromotion: React.FC = () => {
-  const announcementTittle = getQueryParam('announcementTittle') || 'Hot Slots - Hot Offer Promotion';
-  const spins = getQueryParam('spins') || '10';
-  const endDate = getQueryParam('endDate');
-  const template = getQueryParam('template');
-  console.log('announcementTittle', announcementTittle);
-  console.log('spins', spins);
-  console.log('endDate', endDate);
+const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
+  const { promotionFreeSpins, announcementFreeSpins, language, configs } = data;
+
+  const announcementTitle =
+    announcementFreeSpins?.promotionTitle?.[language] ||
+    announcementFreeSpins?.promotionTitle?.['en-US'] ||
+    '';
+
+  const template = announcementFreeSpins?.template || 'default';
+  const endDate = promotionFreeSpins?.endDate;
+  const templateImg = `${configs.apiConfigurationUrl}/template-${template}/banner-1.png`;
   const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate));
   const { t } = useTranslate();
 
@@ -53,7 +64,7 @@ const BannerPromotion: React.FC = () => {
 
   return (
     <div style={{
-      background: template ? `url(${template}) center/cover no-repeat` : 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
+      background: `url(${templateImg}) center/cover no-repeat` || 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
       color: '#fff',
       borderRadius: 12,
       padding: 32,
@@ -71,7 +82,7 @@ const BannerPromotion: React.FC = () => {
         <div style={{ flex: 4, maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <div style={{ fontSize: 32, fontWeight: 700, color: '#ffe600', marginBottom: 12 }}>
             {/* {t('total_points')} */}
-            Get {spins} Free Spins Bonus on eligible Slot Games!
+            Get {getQueryParam('spins')} Free Spins Bonus on eligible Slot Games!
           </div>
           <div style={{
             fontSize: 20,
@@ -121,7 +132,7 @@ const BannerPromotion: React.FC = () => {
             boxShadow: '2px 4px 12px rgba(0,0,0,0.2)',
             position: 'relative'
           }}>
-            {announcementTittle}
+            {announcementTitle}
           </div>
           {/* View More button */}
           <div>
@@ -136,7 +147,12 @@ const BannerPromotion: React.FC = () => {
               marginTop: 18,
               cursor: 'pointer',
               boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-            }}>
+            }}
+            onClick={() => {
+              const params = new URLSearchParams(window.location.search);
+              window.location.href = '/announcement-detail?' + params.toString();
+            }}
+            >
               View More
             </button>
           </div>

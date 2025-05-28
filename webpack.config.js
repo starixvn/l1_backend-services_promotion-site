@@ -11,6 +11,7 @@ module.exports = (env, argv) => {
         entry: {
             index: './views/index.tsx',
             'banner-promotion-entry': './views/banner-promotion/banner-promotion-entry.tsx',
+            'announcement-detail-entry': './views/banner-promotion/announcement-detail-entry.tsx',
         },
         output: {
             filename: '[name].js',
