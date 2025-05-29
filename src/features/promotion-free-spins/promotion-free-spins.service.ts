@@ -34,6 +34,33 @@ export class PromotionFreeSpinsService {
         }
     }
 
+    async claimPromotion({
+        operatorId,
+        siteName,
+        playerId,
+        currencyGroup,
+    }: {
+        operatorId: string;
+        siteName: string;
+        playerId: string;
+        currencyGroup: string;
+    }) {
+        const baseUrl = process.env.PROMOTION_API_BASE_URL;
+        if (!baseUrl) throw new Error('PROMOTION_API_BASE_URL is not set');
+        const url = `${baseUrl}/player-promotions/claim-promotion`;
+        try {
+            const res = await axios.post(url, {
+                operatorId,
+                siteName,
+                playerId,
+                currencyGroup,
+            });
+            return res.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
     getTotalBet(betLevel: number, gameType: number) {
         return gameType === this.GAME_TYPES.CASCADING ? 1 * betLevel * 20 : betLevel * 25;
     }

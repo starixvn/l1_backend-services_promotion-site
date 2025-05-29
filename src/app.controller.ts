@@ -78,6 +78,13 @@ export class AppController {
         }
         const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
         const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);
+        const claimPromotion = await this.promotionFreeSpinsService.claimPromotion({
+            operatorId: data?.operatorId,
+            siteName: data?.siteName,
+            playerId: data?.playerId,
+            currencyGroup: data?.currencyGroupId,
+        });
+        console.log("claimPromotion", claimPromotion);
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -94,9 +101,10 @@ export class AppController {
             announcementFreeSpins: announcementFreeSpins,
             configs: {
                 apiConfigurationUrl: process.env.NEXT_PUBLIC_API_CONFIGURATION_URL
-            }
+            },
+            spins: claimPromotion?.promotion?.remainingBonusItems,
         };
-
+        console.log("jsonObject", jsonObject);
         return { jsonObject: JSON.stringify(jsonObject) };
     }
 
@@ -120,8 +128,7 @@ export class AppController {
             return unauthorizedResult;
         }
         const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);
-
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);        
         const announcementTittle =
             announcementFreeSpins?.promotionTitle?.[language] ||
             announcementFreeSpins?.promotionTitle?.['en-US'] ||
@@ -145,11 +152,8 @@ export class AppController {
         const freeSpinReward = promotionFreeSpins?.bonusItemCount || '';
 
         const betLevelObj = promotionFreeSpins.betLevels.find(
-            // (item) => item.currencyGroup === data?.currencyGroupId
-            (item) => item.currencyGroup ==="651f88ef53015fd9ed9a501b"
+            (item) => item.currencyGroup === data?.currencyGroupId
         );
-        console.log("betLevelObj", betLevelObj);
-        console.log("promotionFreeSpins", promotionFreeSpins);
         const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj.betLevel, promotionFreeSpins?.gameConfigType);
 
         const jsonObject = {
@@ -162,7 +166,6 @@ export class AppController {
             freeSpinReward,
             totalBetPerSpin
         };
-        console.log("jsonObject", jsonObject);
         return { jsonObject: JSON.stringify(jsonObject) };
     }
 }

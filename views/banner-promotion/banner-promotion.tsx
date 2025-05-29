@@ -7,6 +7,7 @@ interface BannerPromotionProps {
     announcementFreeSpins: any;
     language: string;
     configs: { apiConfigurationUrl: string };
+    spins: number;
   };
 }
 
@@ -41,7 +42,7 @@ function getTimeLeft(endDate: string) {
 }
 
 const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
-  const { promotionFreeSpins, announcementFreeSpins, language, configs } = data;
+  const { promotionFreeSpins, announcementFreeSpins, language, configs, spins } = data;
 
   const announcementTitle =
     announcementFreeSpins?.promotionTitle?.[language] ||
@@ -82,7 +83,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
         <div style={{ flex: 4, maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <div style={{ fontSize: 32, fontWeight: 700, color: '#ffe600', marginBottom: 12 }}>
             {/* {t('total_points')} */}
-            Get {getQueryParam('spins')} Free Spins Bonus on eligible Slot Games!
+            Get {spins} Free Spins Bonus on eligible Slot Games!
           </div>
           <div style={{
             fontSize: 20,
