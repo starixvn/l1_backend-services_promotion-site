@@ -49,7 +49,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
     announcementFreeSpins?.promotionTitle?.['en-US'] ||
     '';
 
-  const template = announcementFreeSpins?.template || 'default';
+  const template = announcementFreeSpins?.template;
   const endDate = promotionFreeSpins?.endDate;
   const templateImg = `${configs.apiConfigurationUrl}/template-${template}/banner-1.png`;
   const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate));
@@ -65,7 +65,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
 
   return (
     <div style={{
-      background: `url(${templateImg}) center/cover no-repeat` || 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
+      background: template ? `url(${templateImg}) center/cover no-repeat` : 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
       color: '#fff',
       borderRadius: 12,
       padding: 32,
