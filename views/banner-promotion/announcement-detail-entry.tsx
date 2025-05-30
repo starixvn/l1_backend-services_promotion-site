@@ -21,9 +21,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
       availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
       fallbackLanguage: 'en',
       defaultLanguage: 'en',
-      ns: ['PromotionCampaign'],
-      defaultNs: 'PromotionCampaign',
-      projectId: '5',
+      projectId: '8',
     });
 
   root.render(

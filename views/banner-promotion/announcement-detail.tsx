@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslate } from '@tolgee/react';
 
 interface AnnouncementDetailProps {
   data: {
@@ -8,11 +9,30 @@ interface AnnouncementDetailProps {
     eligibleGames: string;
     freeSpinReward: string | number;
     totalBetPerSpin: string | number;
+    game: any;
   };
 }
 
 const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
-  const { announcementTittle, terms, duration, eligibleGames, freeSpinReward, totalBetPerSpin } = data;
+  const { announcementTittle, terms, duration, eligibleGames, freeSpinReward, totalBetPerSpin, game } = data;
+  const { t } = useTranslate();
+
+  // Parse eligibleGames to array of numbers
+  const eligibleGameIds = eligibleGames
+    ? eligibleGames.split(',').map((id: string) => Number(id.trim())).filter((id: number) => !isNaN(id))
+    : [];
+
+  // Get eligible game objects from game prop
+  let eligibleGameNames: string[] = [];
+  console.log("game", game);
+  if (Array.isArray(game)) {
+    eligibleGameNames = game
+      .filter((g: any) => eligibleGameIds.includes(Number(g.gameId)))
+      .map((g: any) => t('game_name', undefined, { ns: g.name }));
+  }
+
+  // Fallback: if no eligibleGameNames, show eligibleGames as string
+  const eligibleGamesDisplay = eligibleGameNames.length > 0 ? eligibleGameNames.join(', ') : eligibleGames;
 
   return (
     <div style={{
@@ -85,7 +105,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ color: '#ffe600', fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Eligible Games</div>
-          <div style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>{eligibleGames}</div>
+          <div style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>{t('game_name', undefined, { ns: "dragonball" })}</div>
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ color: '#ffe600', fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Free Spin Reward</div>

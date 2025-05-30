@@ -84,7 +84,6 @@ export class AppController {
             playerId: data?.playerId,
             currencyGroup: data?.currencyGroupId,
         });
-        console.log("claimPromotion", claimPromotion);
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -104,7 +103,6 @@ export class AppController {
             },
             spins: claimPromotion?.promotion?.remainingBonusItems,
         };
-        console.log("jsonObject", jsonObject);
         return { jsonObject: JSON.stringify(jsonObject) };
     }
 
@@ -115,7 +113,8 @@ export class AppController {
         @Query('username') username: string,
         @Headers('user-agent') browserUserAgent: string,
         @Query('language') language: string,
-        @Query('promotionId') promotionId: string
+        @Query('promotionId') promotionId: string,
+        @Query('game') game: string
     ) {
         const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
 
@@ -164,7 +163,8 @@ export class AppController {
             duration,
             eligibleGames,
             freeSpinReward,
-            totalBetPerSpin
+            totalBetPerSpin,
+            game: game ? JSON.parse(game) : null
         };
         return { jsonObject: JSON.stringify(jsonObject) };
     }
