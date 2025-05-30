@@ -14,6 +14,10 @@ let initialComponent: React.ReactNode = (
 );
 
 if (window.AppInitialState?.results?.isSuccessful) {
+  const gameList = window.AppInitialState?.game || [];
+  const nsList = Array.isArray(gameList) ? gameList.map(g => g.name) : [];
+  const defaultNs = nsList.length > 0 ? nsList[0] : undefined;
+
   const tolgee = Tolgee()
     .use(FormatIcu())
     .use(BackendFetch())
@@ -21,6 +25,8 @@ if (window.AppInitialState?.results?.isSuccessful) {
       availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
       fallbackLanguage: 'en',
       defaultLanguage: 'en',
+      ns: nsList,
+      defaultNs,
       projectId: '8',
     });
 

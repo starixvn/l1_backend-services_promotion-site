@@ -24,11 +24,12 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
 
   // Get eligible game objects from game prop
   let eligibleGameNames: string[] = [];
-  console.log("game", game);
   if (Array.isArray(game)) {
     eligibleGameNames = game
       .filter((g: any) => eligibleGameIds.includes(Number(g.gameId)))
-      .map((g: any) => t('game_name', undefined, { ns: g.name }));
+      .map((g: any) => {
+        return t('game_name', { ns: g.name })
+      });
   }
 
   // Fallback: if no eligibleGameNames, show eligibleGames as string
@@ -105,7 +106,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ color: '#ffe600', fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Eligible Games</div>
-          <div style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>{t('game_name', undefined, { ns: "dragonball" })}</div>
+          <div style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>{eligibleGamesDisplay}</div>
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ color: '#ffe600', fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Free Spin Reward</div>
