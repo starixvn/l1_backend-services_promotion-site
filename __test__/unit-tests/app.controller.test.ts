@@ -8,6 +8,7 @@ import { PromotionConfigs, PromotionConfigsDocument } from '../../src/features/p
 import { getModelToken } from '@nestjs/mongoose';
 import { DataHandler } from '../../src/_shared/common/providers';
 import { ExchangeRateService } from '../../src/features/exchange-rates/exchange-rate.service';
+import { PromotionFreeSpinsService } from '../../src/features/promotion-free-spins/promotion-free-spins.service';
 
 describe('AppController', () => {
     let appController: AppController;
@@ -31,6 +32,7 @@ describe('AppController', () => {
                 { provide: getModelToken(PromotionConfigs.name), useValue: Model },
                 { provide: DataHandler, useValue: dataHandler },
                 { provide: ExchangeRateService, useValue: exchangeRateService },
+                { provide: PromotionFreeSpinsService, useValue: {} },
             ],
         }).compile();
 
