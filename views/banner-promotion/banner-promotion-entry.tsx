@@ -24,24 +24,37 @@ if (window.AppInitialState?.results?.isSuccessful) {
         lang = lang.split('-')[0];
     }
 
-    const tolgee = Tolgee()
-        .use(FormatIcu())
-        .use(BackendFetch())
-        .init({
-            availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
-            fallbackLanguage: 'en',
-            defaultLanguage: lang,
-            ns: ['DefaultAnnouncementTemplate'],
-            defaultNs: 'DefaultAnnouncementTemplate',
-            projectId: '8',
-        });
+    // Check if lang file exists, fallback to 'en' if not
+    const checkLangAndRender = async () => {
+        const url = `/i18n/DefaultAnnouncementTemplate/${lang}.json`;
+        try {
+            const res = await fetch(url, { method: 'HEAD' });
+            if (!res.ok) lang = 'en';
+        } catch {
+            lang = 'en';
+        }
 
-    root.render(
-        <TolgeeProvider tolgee={tolgee}>
-            <BannerPromotion data={window.AppInitialState} />
-        </TolgeeProvider>,
-    );
-}
-else{
-  root.render(initialComponent); 
+        const tolgee = Tolgee()
+            .use(FormatIcu())
+            .use(BackendFetch())
+            .init({
+                availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
+                fallbackLanguage: "en",
+                defaultLanguage: lang,
+                language: lang,
+                ns: ['DefaultAnnouncementTemplate'],
+                defaultNs: 'DefaultAnnouncementTemplate',
+                projectId: '8',
+            });
+
+        root.render(
+            <TolgeeProvider tolgee={tolgee}>
+                <BannerPromotion data={window.AppInitialState} />
+            </TolgeeProvider>,
+        );
+    };
+
+    checkLangAndRender();
+} else {
+    root.render(initialComponent);
 }
