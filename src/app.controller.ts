@@ -77,7 +77,7 @@ export class AppController {
             return unauthorizedResult;
         }
         const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins?.code);
         const claimPromotion = await this.promotionFreeSpinsService.claimPromotion({
             operatorId: data?.operatorId,
             siteName: data?.siteName,
@@ -127,7 +127,7 @@ export class AppController {
             return unauthorizedResult;
         }
         const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins.code);        
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins?.code);        
         const announcementTittle =
             announcementFreeSpins?.promotionTitle?.[language] ||
             announcementFreeSpins?.promotionTitle?.['en-US'] ||
@@ -150,10 +150,10 @@ export class AppController {
 
         const freeSpinReward = promotionFreeSpins?.bonusItemCount || '';
 
-        const betLevelObj = promotionFreeSpins.betLevels.find(
+        const betLevelObj = promotionFreeSpins?.betLevels?.find(
             (item) => item.currencyGroup === data?.currencyGroupId
         );
-        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj.betLevel, promotionFreeSpins?.gameConfigType);
+        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, promotionFreeSpins?.gameConfigType);
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
