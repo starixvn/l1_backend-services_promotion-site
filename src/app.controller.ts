@@ -103,7 +103,13 @@ export class AppController {
             },
             spins: claimPromotion?.promotion?.remainingBonusItems,
         };
-        return { jsonObject: JSON.stringify(jsonObject) };
+        return { jsonObject: JSON.stringify(jsonObject)
+            .replace(/</g, '\\u003c')
+            .replace(/>/g, '\\u003e')
+            .replace(/&/g, '\\u0026')
+            .replace(/\u2028/g, '\\u2028')
+            .replace(/\u2029/g, '\\u2029')
+            .replace(/\\n/g, '\\\\n') };
     }
 
     @Get('/announcement-detail')
@@ -166,6 +172,12 @@ export class AppController {
             totalBetPerSpin,
             game: game ? JSON.parse(game) : null
         };
-        return { jsonObject: JSON.stringify(jsonObject) };
+        return { jsonObject: JSON.stringify(jsonObject)
+            .replace(/</g, '\\u003c')
+            .replace(/>/g, '\\u003e')
+            .replace(/&/g, '\\u0026')
+            .replace(/\u2028/g, '\\u2028')
+            .replace(/\u2029/g, '\\u2029')
+            .replace(/\\n/g, '\\\\n') };
     }
 }

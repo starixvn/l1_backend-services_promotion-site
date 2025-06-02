@@ -120,12 +120,15 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
 
       {/* Terms & Conditions */}
       <div style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>Terms & Conditions</div>
-      <div style={{
-        background: 'rgba(100,100,0,0.2)',
-        borderRadius: 8,
-        padding: 20,
-        border: '1px solid #888'
-      }}>
+      <div
+        style={{
+          background: 'rgba(100,100,0,0.2)',
+          borderRadius: 8,
+          padding: 20,
+          border: '1px solid #888',
+          whiteSpace: 'pre-line',
+        }}
+      >
         {terms}
       </div>
     </div>
