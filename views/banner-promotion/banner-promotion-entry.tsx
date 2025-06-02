@@ -11,7 +11,26 @@ import { lazy } from 'react';
 const Unauthorized = lazy(() => import('../unauthorized'));
 let initialComponent: React.ReactNode = (
     <React.Suspense fallback={null}>
-        <Unauthorized />
+        <div style={{
+            minHeight: '98vh',
+            background: 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
+            <div style={{
+                color: '#fff',
+                borderRadius: 12,
+                padding: 32,
+                maxWidth: 800,
+                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <Unauthorized />
+            </div>
+        </div>
     </React.Suspense>
 );
 
