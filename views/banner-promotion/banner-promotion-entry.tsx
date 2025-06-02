@@ -29,7 +29,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
         .use(BackendFetch())
         .init({
             availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
-            fallbackLanguage: lang,
+            fallbackLanguage: 'en',
             defaultLanguage: lang,
             ns: ['DefaultAnnouncementTemplate'],
             defaultNs: 'DefaultAnnouncementTemplate',
