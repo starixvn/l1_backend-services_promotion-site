@@ -8,54 +8,54 @@ const root = createRoot(document.getElementById('root'));
 
 const Unauthorized = lazy(() => import('../unauthorized'));
 let initialComponent: React.ReactNode = (
-  <React.Suspense fallback={null}>
-    <Unauthorized />
-  </React.Suspense>
+    <React.Suspense fallback={null}>
+        <Unauthorized />
+    </React.Suspense>
 );
 
 if (window.AppInitialState?.results?.isSuccessful) {
-  const gameList = window.AppInitialState?.game || [];
-  const nsList = Array.isArray(gameList) ? gameList.map(g => g.name) : [];
+    const gameList = window.AppInitialState?.game || [];
+    const nsList = Array.isArray(gameList) ? gameList.map((g) => g.name) : [];
 
-  const params = new URLSearchParams(window.location.search);
-  let lang = params.get('language') || 'en';
+    const params = new URLSearchParams(window.location.search);
+    let lang = params.get('language') || 'en';
 
-  lang = lang.toLowerCase();
-  if (lang !== 'zh-cn' && lang !== 'zh-tw') {
-    lang = lang.split('-')[0];
-  }
-
-  // Check if lang file exists, fallback to 'en' if not
-  const checkLangAndRender = async () => {
-    const url = `/i18n/DefaultAnnouncementTemplate/${lang}.json`;
-    try {
-      const res = await fetch(url, { method: 'HEAD' });
-      if (!res.ok) lang = 'en';
-    } catch {
-      lang = 'en';
+    lang = lang.toLowerCase();
+    if (lang !== 'zh-cn' && lang !== 'zh-tw') {
+        lang = lang.split('-')[0];
     }
 
-    const tolgee = Tolgee()
-      .use(FormatIcu())
-      .use(BackendFetch())
-      .init({
-        availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
-        fallbackLanguage: 'en',
-        defaultLanguage: lang,
-        language: lang,
-        ns: ['DefaultAnnouncementTemplate', ...nsList],
-        defaultNs: 'DefaultAnnouncementTemplate',
-        projectId: '8',
-      });
+    // Check if lang file exists, fallback to 'en' if not
+    const checkLangAndRender = async () => {
+        const url = `/i18n/DefaultAnnouncementTemplate/${lang}.json`;
+        try {
+            const res = await fetch(url, { method: 'HEAD' });
+            if (!res.ok) lang = 'en';
+        } catch {
+            lang = 'en';
+        }
 
-    root.render(
-      <TolgeeProvider tolgee={tolgee}>
-        <AnnouncementDetail data={window.AppInitialState} />
-      </TolgeeProvider>
-    );
-  };
+        const tolgee = Tolgee()
+            .use(FormatIcu())
+            .use(BackendFetch())
+            .init({
+                availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
+                fallbackLanguage: 'en',
+                defaultLanguage: 'en',
+                language: lang,
+                ns: ['DefaultAnnouncementTemplate', ...nsList],
+                defaultNs: 'DefaultAnnouncementTemplate',
+                projectId: '8',
+            });
 
-  checkLangAndRender();
+        root.render(
+            <TolgeeProvider tolgee={tolgee}>
+                <AnnouncementDetail data={window.AppInitialState} />
+            </TolgeeProvider>,
+        );
+    };
+
+    checkLangAndRender();
 } else {
-  root.render(initialComponent);
-} 
+    root.render(initialComponent);
+}
