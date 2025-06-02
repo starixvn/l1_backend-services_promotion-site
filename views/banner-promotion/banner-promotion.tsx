@@ -82,7 +82,6 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
         {/* Left: Text and countdown */}
         <div style={{ flex: 4, maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <div style={{ fontSize: 32, fontWeight: 700, color: '#ffe600', marginBottom: 12 }}>
-            {/* {t('total_points')} */}
             Get {spins} Free Spins Bonus on eligible Slot Games!
           </div>
           <div style={{

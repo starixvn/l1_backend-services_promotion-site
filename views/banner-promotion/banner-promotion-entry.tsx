@@ -16,16 +16,24 @@ let initialComponent: React.ReactNode = (
 );
 
 if (window.AppInitialState?.results?.isSuccessful) {
+    const params = new URLSearchParams(window.location.search);
+    let lang = params.get('language') || 'en';
+
+    lang = lang.toLowerCase();
+    if (lang !== 'zh-cn' && lang !== 'zh-tw') {
+        lang = lang.split('-')[0];
+    }
+
     const tolgee = Tolgee()
         .use(FormatIcu())
         .use(BackendFetch())
         .init({
             availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
-            fallbackLanguage: 'en',
-            defaultLanguage: 'en',
-            ns: ['PromotionCampaign'],
-            defaultNs: 'PromotionCampaign',
-            projectId: '5',
+            fallbackLanguage: lang,
+            defaultLanguage: lang,
+            ns: ['DefaultAnnouncementTemplate'],
+            defaultNs: 'DefaultAnnouncementTemplate',
+            projectId: '8',
         });
 
     root.render(

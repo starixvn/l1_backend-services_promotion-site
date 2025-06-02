@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import AnnouncementDetail from './announcement-detail';
-import { TolgeeProvider, Tolgee, BackendFetch } from '@tolgee/react';
+import { Tolgee, BackendFetch, TolgeeProvider } from '@tolgee/react';
 import { FormatIcu } from '@tolgee/format-icu';
 
 const root = createRoot(document.getElementById('root'));
@@ -17,15 +17,24 @@ if (window.AppInitialState?.results?.isSuccessful) {
   const gameList = window.AppInitialState?.game || [];
   const nsList = Array.isArray(gameList) ? gameList.map(g => g.name) : [];
 
+  const params = new URLSearchParams(window.location.search);
+  let lang = params.get('language') || 'en';
+
+  lang = lang.toLowerCase();
+  if (lang !== 'zh-cn' && lang !== 'zh-tw') {
+    lang = lang.split('-')[0];
+  }
+
   const tolgee = Tolgee()
     .use(FormatIcu())
     .use(BackendFetch())
     .init({
       availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
-      fallbackLanguage: 'en',
-      defaultLanguage: 'en',
-      ns: ['defaultannouncementtemplate', ...nsList],
-      defaultNs: 'defaultannouncementtemplate',
+      fallbackLanguage: 'vi',
+      defaultLanguage: lang,
+      language: lang,
+      ns: ['DefaultAnnouncementTemplate', ...nsList],
+      defaultNs: 'DefaultAnnouncementTemplate',
       projectId: '8',
     });
 

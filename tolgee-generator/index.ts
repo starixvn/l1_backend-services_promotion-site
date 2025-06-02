@@ -56,7 +56,7 @@ async function fetchTranslations(projectId: string, apiKey: string, namespace: s
             namespaces = await fetchNamespaces(project.projectId, project.apiKey);
         }
         for (const namespace of namespaces) {
-            const languageFolder = `./public/i18n/${project.projectId == "8" ? namespace.toLowerCase() : namespace}/`;
+            const languageFolder = `./public/i18n/${namespace}/`;
             
             const tg = Tolgee().use(DevTools()).init({
                 defaultLanguage: "en",
