@@ -158,7 +158,7 @@ export class AppController {
         const startDate = promotionFreeSpins?.startDate;
         const endDate = promotionFreeSpins?.endDate;
         const duration = startDate && endDate
-            ? `From ${new Date(startDate).toLocaleString()} to ${new Date(endDate).toLocaleString()}`
+            ? `From ${formatDate(startDate)} to ${formatDate(endDate)}`
             : '';
 
         const eligibleGames = Array.isArray(promotionFreeSpins?.gameIds)
@@ -196,4 +196,10 @@ export class AppController {
             .replace(/\u2029/g, '\\u2029')
             .replace(/\\n/g, '\\\\n') };
     }
+}
+
+function formatDate(date: string | Date) {
+    const d = new Date(date);
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${pad(d.getHours())}:${pad(d.getMinutes())} ${pad(d.getMonth() + 1)}/${pad(d.getDate())}/${d.getFullYear()}`;
 }
