@@ -84,6 +84,12 @@ export class AppController {
             playerId: data?.playerId,
             currencyGroup: data?.currencyGroupId,
         });
+
+        if (promotionFreeSpins) {
+            promotionFreeSpins.startDate = new Date(promotionFreeSpins.startDate).toLocaleString();
+            promotionFreeSpins.endDate = new Date(promotionFreeSpins.endDate).toLocaleString();
+        }
+
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -160,6 +166,11 @@ export class AppController {
             (item) => item.currencyGroup === data?.currencyGroupId
         );
         const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, promotionFreeSpins?.gameConfigType);
+
+        if (promotionFreeSpins) {
+            promotionFreeSpins.startDate = new Date(promotionFreeSpins.startDate).toLocaleString();
+            promotionFreeSpins.endDate = new Date(promotionFreeSpins.endDate).toLocaleString();
+        }
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
