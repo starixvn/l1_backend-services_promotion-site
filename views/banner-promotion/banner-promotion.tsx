@@ -81,7 +81,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 {/* Left: Text and countdown */}
                 <div
                     style={{
-                        flex: 4,
+                        flex: 5,
                         maxWidth: '100%',
                         display: 'flex',
                         flexDirection: 'column',
@@ -90,7 +90,14 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     }}
                 >
                     <div style={{ fontSize: 32, fontWeight: 700, color: '#ffe600', marginBottom: 12 }}>
-                        {t('FSB_notification_para1', { value: spins })}
+                        {t('FSB_notification_para1', { value: spins })
+                          .split('\n')
+                          .map((line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
                     </div>
                     <div
                         style={{
@@ -99,7 +106,6 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             marginBottom: 24,
                             textAlign: 'center',
                             whiteSpace: 'normal',
-                            maxWidth: 350,
                         }}
                     >
                         {t('FSB_notification_para2')}
@@ -175,7 +181,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     </div>
                 </div>
                 {/* Right: Image */}
-                <div style={{ flex: 2, maxWidth: '40%', textAlign: 'center' }}></div>
+                <div style={{ flex: 1, maxWidth: '30%', textAlign: 'center' }}></div>
             </div>
         </div>
     );
