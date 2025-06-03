@@ -10,7 +10,10 @@ export class AppController {
         @Inject(UserService) private readonly userClientService: UserService,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(PromotionFreeSpinsService) private readonly promotionFreeSpinsService: PromotionFreeSpinsService,
+        
     ) {}
+
+    errorMessage = 'Session invalid';
 
     @Get()
     @Render('index')
@@ -20,7 +23,7 @@ export class AppController {
         @Headers('user-agent') browserUserAgent: string,
         @Query('language') language: string,
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
+        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
 
         if (!sessionId || !username || !username) {
             return unauthorizedResult;
@@ -66,7 +69,7 @@ export class AppController {
         @Query('language') language: string,
         @Query('promotionId') promotionId: string
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
+        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
 
         if (!sessionId || !username || !username) {
             return unauthorizedResult;
@@ -128,7 +131,7 @@ export class AppController {
         @Query('promotionId') promotionId: string,
         @Query('game') game: string
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, 'Session invalid') }) };
+        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
 
         if (!sessionId || !username || !username) {
             return unauthorizedResult;

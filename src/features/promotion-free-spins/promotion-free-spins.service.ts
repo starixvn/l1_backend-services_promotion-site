@@ -4,7 +4,7 @@ import axios from 'axios';
 @Injectable()
 export class PromotionFreeSpinsService {
     constructor() {}
-
+    errorMessage = 'PROMOTION_API_BASE_URL is not set';
     GAME_TYPES = {
         CLASSIC: 2,
         CASCADING: 3,
@@ -12,7 +12,9 @@ export class PromotionFreeSpinsService {
 
     async getPromotionById(promotionId: string) {
         const baseUrl = process.env.PROMOTION_API_BASE_URL; 
-        if (!baseUrl) throw new Error('PROMOTION_API_BASE_URL is not set');
+        if (!baseUrl) {
+            throw new Error(this.errorMessage);
+        }
         const url = `${baseUrl}/promotions/${promotionId}`;
         try {
             const res = await axios.get(url);
@@ -24,7 +26,9 @@ export class PromotionFreeSpinsService {
 
     async getAnnouncementById(promotionCode: string) {
         const baseUrl = process.env.PROMOTION_API_BASE_URL; 
-        if (!baseUrl) throw new Error('PROMOTION_API_BASE_URL is not set');
+        if (!baseUrl) {
+            throw new Error(this.errorMessage);
+        }
         const url = `${baseUrl}/promotion-announcements/by-promotion-code/${promotionCode}`;
         try {
             const res = await axios.get(url);
@@ -46,7 +50,9 @@ export class PromotionFreeSpinsService {
         currencyGroup: string;
     }) {
         const baseUrl = process.env.PROMOTION_API_BASE_URL;
-        if (!baseUrl) throw new Error('PROMOTION_API_BASE_URL is not set');
+        if (!baseUrl) {
+            throw new Error(this.errorMessage);
+        }
         const url = `${baseUrl}/player-promotions/claim-promotion`;
         try {
             const res = await axios.post(url, {
