@@ -50,7 +50,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
 
     // Check if lang file exists, fallback to 'en' if not
     const checkLangAndRender = async () => {
-        const url = `/i18n/DefaultAnnouncementTemplate/${lang}.json`;
+        const url = `/i18n/FreeSpinBonus/${lang}.json`;
         try {
             const res = await fetch(url, { method: 'HEAD' });
             if (!res.ok) lang = 'en';
@@ -66,8 +66,8 @@ if (window.AppInitialState?.results?.isSuccessful) {
                 fallbackLanguage: 'en',
                 defaultLanguage: 'en',
                 language: lang,
-                ns: ['DefaultAnnouncementTemplate', ...nsList],
-                defaultNs: 'DefaultAnnouncementTemplate',
+                ns: ['FreeSpinBonus', ...nsList],
+                defaultNs: 'FreeSpinBonus',
                 projectId: '8',
             });
 

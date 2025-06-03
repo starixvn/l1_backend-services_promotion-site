@@ -11,23 +11,27 @@ import { lazy } from 'react';
 const Unauthorized = lazy(() => import('../unauthorized'));
 let initialComponent: React.ReactNode = (
     <React.Suspense fallback={null}>
-        <div style={{
-            minHeight: '98vh',
-            background: 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }}>
-            <div style={{
-                color: '#fff',
-                borderRadius: 12,
-                padding: 32,
-                maxWidth: 800,
-                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+        <div
+            style={{
+                minHeight: '98vh',
+                background: 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
-            }}>
+                justifyContent: 'center',
+            }}
+        >
+            <div
+                style={{
+                    color: '#fff',
+                    borderRadius: 12,
+                    padding: 32,
+                    maxWidth: 800,
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
                 <Unauthorized />
             </div>
         </div>
@@ -45,7 +49,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
 
     // Check if lang file exists, fallback to 'en' if not
     const checkLangAndRender = async () => {
-        const url = `/i18n/DefaultAnnouncementTemplate/${lang}.json`;
+        const url = `/i18n/FreeSpinBonus/${lang}.json`;
         try {
             const res = await fetch(url, { method: 'HEAD' });
             if (!res.ok) lang = 'en';
@@ -61,8 +65,8 @@ if (window.AppInitialState?.results?.isSuccessful) {
                 fallbackLanguage: 'en',
                 defaultLanguage: 'en',
                 language: lang,
-                ns: ['DefaultAnnouncementTemplate'],
-                defaultNs: 'DefaultAnnouncementTemplate',
+                ns: ['FreeSpinBonus'],
+                defaultNs: 'FreeSpinBonus',
                 projectId: '8',
             });
 
