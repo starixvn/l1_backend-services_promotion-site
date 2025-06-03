@@ -6,6 +6,8 @@ import { PromotionFreeSpinsService } from './features/promotion-free-spins/promo
 
 @Controller()
 export class AppController {
+    private static readonly USER_AGENT_HEADER = 'user-agent';
+
     constructor(
         @Inject(UserService) private readonly userClientService: UserService,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
@@ -20,7 +22,7 @@ export class AppController {
     async root(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
         @Query('language') language: string,
     ) {
         const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
@@ -65,7 +67,7 @@ export class AppController {
     async bannerPromotions(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
         @Query('language') language: string,
         @Query('promotionId') promotionId: string
     ) {
@@ -126,7 +128,7 @@ export class AppController {
     async announcementDetail(
         @Query('sessionId') sessionId: string,
         @Query('username') username: string,
-        @Headers('user-agent') browserUserAgent: string,
+        @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
         @Query('language') language: string,
         @Query('promotionId') promotionId: string,
         @Query('game') game: string
