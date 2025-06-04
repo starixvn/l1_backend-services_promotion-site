@@ -30,6 +30,7 @@ export class PromotionFreeSpinsService {
             return res.data;
         } catch (error) {
             this.logger.error(error);
+            return null;
         }
     }
 
@@ -44,6 +45,7 @@ export class PromotionFreeSpinsService {
             return res.data;
         } catch (error) {
             this.logger.error(error);
+            return null;
         }
     }
 
@@ -73,6 +75,7 @@ export class PromotionFreeSpinsService {
             return res.data;
         } catch (error) {
             this.logger.error(error);
+            return null;
         }
     }
 
