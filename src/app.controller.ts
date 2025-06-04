@@ -110,12 +110,6 @@ export class AppController {
             spins: claimPromotion?.promotion?.remainingBonusItems,
         };
 
-        if (promotionFreeSpins) {
-            promotionFreeSpins.startDate = new Date(promotionFreeSpins.startDate).toLocaleString();
-            promotionFreeSpins.endDate = new Date(promotionFreeSpins.endDate).toLocaleString();
-        }
-
-        console.log(jsonObject);
         return { jsonObject: JSON.stringify(jsonObject)
             .replace(/</g, '\\u003c')
             .replace(/>/g, '\\u003e')
@@ -157,12 +151,6 @@ export class AppController {
             announcementFreeSpins?.termsAndConditions?.['en-US'] ||
             [];
 
-        const startDate = promotionFreeSpins?.startDate;
-        const endDate = promotionFreeSpins?.endDate;
-        const duration = startDate && endDate
-            ? `From ${formatDate(new Date(startDate).toLocaleString())} to ${formatDate(new Date(endDate).toLocaleString())}`
-            : '';
-
         const eligibleGames = Array.isArray(promotionFreeSpins?.gameIds)
             ? promotionFreeSpins.gameIds.join(', ')
             : '';
@@ -174,21 +162,16 @@ export class AppController {
         );
         const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, promotionFreeSpins?.gameConfigType);
 
-        if (promotionFreeSpins) {
-            promotionFreeSpins.startDate = new Date(promotionFreeSpins.startDate).toLocaleString();
-            promotionFreeSpins.endDate = new Date(promotionFreeSpins.endDate).toLocaleString();
-        }
-
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
             announcementTittle,
             terms,
-            duration,
             eligibleGames,
             freeSpinReward,
             totalBetPerSpin,
-            game: game ? JSON.parse(game) : null
+            game: game ? JSON.parse(game) : null,
+            promotionFreeSpins: promotionFreeSpins
         };
         return { jsonObject: JSON.stringify(jsonObject)
             .replace(/</g, '\\u003c')
@@ -198,10 +181,4 @@ export class AppController {
             .replace(/\u2029/g, '\\u2029')
             .replace(/\\n/g, '\\\\n') };
     }
-}
-
-function formatDate(date: string | Date) {
-    const d = new Date(date);
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    return `${pad(d.getHours())}:${pad(d.getMinutes())} ${pad(d.getMonth() + 1)}/${pad(d.getDate())}/${d.getFullYear()}`;
 }

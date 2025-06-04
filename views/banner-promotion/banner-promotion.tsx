@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslate } from '@tolgee/react';
-
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 interface BannerPromotionProps {
     data: {
         promotionFreeSpins: any;
@@ -11,27 +13,12 @@ interface BannerPromotionProps {
     };
 }
 
-function getQueryParam(name: string) {
-    const url = new URL(window.location.href);
-    let value = url.searchParams.get(name);
-    if (!value) return '';
-    try {
-        value = JSON.parse(value);
-    } catch {}
-    if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
-        value = value.slice(1, -1);
-    }
-    return value;
-}
-
 function getTimeLeft(endDate: string) {
-    console.log("endDate", endDate);
     if (!endDate) return { days: 0, hours: 0, mins: 0, secs: 0 };
     const end = new Date(endDate);
     if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
     const endMs = end.getTime();
     const now = Date.now();
-    console.log("now", new Date(now));
     let diff = Math.max(0, endMs - now);
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     diff -= days * (1000 * 60 * 60 * 24);
@@ -48,9 +35,11 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
 
     const announcementTitle = announcementFreeSpins?.promotionTitle?.[language] || announcementFreeSpins?.promotionTitle?.['en-US'] || '';
 
+    const templateDate = 'HH:mm MM/DD/YYYY';
     const template = announcementFreeSpins?.template;
-    const endDate = promotionFreeSpins?.endDate;
+    const endDate = dayjs.utc(promotionFreeSpins?.endDate).local().format(templateDate);
     const templateImg = `${configs.apiConfigurationUrl}/template-${template}/banner-1.png`;
+    console.log("endDateFormatted", endDate);
     const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate));
     const { t } = useTranslate();
 

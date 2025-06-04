@@ -1,20 +1,28 @@
 import React from 'react';
 import { useTranslate } from '@tolgee/react';
-
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 interface AnnouncementDetailProps {
     data: {
         announcementTittle: string;
         terms: string;
-        duration: string;
         eligibleGames: string;
         freeSpinReward: string | number;
         totalBetPerSpin: string | number;
         game: any;
+        promotionFreeSpins: any;
     };
 }
 
 const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
-    const { announcementTittle, terms, duration, eligibleGames, freeSpinReward, totalBetPerSpin, game } = data;
+    const { announcementTittle, terms, eligibleGames, freeSpinReward, totalBetPerSpin, game, promotionFreeSpins } = data;
+    const template = 'HH:mm MM/DD/YYYY';
+    const startdate = dayjs.utc(promotionFreeSpins?.startDate).local().format(template);
+    const enddate = dayjs.utc(promotionFreeSpins?.endDate).local().format(template);
+    const duration = startdate && enddate
+            ? `From ${startdate} to ${enddate}`
+            : '';
     const { t } = useTranslate();
 
     // Parse eligibleGames to array of numbers
