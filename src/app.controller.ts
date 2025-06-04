@@ -3,19 +3,61 @@ import { ErrorCodes, Result } from './_shared/common/models/result';
 import { UserService } from './features/users/services/user.service';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
 import { PromotionFreeSpinsService } from './features/promotion-free-spins/promotion-free-spins.service';
+import { UserSession } from './features/users/schemas';
 
 @Controller()
 export class AppController {
     private static readonly USER_AGENT_HEADER = 'user-agent';
+    private static readonly ERROR_MESSAGES = {
+        SESSION_INVALID: 'Session invalid',
+        PROMOTION_NOT_FOUND: 'Promotion not found',
+        BET_LEVEL_NOT_FOUND: 'Bet level not found',
+        CLAIM_PROMOTION_FAILED: 'Claim promotion failed'
+    };
 
     constructor(
         @Inject(UserService) private readonly userClientService: UserService,
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(PromotionFreeSpinsService) private readonly promotionFreeSpinsService: PromotionFreeSpinsService,
-        
     ) {}
 
-    errorMessage = 'Session invalid';
+    private createErrorResponse(message: string) {
+        return { 
+            jsonObject: JSON.stringify({ 
+                results: new Result(ErrorCodes.Failed, message) 
+            }) 
+        };
+    }
+
+    private async validateUserSession(sessionId: string, username: string, browserUserAgent: string) {
+        if (!sessionId || !username) {
+            return { isValid: false, data: null };
+        }
+
+        const { isSuccessful, data } = await this.userClientService.getUserSession({ 
+            sessionId, 
+            username, 
+            browserUserAgent 
+        });
+
+        return { 
+            isValid: isSuccessful && data, 
+            data: data as UserSession 
+        };
+    }
+
+    private getAnnouncementData(announcementFreeSpins: any, language: string) {
+        const langDefault = 'en-US';
+        if (!announcementFreeSpins) {
+            return { title: '', terms: [] };
+        }
+
+        const { promotionTitle, termsAndConditions } = announcementFreeSpins;
+        return {
+            title: promotionTitle[language] || promotionTitle[langDefault],
+            terms: termsAndConditions[language] || termsAndConditions[langDefault]
+        };
+    }
 
     @Get()
     @Render('index')
@@ -25,15 +67,9 @@ export class AppController {
         @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
         @Query('language') language: string,
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
-
-        if (!sessionId || !username || !username) {
-            return unauthorizedResult;
-        }
-
-        const { isSuccessful, data } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
-        if (!isSuccessful) {
-            return unauthorizedResult;
+        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent);
+        if (!isValid) {
+            return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
 
         const promotionDetailEntryId = await this.promotionConfigService.getPromotionDetailIdEntry(data);
@@ -41,16 +77,15 @@ export class AppController {
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
-            tolgeeInContextTools:
-                process.env.USE_TOLGEE_STATIC === 'true'
-                    ? {}
-                    : {
-                          apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
-                          apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
-                          projectId: '5',
-                      },
+            tolgeeInContextTools: process.env.USE_TOLGEE_STATIC === 'true'
+                ? {}
+                : {
+                    apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
+                    apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
+                    projectId: '5',
+                },
             system: data?.system,
-            promotionDetailEntryId: promotionDetailEntryId,
+            promotionDetailEntryId,
         };
 
         return { jsonObject: JSON.stringify(jsonObject) };
@@ -71,52 +106,55 @@ export class AppController {
         @Query('language') language: string,
         @Query('promotionId') promotionId: string
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
-
-        if (!sessionId || !username || !username) {
-            return unauthorizedResult;
+        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent);
+        if (!isValid) {
+            return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
 
-        const { isSuccessful, data } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
-        if (!isSuccessful) {
-            return unauthorizedResult;
-        }
         const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins?.code);
+        if (!promotionFreeSpins) {
+            return this.createErrorResponse(AppController.ERROR_MESSAGES.PROMOTION_NOT_FOUND);
+        }
+
+        const { code } = promotionFreeSpins;
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(code);
+        
+        const { operatorId, siteName, playerId, currencyGroupId } = data;
         const claimPromotion = await this.promotionFreeSpinsService.claimPromotion({
-            operatorId: data?.operatorId,
-            siteName: data?.siteName,
-            playerId: data?.playerId,
-            currencyGroup: data?.currencyGroupId,
+            operatorId,
+            siteName,
+            playerId,
+            currencyGroup: currencyGroupId,
         });
+
+        if (!claimPromotion || !claimPromotion.promotion) {
+            return this.createErrorResponse(AppController.ERROR_MESSAGES.CLAIM_PROMOTION_FAILED);
+        }
+
+        const { promotion: { remainingBonusItems: spins } } = claimPromotion;
+        const configs = {
+            apiConfigurationUrl: process.env.NEXT_PUBLIC_API_CONFIGURATION_URL
+        };
+        const { apiConfigurationUrl } = configs;
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
-            tolgeeInContextTools:
-                process.env.USE_TOLGEE_STATIC === 'true'
-                    ? {}
-                    : {
-                          apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
-                          apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
-                          projectId: '5',
-                      },
-            system: data?.system,
-            promotionFreeSpins: promotionFreeSpins,
-            announcementFreeSpins: announcementFreeSpins,
-            configs: {
-                apiConfigurationUrl: process.env.NEXT_PUBLIC_API_CONFIGURATION_URL
-            },
-            spins: claimPromotion?.promotion?.remainingBonusItems,
+            promotionFreeSpins,
+            announcementFreeSpins,
+            configs: { apiConfigurationUrl },
+            spins,
         };
 
-        return { jsonObject: JSON.stringify(jsonObject)
-            .replace(/</g, '\\u003c')
-            .replace(/>/g, '\\u003e')
-            .replace(/&/g, '\\u0026')
-            .replace(/\u2028/g, '\\u2028')
-            .replace(/\u2029/g, '\\u2029')
-            .replace(/\\n/g, '\\\\n') };
+        return { 
+            jsonObject: JSON.stringify(jsonObject)
+                .replace(/</g, '\\u003c')
+                .replace(/>/g, '\\u003e')
+                .replace(/&/g, '\\u0026')
+                .replace(/\u2028/g, '\\u2028')
+                .replace(/\u2029/g, '\\u2029')
+                .replace(/\\n/g, '\\\\n') 
+        };
     }
 
     @Get('/announcement-detail')
@@ -129,56 +167,47 @@ export class AppController {
         @Query('promotionId') promotionId: string,
         @Query('game') game: string
     ) {
-        const unauthorizedResult = { jsonObject: JSON.stringify({ results: new Result(ErrorCodes.Failed, this.errorMessage) }) };
-
-        if (!sessionId || !username || !username) {
-            return unauthorizedResult;
+        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent);
+        if (!isValid) {
+            return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
 
-        const { isSuccessful, data } = await this.userClientService.getUserSession({ sessionId, username, browserUserAgent });
-        if (!isSuccessful) {
-            return unauthorizedResult;
-        }
         const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(promotionFreeSpins?.code);        
-        const announcementTittle =
-            announcementFreeSpins?.promotionTitle?.[language] ||
-            announcementFreeSpins?.promotionTitle?.['en-US'] ||
-            '';
+        if (!promotionFreeSpins) {
+            return this.createErrorResponse(AppController.ERROR_MESSAGES.PROMOTION_NOT_FOUND);
+        }
 
-        const terms =
-            announcementFreeSpins?.termsAndConditions?.[language] ||
-            announcementFreeSpins?.termsAndConditions?.['en-US'] ||
-            [];
+        const { code, gameIds, bonusItemCount, betLevels, gameConfigType } = promotionFreeSpins;
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(code);
+        const { title: announcementTittle, terms } = this.getAnnouncementData(announcementFreeSpins, language);
 
-        const eligibleGames = Array.isArray(promotionFreeSpins?.gameIds)
-            ? promotionFreeSpins.gameIds.join(', ')
-            : '';
-
-        const freeSpinReward = promotionFreeSpins?.bonusItemCount || '';
-
-        const betLevelObj = promotionFreeSpins?.betLevels?.find(
-            (item) => item.currencyGroup === data?.currencyGroupId
+        const betLevelObj = betLevels.find(
+            (item) => item.currencyGroup === data.currencyGroupId
         );
-        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, promotionFreeSpins?.gameConfigType);
+
+        const { betLevel } = betLevelObj;
+        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevel, gameConfigType);
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
             announcementTittle,
             terms,
-            eligibleGames,
-            freeSpinReward,
+            eligibleGames: gameIds.join(', '),
+            freeSpinReward: bonusItemCount,
             totalBetPerSpin,
             game: game ? JSON.parse(game) : null,
-            promotionFreeSpins: promotionFreeSpins
+            promotionFreeSpins
         };
-        return { jsonObject: JSON.stringify(jsonObject)
-            .replace(/</g, '\\u003c')
-            .replace(/>/g, '\\u003e')
-            .replace(/&/g, '\\u0026')
-            .replace(/\u2028/g, '\\u2028')
-            .replace(/\u2029/g, '\\u2029')
-            .replace(/\\n/g, '\\\\n') };
+
+        return { 
+            jsonObject: JSON.stringify(jsonObject)
+                .replace(/</g, '\\u003c')
+                .replace(/>/g, '\\u003e')
+                .replace(/&/g, '\\u0026')
+                .replace(/\u2028/g, '\\u2028')
+                .replace(/\u2029/g, '\\u2029')
+                .replace(/\\n/g, '\\\\n') 
+        };
     }
 }

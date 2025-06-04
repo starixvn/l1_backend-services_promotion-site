@@ -1,13 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
+import { SentryLogger } from '../../_shared/common/providers';
 
 @Injectable()
 export class PromotionFreeSpinsService {
-    constructor() {}
+    private readonly logger: SentryLogger;
+
+    constructor(@Inject(SentryLogger) logger: SentryLogger) {
+        this.logger = logger;
+    }
     errorMessage = 'PROMOTION_API_BASE_URL is not set';
     GAME_TYPES = {
         CLASSIC: 2,
         CASCADING: 3,
+    } as const;
+    Multiplier = {
+        CLASSIC: 25,
+        CASCADING: 20,
     } as const;
 
     async getPromotionById(promotionId: string) {
@@ -19,8 +28,8 @@ export class PromotionFreeSpinsService {
         try {
             const res = await axios.get(url);
             return res.data;
-        } catch (e) {
-            return null;
+        } catch (error) {
+            this.logger.error(error);
         }
     }
 
@@ -33,8 +42,8 @@ export class PromotionFreeSpinsService {
         try {
             const res = await axios.get(url);
             return res.data;
-        } catch (e) {
-            return null;
+        } catch (error) {
+            this.logger.error(error);
         }
     }
 
@@ -62,12 +71,15 @@ export class PromotionFreeSpinsService {
                 currencyGroup,
             });
             return res.data;
-        } catch (e) {
-            return null;
+        } catch (error) {
+            this.logger.error(error);
         }
     }
 
     getTotalBet(betLevel: number, gameType: number) {
-        return gameType === this.GAME_TYPES.CASCADING ? 1 * betLevel * 20 : betLevel * 25;
+        if (!betLevel) {
+            return 0;
+        }
+        return gameType === this.GAME_TYPES.CASCADING ? betLevel * this.Multiplier.CASCADING : betLevel * this.Multiplier.CLASSIC;
     }
 } 
