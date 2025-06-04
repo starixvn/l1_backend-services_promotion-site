@@ -25,11 +25,13 @@ function getQueryParam(name: string) {
 }
 
 function getTimeLeft(endDate: string) {
+    console.log("endDate", endDate);
     if (!endDate) return { days: 0, hours: 0, mins: 0, secs: 0 };
     const end = new Date(endDate);
     if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
     const endMs = end.getTime();
     const now = Date.now();
+    console.log("now", new Date(now));
     let diff = Math.max(0, endMs - now);
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     diff -= days * (1000 * 60 * 60 * 24);

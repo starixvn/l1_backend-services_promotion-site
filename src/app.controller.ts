@@ -90,11 +90,6 @@ export class AppController {
             currencyGroup: data?.currencyGroupId,
         });
 
-        if (promotionFreeSpins) {
-            promotionFreeSpins.startDate = new Date(promotionFreeSpins.startDate).toLocaleString();
-            promotionFreeSpins.endDate = new Date(promotionFreeSpins.endDate).toLocaleString();
-        }
-
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -114,6 +109,13 @@ export class AppController {
             },
             spins: claimPromotion?.promotion?.remainingBonusItems,
         };
+
+        if (promotionFreeSpins) {
+            promotionFreeSpins.startDate = new Date(promotionFreeSpins.startDate).toLocaleString();
+            promotionFreeSpins.endDate = new Date(promotionFreeSpins.endDate).toLocaleString();
+        }
+
+        console.log(jsonObject);
         return { jsonObject: JSON.stringify(jsonObject)
             .replace(/</g, '\\u003c')
             .replace(/>/g, '\\u003e')
@@ -158,7 +160,7 @@ export class AppController {
         const startDate = promotionFreeSpins?.startDate;
         const endDate = promotionFreeSpins?.endDate;
         const duration = startDate && endDate
-            ? `From ${formatDate(startDate)} to ${formatDate(endDate)}`
+            ? `From ${formatDate(new Date(startDate).toLocaleString())} to ${formatDate(new Date(endDate).toLocaleString())}`
             : '';
 
         const eligibleGames = Array.isArray(promotionFreeSpins?.gameIds)
