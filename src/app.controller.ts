@@ -82,7 +82,7 @@ export class AppController {
                 : {
                     apiUrl: process.env.REACT_APP_TOLGEE_API_URL,
                     apiKey: process.env.REACT_APP_TOLGEE_API_KEY,
-                    projectId: '5',
+                    projectId: '8',
                 },
             system: data?.system,
             promotionDetailEntryId,

@@ -25,7 +25,7 @@ const tolgee = Tolgee()
         defaultLanguage: LanguageMapper[ParamsHelper.getParams().language] || 'en' || ParamsHelper.getParams().language || 'en',
         ns: ['PromotionCampaign'],
         defaultNs: 'PromotionCampaign',
-        projectId: '5',
+        projectId: '8',
     });
 if (window.AppInitialState?.results.isSuccessful) {
 
