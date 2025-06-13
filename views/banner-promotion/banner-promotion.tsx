@@ -57,7 +57,6 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
             style={{
                 width: 902,
                 height: 425,
-                margin: '40px auto',
                 position: 'relative',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
                 display: 'flex',
@@ -142,7 +141,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                     <span style={{ fontSize: 36, fontWeight: 700, lineHeight: 1 }}>{item.value}</span>
                                     <span
                                         style={{
-                                            fontSize: 15,
+                                            fontSize: 13,
                                             marginTop: 2,
                                             letterSpacing: 1,
                                             color: '#fff',
@@ -182,10 +181,10 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                         background: 'url(/static/images/view-more.png) center/cover no-repeat',
                         color: '#222',
                         fontWeight: 900,
-                        fontSize: 24,
+                        fontSize: 21,
                         border: 'none',
                         borderRadius: 8,
-                        padding: '9px 30px',
+                        padding: '9px 10px',
                         margin: '15px auto 0 auto',
                         cursor: 'pointer',
                         display: 'block',
