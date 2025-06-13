@@ -13,7 +13,8 @@ let initialComponent: React.ReactNode = (
     <React.Suspense fallback={null}>
         <div
             style={{
-                minHeight: '98vh',
+                width: 902,
+                height: 425,
                 background: 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
                 display: 'flex',
                 alignItems: 'center',

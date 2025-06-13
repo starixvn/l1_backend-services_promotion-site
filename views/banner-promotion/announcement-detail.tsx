@@ -49,16 +49,42 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
     return (
         <div
             style={{
+                width: 902,
+                height: 425,
                 background: 'rgba(0,0,0,0.95)',
+                overflowY: 'auto',
                 color: '#fff',
                 borderRadius: 12,
                 padding: 32,
-                maxWidth: 900,
                 margin: '40px auto',
                 position: 'relative',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
             }}
         >
+            <style>
+                {`
+                div[style*="overflow-y: auto"], div[style*="overflowY: 'auto'"] {
+                    scrollbar-width: thin;
+                    scrollbar-color: #666 #222;
+                }
+                div[style*="overflow-y: auto"]::-webkit-scrollbar,
+                div[style*="overflowY: 'auto'"]::-webkit-scrollbar {
+                    width: 10px;
+                    background: #222;
+                    border-radius: 8px;
+                }
+                div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb,
+                div[style*="overflowY: 'auto'"]::-webkit-scrollbar-thumb {
+                    background: #666;
+                    border-radius: 8px;
+                    border: 2px solid #222;
+                }
+                div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover,
+                div[style*="overflowY: 'auto'"]::-webkit-scrollbar-thumb:hover {
+                    background: #888;
+                }
+                `}
+            </style>
             {/* Back button */}
             <button
                 style={{
