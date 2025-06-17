@@ -16,7 +16,7 @@ function writeFile(fileName: string, content: string, extension = 'json') {
 }
 
 const apiUrl = 'https://tolgee.sabagame.com';
-const languageCodes = ['en', 'id', 'th', 'vi', 'zh_cn', 'zh_tw'];
+const languageCodes = ['en', 'id', 'th', 'vi', 'zh-Hans-CN', 'zh-Hant-TW'];
 
 const projects = [
     {

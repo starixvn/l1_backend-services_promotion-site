@@ -4,6 +4,9 @@ import '../../public/static/css/_fonts.scss';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
+
+const ID_LANGUAGE = 'id-ID';
+
 interface BannerPromotionProps {
     data: {
         promotionFreeSpins: any;
@@ -87,14 +90,14 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                         fontSize: 32,
                         fontWeight: 700,
                         color: 'fff179',
-                        marginBottom: 25,
+                        marginBottom: language === ID_LANGUAGE ? 15 : 12,
                         textAlign: 'center',
                         lineHeight: 1.35,
                     }}
                 >
-                    <div style={{fontSize: 50, marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
-                    <div style={{fontSize: 20, marginBottom: 5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1', { value: spins })} </div>
-                    <div style={{fontSize: 15, color: '#fff', fontFamily: "'UTM-BryantLG'"}}> {t('FSB_notification_para2')} </div>
+                    <div style={{fontSize: 50, textTransform: 'uppercase', marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
+                    <div style={{fontSize: language === ID_LANGUAGE ? 20 : 23, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1', { value: spins })} </div>
+                    <div style={{fontSize: 20, color: '#fff', textTransform: 'lowercase', fontFamily: "'UTM-BryantLG'"}}> {t('FSB_notification_para2')} </div>
                 </div>
                 {/* Countdown */}
                 <div style={{ alignItems: 'center', marginBottom: 11, gap: 0, width: '100%' }}>
@@ -103,7 +106,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             style={{
                                 fontFamily: "'UTM-BryantLG'",
                                 fontWeight: 500,
-                                fontSize: 16,
+                                fontSize: 20,
                                 marginLeft: -70,
                                 color: 'f3daac',
                                 textAlign: 'center',
@@ -182,11 +185,10 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             background: 'url(/static/images/view-more.png) center center / contain no-repeat',
                             color: '#f3daac',
                             fontWeight: 800,
-                            fontSize: 12,
+                            fontSize: 16,
                             border: 'none',
                             borderRadius: 8,
                             marginLeft: 165,
-                            padding: '10px 15px',
                             margin: '19px 0 0 -60',
                             cursor: 'pointer',
                             display: 'block',
@@ -197,13 +199,14 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center',
                             backgroundSize: 'contain',
+                            textTransform: 'uppercase'
                         }}
                         onClick={() => {
                             const params = new URLSearchParams(window.location.search);
                             window.location.href = '/announcement-detail?' + params.toString();
                         }}
                     >
-                        {t('FSB_view_more')}
+                        <span style={{fontSize: language === ID_LANGUAGE ? 14 : 20, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}>{t('FSB_view_more')}</span>
                     </button>
                 </div>
             </div>
