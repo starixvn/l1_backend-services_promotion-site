@@ -22,13 +22,15 @@ export class TempLogEndGameService {
     }
 
     async syncToPromotionBet() {
+        const operatorId = '$operatorId';
+
         const query = [
             {
                 $lookup: {
                     from: 'usersessions',
                     let: {
                         playerId: '$playerId',
-                        operatorId: '$operatorId',
+                        operatorId: operatorId,
                         siteId: '$siteId',
                     },
                     pipeline: [
@@ -44,7 +46,7 @@ export class TempLogEndGameService {
                                             },
                                         },
                                         {
-                                            $eq: ['$operatorId', '$$operatorId'],
+                                            $eq: [operatorId, '$$operatorId'],
                                         },
                                     ],
                                 },
@@ -60,7 +62,7 @@ export class TempLogEndGameService {
             {
                 $project: {
                     playerId: '$playerId',
-                    operatorId: '$operatorId',
+                    operatorId: operatorId,
                     gameId: '$gameTypeId',
                     roundId: '$gameRoundId',
                     totalAmount: '$totalAmount',
@@ -96,7 +98,7 @@ export class TempLogEndGameService {
             {
                 $project: {
                     playerId: '$playerId',
-                    operatorId: '$operatorId',
+                    operatorId: operatorId,
                     gameId: '$gameId',
                     roundId: '$roundId',
                     totalAmount: '$totalAmount',
