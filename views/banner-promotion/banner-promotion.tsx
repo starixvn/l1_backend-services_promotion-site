@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslate } from '@tolgee/react';
+import '../../public/static/css/_fonts.scss';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -40,7 +41,6 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
     const endDate = dayjs.utc(promotionFreeSpins?.endDate).local().format(templateDate);
     const templateImg = `${configs.apiConfigurationUrl}/template-${template}/banner-1.png`;
     const templateImgDefault = `${configs.apiConfigurationUrl}/template-default/banner.png`;
-    console.log('endDateFormatted', endDate);
     const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate));
     const { t } = useTranslate();
 
@@ -58,7 +58,6 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 width: 902,
                 height: 425,
                 position: 'relative',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'stretch',
@@ -74,7 +73,8 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 style={{
                     height: '100%',
                     flexDirection: 'column',
-                    width: 600,
+                    width: 580,
+                    marginLeft: 15,
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 2,
@@ -86,37 +86,36 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     style={{
                         fontSize: 32,
                         fontWeight: 700,
-                        color: '#ffe600',
-                        marginBottom: 30,
+                        color: 'fff179',
+                        marginBottom: 25,
                         textAlign: 'center',
-                        lineHeight: 1.18,
-                        textShadow: '0 2px 8px #000',
-                        letterSpacing: 0.5,
-                        marginLeft: 30,
+                        lineHeight: 1.35,
                     }}
                 >
-                    <div style={{fontSize: 65}}> {t('FSB_notification_para1a')} </div>
-                    <div style={{fontSize: 30, marginBottom: 10}}> {t('FSB_notification_para1', { value: spins })} </div>
-                    <div style={{fontSize: 15, color: '#fff'}}> {t('FSB_notification_para2')} </div>
+                    <div style={{fontSize: 50, marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
+                    <div style={{fontSize: 20, marginBottom: 5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1', { value: spins })} </div>
+                    <div style={{fontSize: 15, color: '#fff', fontFamily: "'UTM-BryantLG'"}}> {t('FSB_notification_para2')} </div>
                 </div>
                 {/* Countdown */}
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20, gap: 0, width: '100%', marginLeft: 20 }}>
-                    <span
-                        style={{
-                            fontWeight: 500,
-                            fontSize: 20,
-                            color: '#fff',
-                            marginRight: 18,
-                            minWidth: 70,
-                            textAlign: 'right',
-                            textShadow: '0 1px 4px #000',
-                        }}
-                    >
-                        {t('FSB_ends_in')}
-                    </span>
+                <div style={{ alignItems: 'center', marginBottom: 11, gap: 0, width: '100%' }}>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        <span
+                            style={{
+                                fontFamily: "'UTM-BryantLG'",
+                                fontWeight: 500,
+                                fontSize: 16,
+                                marginLeft: -70,
+                                color: 'f3daac',
+                                textAlign: 'center',
+                                marginBottom: 7,
+                            }}
+                        >
+                            {t('FSB_ends_in')}
+                        </span>
+                    </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
                         {[
-                            { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), style: { marginLeft: -9 } },
+                            { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), style: { marginLeft: 65 } },
                             { value: String(timeLeft.hours).padStart(2, '0'), label: t('FSB_hours'), style: { marginLeft: 15 } },
                             { value: String(timeLeft.mins).padStart(2, '0'), label: t('FSB_mins'), style: { marginLeft: 17 } },
                             { value: String(timeLeft.secs).padStart(2, '0'), label: t('FSB_secs'), style: { marginLeft: 16 } },
@@ -134,19 +133,20 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                         flexDirection: 'column',
                                         alignItems: 'center',
                                         margin: '0 6px',
+                                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
                                         position: 'relative',
                                         ...item.style,
                                     }}
                                 >
-                                    <span style={{ fontSize: 36, fontWeight: 700, lineHeight: 1 }}>{item.value}</span>
+                                    <span style={{ fontSize: 40, fontWeight: 700, lineHeight: 1, fontFamily: "'UTM-Swiss-721-Black-Condensed'" }}>{item.value}</span>
                                     <span
                                         style={{
-                                            fontSize: 13,
+                                            fontSize: 10,
                                             marginTop: 2,
-                                            letterSpacing: 1,
                                             color: '#fff',
-                                            textShadow: '0 1px 2px #000',
+                                            textTransform: 'uppercase',
                                             opacity: 0.95,
+                                            fontFamily: "'UTM-BryantLG'",
                                         }}
                                     >
                                         {item.label}
@@ -161,48 +161,51 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     style={{
                         color: '#fff',
                         fontWeight: 700,
-                        fontStyle: 'italic',
-                        fontSize: 24,
+                        fontSize: 27,
                         lineHeight: 1.2,
                         height: 80,
                         width: 450,
                         alignItems: 'center',
                         display: 'flex',
-                        marginLeft: 35,
+                        marginLeft: 20,
+                        justifyContent: 'center',
                     }}
                 >
-                    <span style={{ fontWeight: 700, fontStyle: 'italic', fontSize: 24, lineHeight: 1.2 }}>
+                    <span style={{ fontWeight: 700, fontSize: 26, lineHeight: 1.2, fontFamily: "'NotoSerifBold'" }}>
                         {announcementTitle || t('FSB_template_announcement_title')}
                     </span>
                 </div>
                 {/* View More button */}
-                <button
-                    style={{
-                        background: 'url(/static/images/view-more.png) center/cover no-repeat',
-                        color: '#222',
-                        fontWeight: 900,
-                        fontSize: 21,
-                        border: 'none',
-                        borderRadius: 8,
-                        padding: '9px 10px',
-                        margin: '15px auto 0 auto',
-                        cursor: 'pointer',
-                        display: 'block',
-                        letterSpacing: 1,
-                        boxShadow: 'none',
-                        textShadow: 'none',
-                        minWidth: 180,
-                        minHeight: 48,
-                        textAlign: 'center',
-                        textTransform: 'uppercase',
-                    }}
-                    onClick={() => {
-                        const params = new URLSearchParams(window.location.search);
-                        window.location.href = '/announcement-detail?' + params.toString();
-                    }}
-                >
-                    {t('FSB_view_more')}
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                    <button
+                        style={{
+                            background: 'url(/static/images/view-more.png) center center / contain no-repeat',
+                            color: '#f3daac',
+                            fontWeight: 800,
+                            fontSize: 12,
+                            border: 'none',
+                            borderRadius: 8,
+                            marginLeft: 165,
+                            padding: '10px 15px',
+                            margin: '19px 0 0 -60',
+                            cursor: 'pointer',
+                            display: 'block',
+                            minWidth: 180,
+                            minHeight: 40,
+                            textAlign: 'center',
+                            fontFamily: "'UTM-Swiss-721-Black-Condensed'",
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'contain',
+                        }}
+                        onClick={() => {
+                            const params = new URLSearchParams(window.location.search);
+                            window.location.href = '/announcement-detail?' + params.toString();
+                        }}
+                    >
+                        {t('FSB_view_more')}
+                    </button>
+                </div>
             </div>
             {/* Right: Image */}
             <div style={{ flex: 5, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}></div>
