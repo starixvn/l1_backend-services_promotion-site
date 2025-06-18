@@ -182,7 +182,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                     <button
                         style={{
-                            background: 'url(/static/images/view-more.png) center center / contain no-repeat',
+                            background: 'url(/static/images/free-spin-promotion/view-more.png) center center / contain no-repeat',
                             color: '#f3daac',
                             fontWeight: 800,
                             fontSize: 16,

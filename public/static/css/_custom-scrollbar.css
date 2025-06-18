@@ -1,0 +1,25 @@
+/* Custom scrollbar for .custom-scroll */
+.custom-scroll::-webkit-scrollbar {
+  width: 4px;
+  background: #fff;
+  border-radius: 4px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 4px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #e00;
+  border-radius: 4px;
+  min-height: 40px;
+}
+.custom-scroll::-webkit-scrollbar-thumb:vertical {
+  min-height: 40px;
+}
+.custom-scroll::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+
