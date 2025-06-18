@@ -46,6 +46,31 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
     // Fallback: if no eligibleGameNames, show eligibleGames as string
     const eligibleGamesDisplay = eligibleGameNames.length > 0 ? eligibleGameNames.join(', ') : eligibleGames;
 
+    // Helper function to render a term item
+    const renderTermItem = (text: string, idx: number) => (
+        <li
+            key={idx}
+            style={{
+                marginBottom: 8,
+                listStyle: 'none',
+                position: 'relative',
+                paddingLeft: 18,
+            }}
+        >
+            <span
+                style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: '#fff',
+                    fontWeight: 700,
+                }}
+            >
+                +
+            </span>
+            <span style={{ marginLeft: 25 }}>{text}</span>
+        </li>
+    );
+
     return (
         <div
             style={{
@@ -102,7 +127,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 </div>
             </div>
 
-            <div style={{overflowY: 'auto', height: 335, marginRight: 10, borderRadius: 10 }} className="custom-scroll">
+            <div style={{overflowY: 'auto', height: 335, marginRight: 10, marginLeft: 5, borderRadius: 10 }} className="custom-scroll">
                 {/* Promotion Info */}
                 <div style={{ fontSize: 20, marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 700, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
                     {t('FSB_viewdetails_promotion_info')}
@@ -180,16 +205,10 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                     )}
                     {terms.length === 0 && (
                         <ul style={{ paddingLeft: 24, margin: 0 }}>
-                            {Array.from({ length: 8 }).map((_, idx) => (
-                                (idx !== 2 && idx !== 4) && (
-                                    <li key={idx} style={{ marginBottom: 8, listStyle: 'none', position: 'relative', paddingLeft: 18 }}>
-                                        <span style={{ position: 'absolute', left: 0, color: '#fff', fontWeight: 700 }}>
-                                            +
-                                        </span>{' '}
-                                        <span style={{ marginLeft: 25 }}>{t(`FSB_template_rules_para_${idx + 1}`)}</span>
-                                    </li>
-                                )
-                            ))}
+                            {Array.from({ length: 8 })
+                                .map((_, idx) => ({ idx, text: t(`FSB_template_rules_para_${idx + 1}`) }))
+                                .filter(({ idx }) => idx !== 2 && idx !== 4)
+                                .map(({ text, idx }) => renderTermItem(text, idx))}
                         </ul>
                     )}
                 </div>
