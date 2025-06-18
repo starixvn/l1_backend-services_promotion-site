@@ -44,7 +44,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
     let lang = params.get('language') || 'en';
 
     lang = lang.toLowerCase();
-    if (lang !== 'zh-hans-cn' && lang !== 'zh-hant-tw') {
+    if (lang !== 'zh-cn' && lang !== 'zh-tw') {
         lang = lang.split('-')[0];
     }
 
@@ -62,7 +62,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
             .use(FormatIcu())
             .use(BackendFetch())
             .init({
-                availableLanguages: ['en', 'vi', 'th', 'id', 'zh-hans-cn', 'zh-hant-tw'],
+                availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
                 fallbackLanguage: 'en',
                 defaultLanguage: 'en',
                 language: lang,
