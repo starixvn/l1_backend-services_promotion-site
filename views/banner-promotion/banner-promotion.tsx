@@ -19,19 +19,41 @@ interface BannerPromotionProps {
 
 function getTimeLeft(endDate: string) {
     if (!endDate) return { days: 0, hours: 0, mins: 0, secs: 0 };
-    const end = new Date(endDate);
-    if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
-    const endMs = end.getTime();
-    const now = Date.now();
-    let diff = Math.max(0, endMs - now);
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff -= days * (1000 * 60 * 60 * 24);
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff -= hours * (1000 * 60 * 60);
-    const mins = Math.floor(diff / (1000 * 60));
-    diff -= mins * (1000 * 60);
-    const secs = Math.floor(diff / 1000);
-    return { days, hours, mins, secs };
+    
+    try {
+        const [timeStr, dateStr] = endDate.split(' ');
+        const [hoursStr, minutesStr, monthStr, dayStr, yearStr] = [...timeStr.split(':'), ...dateStr.split('/')];
+        
+        const end = new Date(Date.UTC(
+            parseInt(yearStr),
+            parseInt(monthStr) - 1, 
+            parseInt(dayStr),
+            parseInt(hoursStr),
+            parseInt(minutesStr)
+        ));
+
+        if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
+
+        const nowDate = new Date(Date.now());
+        const currentUTC = Date.UTC(nowDate.getUTCFullYear(),
+            nowDate.getUTCMonth(),
+            nowDate.getUTCDate(),
+            nowDate.getUTCHours(),
+            nowDate.getUTCMinutes(),
+            nowDate.getUTCSeconds()
+        );
+
+        const diff = Math.max(0, end.getTime() - currentUTC);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        return { days, hours, mins, secs };
+    } catch (error) {
+        console.error('Error calculating time left:', error, { endDate });
+        return { days: 0, hours: 0, mins: 0, secs: 0 };
+    }
 }
 
 const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
