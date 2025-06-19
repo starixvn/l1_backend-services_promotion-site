@@ -78,8 +78,8 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
                 backgroundSize: 'contain',
-                width: 888,
-                height: 427,
+                width: 901,
+                height: 426,
                 color: '#fff',
                 borderRadius: 12,
                 position: 'relative',
@@ -137,43 +137,106 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         background: '#2b2b2b',
                         padding: '11px 10px 16px 10px',
                         marginBottom: 32,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: 18,
-                        color: '#fff',
-                        fontFamily: "'UTM-Swiss-721-Black-Condensed'"
+                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
+                        textAlign: 'center',
+                        borderRadius: 8,
+                        overflow: 'hidden',
                     }}
                 >
-                    <div
-                        style={{ flex: 1, display: 'flex', maxWidth: 225, flexDirection: 'column', alignItems: 'center', padding: '0 8px' }}
-                    >
-                        <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                            {t('FSB_viewdetails_duration')}
-                        </div>
-                        <div style={{ textAlign: 'center', fontFamily: "'UTM-BryantLG'", whiteSpace: 'pre-line' }}>
-                            {t('from_to',{ startdate, enddate })}
-                        </div>
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px' }}>
-                        <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                            {t('FSB_viewdetails_eligible_games')}
-                        </div>
-                        <div style={{ textAlign: 'center', fontFamily: "'UTM-BryantLG'" , whiteSpace: 'pre-line' }}>
-                            {eligibleGamesDisplay}
-                        </div>
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px' }}>
-                        <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                            {t('FSB_viewdetails_freespin_reward')}
-                        </div>
-                        <div style={{ textAlign: 'center', fontFamily: "'UTM-BryantLG'" }}>{freeSpinReward}</div>
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px' }}>
-                        <div style={{  fontWeight: 700, marginBottom: 4 }}>
-                            {t('FSB_viewdetails_total_bet_per_spin')}
-                        </div>
-                        <div style={{ textAlign: 'center', fontFamily: "'UTM-BryantLG'" }}>{totalBetPerSpin}</div>
-                    </div>
+                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed' }}>
+                        <colgroup>
+                            <col style={{ width: '25%' }} />
+                            <col style={{ width: '25%' }} />
+                            <col style={{ width: '25%' }} />
+                            <col style={{ width: '25%' }} />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th style={{
+                        color: '#fff',
+                        padding: '8px',
+                                    textAlign: 'center',
+                                    fontWeight: 700,
+                                    fontSize: 18,
+                                    lineHeight: 1.2,
+                                    wordBreak: 'break-word',
+                                    whiteSpace: 'normal',
+                                }}>{t('FSB_viewdetails_duration')}</th>
+                                <th style={{
+                        color: '#fff',
+                                    padding: '8px',
+                                    textAlign: 'center',
+                                    fontWeight: 700,
+                                    fontSize: 18,
+                                    lineHeight: 1.2,
+                                    wordBreak: 'break-word',
+                                    whiteSpace: 'normal',
+                                }}>{t('FSB_viewdetails_eligible_games')}</th>
+                                <th style={{
+                        color: '#fff',
+                                    padding: '8px',
+                                    textAlign: 'center',
+                                    fontWeight: 700,
+                                    fontSize: 18,
+                                    lineHeight: 1.2,
+                                    wordBreak: 'break-word',
+                                    whiteSpace: 'normal',
+                                }}>{t('FSB_viewdetails_freespin_reward')}</th>
+                                <th style={{
+                        color: '#fff',
+                                    padding: '8px',
+                                    textAlign: 'center',
+                                    fontWeight: 700,
+                                    fontSize: 18,
+                                    lineHeight: 1.2,
+                                    wordBreak: 'break-word',
+                                    whiteSpace: 'normal',
+                                }}>{t('FSB_viewdetails_total_bet_per_spin')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style={{
+                        color: '#fff',
+                                    padding: '8px',
+                                    textAlign: 'center',
+                                    fontSize: 18,
+                                    fontFamily: "'UTM-BryantLG'",
+                                    whiteSpace: 'pre-line',
+                                    verticalAlign: 'top',
+                                    wordBreak: 'break-word',
+                                }}>{t('from_to',{ startdate, enddate })}</td>
+                                <td style={{
+                        color: '#fff',
+                        padding: '8px',
+                                    textAlign: 'center',
+                                    fontSize: 18,
+                                    fontFamily: "'UTM-BryantLG'",
+                                    whiteSpace: 'pre-line',
+                                    verticalAlign: 'top',
+                                    wordBreak: 'break-word',
+                                }}>{eligibleGamesDisplay}</td>
+                                <td style={{
+                        color: '#fff',
+                        padding: '8px',
+                                    textAlign: 'center',
+                                    fontSize: 18,
+                                    fontFamily: "'UTM-BryantLG'",
+                                    verticalAlign: 'top',
+                                    wordBreak: 'break-word',
+                                }}>{freeSpinReward}</td>
+                                <td style={{
+                        color: '#fff',
+                        padding: '8px',
+                                    textAlign: 'center',
+                                    fontSize: 18,
+                                    fontFamily: "'UTM-BryantLG'",
+                                    verticalAlign: 'top',
+                                    wordBreak: 'break-word',
+                                }}>{totalBetPerSpin}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 {/* Terms & Conditions */}

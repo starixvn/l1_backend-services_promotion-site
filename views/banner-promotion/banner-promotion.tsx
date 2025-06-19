@@ -80,8 +80,8 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
     return (
         <div
             style={{
-                width: 902,
-                height: 425,
+                width: 901,
+                height: 426,
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'row',
