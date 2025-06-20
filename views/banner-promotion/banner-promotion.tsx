@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslate } from '@tolgee/react';
 import '../../public/static/css/_fonts.scss';
+import './banner-promotion.scss';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -58,7 +59,6 @@ function getTimeLeft(endDate: string) {
 
 const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
     const { promotionFreeSpins, announcementFreeSpins, language, configs, spins } = data;
-
     const announcementTitle = announcementFreeSpins?.promotionTitle?.[language] || announcementFreeSpins?.promotionTitle?.['en-US'] || '';
 
     const templateDate = 'HH:mm MM/DD/YYYY';
@@ -79,9 +79,8 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
 
     return (
         <div
+            className='banner-promotion-container'
             style={{
-                width: '901px !important',
-                height: '426px !important',
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'row',
