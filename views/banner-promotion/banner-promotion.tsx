@@ -203,7 +203,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                     <button
                         style={{
-                            background: 'url(/static/images/free-spin-promotion/view-more.png) center center / contain no-repeat',
+                            background: 'url(/static/images/free-spin-promotion/view-more.png) center center / 100% 100% no-repeat',
                             color: '#f3daac',
                             fontWeight: 800,
                             fontSize: 16,
@@ -213,14 +213,13 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             margin: '19px 0 0 -60',
                             cursor: 'pointer',
                             display: 'block',
-                            minWidth: 200,
                             minHeight: 40,
+                            padding: '0 10px',
                             textAlign: 'center',
                             fontFamily: "'UTM-Swiss-721-Black-Condensed'",
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center',
-                            backgroundSize: 'contain',
-                            textTransform: 'uppercase'
+                            textTransform: 'uppercase',
                         }}
                         onClick={() => {
                             const params = new URLSearchParams(window.location.search);
