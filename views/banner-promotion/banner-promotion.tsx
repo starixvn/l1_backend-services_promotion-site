@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslate } from '@tolgee/react';
 import '../../public/static/css/_fonts.scss';
 import './banner-promotion.scss';
@@ -68,6 +68,22 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
     const templateImgDefault = `${configs.apiConfigurationUrl}/template-default/banner.png`;
     const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate));
     const { t } = useTranslate();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [scale, setScale] = useState(1);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (containerRef.current) {
+                const scaleValue = containerRef.current.offsetWidth / 901;
+                setScale(scaleValue < 1 ? scaleValue : 1);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         if (!endDate) return;
@@ -79,159 +95,167 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
 
     return (
         <div
+            ref={containerRef}
             className='banner-promotion-container'
             style={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'stretch',
                 background: template
-                    ? `url(${templateImg}) center/100% 100% no-repeat`
-                    : `url(${templateImgDefault}) center/100% 100% no-repeat`,
-                overflow: 'hidden',
-                padding: 0,
+                    ? `url(${templateImg}) center/contain no-repeat`
+                    : `url(${templateImgDefault}) center/contain no-repeat`,
             }}
         >
-            {/* Left: Content */}
             <div
                 style={{
-                    height: '100%',
-                    flexDirection: 'column',
-                    width: 600,
-                    marginLeft: 15,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2,
-                    position: 'relative',
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top left',
+                    width: 901,
+                    height: 426,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'stretch',
                 }}
             >
-                {/* Title */}
+                {/* Left: Content */}
                 <div
                     style={{
-                        fontSize: 32,
-                        fontWeight: 700,
-                        color: 'fff179',
-                        marginBottom: language === ID_LANGUAGE ? 15 : 12,
-                        textAlign: 'center',
-                        lineHeight: 1.35,
-                    }}
-                >
-                    <div style={{fontSize: 50, textTransform: 'uppercase', marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
-                    <div style={{fontSize: language === ID_LANGUAGE ? 20 : 23, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1', { value: spins })} </div>
-                    <div style={{fontSize: 20, color: '#fff', fontFamily: "'UTM-BryantLG'"}}> {t('FSB_notification_para2')} </div>
-                </div>
-                {/* Countdown */}
-                <div style={{ alignItems: 'center', marginBottom: 11, gap: 0, width: '100%' }}>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <span
-                            style={{
-                                fontFamily: "'UTM-BryantLG'",
-                                fontWeight: 500,
-                                fontSize: 20,
-                                marginLeft: -70,
-                                color: 'f3daac',
-                                textAlign: 'center',
-                                marginBottom: 7,
-                            }}
-                        >
-                            {t('FSB_ends_in')}
-                        </span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
-                        {[
-                            { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), style: { marginLeft: 65 } },
-                            { value: String(timeLeft.hours).padStart(2, '0'), label: t('FSB_hours'), style: { marginLeft: 15 } },
-                            { value: String(timeLeft.mins).padStart(2, '0'), label: t('FSB_mins'), style: { marginLeft: 17 } },
-                            { value: String(timeLeft.secs).padStart(2, '0'), label: t('FSB_secs'), style: { marginLeft: 16 } },
-                        ].map((item, idx, arr) => (
-                            <React.Fragment key={idx}>
-                                <div
-                                    style={{
-                                        color: '#fff',
-                                        fontWeight: 700,
-                                        fontSize: 36,
-                                        borderRadius: 12,
-                                        minWidth: 80,
-                                        minHeight: 64,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        margin: '0 6px',
-                                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                                        position: 'relative',
-                                        ...item.style,
-                                    }}
-                                >
-                                    <span style={{ fontSize: 40, fontWeight: 700, lineHeight: 1, fontFamily: "'UTM-Swiss-721-Black-Condensed'" }}>{item.value}</span>
-                                    <span
-                                        style={{
-                                            fontSize: 10,
-                                            marginTop: 2,
-                                            color: '#fff',
-                                            textTransform: 'uppercase',
-                                            opacity: 0.95,
-                                            fontFamily: "'UTM-BryantLG'",
-                                        }}
-                                    >
-                                        {item.label}
-                                    </span>
-                                </div>
-                            </React.Fragment>
-                        ))}
-                    </div>
-                </div>
-                {/* Ribbon xanh */}
-                <div
-                    style={{
-                        color: '#fff',
-                        fontWeight: 700,
-                        fontSize: 27,
-                        lineHeight: 1.2,
-                        height: 80,
-                        width: 450,
+                        height: '100%',
+                        flexDirection: 'column',
+                        width: 600,
+                        marginLeft: 15,
                         alignItems: 'center',
-                        display: 'flex',
-                        marginLeft: 20,
                         justifyContent: 'center',
+                        zIndex: 2,
+                        position: 'relative',
+                        display: 'flex',
                     }}
                 >
-                    <span style={{ fontWeight: 700, fontSize: 26, lineHeight: 1.2, fontFamily: "'NotoSerifBold'" }}>
-                        {announcementTitle || t('FSB_template_announcement_title')}
-                    </span>
-                </div>
-                {/* View More button */}
-                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                    <button
+                    {/* Title */}
+                    <div
                         style={{
-                            background: 'url(/static/images/free-spin-promotion/view-more.png) center center / 100% 100% no-repeat',
-                            color: '#f3daac',
-                            fontWeight: 800,
-                            fontSize: 16,
-                            border: 'none',
-                            borderRadius: 8,
-                            marginLeft: 165,
-                            margin: '19px 0 0 -60',
-                            cursor: 'pointer',
-                            display: 'block',
-                            minHeight: 40,
-                            padding: '0 10px',
+                            fontSize: 32,
+                            fontWeight: 700,
+                            color: 'fff179',
+                            marginBottom: language === ID_LANGUAGE ? 15 : 12,
                             textAlign: 'center',
-                            fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'center',
-                            textTransform: 'uppercase',
-                        }}
-                        onClick={() => {
-                            const params = new URLSearchParams(window.location.search);
-                            window.location.href = '/announcement-detail?' + params.toString();
+                            lineHeight: 1.35,
                         }}
                     >
-                        <span style={{fontSize: language === ID_LANGUAGE ? 14 : 20, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}>{t('FSB_view_more')}</span>
-                    </button>
+                        <div style={{fontSize: 50, textTransform: 'uppercase', marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
+                        <div style={{fontSize: language === ID_LANGUAGE ? 20 : 23, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1', { value: spins })} </div>
+                        <div style={{fontSize: 20, color: '#fff', fontFamily: "'UTM-BryantLG'"}}> {t('FSB_notification_para2')} </div>
+                    </div>
+                    {/* Countdown */}
+                    <div style={{ alignItems: 'center', marginBottom: 11, gap: 0, width: '100%' }}>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <span
+                                style={{
+                                    fontFamily: "'UTM-BryantLG'",
+                                    fontWeight: 500,
+                                    fontSize: 20,
+                                    marginLeft: -70,
+                                    color: 'f3daac',
+                                    textAlign: 'center',
+                                    marginBottom: 7,
+                                }}
+                            >
+                                {t('FSB_ends_in')}
+                            </span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+                            {[
+                                { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), style: { marginLeft: 65 } },
+                                { value: String(timeLeft.hours).padStart(2, '0'), label: t('FSB_hours'), style: { marginLeft: 15 } },
+                                { value: String(timeLeft.mins).padStart(2, '0'), label: t('FSB_mins'), style: { marginLeft: 17 } },
+                                { value: String(timeLeft.secs).padStart(2, '0'), label: t('FSB_secs'), style: { marginLeft: 16 } },
+                            ].map((item, idx, arr) => (
+                                <React.Fragment key={idx}>
+                                    <div
+                                        style={{
+                                            color: '#fff',
+                                            fontWeight: 700,
+                                            fontSize: 36,
+                                            borderRadius: 12,
+                                            minWidth: 80,
+                                            minHeight: 64,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            margin: '0 6px',
+                                            fontFamily: "'UTM-Swiss-721-Black-Condensed'",
+                                            position: 'relative',
+                                            ...item.style,
+                                        }}
+                                    >
+                                        <span style={{ fontSize: 40, fontWeight: 700, lineHeight: 1, fontFamily: "'UTM-Swiss-721-Black-Condensed'" }}>{item.value}</span>
+                                        <span
+                                            style={{
+                                                fontSize: 10,
+                                                marginTop: 2,
+                                                color: '#fff',
+                                                textTransform: 'uppercase',
+                                                opacity: 0.95,
+                                                fontFamily: "'UTM-BryantLG'",
+                                            }}
+                                        >
+                                            {item.label}
+                                        </span>
+                                    </div>
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </div>
+                    {/* Ribbon xanh */}
+                    <div
+                        style={{
+                            color: '#fff',
+                            fontWeight: 700,
+                            fontSize: 27,
+                            lineHeight: 1.2,
+                            height: 80,
+                            width: 450,
+                            alignItems: 'center',
+                            display: 'flex',
+                            marginLeft: 20,
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <span style={{ fontWeight: 700, fontSize: 26, lineHeight: 1.2, fontFamily: "'NotoSerifBold'" }}>
+                            {announcementTitle || t('FSB_template_announcement_title')}
+                        </span>
+                    </div>
+                    {/* View More button */}
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        <button
+                            style={{
+                                background: 'url(/static/images/free-spin-promotion/view-more.png) center center / 100% 100% no-repeat',
+                                color: '#f3daac',
+                                fontWeight: 800,
+                                fontSize: 16,
+                                border: 'none',
+                                borderRadius: 8,
+                                marginLeft: 165,
+                                margin: '19px 0 0 -60',
+                                cursor: 'pointer',
+                                display: 'block',
+                                minHeight: 40,
+                                padding: '0 10px',
+                                textAlign: 'center',
+                                fontFamily: "'UTM-Swiss-721-Black-Condensed'",
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                                textTransform: 'uppercase',
+                            }}
+                            onClick={() => {
+                                const params = new URLSearchParams(window.location.search);
+                                window.location.href = '/announcement-detail?' + params.toString();
+                            }}
+                        >
+                            <span style={{fontSize: language === ID_LANGUAGE ? 14 : 20, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}>{t('FSB_view_more')}</span>
+                        </button>
+                    </div>
                 </div>
+                {/* Right: Image */}
+                <div style={{ flex: 5, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}></div>
             </div>
-            {/* Right: Image */}
-            <div style={{ flex: 5, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}></div>
         </div>
     );
 };
