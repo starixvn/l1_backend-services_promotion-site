@@ -139,8 +139,8 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                         }}
                     >
                         <div style={{fontSize: 50, textTransform: 'uppercase', marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
-                        <div style={{fontSize: language === ID_LANGUAGE ? 20 : 23, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1', { value: spins })} </div>
-                        <div style={{fontSize: 20, color: '#fff', fontFamily: "'UTM-BryantLG'"}}> {t('FSB_notification_para2')} </div>
+                        <div style={{fontSize: language === ID_LANGUAGE ? 18 : 23, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'", padding: '0 20px'}}> {t('FSB_notification_para1', { value: spins })} </div>
+                        <div style={{fontSize: 20, color: '#fff', fontFamily: "'UTM-BryantLG'", padding: '0 20px'}}> {t('FSB_notification_para2')} </div>
                     </div>
                     {/* Countdown */}
                     <div style={{ alignItems: 'center', marginBottom: 11, gap: 0, width: '100%' }}>
