@@ -86,8 +86,8 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 flexDirection: 'row',
                 alignItems: 'stretch',
                 background: template
-                    ? `url(${templateImg}) center/contain no-repeat`
-                    : `url(${templateImgDefault}) center/contain no-repeat`,
+                    ? `url(${templateImg}) center/100% 100% no-repeat`
+                    : `url(${templateImgDefault}) center/100% 100% no-repeat`,
                 overflow: 'hidden',
                 padding: 0,
             }}
