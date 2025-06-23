@@ -97,7 +97,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 style={{
                     height: '100%',
                     flexDirection: 'column',
-                    width: 580,
+                    width: 600,
                     marginLeft: 15,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -213,7 +213,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             margin: '19px 0 0 -60',
                             cursor: 'pointer',
                             display: 'block',
-                            minWidth: 180,
+                            minWidth: 200,
                             minHeight: 40,
                             textAlign: 'center',
                             fontFamily: "'UTM-Swiss-721-Black-Condensed'",
