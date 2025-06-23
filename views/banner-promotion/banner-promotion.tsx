@@ -125,7 +125,6 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                         justifyContent: 'center',
                         zIndex: 2,
                         position: 'relative',
-                        display: 'flex',
                     }}
                 >
                     {/* Title */}
