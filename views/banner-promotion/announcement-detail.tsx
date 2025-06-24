@@ -127,7 +127,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 </div>
             </div>
 
-            <div style={{overflowY: 'auto', height: 335, marginRight: 10, marginLeft: 5, borderRadius: 10 }} className="custom-scroll">
+            <div style={{overflowY: 'auto', height: 335, marginRight: 10, marginLeft: 10, borderRadius: 10 }} className="custom-scroll">
                 {/* Promotion Info */}
                 <div style={{ fontSize: 20, marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 700, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
                     {t('FSB_viewdetails_promotion_info')}
