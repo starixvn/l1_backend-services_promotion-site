@@ -117,7 +117,7 @@ export class AppController {
         }
 
         const { code } = promotionFreeSpins;
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(code);
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementByPromotionCode(code);
         
         const { operatorId, siteName, playerId, currencyGroupId } = data;
         const claimPromotion = await this.promotionFreeSpinsService.claimPromotion({
@@ -178,7 +178,7 @@ export class AppController {
         }
 
         const { code, gameIds, bonusItemCount, betLevels, gameConfigType } = promotionFreeSpins;
-        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementById(code);
+        const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementByPromotionCode(code);
         const { title: announcementTittle, terms } = this.getAnnouncementData(announcementFreeSpins, language);
 
         const betLevelObj = betLevels.find(

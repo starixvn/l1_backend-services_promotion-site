@@ -34,7 +34,7 @@ export class PromotionFreeSpinsService {
         }
     }
 
-    async getAnnouncementById(promotionCode: string) {
+    async getAnnouncementByPromotionCode(promotionCode: string) {
         const baseUrl = process.env.PROMOTION_API_BASE_URL; 
         if (!baseUrl) {
             throw new Error(this.errorMessage);
