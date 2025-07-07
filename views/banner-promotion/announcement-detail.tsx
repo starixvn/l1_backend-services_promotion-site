@@ -19,7 +19,7 @@ interface AnnouncementDetailProps {
 }
 
 const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
-    const { announcementTittle, terms, eligibleGames, freeSpinReward, totalBetPerSpin, game, promotionFreeSpins } = data;
+    const { terms, eligibleGames, freeSpinReward, totalBetPerSpin, game, promotionFreeSpins } = data;
     const template = 'HH:mm MM/DD/YYYY';
     const startdate = dayjs.utc(promotionFreeSpins?.startDate).local().format(template);
     const enddate = dayjs.utc(promotionFreeSpins?.endDate).local().format(template);
@@ -45,6 +45,12 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
 
     // Fallback: if no eligibleGameNames, show eligibleGames as string
     const eligibleGamesDisplay = eligibleGameNames.length > 0 ? eligibleGameNames.join(', ') : eligibleGames;
+
+    // Helper function to build back URL
+    const buildBackUrl = () => {
+        const params = new URLSearchParams(window.location.search);
+        return '/banner-promotions?' + params.toString();
+    };
 
     // Helper function to render a term item
     const renderTermItem = (text: string, idx: number) => (
@@ -104,7 +110,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                     backgroundRepeat: 'no-repeat',
                 }}
                 aria-label="Back"
-                onClick={() => window.history.back()}
+                onClick={() => window.location.href = buildBackUrl()}
             />
 
             {/* Title */}
