@@ -143,7 +143,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         overflow: 'hidden',
                     }}
                 >
-                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed' }}>
+                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed', fontSize: 20 }}>
                         <colgroup>
                             <col style={{ width: '25%' }} />
                             <col style={{ width: '25%' }} />
@@ -157,7 +157,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         padding: '8px',
                                     textAlign: 'center',
                                     fontWeight: 700,
-                                    fontSize: 18,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -167,7 +166,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                                     padding: '8px',
                                     textAlign: 'center',
                                     fontWeight: 700,
-                                    fontSize: 18,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -177,7 +175,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                                     padding: '8px',
                                     textAlign: 'center',
                                     fontWeight: 700,
-                                    fontSize: 18,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -187,7 +184,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                                     padding: '8px',
                                     textAlign: 'center',
                                     fontWeight: 700,
-                                    fontSize: 18,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -200,7 +196,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                                     padding: '8px',
                                     textAlign: 'center',
-                                    fontSize: 18,
                                     fontFamily: "'UTM-BryantLG'",
                                     whiteSpace: 'pre-line',
                                     verticalAlign: 'top',
@@ -210,7 +205,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                         padding: '8px',
                                     textAlign: 'center',
-                                    fontSize: 18,
                                     fontFamily: "'UTM-BryantLG'",
                                     whiteSpace: 'pre-line',
                                     verticalAlign: 'top',
@@ -220,7 +214,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                         padding: '8px',
                                     textAlign: 'center',
-                                    fontSize: 18,
                                     fontFamily: "'UTM-BryantLG'",
                                     verticalAlign: 'top',
                                     wordBreak: 'break-word',
@@ -229,7 +222,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                         padding: '8px',
                                     textAlign: 'center',
-                                    fontSize: 18,
                                     fontFamily: "'UTM-BryantLG'",
                                     verticalAlign: 'top',
                                     wordBreak: 'break-word',
@@ -250,7 +242,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         whiteSpace: 'pre-line',
                         lineHeight: 1.5,
                         color: '#fff',
-                        fontSize: 17,
+                        fontSize: 20,
                         fontFamily: "'UTM-BryantLG'"
                     }}
                 >
