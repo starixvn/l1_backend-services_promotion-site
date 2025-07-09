@@ -15,11 +15,12 @@ interface AnnouncementDetailProps {
         totalBetPerSpin: string | number;
         game: any;
         promotionFreeSpins: any;
+        showBackButton?: boolean;
     };
 }
 
 const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
-    const { terms, eligibleGames, freeSpinReward, totalBetPerSpin, game, promotionFreeSpins } = data;
+    const { terms, eligibleGames, freeSpinReward, totalBetPerSpin, game, promotionFreeSpins, showBackButton = false } = data;
     const template = 'HH:mm MM/DD/YYYY';
     const startdate = dayjs.utc(promotionFreeSpins?.startDate).local().format(template);
     const enddate = dayjs.utc(promotionFreeSpins?.endDate).local().format(template);
@@ -91,27 +92,29 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 position: 'relative',
             }}
         >
-            {/* Back button */}
-            <button
-                style={{
-                    position: 'absolute',
-                    top: 16,
-                    left: 20,
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: 26,
-                    height: 26,
-                    cursor: 'pointer',
-                    zIndex: 2,
-                    padding: 0,
-                    backgroundColor: 'transparent',
-                    backgroundImage: 'url(/static/images/free-spin-promotion/back-button.png)',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                }}
-                aria-label="Back"
-                onClick={() => window.location.href = buildBackUrl()}
-            />
+            {/* Back button - chỉ hiển thị khi showBackButton = true */}
+            {showBackButton && (
+                <button
+                    style={{
+                        position: 'absolute',
+                        top: 16,
+                        left: 20,
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: 26,
+                        height: 26,
+                        cursor: 'pointer',
+                        zIndex: 2,
+                        padding: 0,
+                        backgroundColor: 'transparent',
+                        backgroundImage: 'url(/static/images/free-spin-promotion/back-button.png)',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                    aria-label="Back"
+                    onClick={() => window.location.href = buildBackUrl()}
+                />
+            )}
 
             {/* Title */}
             <div style={{ textAlign: 'center', marginBottom: 24 }}>

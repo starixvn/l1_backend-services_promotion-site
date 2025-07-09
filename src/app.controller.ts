@@ -165,7 +165,8 @@ export class AppController {
         @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
         @Query('language') language: string,
         @Query('promotionId') promotionId: string,
-        @Query('game') game: string
+        @Query('game') game: string,
+        @Query('showBackButton') showBackButton: string
     ) {
         const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent);
         if (!isValid) {
@@ -197,7 +198,8 @@ export class AppController {
             freeSpinReward: bonusItemCount,
             totalBetPerSpin,
             game: game ? JSON.parse(game) : null,
-            promotionFreeSpins
+            promotionFreeSpins,
+            showBackButton: showBackButton === 'true'
         };
 
         return { 

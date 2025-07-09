@@ -245,6 +245,9 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             }}
                             onClick={() => {
                                 const params = new URLSearchParams(window.location.search);
+                                if (!params.has('showBackButton')) {
+                                    params.append('showBackButton', 'true');
+                                }
                                 window.location.href = '/announcement-detail?' + params.toString();
                             }}
                         >
