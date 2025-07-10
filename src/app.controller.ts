@@ -144,6 +144,7 @@ export class AppController {
             announcementFreeSpins,
             configs: { apiConfigurationUrl },
             spins,
+            serverTime: new Date().toISOString(),
         };
 
         return { 

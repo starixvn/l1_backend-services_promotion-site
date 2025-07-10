@@ -15,35 +15,29 @@ interface BannerPromotionProps {
         language: string;
         configs: { apiConfigurationUrl: string };
         spins: number;
+        serverTime: string;
     };
 }
 
-function getTimeLeft(endDate: string) {
+function getTimeLeft(endDate: string, serverTime: string, elapsedTime: number = 0) {
     if (!endDate) return { days: 0, hours: 0, mins: 0, secs: 0 };
     
     try {
         const [timeStr, dateStr] = endDate.split(' ');
         const [hoursStr, minutesStr, monthStr, dayStr, yearStr] = [...timeStr.split(':'), ...dateStr.split('/')];
         
-        const end = new Date(Date.UTC(
+        const end = new Date(
             parseInt(yearStr),
             parseInt(monthStr) - 1, 
             parseInt(dayStr),
             parseInt(hoursStr),
             parseInt(minutesStr)
-        ));
+        );
 
         if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
 
-        const nowDate = new Date(Date.now());
-        const currentUTC = Date.UTC(nowDate.getUTCFullYear(),
-            nowDate.getUTCMonth(),
-            nowDate.getUTCDate(),
-            nowDate.getUTCHours(),
-            nowDate.getUTCMinutes(),
-            nowDate.getUTCSeconds()
-        );
-
+        const serverDate = new Date(serverTime);
+        const currentUTC = serverDate.getTime() + elapsedTime;
         const diff = Math.max(0, end.getTime() - currentUTC);
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -58,7 +52,7 @@ function getTimeLeft(endDate: string) {
 }
 
 const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
-    const { promotionFreeSpins, announcementFreeSpins, language, configs, spins } = data;
+    const { promotionFreeSpins, announcementFreeSpins, language, configs, spins, serverTime } = data;
     const announcementTitle = announcementFreeSpins?.promotionTitle?.[language] || announcementFreeSpins?.promotionTitle?.['en-US'] || '';
 
     const templateDate = 'HH:mm MM/DD/YYYY';
@@ -66,7 +60,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
     const endDate = dayjs.utc(promotionFreeSpins?.endDate).local().format(templateDate);
     const templateImg = `${configs.apiConfigurationUrl}/template-${template}/banner-1.png`;
     const templateImgDefault = `${configs.apiConfigurationUrl}/template-default/banner.png`;
-    const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate));
+    const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate, serverTime));
     const { t } = useTranslate();
     const containerRef = useRef<HTMLDivElement>(null);
     const [scale, setScale] = useState(1);
@@ -87,11 +81,15 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
 
     useEffect(() => {
         if (!endDate) return;
+        
+        const startTime = Date.now();
         const timer = setInterval(() => {
-            setTimeLeft(getTimeLeft(endDate));
+            const currentElapsedTime = Date.now() - startTime;
+            setTimeLeft(getTimeLeft(endDate, serverTime, currentElapsedTime));
         }, 1000);
+        
         return () => clearInterval(timer);
-    }, [endDate]);
+    }, [endDate, serverTime]);
 
     return (
         <div
@@ -202,7 +200,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             ))}
                         </div>
                     </div>
-                    {/* Ribbon xanh */}
+                    {/* Ribbon */}
                     <div
                         style={{
                             color: '#fff',
