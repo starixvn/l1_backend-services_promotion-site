@@ -64,7 +64,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 paddingLeft: 18,
             }}
         >
-            <span style={{ marginLeft: 25 }}>{text}</span>
+            <span >{text}</span>
         </li>
     );
 
