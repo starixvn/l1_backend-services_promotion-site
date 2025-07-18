@@ -259,9 +259,6 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         <ul style={{ paddingLeft: 24, margin: 0 }}>
                             {terms.split('\n').map((term, idx) => (
                                 <li key={idx} style={{ marginBottom: 8, listStyle: 'none', position: 'relative', paddingLeft: 18 }}>
-                                    <span style={{ position: 'absolute', left: 0, color: '#fff', fontWeight: 500 }}>
-                                        +
-                                    </span>{' '}
                                     {term}
                                 </li>
                             ))}
