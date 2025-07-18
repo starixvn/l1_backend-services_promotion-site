@@ -256,9 +256,8 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                     )}
                     {terms.length === 0 && (
                         <ul style={{ paddingLeft: 24, margin: 0 }}>
-                            {Array.from({ length: 8 })
+                            {Array.from({ length: 11 })
                                 .map((_, idx) => ({ idx, text: t(`FSB_template_rules_para_${idx + 1}`) }))
-                                .filter(({ idx }) => idx !== 2 && idx !== 4)
                                 .map(({ text, idx }) => renderTermItem(text, idx))}
                         </ul>
                     )}
