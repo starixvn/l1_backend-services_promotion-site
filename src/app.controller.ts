@@ -147,14 +147,18 @@ export class AppController {
             serverTime: new Date().toISOString(),
         };
 
+        const jsonString = JSON.stringify(jsonObject);
+        // Escape the JSON string for safe embedding in JavaScript
+        const escapedJsonString = jsonString
+            .replace(/\\/g, '\\\\')  // Escape backslashes first
+            .replace(/'/g, "\\'")    // Escape single quotes
+            .replace(/"/g, '\\"')    // Escape double quotes
+            .replace(/\n/g, '\\n')   // Escape newlines
+            .replace(/\r/g, '\\r')   // Escape carriage returns
+            .replace(/\t/g, '\\t');  // Escape tabs
+
         return { 
-            jsonObject: JSON.stringify(jsonObject)
-                .replace(/</g, '\\u003c')
-                .replace(/>/g, '\\u003e')
-                .replace(/&/g, '\\u0026')
-                .replace(/\u2028/g, '\\u2028')
-                .replace(/\u2029/g, '\\u2029')
-                .replace(/\\n/g, '\\\\n') 
+            jsonObject: escapedJsonString
         };
     }
 
@@ -203,14 +207,18 @@ export class AppController {
             showBackButton: showBackButton === 'true'
         };
 
+        const jsonString = JSON.stringify(jsonObject);
+        // Escape the JSON string for safe embedding in JavaScript
+        const escapedJsonString = jsonString
+            .replace(/\\/g, '\\\\')  // Escape backslashes first
+            .replace(/'/g, "\\'")    // Escape single quotes
+            .replace(/"/g, '\\"')    // Escape double quotes
+            .replace(/\n/g, '\\n')   // Escape newlines
+            .replace(/\r/g, '\\r')   // Escape carriage returns
+            .replace(/\t/g, '\\t');  // Escape tabs
+
         return { 
-            jsonObject: JSON.stringify(jsonObject)
-                .replace(/</g, '\\u003c')
-                .replace(/>/g, '\\u003e')
-                .replace(/&/g, '\\u0026')
-                .replace(/\u2028/g, '\\u2028')
-                .replace(/\u2029/g, '\\u2029')
-                .replace(/\\n/g, '\\\\n') 
+            jsonObject: escapedJsonString
         };
     }
 }

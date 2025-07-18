@@ -129,7 +129,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     <div
                         style={{
                             fontSize: 32,
-                            fontWeight: 700,
+                            fontWeight: 500,
                             color: 'fff179',
                             marginBottom: language === ID_LANGUAGE ? 15 : 12,
                             textAlign: 'center',
@@ -168,7 +168,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                     <div
                                         style={{
                                             color: '#fff',
-                                            fontWeight: 700,
+                                            fontWeight: 500,
                                             fontSize: 36,
                                             borderRadius: 12,
                                             minWidth: 80,
@@ -182,7 +182,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                             ...item.style,
                                         }}
                                     >
-                                        <span style={{ fontSize: 40, fontWeight: 700, lineHeight: 1, fontFamily: "'UTM-Swiss-721-Black-Condensed'" }}>{item.value}</span>
+                                        <span style={{ fontSize: 40, fontWeight: 500, lineHeight: 1, fontFamily: "'UTM-Swiss-721-Black-Condensed'" }}>{item.value}</span>
                                         <span
                                             style={{
                                                 fontSize: 10,
@@ -204,7 +204,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     <div
                         style={{
                             color: '#fff',
-                            fontWeight: 700,
+                            fontWeight: 500,
                             fontSize: 27,
                             lineHeight: 1.2,
                             height: 80,
@@ -215,7 +215,7 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             justifyContent: 'center',
                         }}
                     >
-                        <span style={{ fontWeight: 700, fontSize: 26, lineHeight: 1.2, fontFamily: "'NotoSerifBold'" }}>
+                        <span style={{ fontWeight: 500, fontSize: 26, lineHeight: 1.2, fontFamily: "'NotoSerifBold'" }}>
                             {announcementTitle || t('FSB_template_announcement_title')}
                         </span>
                     </div>

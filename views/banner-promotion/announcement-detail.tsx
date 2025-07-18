@@ -69,7 +69,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                     position: 'absolute',
                     left: 0,
                     color: '#fff',
-                    fontWeight: 700,
+                    fontWeight: 500,
                 }}
             >
                 +
@@ -122,7 +122,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                     style={{
                         display: 'inline-block',
                         color: '#fff',
-                        fontWeight: 700,
+                        fontWeight: 500,
                         fontSize: 30,
                         padding: '7px 19px',
                         borderRadius: 16,
@@ -138,7 +138,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
 
             <div style={{overflowY: 'auto', height: 335, marginRight: 10, marginLeft: 10, borderRadius: 10 }} className="custom-scroll">
                 {/* Promotion Info */}
-                <div style={{ fontSize: 20, marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 700, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
+                <div style={{ fontSize: 20, marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 500, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
                     {t('FSB_viewdetails_promotion_info')}
                 </div>
                 <div
@@ -165,7 +165,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                         padding: '8px',
                                     textAlign: 'center',
-                                    fontWeight: 700,
+                                    fontWeight: 500,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -174,7 +174,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                                     padding: '8px',
                                     textAlign: 'center',
-                                    fontWeight: 700,
+                                    fontWeight: 500,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -183,7 +183,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                                     padding: '8px',
                                     textAlign: 'center',
-                                    fontWeight: 700,
+                                    fontWeight: 500,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -192,7 +192,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         color: '#fff',
                                     padding: '8px',
                                     textAlign: 'center',
-                                    fontWeight: 700,
+                                    fontWeight: 500,
                                     lineHeight: 1.2,
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
@@ -241,7 +241,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 </div>
 
                 {/* Terms & Conditions */}
-                <div style={{ fontSize: 20,  marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 700, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
+                <div style={{ fontSize: 20,  marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 500, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
                     {t('FSB_viewdetails_term&conditions')}
                 </div>
                 <div
@@ -259,7 +259,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         <ul style={{ paddingLeft: 24, margin: 0 }}>
                             {terms.split('\n').map((term, idx) => (
                                 <li key={idx} style={{ marginBottom: 8, listStyle: 'none', position: 'relative', paddingLeft: 18 }}>
-                                    <span style={{ position: 'absolute', left: 0, color: '#fff', fontWeight: 700 }}>
+                                    <span style={{ position: 'absolute', left: 0, color: '#fff', fontWeight: 500 }}>
                                         +
                                     </span>{' '}
                                     {term}
