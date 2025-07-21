@@ -54,11 +54,13 @@ export class PromotionFreeSpinsService {
         siteName,
         playerId,
         currencyGroup,
+        gameId
     }: {
         operatorId: string;
         siteName: string;
         playerId: string;
         currencyGroup: string;
+        gameId: number;
     }) {
         const baseUrl = process.env.PROMOTION_API_BASE_URL;
         if (!baseUrl) {
@@ -71,6 +73,7 @@ export class PromotionFreeSpinsService {
                 siteName,
                 playerId,
                 currencyGroup,
+                gameId
             });
             return res.data;
         } catch (error) {

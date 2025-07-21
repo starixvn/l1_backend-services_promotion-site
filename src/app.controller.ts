@@ -125,6 +125,7 @@ export class AppController {
             siteName,
             playerId,
             currencyGroup: currencyGroupId,
+            gameId: promotionFreeSpins.gameIds[0]
         });
 
         if (!claimPromotion || !claimPromotion.promotion) {
