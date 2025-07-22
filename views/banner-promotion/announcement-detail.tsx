@@ -305,7 +305,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                                         wordBreak: 'break-word',
                                     }}
                                 >
-                                    {promotionFreeSpins.minTurnoverMultiplier}
+                                    {promotionFreeSpins.minTurnoverMultiplier}x
                                 </td>
                                 <td
                                     style={{
