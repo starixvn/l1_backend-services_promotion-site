@@ -230,6 +230,101 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                     </table>
                 </div>
 
+{/* Rollover Requirement */}
+<div
+                    style={{
+                        fontSize: 20,
+                        marginLeft: 30,
+                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
+                        fontWeight: 500,
+                        marginBottom: 8,
+                        color: '#fff697',
+                        letterSpacing: 0.5,
+                    }}
+                >
+                    {t('FSB_viewdetails_rollover_requirement')}
+                </div>
+                <div
+                    style={{
+                        background: '#2b2b2b',
+                        padding: '11px 10px 16px 10px',
+                        marginBottom: 32,
+                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
+                        textAlign: 'center',
+                        borderRadius: 8,
+                        overflow: 'hidden',
+                    }}
+                >
+                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed', fontSize: 20 }}>
+                        <colgroup>
+                            <col style={{ width: '25%' }} />
+                            <col style={{ width: '25%' }} />
+                            <col style={{ width: '25%' }} />
+                            <col style={{ width: '25%' }} />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th
+                                    style={{
+                                        color: '#fff',
+                                        padding: '8px',
+                                        textAlign: 'center',
+                                        fontWeight: 500,
+                                        lineHeight: 1.2,
+                                        wordBreak: 'break-word',
+                                        whiteSpace: 'normal',
+                                    }}
+                                >
+                                    {t('FSB_viewdetails_rollover')}
+                                </th>
+                                <th
+                                    style={{
+                                        color: '#fff',
+                                        padding: '8px',
+                                        textAlign: 'center',
+                                        fontWeight: 500,
+                                        lineHeight: 1.2,
+                                        wordBreak: 'break-word',
+                                        whiteSpace: 'normal',
+                                    }}
+                                >
+                                    {t('FSB_viewdetails_expiration')}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td
+                                    style={{
+                                        color: '#fff',
+                                        padding: '8px',
+                                        textAlign: 'center',
+                                        fontFamily: "'UTM-BryantLG'",
+                                        whiteSpace: 'pre-line',
+                                        verticalAlign: 'top',
+                                        wordBreak: 'break-word',
+                                    }}
+                                >
+                                    {promotionFreeSpins.minTurnoverMultiplier}
+                                </td>
+                                <td
+                                    style={{
+                                        color: '#fff',
+                                        padding: '8px',
+                                        textAlign: 'center',
+                                        fontFamily: "'UTM-BryantLG'",
+                                        whiteSpace: 'pre-line',
+                                        verticalAlign: 'top',
+                                        wordBreak: 'break-word',
+                                    }}
+                                >
+                                    {dayjs.utc(promotionFreeSpins.claimExpirationDate).local().format(template)}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 {/* Terms & Conditions */}
                 <div style={{ fontSize: 20,  marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 500, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
                     {t('FSB_viewdetails_term&conditions')}
