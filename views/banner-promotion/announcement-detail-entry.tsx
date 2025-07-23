@@ -3,34 +3,16 @@ import { createRoot } from 'react-dom/client';
 import AnnouncementDetail from './announcement-detail';
 import { Tolgee, BackendFetch, TolgeeProvider } from '@tolgee/react';
 import { FormatIcu } from '@tolgee/format-icu';
+import '../../public/static/css/announcement-detail.scss';
 
 const root = createRoot(document.getElementById('root'));
 
 const Unauthorized = lazy(() => import('../unauthorized'));
+
 let initialComponent: React.ReactNode = (
     <React.Suspense fallback={null}>
-        <div
-            style={{
-                width: 902,
-                height: 425,
-                background: 'linear-gradient(120deg, #222 60%, #6a1b9a 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <div
-                style={{
-                    color: '#fff',
-                    borderRadius: 12,
-                    padding: 32,
-                    maxWidth: 800,
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
+        <div className='announcement-detail-unauthorized-container'>
+            <div className='announcement-detail-unauthorized-content'>
                 <Unauthorized />
             </div>
         </div>

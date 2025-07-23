@@ -1,0 +1,145 @@
+.announcement-detail-container {
+    background: url(../images/free-spin-promotion/detail-board.png) center center / contain no-repeat;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 901px;
+    height: 426px;
+    color: #fff;
+    border-radius: 12px;
+    position: relative;
+}
+
+.announcement-detail-back-button {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+    background-color: transparent;
+    background-image: url(../images/free-spin-promotion/back-button.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.announcement-detail-title {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.announcement-detail-title-text {
+    display: inline-block;
+    color: #fff;
+    font-weight: 500;
+    font-size: 30px;
+    padding: 7px 19px;
+    border-radius: 16px;
+    margin: 0;
+    font-family: 'UTM-Swiss-721-Black-Condensed';
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.announcement-detail-content {
+    overflow-y: auto;
+    height: 335px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
+
+.announcement-detail-section-title {
+    font-size: 20px;
+    margin-left: 30px;
+    font-family: 'UTM-Swiss-721-Black-Condensed';
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #fff697;
+    letter-spacing: 0.5px;
+}
+
+.announcement-detail-table-container {
+    background: #2b2b2b;
+    padding: 11px 10px 16px 10px;
+    margin-bottom: 32px;
+    font-family: 'UTM-Swiss-721-Black-Condensed';
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.announcement-detail-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    font-size: 20px;
+}
+
+.announcement-detail-table-header {
+    color: #fff;
+    padding: 8px;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.2;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.announcement-detail-table-cell {
+    color: #fff;
+    padding: 8px;
+    text-align: center;
+    font-family: 'UTM-BryantLG';
+    white-space: pre-line;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+.announcement-detail-terms-container {
+    background: #2b2b2b;
+    padding: 11px 35px 11px 10px;
+    white-space: pre-line;
+    line-height: 1.5;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'UTM-BryantLG';
+}
+
+.announcement-detail-terms-list {
+    padding-left: 24px;
+    margin: 0;
+}
+
+.announcement-detail-term-item {
+    margin-bottom: 8px;
+    list-style: none;
+    position: relative;
+    padding-left: 18px;
+}
+
+// Entry component styles
+.announcement-detail-unauthorized-container {
+    width: 902px;
+    height: 425px;
+    background: linear-gradient(120deg, #222 60%, #6a1b9a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.announcement-detail-unauthorized-content {
+    color: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 800px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 

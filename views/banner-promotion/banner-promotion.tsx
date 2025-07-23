@@ -1,12 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslate } from '@tolgee/react';
 import '../../public/static/css/_fonts.scss';
-import './banner-promotion.scss';
+import '../../public/static/css/banner-promotion.scss';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 const ID_LANGUAGE = 'id-ID';
+
+// Time constants
+const TIME_CONSTANTS = {
+    MILLISECONDS_PER_SECOND: 1000,
+    SECONDS_PER_MINUTE: 60,
+    MINUTES_PER_HOUR: 60,
+    HOURS_PER_DAY: 24,
+    MONTH_OFFSET: 1, // JavaScript months are 0-indexed
+} as const;
+
+// Calculate derived constants
+const MILLISECONDS_PER_MINUTE = TIME_CONSTANTS.MILLISECONDS_PER_SECOND * TIME_CONSTANTS.SECONDS_PER_MINUTE;
+const MILLISECONDS_PER_HOUR = MILLISECONDS_PER_MINUTE * TIME_CONSTANTS.MINUTES_PER_HOUR;
+const MILLISECONDS_PER_DAY = MILLISECONDS_PER_HOUR * TIME_CONSTANTS.HOURS_PER_DAY;
 
 interface BannerPromotionProps {
     data: {
@@ -19,36 +33,79 @@ interface BannerPromotionProps {
     };
 }
 
-function getTimeLeft(endDate: string, serverTime: string, elapsedTime: number = 0) {
-    if (!endDate) return { days: 0, hours: 0, mins: 0, secs: 0 };
-    
+interface TimeLeft {
+    days: number;
+    hours: number;
+    mins: number;
+    secs: number;
+}
+
+/**
+ * Parse date string in format "HH:mm MM/DD/YYYY" to Date object
+ */
+function parseDateString(dateString: string): Date | null {
     try {
-        const [timeStr, dateStr] = endDate.split(' ');
-        const [hoursStr, minutesStr, monthStr, dayStr, yearStr] = [...timeStr.split(':'), ...dateStr.split('/')];
+        const [timeStr, dateStr] = dateString.split(' ');
+        const [hoursStr, minutesStr, monthStr, dayStr, yearStr] = [
+            ...timeStr.split(':'), 
+            ...dateStr.split('/')
+        ];
         
-        const end = new Date(
-            parseInt(yearStr),
-            parseInt(monthStr) - 1, 
-            parseInt(dayStr),
-            parseInt(hoursStr),
-            parseInt(minutesStr)
-        );
-
-        if (isNaN(end.getTime())) return { days: 0, hours: 0, mins: 0, secs: 0 };
-
-        const serverDate = new Date(serverTime);
-        const currentUTC = serverDate.getTime() + elapsedTime;
-        const diff = Math.max(0, end.getTime() - currentUTC);
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-        return { days, hours, mins, secs };
+        const year = parseInt(yearStr);
+        const month = parseInt(monthStr) - TIME_CONSTANTS.MONTH_OFFSET;
+        const day = parseInt(dayStr);
+        const hours = parseInt(hoursStr);
+        const minutes = parseInt(minutesStr);
+        
+        const date = new Date(year, month, day, hours, minutes);
+        
+        return isNaN(date.getTime()) ? null : date;
     } catch (error) {
-        console.error('Error calculating time left:', error, { endDate });
+        console.error('Error parsing date string:', error, { dateString });
+        return null;
+    }
+}
+
+/**
+ * Calculate time difference in milliseconds
+ */
+function calculateTimeDifference(endDate: Date, serverTime: string, elapsedTime: number): number {
+    const serverDate = new Date(serverTime);
+    const currentUTC = serverDate.getTime() + elapsedTime;
+    return Math.max(0, endDate.getTime() - currentUTC);
+}
+
+/**
+ * Convert milliseconds to time units
+ */
+function millisecondsToTimeUnits(milliseconds: number): TimeLeft {
+    const days = Math.floor(milliseconds / MILLISECONDS_PER_DAY);
+    const remainingAfterDays = milliseconds % MILLISECONDS_PER_DAY;
+    
+    const hours = Math.floor(remainingAfterDays / MILLISECONDS_PER_HOUR);
+    const remainingAfterHours = remainingAfterDays % MILLISECONDS_PER_HOUR;
+    
+    const mins = Math.floor(remainingAfterHours / MILLISECONDS_PER_MINUTE);
+    const remainingAfterMinutes = remainingAfterHours % MILLISECONDS_PER_MINUTE;
+    
+    const secs = Math.floor(remainingAfterMinutes / TIME_CONSTANTS.MILLISECONDS_PER_SECOND);
+    
+    return { days, hours, mins, secs };
+}
+
+function getTimeLeft(endDate: string, serverTime: string, elapsedTime: number = 0): TimeLeft {
+    if (!endDate) {
         return { days: 0, hours: 0, mins: 0, secs: 0 };
     }
+    
+    const end = parseDateString(endDate);
+    if (!end) {
+        console.error('Invalid end date format:', endDate);
+        return { days: 0, hours: 0, mins: 0, secs: 0 };
+    }
+
+    const timeDifference = calculateTimeDifference(end, serverTime, elapsedTime);
+    return millisecondsToTimeUnits(timeDifference);
 }
 
 const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
@@ -91,6 +148,8 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
         return () => clearInterval(timer);
     }, [endDate, serverTime]);
 
+    const isIndonesian = language === ID_LANGUAGE;
+
     return (
         <div
             ref={containerRef}
@@ -102,97 +161,44 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
             }}
         >
             <div
+                className='banner-promotion-scaled'
                 style={{
                     transform: `scale(${scale})`,
-                    transformOrigin: 'top left',
-                    width: 901,
-                    height: 426,
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'stretch',
                 }}
             >
                 {/* Left: Content */}
-                <div
-                    style={{
-                        height: '100%',
-                        flexDirection: 'column',
-                        width: 600,
-                        marginLeft: 15,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 2,
-                        position: 'relative',
-                    }}
-                >
+                <div className='banner-promotion-content'>
                     {/* Title */}
-                    <div
-                        style={{
-                            fontSize: 32,
-                            fontWeight: 500,
-                            color: 'fff179',
-                            marginBottom: language === ID_LANGUAGE ? 15 : 12,
-                            textAlign: 'center',
-                            lineHeight: 1.35,
-                        }}
-                    >
-                        <div style={{fontSize: 50, textTransform: 'uppercase', marginTop: 15, textShadow: '0 4px 4px #822b00' , marginBottom: -5, fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}> {t('FSB_notification_para1a')} </div>
-                        <div style={{fontSize: language === ID_LANGUAGE ? 18 : 23, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'", padding: '0 20px'}}> {t('FSB_notification_para1', { value: spins })} </div>
-                        <div style={{fontSize: 20, color: '#fff', fontFamily: "'UTM-BryantLG'", padding: '0 20px'}}> {t('FSB_notification_para2')} </div>
+                    <div className={`banner-promotion-title ${isIndonesian ? 'banner-promotion-title--indonesian' : ''}`}>
+                        <div className='banner-promotion-title-main'>
+                            {t('FSB_notification_para1a')}
+                        </div>
+                        <div className={`banner-promotion-title-sub ${isIndonesian ? 'banner-promotion-title-sub--indonesian' : ''}`}>
+                            {t('FSB_notification_para1', { value: spins })}
+                        </div>
+                        <div className='banner-promotion-title-desc'>
+                            {t('FSB_notification_para2')}
+                        </div>
                     </div>
+
                     {/* Countdown */}
-                    <div style={{ alignItems: 'center', marginBottom: 11, gap: 0, width: '100%' }}>
-                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                            <span
-                                style={{
-                                    fontFamily: "'UTM-BryantLG'",
-                                    fontWeight: 500,
-                                    fontSize: 20,
-                                    marginLeft: -70,
-                                    color: 'f3daac',
-                                    textAlign: 'center',
-                                    marginBottom: 7,
-                                }}
-                            >
+                    <div className='banner-promotion-countdown'>
+                        <div className='banner-promotion-countdown-label'>
+                            <span className='banner-promotion-countdown-text'>
                                 {t('FSB_ends_in')}
                             </span>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+                        <div className='banner-promotion-countdown-container'>
                             {[
-                                { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), style: { marginLeft: 65 } },
-                                { value: String(timeLeft.hours).padStart(2, '0'), label: t('FSB_hours'), style: { marginLeft: 15 } },
-                                { value: String(timeLeft.mins).padStart(2, '0'), label: t('FSB_mins'), style: { marginLeft: 17 } },
-                                { value: String(timeLeft.secs).padStart(2, '0'), label: t('FSB_secs'), style: { marginLeft: 16 } },
-                            ].map((item, idx, arr) => (
+                                { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), modifier: 'days' },
+                                { value: String(timeLeft.hours).padStart(2, '0'), label: t('FSB_hours'), modifier: 'hours' },
+                                { value: String(timeLeft.mins).padStart(2, '0'), label: t('FSB_mins'), modifier: 'mins' },
+                                { value: String(timeLeft.secs).padStart(2, '0'), label: t('FSB_secs'), modifier: 'secs' },
+                            ].map((item, idx) => (
                                 <React.Fragment key={idx}>
-                                    <div
-                                        style={{
-                                            color: '#fff',
-                                            fontWeight: 500,
-                                            fontSize: 36,
-                                            borderRadius: 12,
-                                            minWidth: 80,
-                                            minHeight: 64,
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            margin: '0 6px',
-                                            fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                                            position: 'relative',
-                                            ...item.style,
-                                        }}
-                                    >
-                                        <span style={{ fontSize: 40, fontWeight: 500, lineHeight: 1, fontFamily: "'UTM-Swiss-721-Black-Condensed'" }}>{item.value}</span>
-                                        <span
-                                            style={{
-                                                fontSize: 10,
-                                                marginTop: 2,
-                                                color: '#fff',
-                                                textTransform: 'uppercase',
-                                                opacity: 0.95,
-                                                fontFamily: "'UTM-BryantLG'",
-                                            }}
-                                        >
+                                    <div className={`banner-promotion-countdown-item banner-promotion-countdown-item--${item.modifier}`}>
+                                        <span className='banner-promotion-countdown-value'>{item.value}</span>
+                                        <span className='banner-promotion-countdown-label-text'>
                                             {item.label}
                                         </span>
                                     </div>
@@ -200,47 +206,18 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                             ))}
                         </div>
                     </div>
+
                     {/* Ribbon */}
-                    <div
-                        style={{
-                            color: '#fff',
-                            fontWeight: 500,
-                            fontSize: 27,
-                            lineHeight: 1.2,
-                            height: 80,
-                            width: 450,
-                            alignItems: 'center',
-                            display: 'flex',
-                            marginLeft: 20,
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <span style={{ fontWeight: 500, fontSize: 26, lineHeight: 1.2, fontFamily: "'NotoSerifBold'" }}>
+                    <div className='banner-promotion-ribbon'>
+                        <span className='banner-promotion-ribbon-text'>
                             {announcementTitle || t('FSB_template_announcement_title')}
                         </span>
                     </div>
+
                     {/* View More button */}
-                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                    <div className='banner-promotion-button-container'>
                         <button
-                            style={{
-                                background: 'url(/static/images/free-spin-promotion/view-more.png) center center / 100% 100% no-repeat',
-                                color: '#f3daac',
-                                fontWeight: 800,
-                                fontSize: 16,
-                                border: 'none',
-                                borderRadius: 8,
-                                marginLeft: 165,
-                                margin: '19px 0 0 -60',
-                                cursor: 'pointer',
-                                display: 'block',
-                                minHeight: 40,
-                                padding: '0 10px',
-                                textAlign: 'center',
-                                fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center',
-                                textTransform: 'uppercase',
-                            }}
+                            className='banner-promotion-view-more-button'
                             onClick={() => {
                                 const params = new URLSearchParams(window.location.search);
                                 if (!params.has('showBackButton')) {
@@ -249,12 +226,15 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                 window.location.href = '/announcement-detail?' + params.toString();
                             }}
                         >
-                            <span style={{fontSize: language === ID_LANGUAGE ? 14 : 20, fontWeight: 800, textTransform: 'uppercase', fontFamily: "'UTM-Swiss-721-Black-Condensed'"}}>{t('FSB_view_more')}</span>
+                            <span className={`banner-promotion-view-more-text ${isIndonesian ? 'banner-promotion-view-more-text--indonesian' : ''}`}>
+                                {t('FSB_view_more')}
+                            </span>
                         </button>
                     </div>
                 </div>
+
                 {/* Right: Image */}
-                <div style={{ flex: 5, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', zIndex: 1 }}></div>
+                <div className='banner-promotion-image-container'></div>
             </div>
         </div>
     );

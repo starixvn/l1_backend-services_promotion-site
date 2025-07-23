@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import '../../public/static/css/_fonts.scss';
 import '../../public/static/css/_custom-scrollbar.css';
+import '../../public/static/css/announcement-detail.scss';
 
 dayjs.extend(utc);
 interface AnnouncementDetailProps {
@@ -55,94 +56,36 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
 
     // Helper function to render a term item
     const renderTermItem = (text: string, idx: number) => (
-        <li
-            key={idx}
-            style={{
-                marginBottom: 8,
-                listStyle: 'none',
-                position: 'relative',
-                paddingLeft: 18,
-            }}
-        >
-            <span >{text}</span>
+        <li key={idx} className='announcement-detail-term-item'>
+            <span>{text}</span>
         </li>
     );
 
     return (
-        <div
-            style={{
-                background: 'url(/static/images/free-spin-promotion/detail-board.png) center center / contain no-repeat',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                backgroundSize: 'contain',
-                width: 901,
-                height: 426,
-                color: '#fff',
-                borderRadius: 12,
-                position: 'relative',
-            }}
-        >
+        <div className='announcement-detail-container'>
             {/* Back button - chỉ hiển thị khi showBackButton = true */}
             {showBackButton && (
                 <button
-                    style={{
-                        position: 'absolute',
-                        top: 16,
-                        left: 20,
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: 26,
-                        height: 26,
-                        cursor: 'pointer',
-                        zIndex: 2,
-                        padding: 0,
-                        backgroundColor: 'transparent',
-                        backgroundImage: 'url(/static/images/free-spin-promotion/back-button.png)',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                    }}
+                    className='announcement-detail-back-button'
                     aria-label="Back"
                     onClick={() => window.location.href = buildBackUrl()}
                 />
             )}
 
             {/* Title */}
-            <div style={{ textAlign: 'center', marginBottom: 24 }}>
-                <div
-                    style={{
-                        display: 'inline-block',
-                        color: '#fff',
-                        fontWeight: 500,
-                        fontSize: 30,
-                        padding: '7px 19px',
-                        borderRadius: 16,
-                        margin: '0 0 0 0',
-                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                        letterSpacing: 1,
-                        textTransform: 'uppercase',
-                    }}
-                >
+            <div className='announcement-detail-title'>
+                <div className='announcement-detail-title-text'>
                     {t('promotion_details')}
                 </div>
             </div>
 
-            <div style={{overflowY: 'auto', height: 335, marginRight: 10, marginLeft: 10, borderRadius: 10 }} className="custom-scroll">
+            <div className='announcement-detail-content custom-scroll'>
                 {/* Promotion Info */}
-                <div style={{ fontSize: 20, marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 500, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
+                <div className='announcement-detail-section-title'>
                     {t('FSB_viewdetails_promotion_info')}
                 </div>
-                <div
-                    style={{
-                        background: '#2b2b2b',
-                        padding: '11px 10px 16px 10px',
-                        marginBottom: 32,
-                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                        textAlign: 'center',
-                        borderRadius: 8,
-                        overflow: 'hidden',
-                    }}
-                >
-                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed', fontSize: 20 }}>
+                <div className='announcement-detail-table-container'>
+                    <table className='announcement-detail-table'>
                         <colgroup>
                             <col style={{ width: '25%' }} />
                             <col style={{ width: '25%' }} />
@@ -151,111 +94,29 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         </colgroup>
                         <thead>
                             <tr>
-                                <th style={{
-                        color: '#fff',
-                        padding: '8px',
-                                    textAlign: 'center',
-                                    fontWeight: 500,
-                                    lineHeight: 1.2,
-                                    wordBreak: 'break-word',
-                                    whiteSpace: 'normal',
-                                }}>{t('FSB_viewdetails_duration')}</th>
-                                <th style={{
-                        color: '#fff',
-                                    padding: '8px',
-                                    textAlign: 'center',
-                                    fontWeight: 500,
-                                    lineHeight: 1.2,
-                                    wordBreak: 'break-word',
-                                    whiteSpace: 'normal',
-                                }}>{t('FSB_viewdetails_eligible_games')}</th>
-                                <th style={{
-                        color: '#fff',
-                                    padding: '8px',
-                                    textAlign: 'center',
-                                    fontWeight: 500,
-                                    lineHeight: 1.2,
-                                    wordBreak: 'break-word',
-                                    whiteSpace: 'normal',
-                                }}>{t('FSB_viewdetails_freespin_reward')}</th>
-                                <th style={{
-                        color: '#fff',
-                                    padding: '8px',
-                                    textAlign: 'center',
-                                    fontWeight: 500,
-                                    lineHeight: 1.2,
-                                    wordBreak: 'break-word',
-                                    whiteSpace: 'normal',
-                                }}>{t('FSB_viewdetails_total_bet_per_spin')}</th>
+                                <th className='announcement-detail-table-header'>{t('FSB_viewdetails_duration')}</th>
+                                <th className='announcement-detail-table-header'>{t('FSB_viewdetails_eligible_games')}</th>
+                                <th className='announcement-detail-table-header'>{t('FSB_viewdetails_freespin_reward')}</th>
+                                <th className='announcement-detail-table-header'>{t('FSB_viewdetails_total_bet_per_spin')}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style={{
-                        color: '#fff',
-                                    padding: '8px',
-                                    textAlign: 'center',
-                                    fontFamily: "'UTM-BryantLG'",
-                                    whiteSpace: 'pre-line',
-                                    verticalAlign: 'top',
-                                    wordBreak: 'break-word',
-                                }}>{t('from_to',{ startdate, enddate })}</td>
-                                <td style={{
-                        color: '#fff',
-                        padding: '8px',
-                                    textAlign: 'center',
-                                    fontFamily: "'UTM-BryantLG'",
-                                    whiteSpace: 'pre-line',
-                                    verticalAlign: 'top',
-                                    wordBreak: 'break-word',
-                                }}>{eligibleGamesDisplay}</td>
-                                <td style={{
-                        color: '#fff',
-                        padding: '8px',
-                                    textAlign: 'center',
-                                    fontFamily: "'UTM-BryantLG'",
-                                    verticalAlign: 'top',
-                                    wordBreak: 'break-word',
-                                }}>{freeSpinReward}</td>
-                                <td style={{
-                        color: '#fff',
-                        padding: '8px',
-                                    textAlign: 'center',
-                                    fontFamily: "'UTM-BryantLG'",
-                                    verticalAlign: 'top',
-                                    wordBreak: 'break-word',
-                                }}>{totalBetPerSpin}</td>
+                                <td className='announcement-detail-table-cell'>{t('from_to',{ startdate, enddate })}</td>
+                                <td className='announcement-detail-table-cell'>{eligibleGamesDisplay}</td>
+                                <td className='announcement-detail-table-cell'>{freeSpinReward}</td>
+                                <td className='announcement-detail-table-cell'>{totalBetPerSpin}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-{/* Rollover Requirement */}
-<div
-                    style={{
-                        fontSize: 20,
-                        marginLeft: 30,
-                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                        fontWeight: 500,
-                        marginBottom: 8,
-                        color: '#fff697',
-                        letterSpacing: 0.5,
-                    }}
-                >
+                {/* Rollover Requirement */}
+                <div className='announcement-detail-section-title'>
                     {t('FSB_viewdetails_rollover_requirement')}
                 </div>
-                <div
-                    style={{
-                        background: '#2b2b2b',
-                        padding: '11px 10px 16px 10px',
-                        marginBottom: 32,
-                        fontFamily: "'UTM-Swiss-721-Black-Condensed'",
-                        textAlign: 'center',
-                        borderRadius: 8,
-                        overflow: 'hidden',
-                    }}
-                >
-                    <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed', fontSize: 20 }}>
+                <div className='announcement-detail-table-container'>
+                    <table className='announcement-detail-table'>
                         <colgroup>
                             <col style={{ width: '25%' }} />
                             <col style={{ width: '25%' }} />
@@ -264,60 +125,20 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         </colgroup>
                         <thead>
                             <tr>
-                                <th
-                                    style={{
-                                        color: '#fff',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                        fontWeight: 500,
-                                        lineHeight: 1.2,
-                                        wordBreak: 'break-word',
-                                        whiteSpace: 'normal',
-                                    }}
-                                >
+                                <th className='announcement-detail-table-header'>
                                     {t('FSB_viewdetails_rollover')}
                                 </th>
-                                <th
-                                    style={{
-                                        color: '#fff',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                        fontWeight: 500,
-                                        lineHeight: 1.2,
-                                        wordBreak: 'break-word',
-                                        whiteSpace: 'normal',
-                                    }}
-                                >
+                                <th className='announcement-detail-table-header'>
                                     {t('FSB_viewdetails_expiration')}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td
-                                    style={{
-                                        color: '#fff',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                        fontFamily: "'UTM-BryantLG'",
-                                        whiteSpace: 'pre-line',
-                                        verticalAlign: 'top',
-                                        wordBreak: 'break-word',
-                                    }}
-                                >
+                                <td className='announcement-detail-table-cell'>
                                     {promotionFreeSpins.minTurnoverMultiplier}x
                                 </td>
-                                <td
-                                    style={{
-                                        color: '#fff',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                        fontFamily: "'UTM-BryantLG'",
-                                        whiteSpace: 'pre-line',
-                                        verticalAlign: 'top',
-                                        wordBreak: 'break-word',
-                                    }}
-                                >
+                                <td className='announcement-detail-table-cell'>
                                     {dayjs.utc(promotionFreeSpins.claimExpirationDate).local().format(template)}
                                 </td>
                             </tr>
@@ -326,31 +147,21 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 </div>
 
                 {/* Terms & Conditions */}
-                <div style={{ fontSize: 20,  marginLeft: 30, fontFamily: "'UTM-Swiss-721-Black-Condensed'", fontWeight: 500, marginBottom: 8, color: '#fff697', letterSpacing: 0.5 }}>
+                <div className='announcement-detail-section-title'>
                     {t('FSB_viewdetails_term&conditions')}
                 </div>
-                <div
-                    style={{
-                        background: '#2b2b2b',
-                        padding: '11px 35px 11px 10px',
-                        whiteSpace: 'pre-line',
-                        lineHeight: 1.5,
-                        color: '#fff',
-                        fontSize: 20,
-                        fontFamily: "'UTM-BryantLG'"
-                    }}
-                >
+                <div className='announcement-detail-terms-container'>
                     {terms.length > 0 && (
-                        <ul style={{ paddingLeft: 24, margin: 0 }}>
+                        <ul className='announcement-detail-terms-list'>
                             {terms.split('\n').map((term, idx) => (
-                                <li key={idx} style={{ marginBottom: 8, listStyle: 'none', position: 'relative', paddingLeft: 18 }}>
+                                <li key={idx} className='announcement-detail-term-item'>
                                     {term}
                                 </li>
                             ))}
                         </ul>
                     )}
                     {terms.length === 0 && (
-                        <ul style={{ paddingLeft: 24, margin: 0 }}>
+                        <ul className='announcement-detail-terms-list'>
                             {Array.from({ length: 12 })
                                 .map((_, idx) => ({ idx, text: t(`FSB_template_rules_para_${idx + 1}`) }))
                                 .map(({ text, idx }) => renderTermItem(text, idx))}
