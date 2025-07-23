@@ -59,6 +59,17 @@ export class AppController {
         };
     }
 
+    private escapeJsonString(jsonObject: any): string {
+        const jsonString = JSON.stringify(jsonObject);
+        return jsonString
+            .replace(/\\/g, '\\\\')  // Escape backslashes first
+            .replace(/'/g, "\\'")    // Escape single quotes
+            .replace(/"/g, '\\"')    // Escape double quotes
+            .replace(/\n/g, '\\n')   // Escape newlines
+            .replace(/\r/g, '\\r')   // Escape carriage returns
+            .replace(/\t/g, '\\t');  // Escape tabs
+    }
+
     @Get()
     @Render('index')
     async root(
@@ -148,18 +159,8 @@ export class AppController {
             serverTime: new Date().toISOString(),
         };
 
-        const jsonString = JSON.stringify(jsonObject);
-        // Escape the JSON string for safe embedding in JavaScript
-        const escapedJsonString = jsonString
-            .replace(/\\/g, '\\\\')  // Escape backslashes first
-            .replace(/'/g, "\\'")    // Escape single quotes
-            .replace(/"/g, '\\"')    // Escape double quotes
-            .replace(/\n/g, '\\n')   // Escape newlines
-            .replace(/\r/g, '\\r')   // Escape carriage returns
-            .replace(/\t/g, '\\t');  // Escape tabs
-
         return { 
-            jsonObject: escapedJsonString
+            jsonObject: this.escapeJsonString(jsonObject)
         };
     }
 
@@ -208,18 +209,8 @@ export class AppController {
             showBackButton: showBackButton === 'true'
         };
 
-        const jsonString = JSON.stringify(jsonObject);
-        // Escape the JSON string for safe embedding in JavaScript
-        const escapedJsonString = jsonString
-            .replace(/\\/g, '\\\\')  // Escape backslashes first
-            .replace(/'/g, "\\'")    // Escape single quotes
-            .replace(/"/g, '\\"')    // Escape double quotes
-            .replace(/\n/g, '\\n')   // Escape newlines
-            .replace(/\r/g, '\\r')   // Escape carriage returns
-            .replace(/\t/g, '\\t');  // Escape tabs
-
         return { 
-            jsonObject: escapedJsonString
+            jsonObject: this.escapeJsonString(jsonObject)
         };
-    }
+    }    
 }
