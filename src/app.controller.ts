@@ -185,16 +185,12 @@ export class AppController {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.PROMOTION_NOT_FOUND);
         }
 
-        const { code, gameIds, bonusItemCount, betLevels, gameConfigType } = promotionFreeSpins;
+        const { code, gameIds, bonusItemCount, betLevels, gameConfigType, coinValues } = promotionFreeSpins;
         const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementByPromotionCode(code);
         const { title: announcementTittle, terms } = this.getAnnouncementData(announcementFreeSpins, language);
-
-        const betLevelObj = betLevels.find(
-            (item) => item.currencyGroup === data.currencyGroupId
-        );
-
-        const { betLevel } = betLevelObj;
-        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevel, gameConfigType);
+        const betLevelObj = betLevels.find((item) => item.currencyGroup === data.currencyGroupId);
+        const coinValuesObj = coinValues.find((item) => item.currencyGroup === data.currencyGroupId);        
+        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, coinValuesObj?.coinValue, gameConfigType);
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
