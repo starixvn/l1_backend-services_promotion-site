@@ -188,8 +188,8 @@ export class AppController {
         const { code, gameIds, bonusItemCount, betLevels, gameConfigType, coinValues } = promotionFreeSpins;
         const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementByPromotionCode(code);
         const { title: announcementTittle, terms } = this.getAnnouncementData(announcementFreeSpins, language);
-        const betLevelObj = betLevels.find((item) => item.currencyGroup === data.currencyGroupId);
-        const coinValuesObj = coinValues.find((item) => item.currencyGroup === data.currencyGroupId);        
+        const betLevelObj = betLevels?.find((item: any) => item.currencyGroup === data.currencyGroupId);
+        const coinValuesObj = coinValues?.find((item: any) => item.currencyGroup === data.currencyGroupId);        
         const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, coinValuesObj?.coinValue, gameConfigType);
 
         const jsonObject = {
