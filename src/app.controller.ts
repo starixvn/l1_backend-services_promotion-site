@@ -29,7 +29,7 @@ export class AppController {
         };
     }
 
-    private async validateUserSession(sessionId: string, username: string, browserUserAgent: string) {
+    private async validateUserSession(sessionId: string, username: string, browserUserAgent: string, isNotCheckDisableAward = false) {
         if (!sessionId || !username) {
             return { isValid: false, data: null };
         }
@@ -38,7 +38,7 @@ export class AppController {
             sessionId, 
             username, 
             browserUserAgent 
-        });
+        }, isNotCheckDisableAward);
 
         return { 
             isValid: isSuccessful && data, 
@@ -117,7 +117,7 @@ export class AppController {
         @Query('language') language: string,
         @Query('promotionId') promotionId: string
     ) {
-        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent);
+        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent, true);
         if (!isValid) {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
@@ -175,7 +175,7 @@ export class AppController {
         @Query('game') game: string,
         @Query('showBackButton') showBackButton: string
     ) {
-        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent);
+        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent, true);
         if (!isValid) {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
