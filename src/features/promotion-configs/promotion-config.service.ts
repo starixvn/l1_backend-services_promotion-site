@@ -28,7 +28,7 @@ export class PromotionConfigService {
         const filter = { promotionId };
         const updates = { status: status, updatedTime: new Date() };
 
-        return this.dataHandler.updateData(this.model, filter, updates);
+        return this.dataHandler.getDataAndUpdate(this.model, filter, updates);
     }
 
     async getById(id: number, currencyGroupId: string): Promise<Result<LeanDocument<PromotionConfigsDocument>>> {

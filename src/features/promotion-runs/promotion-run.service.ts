@@ -31,6 +31,6 @@ export class PromotionRunService {
         const filter = { promotionId };
         const updates = { latestRunTime: new Date() };
 
-        return this.dataHandler.updateData(this.model, filter, updates);
+        return this.dataHandler.getDataAndUpdate(this.model, filter, updates);
     }
 }

@@ -37,6 +37,7 @@ describe('LeaderBoardService', () => {
         updateData: jest.fn(),
         bulkWrite: jest.fn(),
         deleteMany: jest.fn(),
+        getDataAndUpdate: jest.fn(),
     };
 
     beforeEach(async () => {
@@ -468,13 +469,13 @@ describe('LeaderBoardService', () => {
             const amount = 1000;
             const awardedInPlayerCurrency = 500;
 
-            dataHandler.updateData.mockResolvedValue(new Result(0, '', { ...leaderBoard, awardedAmountInBaseCurrency: amount, awardedAmount: awardedInPlayerCurrency }));
+            dataHandler.getDataAndUpdate.mockResolvedValue(new Result(0, '', { ...leaderBoard, awardedAmountInBaseCurrency: amount, awardedAmount: awardedInPlayerCurrency }));
 
             // Act
             const result = await leaderBoardService.updateAwardAmount(leaderBoard, amount, awardedInPlayerCurrency);
 
             // Assert
-            expect(dataHandler.updateData).toHaveBeenCalledWith(
+            expect(dataHandler.getDataAndUpdate).toHaveBeenCalledWith(
                 model,
                 { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId },
                 { awardedAmountInBaseCurrency: amount, awardedAmount: awardedInPlayerCurrency, updatedTime: expect.any(Date) }
@@ -490,13 +491,13 @@ describe('LeaderBoardService', () => {
             const leaderBoard = leaderBoards[0];
             const checksumPoint = 200;
 
-            dataHandler.updateData.mockResolvedValue(new Result(0, '', { ...leaderBoard, checksumPoint }));
+            dataHandler.getDataAndUpdate.mockResolvedValue(new Result(0, '', { ...leaderBoard, checksumPoint }));
 
             // Act
             const result = await leaderBoardService.updateChecksumPoint(leaderBoard, checksumPoint);
 
             // Assert
-            expect(dataHandler.updateData).toHaveBeenCalledWith(
+            expect(dataHandler.getDataAndUpdate).toHaveBeenCalledWith(
                 model,
                 { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId },
                 { checksumPoint, updatedTime: expect.any(Date) }

@@ -18,7 +18,7 @@ describe('NotificationService', () => {
                 {
                     provide: getModelToken(Notifications.name),
                     useValue: {
-                        exists: jest.fn(),
+                        countDocuments: jest.fn(),
                         find: jest.fn(),
                         findOne: jest.fn(),
                     },
@@ -44,12 +44,19 @@ describe('NotificationService', () => {
             expect(result).toBe(false);
         });
 
-        it('should return the result of model.exists when promotionIds is provided', async () => {
-            model.exists = jest.fn().mockResolvedValue(true);
+        it('should return the result of model.countDocuments when promotionIds is provided', async () => {
+            jest.spyOn(model, 'countDocuments').mockResolvedValue(2);
             const result = await service.existPromotionTournamentNotification(['promo1', 'promo2']);
 
             expect(result).toBe(true);
-            expect(model.exists).toHaveBeenCalledWith({ displayKind: 4, enabled: true, promotionId: { $in: ['promo1', 'promo2'] } });
+            expect(model.countDocuments).toHaveBeenCalledWith({ displayKind: 4, enabled: true, promotionId: { $in: ['promo1', 'promo2'] } });
+        });
+
+        it('should return false when countDocuments returns 0', async () => {
+            jest.spyOn(model, 'countDocuments').mockResolvedValue(0);
+            const result = await service.existPromotionTournamentNotification(['promo1', 'promo2']);
+
+            expect(result).toBe(false);
         });
     });
 
@@ -60,15 +67,29 @@ describe('NotificationService', () => {
             expect(result).toEqual(new Result(ErrorCodes.Success, '', false));
         });
 
-        it('should return the result of dataHandler.getData when promotionIds are provided', async () => {
+        it('should return the result of countDocuments when promotionIds are provided', async () => {
             const now = new Date();
-            model.exists = jest.fn().mockResolvedValue(true);
-            jest.spyOn(dataHandler, 'getData').mockResolvedValue(new Result(ErrorCodes.Success, '', true));
+            jest.spyOn(model, 'countDocuments').mockResolvedValue(1);
 
             const result = await service.existValidNotificationInTournament(['promo1']);
 
-            expect(dataHandler.getData).toHaveBeenCalledWith(expect.any(Promise));
+            expect(model.countDocuments).toHaveBeenCalledWith({
+                displayKind: 4,
+                enabled: true,
+                promotionId: { $in: ['promo1'] },
+                startTime: { $lte: now },
+                endTime: { $gte: now },
+            });
             expect(result).toEqual(new Result(ErrorCodes.Success, '', true));
+        });
+
+        it('should return false when countDocuments returns 0', async () => {
+            const now = new Date();
+            jest.spyOn(model, 'countDocuments').mockResolvedValue(0);
+
+            const result = await service.existValidNotificationInTournament(['promo1']);
+
+            expect(result).toEqual(new Result(ErrorCodes.Success, '', false));
         });
     });
 

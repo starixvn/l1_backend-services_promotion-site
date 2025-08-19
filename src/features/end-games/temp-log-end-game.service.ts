@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import type { DeleteResult } from 'mongodb';
 
 import { Result } from '../../_shared/common/models/result';
 import { DataHandler } from '../../_shared/common/providers';
@@ -13,7 +14,7 @@ export class TempLogEndGameService {
         @Inject(DataHandler) private readonly dataHandler: DataHandler,
     ) {}
 
-    async deleteAll(): Promise<Result<TempLogEndGames[]>> {
+    async deleteAll(): Promise<Result<DeleteResult>> {
         return this.dataHandler.deleteMany(this.model, {});
     }
 
@@ -128,7 +129,7 @@ export class TempLogEndGameService {
             },
         ];
 
-        const execution = this.model.aggregate(query).exec();
+        const execution = this.model.aggregate(query as any).exec();
         return this.dataHandler.getData(execution);
     }
 }

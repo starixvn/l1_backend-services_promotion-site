@@ -110,14 +110,14 @@ export class LeaderBoardService {
         const filter = { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId };
         const updates = { awardedAmountInBaseCurrency: amount, awardedAmount: awardedInPlayerCurrency, updatedTime: new Date() };
 
-        return this.dataHandler.updateData(this.model, filter, updates);
+        return this.dataHandler.getDataAndUpdate(this.model, filter, updates);
     }
 
     async updateChecksumPoint(leaderBoard: PromotionLeaderBoards, checksumPoint: number): Promise<Result<PromotionLeaderBoards>> {
         const filter = { promotionId: leaderBoard.promotionId, operatorId: leaderBoard.operatorId, playerId: leaderBoard.playerId };
         const updates = { checksumPoint, updatedTime: new Date() };
 
-        return this.dataHandler.updateData(this.model, filter, updates);
+        return this.dataHandler.getDataAndUpdate(this.model, filter, updates);
     }
 
     async getLatestDataSourceTimeStamp(promotionId: number): Promise<Date> {

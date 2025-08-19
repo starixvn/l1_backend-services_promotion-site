@@ -59,10 +59,10 @@ describe('TempLogEndGameService', () => {
     const mockAggregationPromise = Promise.resolve(mockAggregateResult);
 
     // Success result
-    const successResult = <T>(data: T) => new Result<T>(ErrorCodes.Success, ErrorMessages.Empty, data);
+    const successResult = <T>(data: T): Result<T> => new Result<T>(ErrorCodes.Success, ErrorMessages.Empty, data);
 
     // Error result
-    const errorResult = (message: string) => new Result(ErrorCodes.Failed, message);
+    const errorResult = (message: string): Result<any> => new Result(ErrorCodes.Failed, message);
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -105,7 +105,7 @@ describe('TempLogEndGameService', () => {
     describe('deleteAll', () => {
         it('should delete all records successfully', async () => {
             // Arrange
-            const expectedResult = successResult({ deletedCount: 2 });
+            const expectedResult = successResult({ acknowledged: true, deletedCount: 2 });
             jest.spyOn(dataHandler, 'deleteMany').mockResolvedValue(expectedResult);
 
             // Act
@@ -114,6 +114,8 @@ describe('TempLogEndGameService', () => {
             // Assert
             expect(dataHandler.deleteMany).toHaveBeenCalledWith(model, {});
             expect(result).toEqual(expectedResult);
+            expect(result.data.acknowledged).toBe(true);
+            expect(result.data.deletedCount).toBe(2);
         });
 
         it('should handle errors when deleting records', async () => {
@@ -134,7 +136,7 @@ describe('TempLogEndGameService', () => {
     describe('insertMany', () => {
         it('should insert many records successfully', async () => {
             // Arrange
-            const expectedResult = successResult(mockTempLogEndGames);
+            const expectedResult = successResult([...mockTempLogEndGames]);
             jest.spyOn(dataHandler, 'insertMany').mockResolvedValue(expectedResult);
 
             // Act
@@ -143,6 +145,7 @@ describe('TempLogEndGameService', () => {
             // Assert
             expect(dataHandler.insertMany).toHaveBeenCalledWith(model, mockTempLogEndGames);
             expect(result).toEqual(expectedResult);
+            expect(Array.isArray(result.data)).toBe(true);
         });
 
         it('should handle errors when inserting records', async () => {
@@ -207,20 +210,24 @@ describe('TempLogEndGameService', () => {
             // Check that pipeline has correct structure
             expect(pipeline.length).toBe(6);
 
-            // Check lookup stage
-            expect(pipeline[0].$lookup).toBeDefined();
-            expect(pipeline[0].$lookup.from).toBe('usersessions');
+            // Check lookup stage - use proper typing for mongoose 6.x
+            const firstStage = pipeline[0] as any;
+            expect(firstStage.$lookup).toBeDefined();
+            expect(firstStage.$lookup.from).toBe('usersessions');
 
             // Check first project stage
-            expect(pipeline[1].$project).toBeDefined();
+            const secondStage = pipeline[1] as any;
+            expect(secondStage.$project).toBeDefined();
 
             // Check match stage
-            expect(pipeline[2].$match).toBeDefined();
-            expect(pipeline[2].$match.disableAward).toBe(false);
+            const thirdStage = pipeline[2] as any;
+            expect(thirdStage.$match).toBeDefined();
+            expect(thirdStage.$match.disableAward).toBe(false);
 
             // Check second lookup stage
-            expect(pipeline[3].$lookup).toBeDefined();
-            expect(pipeline[3].$lookup.from).toBe('userinfos');
+            const fourthStage = pipeline[3] as any;
+            expect(fourthStage.$lookup).toBeDefined();
+            expect(fourthStage.$lookup.from).toBe('userinfos');
         });
 
         it('should handle the SabaPlay operator ID condition correctly', async () => {
@@ -233,7 +240,7 @@ describe('TempLogEndGameService', () => {
 
             // Assert
             const pipeline = aggregateSpy.mock.calls[0][0];
-            const lookupStage = pipeline[0].$lookup;
+            const lookupStage = (pipeline[0] as any).$lookup;
             const matchStage = lookupStage.pipeline[0].$match;
 
             // Verify the conditional expression for SabaPlay
@@ -253,7 +260,7 @@ describe('TempLogEndGameService', () => {
 
             // Assert
             const pipeline = aggregateSpy.mock.calls[0][0];
-            const lookupStage = pipeline[0].$lookup;
+            const lookupStage = (pipeline[0] as any).$lookup;
             const matchStage = lookupStage.pipeline[0].$match;
 
             // Get the SabaPlay condition
@@ -298,13 +305,12 @@ describe('TempLogEndGameService', () => {
 
             // Assert
             const pipeline = aggregateSpy.mock.calls[0][0];
-            const lookupStage = pipeline[0].$lookup;
+            const lookupStage = (pipeline[0] as any).$lookup;
             const matchStage = lookupStage.pipeline[0].$match;
 
-            // Get the condition for player matching
+            // Verify the conditional expression for non-SabaPlay
             const condExpression = matchStage.$expr.$and[0].$cond;
-
-            // Verify the "else" part of the condition uses the player ID directly
+            expect(condExpression.if.$eq[1]).toBe('SabaPlay');
             expect(condExpression.else.$eq[1]).toBe('$$playerId');
         });
 
@@ -336,7 +342,16 @@ describe('TempLogEndGameService', () => {
 
             // Use the same mocking approach as in other tests
             const aggregateSpy = jest.spyOn(model, 'aggregate');
-            jest.spyOn(dataHandler, 'getData').mockResolvedValue(successResult(mockPipeline));
+            const mockPipelineExecution = jest.fn().mockResolvedValue(mockAggregateResult);
+            aggregateSpy.mockReturnValue({
+                exec: mockPipelineExecution
+            } as any);
+
+            // Mock the data handler's getData method to return the expected output
+            jest.spyOn(dataHandler, 'getData').mockImplementation((promise) => {
+                // Simulate the promise resolution and return a success result
+                return promise.then(data => successResult(data));
+            });
 
             // Act
             const result = await service.syncToPromotionBet();
@@ -344,7 +359,7 @@ describe('TempLogEndGameService', () => {
             // Assert
             expect(aggregateSpy).toHaveBeenCalled();
             const pipeline = aggregateSpy.mock.calls[0][0];
-            const lookupStage = pipeline[0].$lookup;
+            const lookupStage = (pipeline[0] as any).$lookup;
 
             // Verify the condition is properly structured
             const condition = lookupStage.pipeline[0].$match.$expr.$and[0].$cond;
@@ -365,7 +380,7 @@ describe('TempLogEndGameService', () => {
             const pipeline = aggregateSpy.mock.calls[0][0];
 
             // Check the final projection in the pipeline
-            const projectStage = pipeline[4].$project;
+            const projectStage = (pipeline[4] as any).$project;
 
             // Verify that updatedTime is present in the projection
             expect(projectStage.updatedTime).toBeDefined();
@@ -522,7 +537,7 @@ describe('TempLogEndGameService', () => {
             const pipeline = aggregateSpy.mock.calls[0][0];
 
             // 3. Check the lookup stage is correct
-            const lookupStage = pipeline[0].$lookup;
+            const lookupStage = (pipeline[0] as any).$lookup;
             expect(lookupStage.from).toBe('usersessions');
             expect(lookupStage.let).toEqual({
                 playerId: '$playerId',

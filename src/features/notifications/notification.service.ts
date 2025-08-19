@@ -15,7 +15,8 @@ export class NotificationService {
 
     async existPromotionTournamentNotification(promotionIds: string[]): Promise<boolean> {
         if (promotionIds?.length > 0) {
-            return this.model.exists({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
+            const count = await this.model.countDocuments({ displayKind: 4, enabled: true, promotionId: { $in: promotionIds } });
+            return count > 0;
         }
 
         return false;
@@ -24,14 +25,14 @@ export class NotificationService {
     async existValidNotificationInTournament(promotionIds: string[]): Promise<Result<boolean>> {
         if (promotionIds?.length > 0) {
             const now = new Date();
-            const execution = this.model.exists({
+            const count = await this.model.countDocuments({
                 displayKind: 4,
                 enabled: true,
                 promotionId: { $in: promotionIds },
                 startTime: { $lte: now },
                 endTime: { $gte: now },
             });
-            return this.dataHandler.getData(execution);
+            return new Result(ErrorCodes.Success, '', count > 0);
         }
         return new Result(ErrorCodes.Success, '', false);
     }

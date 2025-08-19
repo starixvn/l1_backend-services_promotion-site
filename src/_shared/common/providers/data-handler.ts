@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { FilterQuery, Model, QueryOptions, UpdateQuery, Document } from 'mongoose';
+import type { UpdateResult, DeleteResult } from 'mongodb';
 import { ErrorCodes, ErrorMessages, Result } from '../models/result';
 import { SentryLogger } from './logger.service';
 
@@ -51,7 +52,7 @@ export class DataHandler {
         filter: FilterQuery<Document>,
         updates: UpdateQuery<Document>,
         options?: QueryOptions,
-    ): Promise<Result<T>> {
+    ): Promise<Result<UpdateResult>> {
         try {
             const result = await model.updateOne(filter, updates, options).lean().exec();
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
@@ -66,7 +67,7 @@ export class DataHandler {
         filter: FilterQuery<Document>,
         updates: UpdateQuery<Document>,
         options?: QueryOptions,
-    ): Promise<Result<T>> {
+    ): Promise<Result<UpdateResult>> {
         try {
             const result = await model.updateMany(filter, updates, options).exec();
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
@@ -76,7 +77,7 @@ export class DataHandler {
         }
     }
 
-    async deleteMany<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<T>> {
+    async deleteMany<T>(model: Model<any>, filter: FilterQuery<Document>, options?: QueryOptions): Promise<Result<DeleteResult>> {
         try {
             const result = await model.deleteMany(filter, options).lean().exec();
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);
@@ -86,7 +87,7 @@ export class DataHandler {
         }
     }
 
-    async insertMany<T>(model: Model<any>, data: any): Promise<Result<T>> {
+    async insertMany<T>(model: Model<any>, data: any): Promise<Result<T[]>> {
         try {
             const result = await model.insertMany(data);
             return new Result(ErrorCodes.Success, ErrorMessages.Empty, result);

@@ -19,6 +19,7 @@ describe('PromotionConfigService', () => {
     const dataHandler = {
         getData: jest.fn(),
         updateData: jest.fn(),
+        getDataAndUpdate: jest.fn(),
     };
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -68,11 +69,15 @@ describe('PromotionConfigService', () => {
             jest.spyOn(global, 'Date').mockImplementation(() => fixedDate as any);
             const filter = { promotionId: 1 };
             const updates = { status: 'running', updatedTime: fixedDate };
+            
+            // Mock the getDataAndUpdate method
+            jest.spyOn(dataHandler, 'getDataAndUpdate').mockResolvedValue(new Result(0, '', {}));
+            
             // Act
-
             await promotionConfigService.updatePromotionStatus(filter.promotionId, updates.status);
+            
             // Assert
-            expect(dataHandler.updateData).toHaveBeenCalledWith(model, filter, updates);
+            expect(dataHandler.getDataAndUpdate).toHaveBeenCalledWith(model, filter, updates);
             jest.restoreAllMocks();
         });
     });
