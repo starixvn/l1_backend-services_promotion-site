@@ -30,6 +30,7 @@ interface BannerPromotionProps {
         configs: { apiConfigurationUrl: string };
         spins: number;
         serverTime: string;
+        isPortrait?: boolean;
     };
 }
 
@@ -46,19 +47,16 @@ interface TimeLeft {
 function parseDateString(dateString: string): Date | null {
     try {
         const [timeStr, dateStr] = dateString.split(' ');
-        const [hoursStr, minutesStr, monthStr, dayStr, yearStr] = [
-            ...timeStr.split(':'), 
-            ...dateStr.split('/')
-        ];
-        
+        const [hoursStr, minutesStr, monthStr, dayStr, yearStr] = [...timeStr.split(':'), ...dateStr.split('/')];
+
         const year = parseInt(yearStr);
         const month = parseInt(monthStr) - TIME_CONSTANTS.MONTH_OFFSET;
         const day = parseInt(dayStr);
         const hours = parseInt(hoursStr);
         const minutes = parseInt(minutesStr);
-        
+
         const date = new Date(year, month, day, hours, minutes);
-        
+
         return isNaN(date.getTime()) ? null : date;
     } catch (error) {
         console.error('Error parsing date string:', error, { dateString });
@@ -81,15 +79,15 @@ function calculateTimeDifference(endDate: Date, serverTime: string, elapsedTime:
 function millisecondsToTimeUnits(milliseconds: number): TimeLeft {
     const days = Math.floor(milliseconds / MILLISECONDS_PER_DAY);
     const remainingAfterDays = milliseconds % MILLISECONDS_PER_DAY;
-    
+
     const hours = Math.floor(remainingAfterDays / MILLISECONDS_PER_HOUR);
     const remainingAfterHours = remainingAfterDays % MILLISECONDS_PER_HOUR;
-    
+
     const mins = Math.floor(remainingAfterHours / MILLISECONDS_PER_MINUTE);
     const remainingAfterMinutes = remainingAfterHours % MILLISECONDS_PER_MINUTE;
-    
+
     const secs = Math.floor(remainingAfterMinutes / TIME_CONSTANTS.MILLISECONDS_PER_SECOND);
-    
+
     return { days, hours, mins, secs };
 }
 
@@ -97,7 +95,7 @@ function getTimeLeft(endDate: string, serverTime: string, elapsedTime: number = 
     if (!endDate) {
         return { days: 0, hours: 0, mins: 0, secs: 0 };
     }
-    
+
     const end = parseDateString(endDate);
     if (!end) {
         console.error('Invalid end date format:', endDate);
@@ -109,14 +107,16 @@ function getTimeLeft(endDate: string, serverTime: string, elapsedTime: number = 
 }
 
 const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
-    const { promotionFreeSpins, announcementFreeSpins, language, configs, spins, serverTime } = data;
+    const { promotionFreeSpins, announcementFreeSpins, language, configs, spins, serverTime, isPortrait } = data;
     const announcementTitle = announcementFreeSpins?.promotionTitle?.[language] || announcementFreeSpins?.promotionTitle?.['en-US'] || '';
-
+    const getPrefixImage = (name: string) => {
+        return isPortrait ? `portrait-${name}` : name;
+    };
     const templateDate = 'HH:mm MM/DD/YYYY';
     const template = announcementFreeSpins?.template;
     const endDate = dayjs.utc(promotionFreeSpins?.endDate).local().format(templateDate);
-    const templateImg = `${configs.apiConfigurationUrl}/template-${template}/banner-1.png`;
-    const templateImgDefault = `${configs.apiConfigurationUrl}/template-default/banner.png`;
+    const templateImg = `${configs.apiConfigurationUrl}/template-${template}/${getPrefixImage('banner-1.png')}`;
+    const templateImgDefault = `${configs.apiConfigurationUrl}/template-default/${getPrefixImage('banner.png')}`;
     const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDate, serverTime));
     const { t } = useTranslate();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -138,22 +138,24 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
 
     useEffect(() => {
         if (!endDate) return;
-        
+
         const startTime = Date.now();
         const timer = setInterval(() => {
             const currentElapsedTime = Date.now() - startTime;
             setTimeLeft(getTimeLeft(endDate, serverTime, currentElapsedTime));
         }, 1000);
-        
+
         return () => clearInterval(timer);
     }, [endDate, serverTime]);
 
     const isIndonesian = language === ID_LANGUAGE;
-
+    const getClassName = (baseClass: string) => {
+        return isPortrait ? `${baseClass}-portrait` : baseClass;
+    };
     return (
         <div
             ref={containerRef}
-            className='banner-promotion-container'
+            className={getClassName('banner-promotion-container')}
             style={{
                 background: template
                     ? `url(${templateImg}) center/contain no-repeat`
@@ -161,34 +163,32 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
             }}
         >
             <div
-                className='banner-promotion-scaled'
+                className={getClassName('banner-promotion-scaled')}
                 style={{
                     transform: `scale(${scale})`,
                 }}
             >
                 {/* Left: Content */}
-                <div className='banner-promotion-content'>
+                <div className={getClassName('banner-promotion-content')}>
                     {/* Title */}
-                    <div className={`banner-promotion-title ${isIndonesian ? 'banner-promotion-title--indonesian' : ''}`}>
-                        <div className='banner-promotion-title-main'>
-                            {t('FSB_notification_para1a')}
-                        </div>
-                        <div className={`banner-promotion-title-sub ${isIndonesian ? 'banner-promotion-title-sub--indonesian' : ''}`}>
+                    <div
+                        className={`${getClassName('banner-promotion-title')} ${isIndonesian ? `${getClassName('banner-promotion-title')}--indonesian` : ''}`}
+                    >
+                        <div className={getClassName('banner-promotion-title-main')}>{t('FSB_notification_para1a')}</div>
+                        <div
+                            className={`${getClassName('banner-promotion-title-sub')} ${isIndonesian ? `${getClassName('banner-promotion-title-sub')}--indonesian` : ''}`}
+                        >
                             {t('FSB_notification_para1', { value: spins })}
                         </div>
-                        <div className='banner-promotion-title-desc'>
-                            {t('FSB_notification_para2')}
-                        </div>
+                        <div className={getClassName('banner-promotion-title-desc')}>{t('FSB_notification_para2')}</div>
                     </div>
 
                     {/* Countdown */}
-                    <div className='banner-promotion-countdown'>
-                        <div className='banner-promotion-countdown-label'>
-                            <span className='banner-promotion-countdown-text'>
-                                {t('FSB_ends_in')}
-                            </span>
+                    <div className={getClassName('banner-promotion-countdown')}>
+                        <div className={getClassName('banner-promotion-countdown-label')}>
+                            <span className={getClassName('banner-promotion-countdown-text')}>{t('FSB_ends_in')}</span>
                         </div>
-                        <div className='banner-promotion-countdown-container'>
+                        <div className={getClassName('banner-promotion-countdown-container')}>
                             {[
                                 { value: String(timeLeft.days).padStart(2, '0'), label: t('FSB_days'), modifier: 'days' },
                                 { value: String(timeLeft.hours).padStart(2, '0'), label: t('FSB_hours'), modifier: 'hours' },
@@ -196,11 +196,11 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                 { value: String(timeLeft.secs).padStart(2, '0'), label: t('FSB_secs'), modifier: 'secs' },
                             ].map((item, idx) => (
                                 <React.Fragment key={idx}>
-                                    <div className={`banner-promotion-countdown-item banner-promotion-countdown-item--${item.modifier}`}>
-                                        <span className='banner-promotion-countdown-value'>{item.value}</span>
-                                        <span className='banner-promotion-countdown-label-text'>
-                                            {item.label}
-                                        </span>
+                                    <div
+                                        className={`${getClassName('banner-promotion-countdown-item')} ${getClassName('banner-promotion-countdown-item')}--${item.modifier}`}
+                                    >
+                                        <span className={getClassName('banner-promotion-countdown-value')}>{item.value}</span>
+                                        <span className={getClassName('banner-promotion-countdown-label-text')}>{item.label}</span>
                                     </div>
                                 </React.Fragment>
                             ))}
@@ -208,16 +208,16 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                     </div>
 
                     {/* Ribbon */}
-                    <div className='banner-promotion-ribbon'>
-                        <span className='banner-promotion-ribbon-text'>
+                    <div className={getClassName('banner-promotion-ribbon')}>
+                        <span className={getClassName('banner-promotion-ribbon-text')}>
                             {announcementTitle || t('FSB_template_announcement_title')}
                         </span>
                     </div>
 
                     {/* View More button */}
-                    <div className='banner-promotion-button-container'>
+                    <div className={getClassName('banner-promotion-button-container')}>
                         <button
-                            className='banner-promotion-view-more-button'
+                            className={getClassName('banner-promotion-view-more-button')}
                             onClick={() => {
                                 const params = new URLSearchParams(window.location.search);
                                 if (!params.has('showBackButton')) {
@@ -226,7 +226,9 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                                 window.location.href = '/announcement-detail?' + params.toString();
                             }}
                         >
-                            <span className={`banner-promotion-view-more-text ${isIndonesian ? 'banner-promotion-view-more-text--indonesian' : ''}`}>
+                            <span
+                                className={`${getClassName('banner-promotion-view-more-text')} ${isIndonesian ? `${getClassName('banner-promotion-view-more-text')}--indonesian` : ''}`}
+                            >
                                 {t('FSB_view_more')}
                             </span>
                         </button>
@@ -234,10 +236,11 @@ const BannerPromotion: React.FC<BannerPromotionProps> = ({ data }) => {
                 </div>
 
                 {/* Right: Image */}
-                <div className='banner-promotion-image-container'></div>
+                <div className={getClassName('banner-promotion-image-container')}></div>
             </div>
         </div>
     );
 };
 
 export default BannerPromotion;
+

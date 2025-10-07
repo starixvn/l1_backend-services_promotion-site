@@ -120,6 +120,7 @@ export class AppController {
         @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
         @Query('language') language: string,
         @Query('promotionId') promotionId: string,
+        @Query('isPortrait') isPortrait?: string,
     ) {
         const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent, true);
         if (!isValid) {
@@ -154,7 +155,6 @@ export class AppController {
             apiConfigurationUrl: process.env.NEXT_PUBLIC_API_CONFIGURATION_URL,
         };
         const { apiConfigurationUrl } = configs;
-
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
             language,
@@ -163,6 +163,7 @@ export class AppController {
             configs: { apiConfigurationUrl },
             spins,
             serverTime: new Date().toISOString(),
+            isPortrait: isPortrait === 'true',
         };
 
         return {
@@ -214,7 +215,7 @@ export class AppController {
             game: game ? JSON.parse(game) : null,
             promotionFreeSpins,
             showBackButton: showBackButton === 'true',
-            isPortrait,
+            isPortrait: isPortrait === 'true',
         };
 
         return {
