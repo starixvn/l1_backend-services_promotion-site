@@ -16,13 +16,25 @@ interface AnnouncementDetailProps {
         totalBetPerSpin: string | number;
         game: any;
         promotionFreeSpins: any;
+        language: string;
         showBackButton?: boolean;
         isPortrait?: boolean;
     };
 }
 
 const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
-    const { terms, eligibleGames, freeSpinReward, totalBetPerSpin, game, promotionFreeSpins, showBackButton = false, isPortrait = false } = data;
+    const {
+        terms,
+        eligibleGames,
+        freeSpinReward,
+        totalBetPerSpin,
+        game,
+        promotionFreeSpins,
+        showBackButton = false,
+        isPortrait = false,
+        language,
+    } = data;
+    const SPANISH_LANGUAGE = 'es-ES';
     const template = 'HH:mm MM/DD/YYYY';
     const startdate = dayjs.utc(promotionFreeSpins?.startDate).local().format(template);
     const enddate = dayjs.utc(promotionFreeSpins?.endDate).local().format(template);
@@ -66,7 +78,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
             <span>{text}</span>
         </li>
     );
-
+    const isSpanish = language === SPANISH_LANGUAGE;
     return (
         <div className={getClassName('announcement-detail-container')}>
             {/* Back button - chỉ hiển thị khi showBackButton = true */}
@@ -74,22 +86,22 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 <button
                     className={getClassName('announcement-detail-back-button')}
                     aria-label="Back"
-                    onClick={() => window.location.href = buildBackUrl()}
+                    onClick={() => (window.location.href = buildBackUrl())}
                 />
             )}
 
             {/* Title */}
             <div className={getClassName('announcement-detail-title')}>
-                <div className={getClassName('announcement-detail-title-text')}>
+                <div
+                    className={`${getClassName('announcement-detail-title-text')} ${isSpanish ? `${getClassName('announcement-detail-title-text')}--spanish` : ''}`}
+                >
                     {t('promotion_details')}
                 </div>
             </div>
 
             <div className={`${getClassName('announcement-detail-content')} custom-scroll`}>
                 {/* Promotion Info */}
-                <div className={getClassName('announcement-detail-section-title')}>
-                    {t('FSB_viewdetails_promotion_info')}
-                </div>
+                <div className={getClassName('announcement-detail-section-title')}>{t('FSB_viewdetails_promotion_info')}</div>
                 <div className={getClassName('announcement-detail-table-container')}>
                     <table className={getClassName('announcement-detail-table')}>
                         <colgroup>
@@ -103,12 +115,14 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                                 <th className={getClassName('announcement-detail-table-header')}>{t('FSB_viewdetails_duration')}</th>
                                 <th className={getClassName('announcement-detail-table-header')}>{t('FSB_viewdetails_eligible_games')}</th>
                                 <th className={getClassName('announcement-detail-table-header')}>{t('FSB_viewdetails_freespin_reward')}</th>
-                                <th className={getClassName('announcement-detail-table-header')}>{t('FSB_viewdetails_total_bet_per_spin')}</th>
+                                <th className={getClassName('announcement-detail-table-header')}>
+                                    {t('FSB_viewdetails_total_bet_per_spin')}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td className={getClassName('announcement-detail-table-cell')}>{t('from_to',{ startdate, enddate })}</td>
+                                <td className={getClassName('announcement-detail-table-cell')}>{t('from_to', { startdate, enddate })}</td>
                                 <td className={getClassName('announcement-detail-table-cell')}>{eligibleGamesDisplay}</td>
                                 <td className={getClassName('announcement-detail-table-cell')}>{freeSpinReward}</td>
                                 <td className={getClassName('announcement-detail-table-cell')}>{totalBetPerSpin}</td>
@@ -118,9 +132,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 </div>
 
                 {/* Rollover Requirement */}
-                <div className={getClassName('announcement-detail-section-title')}>
-                    {t('FSB_viewdetails_rollover_requirement')}
-                </div>
+                <div className={getClassName('announcement-detail-section-title')}>{t('FSB_viewdetails_rollover_requirement')}</div>
                 <div className={getClassName('announcement-detail-table-container')}>
                     <table className={getClassName('announcement-detail-table')}>
                         <colgroup>
@@ -131,12 +143,8 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                         </colgroup>
                         <thead>
                             <tr>
-                                <th className={getClassName('announcement-detail-table-header')}>
-                                    {t('FSB_viewdetails_rollover')}
-                                </th>
-                                <th className={getClassName('announcement-detail-table-header')}>
-                                    {t('FSB_viewdetails_expiration')}
-                                </th>
+                                <th className={getClassName('announcement-detail-table-header')}>{t('FSB_viewdetails_rollover')}</th>
+                                <th className={getClassName('announcement-detail-table-header')}>{t('FSB_viewdetails_expiration')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -153,9 +161,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
                 </div>
 
                 {/* Terms & Conditions */}
-                <div className={getClassName('announcement-detail-section-title')}>
-                    {t('FSB_viewdetails_term&conditions')}
-                </div>
+                <div className={getClassName('announcement-detail-section-title')}>{t('FSB_viewdetails_term&conditions')}</div>
                 <div className={getClassName('announcement-detail-terms-container')}>
                     {terms.length > 0 && (
                         <ul className={getClassName('announcement-detail-terms-list')}>

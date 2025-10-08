@@ -12,8 +12,8 @@ const Unauthorized = lazy(() => import('../unauthorized'));
 
 let initialComponent: React.ReactNode = (
     <React.Suspense fallback={null}>
-        <div className='banner-promotion-unauthorized-container'>
-            <div className='banner-promotion-unauthorized-content'>
+        <div className="banner-promotion-unauthorized-container">
+            <div className="banner-promotion-unauthorized-content">
                 <Unauthorized />
             </div>
         </div>
@@ -43,7 +43,7 @@ if (window.AppInitialState?.results?.isSuccessful) {
             .use(FormatIcu())
             .use(BackendFetch())
             .init({
-                availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw'],
+                availableLanguages: ['en', 'vi', 'th', 'id', 'zh-cn', 'zh-tw', 'ja', 'es'],
                 fallbackLanguage: 'en',
                 defaultLanguage: 'en',
                 language: lang,

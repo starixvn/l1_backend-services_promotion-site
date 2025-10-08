@@ -43,6 +43,10 @@
     font-family: 'UTM-Swiss-721-Black-Condensed';
     letter-spacing: 1px;
     text-transform: uppercase;
+    
+    &--spanish {
+        font-size: 28px;
+    }
 }
 
 .announcement-detail-content {
@@ -191,6 +195,10 @@
     font-family: 'UTM-Swiss-721-Black-Condensed';
     letter-spacing: 1.2px;
     text-transform: uppercase;
+
+    &--spanish {
+        font-size: 25px;
+    }
 }
 
 .announcement-detail-content-portrait {
