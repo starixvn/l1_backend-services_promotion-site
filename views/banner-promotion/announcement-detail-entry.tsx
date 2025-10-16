@@ -20,7 +20,7 @@ let initialComponent: React.ReactNode = (
 );
 
 if (window.AppInitialState?.results?.isSuccessful) {
-    const gameList = window.AppInitialState?.game || [];
+    const gameList = window.AppInitialState?.games || [];
     const nsList = Array.isArray(gameList) ? gameList.map((g) => g.name) : [];
 
     const params = new URLSearchParams(window.location.search);

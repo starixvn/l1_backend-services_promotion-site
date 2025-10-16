@@ -197,7 +197,7 @@ export class AppController {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.PROMOTION_NOT_FOUND);
         }
 
-        const { code, gameIds, bonusItemCount, betLevels, gameConfigType, coinValues } = promotionFreeSpins;
+        const { code, gameIds, bonusItemCount, betLevels, gameConfigType, coinValues, games } = promotionFreeSpins;
         const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementByPromotionCode(code);
         const { title: announcementTittle, terms } = this.getAnnouncementData(announcementFreeSpins, language);
         const betLevelObj = betLevels?.find((item: any) => item.currencyGroup === data.currencyGroupId);
@@ -212,7 +212,7 @@ export class AppController {
             eligibleGames: gameIds.join(', '),
             freeSpinReward: bonusItemCount,
             totalBetPerSpin,
-            game: game ? JSON.parse(game) : null,
+            games,
             promotionFreeSpins,
             showBackButton: showBackButton === 'true',
             isPortrait: isPortrait === 'true',

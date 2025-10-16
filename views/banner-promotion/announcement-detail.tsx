@@ -14,7 +14,7 @@ interface AnnouncementDetailProps {
         eligibleGames: string;
         freeSpinReward: string | number;
         totalBetPerSpin: string | number;
-        game: any;
+        games: any;
         promotionFreeSpins: any;
         language: string;
         showBackButton?: boolean;
@@ -28,7 +28,7 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
         eligibleGames,
         freeSpinReward,
         totalBetPerSpin,
-        game,
+        games,
         promotionFreeSpins,
         showBackButton = false,
         isPortrait = false,
@@ -50,8 +50,8 @@ const AnnouncementDetail: React.FC<AnnouncementDetailProps> = ({ data }) => {
 
     // Get eligible game objects from game prop
     let eligibleGameNames: string[] = [];
-    if (Array.isArray(game)) {
-        eligibleGameNames = game
+    if (Array.isArray(games)) {
+        eligibleGameNames = games
             .filter((g: any) => eligibleGameIds.includes(Number(g.gameId)))
             .map((g: any) => {
                 return t('game_name', { ns: g.name });
