@@ -122,7 +122,7 @@ export class AppController {
         @Query('promotionId') promotionId: string,
         @Query('isPortrait') isPortrait?: string,
     ) {
-        const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent, true);
+        const { isValid } = await this.validateUserSession(sessionId, username, browserUserAgent, true);
         if (!isValid) {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
@@ -135,22 +135,6 @@ export class AppController {
         const { code } = promotionFreeSpins;
         const announcementFreeSpins = await this.promotionFreeSpinsService.getAnnouncementByPromotionCode(code);
 
-        const { operatorId, siteName, playerId, currencyGroupId } = data;
-        const claimPromotion = await this.promotionFreeSpinsService.claimPromotion({
-            operatorId,
-            siteName,
-            playerId,
-            currencyGroup: currencyGroupId,
-            gameId: promotionFreeSpins.gameIds[0],
-        });
-
-        if (!claimPromotion || !claimPromotion.promotion) {
-            return this.createErrorResponse(AppController.ERROR_MESSAGES.CLAIM_PROMOTION_FAILED);
-        }
-
-        const {
-            promotion: { remainingBonusItems: spins },
-        } = claimPromotion;
         const configs = {
             apiConfigurationUrl: process.env.NEXT_PUBLIC_API_CONFIGURATION_URL,
         };
@@ -161,7 +145,7 @@ export class AppController {
             promotionFreeSpins,
             announcementFreeSpins,
             configs: { apiConfigurationUrl },
-            spins,
+            spins: promotionFreeSpins?.bonusItemCount,
             serverTime: new Date().toISOString(),
             isPortrait: isPortrait === 'true',
         };
