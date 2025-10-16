@@ -186,7 +186,7 @@ export class AppController {
         },
         @Headers(AppController.USER_AGENT_HEADER) browserUserAgent: string,
     ) {
-        const { sessionId, username, language, promotionId, game, showBackButton, isPortrait } = query;
+        const { sessionId, username, language, promotionId, showBackButton, isPortrait } = query;
         const { isValid, data } = await this.validateUserSession(sessionId, username, browserUserAgent, true);
         if (!isValid) {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
