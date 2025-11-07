@@ -20,7 +20,7 @@ export class AppController {
         @Inject(PromotionConfigService) private readonly promotionConfigService: PromotionConfigService,
         @Inject(PromotionFreeSpinsService) private readonly promotionFreeSpinsService: PromotionFreeSpinsService,
     ) {}
-
+ 
     private createErrorResponse(message: string) {
         return {
             jsonObject: JSON.stringify({
