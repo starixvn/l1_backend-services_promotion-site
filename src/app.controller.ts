@@ -3,7 +3,6 @@ import { ErrorCodes, Result } from './_shared/common/models/result';
 import { UserService } from './features/users/services/user.service';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
 import { PromotionFreeSpinsService } from './features/promotion-free-spins/promotion-free-spins.service';
-import { UserSession } from './_shared/services/user-service/models/verify-session-result';
 
 @Controller()
 export class AppController {
@@ -176,7 +175,7 @@ export class AppController {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
 
-        let promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
+        const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
         if (!promotionFreeSpins) {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.PROMOTION_NOT_FOUND);
         }
