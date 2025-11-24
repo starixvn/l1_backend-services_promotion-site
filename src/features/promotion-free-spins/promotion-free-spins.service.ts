@@ -82,7 +82,7 @@ export class PromotionFreeSpinsService {
         }
     }
 
-    getTotalBet(betLevel = 0, coinValue = 0, gameType: number) {
-        return gameType === this.GAME_TYPES.CASCADING ? coinValue * this.Multiplier.CASCADING : betLevel * this.Multiplier.CLASSIC;
+    getTotalBet(betLevel = 0, coinValue = 0, gameType: number, xMode: number) {
+        return gameType === this.GAME_TYPES.CASCADING ? coinValue * this.Multiplier.CASCADING * xMode : betLevel * this.Multiplier.CLASSIC * xMode;
     }
 } 

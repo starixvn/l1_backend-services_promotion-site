@@ -54,6 +54,8 @@ export interface UserSession {
     disableAward: boolean;
 
     id: string;
+
+    xMode?: number;
 }
 
 export class VerifySessionResult {

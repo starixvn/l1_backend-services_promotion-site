@@ -3,7 +3,7 @@ import { ErrorCodes, Result } from './_shared/common/models/result';
 import { UserService } from './features/users/services/user.service';
 import { PromotionConfigService } from './features/promotion-configs/promotion-config.service';
 import { PromotionFreeSpinsService } from './features/promotion-free-spins/promotion-free-spins.service';
-import { UserSession } from './features/users/schemas';
+import { UserSession } from './_shared/services/user-service/models/verify-session-result';
 
 @Controller()
 export class AppController {
@@ -45,7 +45,7 @@ export class AppController {
 
         return {
             isValid: isSuccessful && data,
-            data: data as UserSession,
+            data,
         };
     }
 
@@ -176,7 +176,7 @@ export class AppController {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.SESSION_INVALID);
         }
 
-        const promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
+        let promotionFreeSpins = await this.promotionFreeSpinsService.getPromotionById(promotionId);
         if (!promotionFreeSpins) {
             return this.createErrorResponse(AppController.ERROR_MESSAGES.PROMOTION_NOT_FOUND);
         }
@@ -186,7 +186,7 @@ export class AppController {
         const { title: announcementTittle, terms } = this.getAnnouncementData(announcementFreeSpins, language);
         const betLevelObj = betLevels?.find((item: any) => item.currencyGroup === data.currencyGroupId);
         const coinValuesObj = coinValues?.find((item: any) => item.currencyGroup === data.currencyGroupId);
-        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, coinValuesObj?.coinValue, gameConfigType);
+        const totalBetPerSpin = this.promotionFreeSpinsService.getTotalBet(betLevelObj?.betLevel, coinValuesObj?.coinValue, gameConfigType, data.xMode ?? 1);
 
         const jsonObject = {
             results: new Result(ErrorCodes.Success, ''),
